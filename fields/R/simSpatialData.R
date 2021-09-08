@@ -46,7 +46,9 @@ simSpatialData<- function(object,  M = 1,
     # Sigma is full covariance at the data locations and at prediction points.
     # not to be confused with the lowercase tau that is the nugget variance
     # 
-    Sigma <- sigma2 * do.call(object$cov.function.name, c(object$args, 
+    
+    Sigma <- sigma2 * do.call(object$cov.function.name,
+                              c(object$args, 
         list(x1 = xUnique, x2 = xUnique)))
     #
     # square root of Sigma for simulating field

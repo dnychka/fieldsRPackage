@@ -168,17 +168,14 @@
         hTrue<- sqrt(sigma2) * circulantEmbedding(CEObject)
         )[3]
         
-        #
         # NOTE: fixed part of model (null space) does not need to be simulated
         # because the  estimator is unbiased for this part.
         # the variability is still captured because the fixed part
         # is still estimated as part of the predict step below
         #
-        #   bilinear interpolation to approximate values at data locations
-        #
         t2[k]<- system.time(
         hData <- offGridObject$B%*%c(hTrue) + 
-                   sdPredictionError*rnorm(nObs) 
+                    (offGridObject$SE)%*%rnorm(nObs) 
               )[3]
         ySynthetic <- hData + sdNugget*rnorm(nObs)
         if (verbose) {

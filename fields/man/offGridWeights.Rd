@@ -11,7 +11,8 @@ Based on a stationary Gaussian process model creates a sparse matrix to predict 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covArgs = NULL, aRange = NULL, sigma2 = NULL,giveWarnings = TRUE)
+offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = FALSE,
+debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -49,8 +50,9 @@ offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covAr
   Marginal variance of the process. 
 %%     ~~Describe \code{sigma2} here~~
 }
- \item{giveWarnigs}{If TRUE will warn if two or more observations
- are in the same grid box.
+ \item{giveWarnings}{If TRUE will warn if two or more observations
+ are in the same grid box. 
+ \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
 }
 }
 \details{
@@ -66,9 +68,29 @@ for conditional simulation of a spatial process this
 function is also useful for interpolating to off grid
 locations from a rectangular field. 
 
-The user is also referred to the testing script
-\code{offGridWeights.test.R} in \code{tests} where the 
-Kriging is computed explicitly and tested against the sparse
+The interpolation errors are also computed based on the nearest neighbor
+predictions. This is returned as a sparse matrix in the component SE. 
+If all observations are in different grid boxes then \code{SE} is diagonal
+and agrees with the square root of the component \code{predctionVariance} but
+if multiple observations are in the same grid box then SE has blocks of upper
+triangular matrices that can be used to simulate the prediction error
+dependence among observations in the same grid box. 
+Explicitly if \code{obj} is the output object and there are \code{nObs}
+observations then 
+
+\preformatted{error <- obj$SE\%*\% rnorm( nObs)} 
+will simulate a prediction error that includes the dependence. Note that in
+the case that there all observations are in separate grid boxes this code line is the same as 
+\preformatted{error <- sqrt(obj$predictionVariance)*rnorm( nObs)}
+It is always true that the prediction variance is given by 
+\code{ diag( obj$SE\%*\% t( obj$SE))}.
+
+
+
+The user is also referred to the testing scripts
+\code{offGridWeights.test.R}  and 
+\code{offGridWeights.testNEW.R}in \code{tests} where the 
+Kriging predictions and standard errorsa are computed explicitly and tested against the sparse
 matrix computation. This is helpful in defining exactly what
 is being computed.  
 
@@ -80,6 +102,7 @@ is being computed.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
  \item{predictionVariance}{A vector of length as the rows of \code{s} with the Kriging prediction variance based on the nearest neighbor prediction and the specified covariance function. }
+ \item{SE}{A sparse matrix that can be used to simulate dependence among prediction errors for observations in the same grid box. (See explanation above.)
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
@@ -147,16 +170,5 @@ bubblePlot( s[,1],s[,2], z= predOffGrid , size=.5,
 highlight=FALSE, zlim=zr)
  set.panel()
  
-                  
-  
 }
 \keyword{spatial}
-% Add one or more standard keywords, see file 'KEYWORDS' in the
-% R documentation directory (show via RShowDoc("KEYWORDS")):
-% \keyword{ ~kwd1 }
-% \keyword{ ~kwd2 }
-% Use only one keyword per line.
-% For non-standard keywords, use \concept instead of \keyword:
-% \concept{ ~cpt1 }
-% \concept{ ~cpt2 }
-% Use only one concept per line.

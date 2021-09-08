@@ -144,7 +144,9 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
   }
 # and now the heavy lifting ...
 # optimize over (some) covariance parameters and possibly lambda
-  optimResults <- do.call(optim, c(list(par=init.start),
+# wrapping in try allows for error catching
+  optimResults <-try(
+                  do.call(optim, c(list(par=init.start),
                             list(mKrigJointTemp.fn),
                                          optim.args,
                            list(  parNames = parNames,
@@ -156,7 +158,14 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
                                       GCV  = GCV,
                                    verbose = verbose)
                            )
+                    )
                   )
+# catch error in optim and return  
+  if( class(optimResults )=="try-error"){
+    cat("Error in call to optim", fill=TRUE) 
+    out =list( summary = NA,lnLikeEvaluations= lnLikeEvaluations )
+    return( out)
+  }
   # reformat the  optim results
   lnLikeEvaluations <- capture.evaluations[-1,] # first row is just NAs
   if( verbose){

@@ -96,6 +96,10 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                                    reltol = reltol,
                          cov.params.start = cov.params.start,
                                   verbose = verbose)
+    if( is.na(MLEfit0$summary[1])){
+      cat("mKrigMLEGrid: Problems in optim", fill=TRUE)
+      return(list(summary = MLEfit0$summary))
+    }
      summary <- rbind( summary, MLEfit0$summary)
   }
   summary<- cbind( summary, par.grid)

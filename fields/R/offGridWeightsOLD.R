@@ -1,9 +1,8 @@
-offGridWeights<-function(s, gridList, np=2,
+offGridWeightsOLD<-function(s, gridList, np=2,
                          mKrigObject=NULL, 
                          Covariance=NULL, covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
-                         giveWarnings=TRUE,
-                         debug=FALSE
+                         giveWarnings=FALSE
                    ){
   #
   # function assumes the grid is 
@@ -53,8 +52,24 @@ offGridWeights<-function(s, gridList, np=2,
   # index  of locations when 2D array is unrolled
   s0Index<- as.integer( s0[,1] + (s0[,2]-1)*m)
   # check for more than one obs in a grid box
+ 
     tableLoc<- table( s0Index)
-    allSingle<- all( tableLoc ==1 ) 
+    ind<- (tableLoc > 1)
+    if( any( ind)){
+      
+      cat("Found", sum(ind), 
+        "grid box(es) containing more than 1 obs location", fill=TRUE)
+      cat("row/column indices and count", fill=TRUE)
+      print( cbind( rbind(s0[ind,]),   tableLoc[ind]) )
+        
+      #In most cases want this to stop the computation
+      if( !giveWarnings){
+            stop("Need the grid to separate observations")
+        }
+      else{
+        warning( "grid boxes include more than one off grid location.")
+      }
+    }
   # np=2
   # specific to 2nd degree neighborhood
   #   (2*np)^2 = 16  points total 
@@ -85,6 +100,7 @@ offGridWeights<-function(s, gridList, np=2,
   if( any( (sY < 1)| (sY>n)) ) {
     stop( "sY outside range for grid")
   }
+  
   # indices of all nearest neighbors for unrolled vector.
   # this is an M by (2*np)^2 matrix where indices go from 1 to m*n
   # these work for the unrolled 2D array 
@@ -95,8 +111,6 @@ offGridWeights<-function(s, gridList, np=2,
   # convert from integer grid to actual units. 
   differenceX<- (sX-1)*dx + gridList$x[1] - s[,1]
   differenceY<- (sY-1)*dy + gridList$y[1] - s[,2]
-  # print(  cbind( t( (sX-1)*dx + gridList$x[1])[,1],  
-  #         t( (sY-1)*dy + gridList$y[1])[,1]))
   # all pairwise distances between each off grid and 
   # (2*np)^2  ( np=2 has 16) nearest neighbors 
   dAll<- sqrt(differenceX^2 + differenceY^2)
@@ -113,6 +127,12 @@ offGridWeights<-function(s, gridList, np=2,
   Sigma11Inv <- solve( Sigma11)
   # each row of B are the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
+  # prediction variances  
+  # use cholesky for more stable numerics
+  cholSigma11Inv<- chol(Sigma11Inv)
+  #  sigma2 - diag(Sigma21Star%*%Sigma11Inv%*%t(Sigma21Star) )
+  w <- Sigma21Star%*%t(cholSigma11Inv)
+  predictionVariance <-  sigma2 - rowSums(w^2)
   # create spind sparse matrix
   # note need to use unrolled indices to refer to grid points
   ind<- cbind( rep(1:M, each= (2*np)^2 ), c( t( sIndex)))
@@ -121,81 +141,8 @@ offGridWeights<-function(s, gridList, np=2,
   spindBigB<-  list(ind=ind, ra=ra, da=da )
   # now convert to the more efficient spam format
   BigB<- spind2spam( spindBigB)
-  
-  # prediction variances  
-  # use cholesky for more stable numerics
-  cholSigma11Inv<- chol(Sigma11Inv)
-  # create spind sparse matrix of sqrt variances
-  # or covariances to simulate prediction error. 
-  w <- Sigma21Star%*%t(cholSigma11Inv)
-  predictionVariance <-  sigma2 - rowSums(w^2)
-  # easiest case of just one obs in each grid box  
-  #  sigma2 - diag(Sigma21Star%*%Sigma11Inv%*%t(Sigma21Star) )
-  spindObjSE<- list(ind=cbind( 1:M, 1:M),
-                      ra=sqrt(predictionVariance),
-                      da= c( M,M)
-                    )
-  BigSE<- spind2spam( spindObjSE)
-  if(allSingle){
-    duplicateIndex<-NA
-  }
-  if( !allSingle){
-    indDuplicates<- (tableLoc > 1)
-    if( giveWarnings){
-    cat("Found", sum(indDuplicates), 
-        "grid box(es) containing more than 1 obs location",
-        fill=TRUE)
-    }
-    duplicateIndex<-names( tableLoc) [indDuplicates]
-    duplicateIndex<-  as.numeric(duplicateIndex)
-# duplicateIndex is the unrolled indices for all grid boxes with 
-# 2 or more observations
-# following code is written assuming there are not many of these. 
-    nBox<- length( duplicateIndex) 
-    indDupSE<-NULL
-    raDupSE<- NULL
-    for( k in 1:nBox){
-      theBox<- duplicateIndex[k]
-      # the obs that are in this box
-      indBox<- which(s0Index == theBox)
-      nDup<- length( indBox)
-      dDup<- rdist( s[indBox,], s[indBox,])
-      sigmaMarginal<- sigma2* do.call(Covariance,
-                                      c(list(d = dDup/aRange), 
-                                        covArgs))
-      A<- w[indBox,]
-      localSE2<-  sigmaMarginal - A%*%t(A)
-      localSE<- t(chol( localSE2 ))
-      # localSE %*% rnorm(nDup) will generate correct corrected 
-      # prediction errors for obs in this grid box ("theBox")
-      indTmp<- cbind(rep( indBox, nDup), rep( indBox, each=nDup) )
-      raTmp<- c(localSE)
-      indDupSE<- rbind( indDupSE,indTmp)
-      raDupSE<-      c(  raDupSE, raTmp)
-    }
-    #print( dim(indDupSE ))
-    #print( length(raDupSE))
-  BigSE[indDupSE]<- raDupSE
-  }
-
- if( debug){ 
     return(
-      list( B= BigB, SE= BigSE, 
-            predictionVariance = predictionVariance,
-            Sigma11Inv = Sigma11Inv,
-            Sigma21Star= Sigma21Star,
-            s0Index = s0Index,
-            s0 = s0,
-            gridX = t( (sX-1)*dx + gridList$x[1]),
-            gridY = t((sY-1)*dy + gridList$y[1]),
-            gridList = gridList,
-            duplicateIndex= duplicateIndex
-            )
+      list( B= BigB, predictionVariance = predictionVariance)
           )
- }
-  else{
-    return(
-      list( B= BigB, SE= BigSE, predictionVariance )
-    )
-  }
-  }
+  
+}

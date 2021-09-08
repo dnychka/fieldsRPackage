@@ -19,7 +19,7 @@
 # test of sreg and related functions
 
 suppressMessages(library(fields))
-#options(echo=FALSE)
+options(echo=FALSE)
 
 test.for.zero.flag<- 1
 

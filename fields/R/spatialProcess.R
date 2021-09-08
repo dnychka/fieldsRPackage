@@ -118,6 +118,12 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                                  GCV = GCV,
                     cov.params.start = cov.params.start)
   # use grid search to set starting values
+    
+    if( all(is.na(InitialGridSearch$summary) )) {
+      cat("spatialProcess: Problems with optim in grid search", fill=TRUE)
+      return(InitialGridSearch$summary)
+    }
+    
     if( verbose){
       print(InitialGridSearch$indMax )
     }
@@ -154,6 +160,10 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                              GCV = GCV,
                              hessian = TRUE,
                              verbose = verbose) 
+   if( is.na(MLEInfo$summary[1])){
+     cat("spatialProcess: Problems with optim in mKrigMLEJoint ", fill=TRUE)
+     return(MLEInfo$summary)
+   }
    }
    
 ################################################################################
@@ -167,7 +177,6 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 # if all parameters are fixed -- don't mess with cov.args   
    if( obj$CASE == 0){
      obj$cov.argsFull <-  obj$cov.args
-     
    }
    else{
       dupParameters<- match( names(MLEInfo$pars.MLE ), names(cov.args) )
