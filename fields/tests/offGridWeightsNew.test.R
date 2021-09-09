@@ -19,7 +19,7 @@
 # test of sreg and related functions
 
 suppressMessages(library(fields))
-options(echo=FALSE)
+#options(echo=FALSE)
 
 test.for.zero.flag<- 1
 
@@ -142,5 +142,5 @@ sparseObj1<-  offGridWeights( s, list( x= (1:m)*dx, y=(1:n)*dx),
 test.for.zero( sparseObj$B, sparseObj1$B)
 test.for.zero( sparseObj$SE, sparseObj1$SE)
 
-
+cat("all done with off grid weight tests part 2", fill=TRUE)
 

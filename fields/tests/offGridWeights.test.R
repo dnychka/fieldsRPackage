@@ -151,7 +151,7 @@ test.for.zero( sparseObj$predictionVariance,
 #                             mKrigObject = mKrigObj, np=np, give.warning=TRUE)
 
 
-
+cat("all done with off grid weight tests part 1", fill=TRUE)
 
 
 

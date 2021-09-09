@@ -195,7 +195,9 @@ offGridWeights<-function(s, gridList, np=2,
  }
   else{
     return(
-      list( B= BigB, SE= BigSE, predictionVariance )
+      list( B = BigB, 
+            SE = BigSE,
+            predictionVariance = predictionVariance )
     )
   }
   }

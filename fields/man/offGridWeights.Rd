@@ -11,7 +11,7 @@ Based on a stationary Gaussian process model creates a sparse matrix to predict 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = FALSE,
+offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
 debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
@@ -51,9 +51,8 @@ debug=FALSE)
 %%     ~~Describe \code{sigma2} here~~
 }
  \item{giveWarnings}{If TRUE will warn if two or more observations
- are in the same grid box. 
+ are in the same grid box. See details below.} 
  \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
-}
 }
 \details{
 This function creates the interpolation weights taking advantage of some
@@ -102,7 +101,7 @@ is being computed.
 %%  ~Describe the value returned
 %%  If it is a LIST, use
  \item{predictionVariance}{A vector of length as the rows of \code{s} with the Kriging prediction variance based on the nearest neighbor prediction and the specified covariance function. }
- \item{SE}{A sparse matrix that can be used to simulate dependence among prediction errors for observations in the same grid box. (See explanation above.)
+ \item{SE}{A sparse matrix that can be used to simulate dependence among prediction errors for observations in the same grid box. (See explanation above.)}
 %%  \item{comp2 }{Description of 'comp2'}
 %% ...
 }
