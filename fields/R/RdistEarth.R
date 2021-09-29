@@ -1,6 +1,9 @@
 # fields  is a package for analysis of spatial data written for
 # the R software environment .
-# Copyright (C) 2019
+# Copyright (C) 2018
+# University Corporation for Atmospheric Research (UCAR)
+# Contact: Douglas Nychka, nychka@ucar.edu,
+# National Center for Atmospheric Research, PO Box 3000, Boulder, CO 80307-3000
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -14,7 +17,7 @@
 # You should have received a copy of the GNU General Public License
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# or see http://www.r-project.org/Licenses/GPL-2
+# or see http://www.r-project.org/Licenses/GPL-2 
 
 RdistEarth <- function(x1, x2=NULL, miles=TRUE, R=NULL){
     stopifnot(is.numeric(x1), is.matrix(x1), ncol(x1)==2,

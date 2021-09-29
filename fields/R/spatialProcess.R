@@ -120,6 +120,10 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
   # use grid search to set starting values
     if( all(is.na(InitialGridSearch$summary) )) {
       cat("spatialProcess: Problems with optim in grid search", fill=TRUE)
+      cat("returned object includes the likelihood evaluations up to the 
+         error", fill=TRUE)
+      InitialGridSearch$optimSuccess<- FALSE
+      InitialGridSearch$call<- match.call()
       return(InitialGridSearch)
     }
     
@@ -167,9 +171,15 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
            }
    
    if( is.na(MLEInfo$summary[1])){
-     cat("spatialProcess: Problems with optim in mKrigMLEJoint ", fill=TRUE)
+     cat("spatialProcess: Problems with optim in mKrigMLEJoint ", 
+         fill=TRUE)
+     cat("returned object includes the likelihood evaluations up to the 
+         error", fill=TRUE)
+     MLEInfo$optimSuccess<- FALSE
+     MLEInfo$call<- match.call()
      return(MLEInfo)
    }
+      
    }
    
 ################################################################################
@@ -228,6 +238,9 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 #  Fill in all info related to finding MLE
 ####################################################################
   if( obj$CASE!=0){
+    # logical to distinguish from optim failure
+    obj$optimSuccess<-TRUE
+    #
     obj$InitialGridSearch<- InitialGridSearch
     obj$MLEInfo<- MLEInfo
     obj$MLESummary <- MLEInfo$summary
@@ -237,8 +250,10 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 ####################################################################
 # Approximate large sample confidence intervals on the transformed scale following by
 #	then transform back to original scale (see MLEInfo$par.transform)
+# These are filled with NAs when numerical Hessian is not
+# positive definite
 ####################################################################	
-      obj$CITable<- confidenceIntervalMLE(obj, CILevel)
+    obj$CITable<- confidenceIntervalMLE(obj, CILevel)
   }
   
   # combine everything into the output list, mKrig components first. 
