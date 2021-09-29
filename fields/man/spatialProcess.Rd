@@ -536,7 +536,6 @@ title("Matern sm= .5")
 set.panel(1,1)
 }
 
-
 \dontrun{
 ### comparison with GeoR
 data(ozone2)

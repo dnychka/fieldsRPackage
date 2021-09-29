@@ -18,7 +18,6 @@
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2   
-
 mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
                             mKrig.args = NULL,
                                  na.rm = TRUE,
@@ -163,7 +162,11 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
 # catch error in optim and return  
   if( class(optimResults )=="try-error"){
     cat("Error in call to optim", fill=TRUE) 
-    out =list( summary = NA,lnLikeEvaluations= lnLikeEvaluations )
+    out =list( summary = NA,
+               lnLikeEvaluations = capture.evaluations[-1,],
+               init.start= init.start, 
+               optim.args= optim.args
+               )
     return( out)
   }
   # reformat the  optim results

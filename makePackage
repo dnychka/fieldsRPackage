@@ -48,6 +48,7 @@ cp  fields.Rcheck/tests/mKrigREMLTest.Rout  fields/tests/mKrigREMLTest.Rout.save
 cp  fields.Rcheck/tests/SEFixedParameters.Rout  fields/tests/SEFixedParameters.Rout.save
 
 cp  fields.Rcheck/tests/offGridWeights.test.Rout  fields/tests/offGridWeights.test.Rout.save
+cp  fields.Rcheck/tests/offGridWeightsNEW.test.Rout  fields/tests/offGridWeightsNEW.test.Rout.save
 
 
 #Adding help files

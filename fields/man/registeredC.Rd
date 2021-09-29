@@ -98,8 +98,8 @@ documentation while other routines have not.
 }
 \references{
 For background on registering C, C++ and Fortran functions see 5.4 of
-Writing R Extensions. 
-See \url{https://r.789695.n4.nabble.com/Registration-of-native-routines-td4728874.html} for additional dicsussion of code registration. 
+Writing R Extensions. For this package refer to the C code in
+\code{ src/intit.c} as an example. 
 }
 \examples{
 print(addToDiagC)

@@ -98,7 +98,7 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                                   verbose = verbose)
     if( is.na(MLEfit0$summary[1])){
       cat("mKrigMLEGrid: Problems in optim", fill=TRUE)
-      return(list(summary = MLEfit0$summary))
+      return(MLEfit0)
     }
      summary <- rbind( summary, MLEfit0$summary)
   }

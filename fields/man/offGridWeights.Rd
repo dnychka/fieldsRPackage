@@ -11,8 +11,9 @@ Based on a stationary Gaussian process model creates a sparse matrix to predict 
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL, covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
-debug=FALSE)
+offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
+   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
+   debug=FALSE)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{

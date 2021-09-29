@@ -9,7 +9,15 @@ confidenceIntervalMLE<- function( obj, CILevel, verbose=FALSE){
   if( verbose){
     print( sampleFisherInfo)
   }
+  testD<- diag(sampleFisherInfo)
+  
+  if( any( testD<=0)){
+    SE<- rep( NA, length( testD) )
+  }
+  else{
   SE<-  sqrt( diag(sampleFisherInfo ))
+  }
+  
   CITmp1<- transformedMLEPars - qnorm(CILevel)*SE
   CITmp2<- transformedMLEPars + qnorm(CILevel)*SE
   tableCI<- 

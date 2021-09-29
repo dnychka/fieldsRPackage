@@ -118,10 +118,9 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                                  GCV = GCV,
                     cov.params.start = cov.params.start)
   # use grid search to set starting values
-    
     if( all(is.na(InitialGridSearch$summary) )) {
       cat("spatialProcess: Problems with optim in grid search", fill=TRUE)
-      return(InitialGridSearch$summary)
+      return(InitialGridSearch)
     }
     
     if( verbose){
@@ -159,10 +158,17 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                              REML = REML,
                              GCV = GCV,
                              hessian = TRUE,
-                             verbose = verbose) 
+                             verbose = verbose)
+       
+       HessianResults<- MLEInfo$optimResults$hessian
+   if( any( HessianResults >=0) ) {
+           warning("Numerical hessian from optim indicates
+                   MLE is not a maximum")
+           }
+   
    if( is.na(MLEInfo$summary[1])){
      cat("spatialProcess: Problems with optim in mKrigMLEJoint ", fill=TRUE)
-     return(MLEInfo$summary)
+     return(MLEInfo)
    }
    }
    
