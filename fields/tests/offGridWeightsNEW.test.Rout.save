@@ -1,5 +1,5 @@
 
-R version 4.1.0 (2021-05-18) -- "Camp Pontanezen"
+R version 4.1.1 (2021-08-10) -- "Kick Things"
 Copyright (C) 2021 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin17.0 (64-bit)
 
@@ -15,13 +15,12 @@ Type 'demo()' for some demos, 'help()' for on-line help, or
 'help.start()' for an HTML browser interface to help.
 Type 'q()' to quit R.
 
-> # fields is a package for analysis of spatial data written for
-> # the R software environment .
-> # Copyright (C) 2018
-> # University Corporation for Atmospheric Research (UCAR)
-> # Contact: Douglas Nychka, nychka@ucar.edu,
-> # National Center for Atmospheric Research,
-> # PO Box 3000, Boulder, CO 80307-3000
+> #
+> # fields  is a package for analysis of spatial data written for
+> # the R software environment.
+> # Copyright (C) 2021 Colorado School of Mines
+> # 1500 Illinois St., Golden, CO 80401
+> # Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 > #
 > # This program is free software; you can redistribute it and/or modify
 > # it under the terms of the GNU General Public License as published by
@@ -31,6 +30,12 @@ Type 'q()' to quit R.
 > # but WITHOUT ANY WARRANTY; without even the implied warranty of
 > # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 > # GNU General Public License for more details.
+> #
+> # You should have received a copy of the GNU General Public License
+> # along with the R software environment if not, write to the Free Software
+> # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+> # or see http://www.r-project.org/Licenses/GPL-2
+> ##END HEADER
 > 
 > 
 > # test of sreg and related functions
@@ -178,4 +183,4 @@ all done with off grid weight tests part 2
 > 
 > proc.time()
    user  system elapsed 
-  0.719   0.073   0.782 
+  0.744   0.093   0.838 

@@ -1,9 +1,9 @@
+#
 # fields  is a package for analysis of spatial data written for
-# the R software environment .
-# Copyright (C) 2018
-# University Corporation for Atmospheric Research (UCAR)
-# Contact: Douglas Nychka, nychka@ucar.edu,
-# National Center for Atmospheric Research, PO Box 3000, Boulder, CO 80307-3000
+# the R software environment.
+# Copyright (C) 2021 Colorado School of Mines
+# 1500 Illinois St., Golden, CO 80401
+# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# or see http://www.r-project.org/Licenses/GPL-2    
+# or see http://www.r-project.org/Licenses/GPL-2
+##END HEADER
 "rat.diet" <- structure(list(t = c(0, 1, 3, 7, 8, 
     10, 14, 15, 17, 21, 22, 24, 28, 29, 31, 35, 36, 38, 42, 43, 
     45, 49, 50, 52, 56, 57, 59, 63, 64, 70, 73, 77, 80, 84, 87, 

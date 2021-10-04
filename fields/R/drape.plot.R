@@ -1,9 +1,9 @@
+#
 # fields  is a package for analysis of spatial data written for
-# the R software environment .
-# Copyright (C) 2018
-# University Corporation for Atmospheric Research (UCAR)
-# Contact: Douglas Nychka, nychka@ucar.edu,
-# National Center for Atmospheric Research, PO Box 3000, Boulder, CO 80307-3000
+# the R software environment.
+# Copyright (C) 2021 Colorado School of Mines
+# 1500 Illinois St., Golden, CO 80401
+# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# or see http://www.r-project.org/Licenses/GPL-2    
+# or see http://www.r-project.org/Licenses/GPL-2
+##END HEADER
 "drape.plot" <- function(x, y, z, z2 = NULL, col = tim.colors(64), 
     zlim = range(z, na.rm = TRUE), zlim2 = NULL, add.legend = TRUE, 
     horizontal = TRUE, theta = 30, phi = 20, breaks = NA, ...) {

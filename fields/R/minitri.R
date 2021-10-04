@@ -1,9 +1,9 @@
+#
 # fields  is a package for analysis of spatial data written for
-# the R software environment .
-# Copyright (C) 2018
-# University Corporation for Atmospheric Research (UCAR)
-# Contact: Douglas Nychka, nychka@ucar.edu,
-# National Center for Atmospheric Research, PO Box 3000, Boulder, CO 80307-3000
+# the R software environment.
+# Copyright (C) 2021 Colorado School of Mines
+# 1500 Illinois St., Golden, CO 80401
+# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -17,7 +17,8 @@
 # You should have received a copy of the GNU General Public License
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
-# or see http://www.r-project.org/Licenses/GPL-2    
+# or see http://www.r-project.org/Licenses/GPL-2
+##END HEADER
 "minitri" <- structure(list(swim = c(13.77, 14.25, 
     12.4, 13.6, 11.23, 14.6, 15.63, 13.62, 17.03, 13.1, 16.5, 
     15.57, 14.28, 16.13, 14.98, 15.65, 14.55, 13.73, 14.67, 14.63, 
