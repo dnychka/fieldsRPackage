@@ -64,4 +64,4 @@ All done with sreg tests
 > 
 > proc.time()
    user  system elapsed 
-  0.885   0.105   0.997 
+  0.910   0.105   1.013 

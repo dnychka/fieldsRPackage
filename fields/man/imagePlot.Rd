@@ -593,7 +593,7 @@ set.panel() # reset plotting device
 
 #
 # Here is a more learned strategy to add a common legend to a panel of
-# plots  consult the split.screen help file for more explanations.
+# plots. Consult the split.screen help file for more explanations.
 # For this example we draw two
 # images top and bottom and add a single legend color bar on the right side 
 
@@ -631,11 +631,11 @@ imagePlot( zlim=c(0,25), legend.only=TRUE, horizontal =TRUE)
 \dontrun{
 par( mar=c(10,5,5,5))
 image( x,y,z, col=topo.colors(64))
-imagePlot( zlim=c(0,25), nlevel=64,legend.only=TRUE, horizontal=TRUE,
-col=topo.colors(64))
+imagePlot( zlim=c(0,25), nlevel=64,legend.only=TRUE,
+            horizontal=TRUE,
+            col=topo.colors(64))
 }
 #
-
 # adding a legend by  automatically making room. 
 # and coloring points
   info<- setupLegend()
@@ -647,11 +647,13 @@ col=topo.colors(64))
 #######################################################
 ##### Comparison to ggplot
 #######################################################
-# the following example was created as way avoid doing more important
+# The following example was created as way avoid doing more important
 # things 
 # Note how close base graphics can get to reproducing the ggplot style.
 # and how a first cut imagePlot(x,y,z, col = viridis(128) ) is probably 
 # acceptable in most cases for fast EDA
+# Surprisingly the hardest feature is to add the grey gird lines behind 
+# the image. I (DWN) don't know how to do it! 
 
 \dontrun{
 library( viridis)
@@ -669,8 +671,6 @@ z<- outer( x, y, "+")
     geom_raster(interpolate= FALSE)  + 
     scale_fill_continuous(type = "viridis")  +
     theme_bw()
-
-
 # reset to a single plot
  set.panel()
  
@@ -680,7 +680,7 @@ z<- outer( x, y, "+")
   
 # changing these graphics parameters tends to push 
 # text closer to the axes. 
-  par( mgp=c(1.5,.5,0),mar=c(2.5,2.5,.5,1), cex=.8)
+  par( mgp=c(1.5,.5,0), mar=c(2.5,2.5,.5,1), cex=.8)
   
   imagePlot(x,y,z, 
              col = viridis(128), 

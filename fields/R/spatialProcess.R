@@ -165,8 +165,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                              hessian = TRUE,
                              verbose = verbose)
        
-       HessianResults<- MLEInfo$optimResults$hessian
-   if( any( HessianResults >=0) ) {
+       HessianResults<- diag( -1*solve(MLEInfo$optimResults$hessian))
+   if( any( HessianResults < 0) ) {
            warning("Numerical hessian from optim indicates
                    MLE is not a maximum")
            }

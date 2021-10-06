@@ -56,4 +56,4 @@ Done with testing Wendland family
 > 
 > proc.time()
    user  system elapsed 
-  0.808   0.100   0.921 
+  0.784   0.097   0.882 

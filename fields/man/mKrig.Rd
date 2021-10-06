@@ -473,7 +473,7 @@ options( spam.nearestdistnnz=c(416052,400))
 }
 }
 \references{
-\url{https://github.com/NCAR/Fields}
+\url{https://github.com/dnychka/fieldsRPackage}
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

@@ -238,7 +238,7 @@ performed in the maximization process.
 
 }
 \references{
-\url{https://github.com/NCAR/Fields}
+\url{https://github.com/dnychka/fieldsRPackage}
 }
 \author{
 %%  ~~who you are~~

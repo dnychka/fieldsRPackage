@@ -47,4 +47,4 @@ All done with testing misc functions
 > 
 > proc.time()
    user  system elapsed 
-  0.803   0.102   0.929 
+  0.806   0.104   0.917 

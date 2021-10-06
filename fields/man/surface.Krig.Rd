@@ -41,7 +41,7 @@ ranges.
 object, grid.list = NULL, extrap = FALSE,
                  graphics.reset = NULL, xlab = NULL, ylab = NULL, main
                  = NULL, zlab = NULL, zlim = NULL, levels = NULL, type
-                 = "C", nx = 80, ny = 80, ...)
+                 = "C", nx = 80, ny = 80, col = viridis(256), ...)
 }
 \arguments{
 \item{object}{

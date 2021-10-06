@@ -107,19 +107,23 @@ really about three different colors. For other colors try
 \code{fields.color.picker} to view possible choices.
 \code{start="darkgreen", end="azure4"} are the options used to get a
 nice color scale for rendering aerial photos of ski trails.  (See
-\url{https://github.com/dnychka/MJProject}.)  \code{larry.colors}
+\url{https://github.com/dnychka/MJProject}.)
+\code{larry.colors}
 is a 13 color palette used by Larry McDaniel (retired software engineer from NCAR) and is particularly
 useful for visualizing fields of climate variables.
 
 \code{snow.colors} is the scale used by Will Klieber's team for
-visualizing snow cover from remotely sensed data products. See the commented code for the script as to how how this was formed from an orignal raw 256 level scale. Note the that first color in this table is grey and is desigend to represent the minimum value of the range ( e.g. 0). If the image in in percent snow cover then \code{zlim=c(0,100)}
+visualizing snow cover from remotely sensed data products. See the
+commented code for the script as to how how this was formed from an orignal raw 256 level scale. Note the that first color in this table is grey and is
+desigend to represent the minimum value of the range ( e.g. 0).
+If the image in in percent snow cover then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
- \code{designer.color} is the master function for the otther scales. 
+ \code{designer.color} is the master function for the other scales. 
  It can be useful if one wants to customize the color
 table to match quantiles of a distribution.  e.g. if the median of the
 data is at .3 with respect to the range then set \code{x} equal to
-c(0,.3,1) and specify three colors to provide a transtion that matches
+c(0,.3,1) and specify two colors to provide a transtion that matches
 the median value. In fields language this function interpolates
 between a set of colors at locations x. While you can be creative
 about these colors just using another color scale as the basis is

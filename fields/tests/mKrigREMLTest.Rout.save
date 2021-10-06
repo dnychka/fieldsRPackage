@@ -57,4 +57,4 @@ Testing:  sigma.MLE Krig verses mKrig
 PASSED test at tolerance  1e-08
 > proc.time()
    user  system elapsed 
-  1.759   0.121   1.964 
+  1.779   0.120   1.919 

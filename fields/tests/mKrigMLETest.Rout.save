@@ -53,16 +53,8 @@ Testing:  grid search with and w/o profile
 PASSED test at tolerance  1e-08
 Testing:  crude test of maxmimum
 PASSED test at tolerance  1e-08
-Warning message:
-In spatialProcess(x, y, cov.args = list(Covariance = "Matern", smoothness = 1),  :
-  Numerical hessian from optim indicates
-                   MLE is not a maximum
 Testing:  Testing MLE from spatialProcess 
 PASSED test at tolerance  1e-05
-Warning message:
-In spatialProcess(x, y, mKrig.args = list(m = 1), ) :
-  Numerical hessian from optim indicates
-                   MLE is not a maximum
 Testing:  spatialProcess finding MLE 
 PASSED test at tolerance  1e-08
 Testing:  spatialProcess given MLE 
@@ -85,4 +77,4 @@ all done with mKrigMLEGrid tests
 > 
 > proc.time()
    user  system elapsed 
-  3.171   0.871   3.395 
+  3.132   0.815   3.314 

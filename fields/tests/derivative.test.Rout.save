@@ -95,4 +95,4 @@ done with dervative tests
 > 
 > proc.time()
    user  system elapsed 
-  1.872   0.294   2.176 
+  1.803   0.264   2.043 

@@ -20,6 +20,6 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 ".onAttach" <- function (lib, pkg) {
-    packageStartupMessage("See https://github.com/NCAR/Fields for
- an extensive vignette, other supplements and source code ")
+    packageStartupMessage("
+Try help(fields) to get started.")
  }

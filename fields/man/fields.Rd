@@ -28,24 +28,34 @@ fields - tools for spatial data
 }
 \description{
  Fields is a collection of programs for curve and function
- fitting with an emphasis on spatial data and spatial statistics. The
+ fitting with an emphasis on spatial data and spatial statistics. It was developed over 20+ years to provide easy to use but sophistciated tools for analyzing
+ spatial data, particularly that encountered in the environemental sciences.
+
+The
  major methods implemented include cubic and thin plate splines, 
  universal
  Kriging and Kriging for large data sets.  One main feature is any
- covariance function implemented in R code can be used for spatial prediction. Another important feature is that fields will take advantage of compactly supported covariance functions in a seamless way through 
-the spam package. See \code{library( help=fields)} for a listing of all the
+ 
+ covariance function implemented in R code can be used for spatial prediction.
+ Another important feature is that fields will take advantage of compactly
+ supported covariance functions in a seamless way through 
+the spam package.
+See \code{library( help=fields)} for a listing of all the
 fields contents and we recommend the excellent fields vignette created by Ashton Weins, Mitchell Krock, and Emma Lilly:
-\href{https://github.com/NCAR/fields/tree/master/vignette}{Fields Vignette}.
+\href{https://github.com/dnychka/fieldsRPackage/fieldsVignette.pdf}{Fields Vignette}.
 fields stives to have readable and tutorial code. Take a look at the 
 source code for  \code{mKrig} to see how things work 
 "under the hood" and how a statistical, linear algebra computation is
 overloaded to handle sparse matrices.
 
-To load fields with the comments retained in the source
-use \code{ keep.source = TRUE} in the \code{library} command. 
-We also keep the source on-line:
-refer to  the github directory 
-\url{https://github.com/NCAR/Fields} for commented source. 
+The fields source code is liberally commented. Unfortunately on loading R
+strips comments from the source but you can go to 
+ \url{https://cran.r-project.org/package=fields}{CRAN fields page} to download
+ the latest  "tarball" (Package Source) and unzip to get code with comments.
+ 
+We also keep themost recent version  source code on-line in github
+\url{https://github.com/dnychka/fieldsRPackage}{fields Github repository} and for commented source 
+(in the subdirectory fields/src). 
 
 \strong{Major methods} 
 \itemize{ 
@@ -60,10 +70,6 @@ Matern and several distance metrics including great circle distance.
  
 \item \code{\link{Tps}} Thin Plate spline
 regression including GCV and REML estimates for the smoothing parameter. 
-
-\item \code{\link{Krig}} Spatial process estimation that is used to compute a thin plate  estimate. 
- 
-  
 
 \item \code{\link{mKrig}} (micro Krig) and
       \code{\link{fastTps}}
@@ -87,8 +93,8 @@ function is expresed in R code.
 
 \item Many
 convenient functions for working with image data and rationally (well,
-maybe reasonably) creating and  placing a color scale on an image plot: 
-\code{\link{as.image}}, \code{\link{image.plot}}, \code{
+maybe reasonably) creating and  placing a color scale on  plots: 
+\code{\link{as.image}}, \code{\link{imagePlot}}, \code{bubblePlot}, \code{
 \link{drape.plot}}, \code{\link{quilt.plot}}
 \code{\link{add.image}}, \code{\link{crop.image}}, \code{\link{half.image}},
 \code{\link{average.image}}, 
@@ -164,25 +170,30 @@ y<- ozone2$y[16,] # June 18, 1987 , there are some missing values
 quilt.plot( x,y)
 US( add=TRUE) # add US map
 
-fit<- Tps(x,y)
+# fitting a thin plate spline surface (always a good way to start)
+fit0<- Tps(x,y)
 # fits a GCV thin plate smoothing spline surface to ozone measurements.
 # Hey, it does not get any easier than this!
 
-summary(fit) #diagnostic summary of the fit 
+summary(fit0) #diagnostic summary of the fit 
 set.panel(2,2)
-plot(fit) # four diagnostic plots of fit and residuals.
+plot(fit0) # four diagnostic plots of fit and residuals.
 
 # quick plot of predicted surface
 set.panel()
-surface(fit) # contour/image plot of the fitted surface
+surface(fit0) # contour/image plot of the fitted surface
 US( add=TRUE, col="magenta", lwd=2) # US map overlaid
 title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
 
-
+####
 fit2<- spatialProcess( x,y)
 # a "Kriging" model. The covariance defaults to a Matern with smoothness 1.0.
 # the nugget, sill and range parameters are found by maximum likelihood
 # summary, plot, and surface also work for  fit2 !
+
+surface(fit2) # contour/image plot of the fitted surface
+US( add=TRUE, col="magenta", lwd=2) # US map overlaid
+title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
 
 }
 

@@ -52,4 +52,4 @@ Testing:  correlogram versus covariogram
 PASSED test at tolerance  1e-08
 > proc.time()
    user  system elapsed 
-  0.785   0.109   0.901 
+  0.828   0.117   0.944 

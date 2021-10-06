@@ -235,4 +235,4 @@ all done testing predictSE
 > 
 > proc.time()
    user  system elapsed 
-  3.644   0.154   3.852 
+  4.084   0.188   4.416 

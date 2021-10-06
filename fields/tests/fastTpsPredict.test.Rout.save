@@ -54,4 +54,4 @@ PASSED test at tolerance  1e-08
 > 
 > proc.time()
    user  system elapsed 
-  0.882   0.101   0.978 
+  0.888   0.099   1.023 

@@ -46,4 +46,4 @@ All done with testing diag multiply
 > 
 > proc.time()
    user  system elapsed 
-  0.773   0.103   0.896 
+  0.772   0.097   0.921 

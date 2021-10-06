@@ -183,4 +183,4 @@ all done with off grid weight tests part 2
 > 
 > proc.time()
    user  system elapsed 
-  0.744   0.093   0.838 
+  0.848   0.105   0.987 

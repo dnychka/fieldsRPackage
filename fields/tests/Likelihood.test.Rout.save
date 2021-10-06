@@ -67,4 +67,4 @@ all done with likelihood  tests
 > 
 > proc.time()
    user  system elapsed 
-  0.939   0.139   1.106 
+  0.864   0.128   0.990 
