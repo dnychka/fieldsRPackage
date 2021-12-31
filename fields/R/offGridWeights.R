@@ -18,7 +18,7 @@
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
-##END HEADER
+##END HEADER\
 offGridWeights<-function(s, gridList, np=2,
                          mKrigObject=NULL, 
                          Covariance=NULL, covArgs=NULL,
@@ -142,7 +142,7 @@ offGridWeights<-function(s, gridList, np=2,
   spindBigB<-  list(ind=ind, ra=ra, da=da )
   # now convert to the more efficient spam format
   BigB<- spind2spam( spindBigB)
-  
+  #
   # prediction variances  
   # use cholesky for more stable numerics
   cholSigma11Inv<- chol(Sigma11Inv)
@@ -167,6 +167,7 @@ offGridWeights<-function(s, gridList, np=2,
         "grid box(es) containing more than 1 obs location",
         fill=TRUE)
     }
+    
     duplicateIndex<-names( tableLoc) [indDuplicates]
     duplicateIndex<-  as.numeric(duplicateIndex)
 # duplicateIndex is the unrolled indices for all grid boxes with 

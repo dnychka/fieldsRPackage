@@ -31,7 +31,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
                                   REML = FALSE, 
                                   GCV  = FALSE,
                                hessian = FALSE, 
-                                iseed  =  233,
+                                iseed  =  303,
                                verbose = FALSE) {
   # overwrite basic data to remove NAs this has be done in case distance 
   # matrices are precomputed (see below)
@@ -70,7 +70,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
 # if lambda is  then it has been added to mKrig.args 
 # if lambda.start then it is part of the parameter names and will 
 # added in the cov.args list 
-  mKrig.args <- c(list(x = x, y = y, weights = weights, Z = Z),
+  mKrig.args <- c(list(x = x, y = y, weights = weights, Z = Z ),
                    mKrig.args,
                   list(cov.function=cov.function) 
                   )
@@ -206,7 +206,7 @@ else{
 ### at final parameters and also find the trace and GCV 
 #########################################################
   cov.args.final<- c( cov.args, cov.params.final)
-# mKrig.args$find.trA <- TRUE
+  
   fastObject   <- do.call("mKrig",
                           c(mKrig.args, iseed= iseed,
                           cov.args.final) )$summary

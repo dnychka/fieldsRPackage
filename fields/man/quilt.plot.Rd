@@ -35,7 +35,8 @@ quilt.plot(x, y, z, nx = 64, ny = 64,  grid = NULL,
            add.legend=TRUE,add=FALSE, nlevel=64, 
            col = tim.colors(nlevel),
            nrow=NULL, ncol=NULL,FUN =
-                 NULL, plot=TRUE, na.rm=FALSE, ...)
+                 NULL, plot=TRUE, na.rm=FALSE, 
+                 boundary.grid = FALSE, ...)
                  
 bubblePlot(x, y, z, col = viridis::viridis(256), 
        zlim=NULL, horizontal = FALSE,
@@ -65,6 +66,8 @@ in x the z vector  }
   \item{col}{Color function or the color scale for the image, the   default is the tim.colors  function --
     a pleasing spectrum for quilt.plot and the  modern and versitle
      viridis for bubblePlot }
+  \item{boundary.grid}{If FALSE the passed grid is considered to be the  midpoints of the grid cells. 
+  If TRUE then these are assumed to define corners and the number of boxes is one less in each dimension.}
      
     \item{plot}{If FALSE just returns the image object instead of plotting it.}
     \item{FUN}{The function to apply to values that are common to a grid
@@ -170,7 +173,7 @@ to add the color bar legend are already available from the image.plot functio.
 }
 
 \author{D.Nychka}
-\seealso{ as.image, image.plot, lattice, persp, drape.plot,  } 
+\seealso{ as.image, discretize.image, image.plot, lattice, persp, drape.plot,  } 
 \examples{
 
 data( ozone2)
@@ -188,12 +191,6 @@ labels=c("low","bckgrd","med", "high"))
 table( O3Levels)
 bubblePlot( ozone2$lon.lat, O3Levels )
 US( add=TRUE, col="magenta", lwd=2)
-
-
-
-
-
-
 
 ### adding a common legend strip "by hand"
 ## to a panel of plots 
@@ -213,6 +210,21 @@ US( add=TRUE)
 par( oma=c(0,0,0,1))
 image.plot(zlim=zr,legend.only=TRUE, col=coltab)
 # may have to adjust number of spaces in oma to make this work.
-  }
-  
+#  adding some grid lines  and using the boundary.grid option
+# note that in this case grid boxes drawn to match lon/lats
+data( ozone2)
+lon<- ozone2$lon.lat[,1]
+lat<- ozone2$lon.lat[,2]
+z<- ozone2$y[16,]
+
+gridList<- list( x=-94 :-81, 
+                 y= 36:45 ) 
+
+quilt.plot( lon, lat, z, grid= gridList, boundary.grid = TRUE,
+             col=viridis(256) )
+# add some gird lines
+xline( gridList$x , col="grey", lwd=1, lty=1)
+yline( gridList$y, col="grey", lwd=1, lty=2)
+}
+
 \keyword{hplot}% at least one, from doc/KEYWORDS

@@ -52,7 +52,12 @@ surfaces.
 nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, ZGrid = NULL, 
     drop.Z = FALSE, just.fixed=FALSE,  ...)
     
-\method{predictSurface}{mKrig}(object,  ...)
+\method{predictSurface}{mKrig}(
+object, grid.list = NULL, ynew = NULL, extrap = FALSE,
+                 chull.mask = NA, nx = 80, ny = 80, xy = c(1, 2),
+                 verbose = FALSE, ZGrid = NULL, drop.Z = FALSE,
+                 just.fixed = FALSE, fast = FALSE, np=5,
+                 derivative = 0, ...)
 
 \method{predictSurfaceSE}{default}(object, grid.list = NULL, extrap = FALSE, chull.mask =
                  NA, nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE,
@@ -110,6 +115,8 @@ values. NOTE: this argument is ignored if a grid.list argument is
 passed. }
 \item{drop.Z}{If TRUE the fixed part of model depending on covariates is omitted.}
 \item{just.fixed}{If TRUE the nonparametric surface is omitted.}
+\item{fast}{If TRUE approximate predictions for stationary models are made using the FFT. (See code{\link{makeFastPredict}}). For large grids( e.g. nx > 100) this can be substantially faster and accurate to several decimal places. }
+\item{np}{Order of nearest neighborhood used for fast prediction. \code{np = 5} means an 10X10=100 set of grid points used for each observation. }
  \item{\dots}{
 Any other arguments to pass to the predict function associated with the fit
 object. 
@@ -197,7 +204,40 @@ surface(out.p, type="C")
 
 out.p<- predictSurfaceSE(fit, glist)
 surface(out.p, type="C")
-  
+
+## a test of the fast prediction algorithm for use with 
+# mKrig/spatialProcess objects. 
+\dontrun{
+data(NorthAmericanRainfall)
+
+x<- cbind(NorthAmericanRainfall$longitude,  NorthAmericanRainfall$latitude)
+y<- log10(NorthAmericanRainfall$precip)
+
+np<- 5
+ 
+
+mKrigObject<- mKrig( x,log10(y),
+                    lambda=.024,
+                    cov.args= list(     aRange= 5.87,
+                                    Covariance="Matern",
+                                    smoothness=1.0),
+                                        sigma2=.157
+                                 )
+gridList<- list( x = seq(-134, -51,length.out=80),
+                 y = seq( 23,   57,length.out=80))                               
+gHat<- predictSurface( mKrigObject, gridList,
+                              extrap = TRUE)
+
+gHat1<- predictSurface( mKrigObject, gridList,
+                              extrap = TRUE,
+                                fast = TRUE,
+                                np=np)
+# don't worry the warning ...
+
+# max error omitting the NAs from outside the convex hull                        
+ max( log10(abs(c(gHat$z - gHat1$z))), na.rm=TRUE)
+ 
+ }
 }
 \keyword{spatial}
 % docclass is function

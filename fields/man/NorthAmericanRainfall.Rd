@@ -60,7 +60,7 @@ Use \code{NorthAmericanRainfall$orientation} to access the stereographic project
 The monthly data used to construct this summary was generously provided by Xuebin Zhang, however,
 the orignal source is freely available as the Global Historical Climate Network Version 2 Precipitation
 quality controlled, curated and served by the US National Center for Environmental Information. 
-The adjusted data from this archive has been modified from its raw form to make the record more homogenous. Heterogenities can come from a variety of sources such as a moving the station a short distance or changes in instruments. See \url{https://www.ncdc.noaa.gov} and goto data-access and then GHCN. 
+The adjusted data from this archive has been modified from its raw form to make the record more homogenous. Heterogenities can come from a variety of sources such as a moving the station a short distance or changes in instruments. See the  National Centers for Envrionmental Information then Access Data  and then GHCN. 
 }
 \examples{
 data(NorthAmericanRainfall)

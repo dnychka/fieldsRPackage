@@ -57,6 +57,7 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                   gridARange = NULL,
                   gridLambda = NULL,
                  CILevel= .95,
+                  iseed = 303,
                            ...)
 \method{summary}{spatialProcess}(object,  ...)
 \method{print}{spatialProcess}(x, digits = 4, ...)
@@ -164,6 +165,8 @@ extra time and is not necessary so the default is FALSE. }
  \item{REML}{ If TRUE the parameters are found by restricted maximum likelihood.}
  
  \item{verbose}{If TRUE print out intermediate information for debugging.}
+ 
+ \item{iseed}{A seed to fix the random number stream used to compute the effective degrees of freedom using the random trace method. Setting this seed will not affect any random numnber generation outside this function. }
 
   \item{\dots}{
   	Any other arguments that will be passed to the \code{mKrig} function and interpreted

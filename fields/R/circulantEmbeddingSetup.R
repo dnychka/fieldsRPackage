@@ -21,6 +21,7 @@
 ##END HEADER
 circulantEmbeddingSetup <- function( 
      grid, M = NULL, 
+     mKrigObject=NULL, 
      cov.function="stationary.cov", cov.args=NULL,
      delta=NULL, ...) {
     #
@@ -28,7 +29,14 @@ circulantEmbeddingSetup <- function(
     # basically need to enlarge domain and find the FFT of the
     # covariance
     #
+    if( !is.null(mKrigObject)){
+    #  mine the mKrigObject to get the covariance model.  
+        cov.args<- mKrigObject$args
+        cov.function<- mKrigObject$cov.function.name
+    }
+    else{
     cov.args<-c( cov.args, list(...))
+    }
         L<- length( grid)
         dx<- rep( NA, L)
         m<- rep( NA, L)
@@ -76,10 +84,10 @@ circulantEmbeddingSetup <- function(
         # here is where the actual covariance form is used
         # note passed arguments from call for parameters etc.
         #
-        out<- do.call(cov.function, c(cov.args, list(x1 = bigGrid, x2 = center)))  
+        out<- do.call(cov.function, c(cov.args, 
+                                      list(x1 = bigGrid, x2 = center)))  
         # coerce to an array note that this depends on the bigIndex varying in the right way
         out<- array( c(out),M)
-        
         #
         # this normalization can be skipped because the simulated field 
         # is stationary and periodic.

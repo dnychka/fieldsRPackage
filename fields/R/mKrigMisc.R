@@ -22,9 +22,16 @@
 
 mKrig.trace <- function(object, iseed, NtrA) {
 # do not reset the random seed if NA. 
-  if( !is.na(iseed)){
-    set.seed(iseed)
-  }
+  
+    if (exists(".Random.seed", .GlobalEnv)){
+      oldseed <- .GlobalEnv$.Random.seed
+    }
+    else{
+      oldseed <- NULL
+    }
+    if( !is.na(iseed)){
+      set.seed(iseed)
+    }
     # if more MonteCarlo samples > number of data points just
     # find A exactly using  np  calls to predict.
     np<- object$np
@@ -57,6 +64,16 @@ mKrig.trace <- function(object, iseed, NtrA) {
     	GCV<- NA
     	GCV.info <- NA
     }	
+    
+    if (!is.null(oldseed)){ 
+      .GlobalEnv$.Random.seed <- oldseed
+    }
+    else{
+      if( exists(".Random.seed", .GlobalEnv)){
+      rm(".Random.seed", envir = .GlobalEnv)
+      }
+    }
+    
     return(
     list(trA.info = trA.info, eff.df = trA.est,
              GCV= GCV, GCV.info=GCV.info)

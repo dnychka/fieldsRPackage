@@ -47,14 +47,15 @@ mKrigMLEGrid(x, y, weights = rep(1, nrow(x)), Z = NULL,
                              GCV  = FALSE,
                        optim.args = NULL,
                  cov.params.start = NULL,
-                          verbose = FALSE)
+                          verbose = FALSE,
+                            iseed = NA)
                           
 
 mKrigMLEJoint(x, y, weights = rep(1, nrow(x)), Z = NULL, mKrig.args
                  = NULL, na.rm = TRUE, cov.function = "stationary.cov",
                  cov.args = NULL, cov.params.start = NULL, optim.args =
                  NULL, reltol = 1e-06, parTransform = NULL, REML =
-                 FALSE, GCV = FALSE, hessian = FALSE, iseed = 233,
+                 FALSE, GCV = FALSE, hessian = FALSE, iseed = 303,
 		 verbose = FALSE)
 
 profileCI(obj, parName, CIlevel = 0.95, REML = FALSE) 
@@ -66,7 +67,7 @@ mKrigJointTemp.fn(parameters, mKrig.args, cov.args, parTransform,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{capture.env}{For the ML obective function the frame to save the results of the evaluation. This should be the environment of the function calling optim.}
+ \item{capture.env}{For the ML objective function the frame to save the results of the evaluation. This should be the environment of the function calling optim.}
  
 \item{CIlevel}{ Confidence level.}
 \item{cov.function}{
@@ -94,7 +95,8 @@ A list of initial starts for covariance parameters  to perform likelihood maximi
 matrix at convergence.} 
 
 \item{iseed}{ Sets the random seed in finding the approximate 
-Monte Carlo based GCV function and the effective degrees of freedom. }
+Monte Carlo based GCV function and the effective degrees of freedom. This will not effect random number generation outside these functions. 
+}
 
 \item{mKrig.args}{A list of additional parameters to supply to the \code{mKrig} function. E.g.\code{ mKrig.args= list( m=1) }to set the regression function to be a constant function.
 
@@ -147,7 +149,8 @@ effects the inverse map from the transformed scale into the original values. See
 
 \item{REML}{If TRUE use REML instead of the full log likelihood.}
 
-\item{GCV}{NOT IMPLEMENTEDm YET! A placeholder for future versions to implement optimization using an approximate cross-validation criterion. }
+\item{GCV}{NOT IMPLEMENTED YET!
+A placeholder to implement optimization using an approximate cross-validation criterion. }
  
 
 
@@ -196,6 +199,9 @@ For these kind of computations there has to be some device to identify parameter
 For example this is how to fix a lambda value in the model. The list
 \code{cov.params.start} should be list with all parameters to optimize. The values for each component are use as the starting values. This is how the \link{optim} function works.
 
+These functions may compute  the effective degrees of freedomn 
+( see \code{ \link{mKrig.trace}} )  using
+the random tace method and so need to generate some random normals. The \code{iseed} arguement can be used to set the seed for this with the default being the seed  \code{303}. Note that the random number generation internal to these functions  is coded so that it does not effect the random number stream outside these function calls. 
 
 For \code{mKrigMLEJoint} the 
  default transformation of the parameters is set up for a log/exp transformation:

@@ -20,7 +20,9 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 stationary.image.cov <- function(ind1, ind2, Y, cov.obj = NULL, 
-    setup = FALSE, grid, M = NULL, N = NULL, cov.function="stationary.cov",delta=NULL, cov.args=NULL, ...) {
+    setup = FALSE, grid, M = NULL, N = NULL, 
+    cov.function="stationary.cov",delta=NULL, 
+    cov.args=NULL, ...) {
     #
     # if cov object is missing then create
     # basically need to enlarge domain and find the FFT of the

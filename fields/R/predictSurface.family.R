@@ -62,9 +62,6 @@ predict.surface.default<- function(object,...){
     return(out)
 }
 
-"predictSurface.mKrig" <- function( object, ...){
-	predictSurface.Krig(object, ...)
-}
 
 "predictSurface.fastTps" <- function(object, grid.list = NULL, 
        extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,

@@ -27,35 +27,41 @@
 fields - tools for spatial data 
 }
 \description{
- Fields is a collection of programs for curve and function
+ \code{fields} is a collection of functions for curve and function
  fitting with an emphasis on spatial data and spatial statistics. It was developed over 20+ years to provide easy to use but sophistciated tools for analyzing
  spatial data, particularly that encountered in the environemental sciences.
+ Please send bugs and questions to Doug Nychka nychka@mines.edu. Positive
+ comments are also welcome!
 
 The
  major methods implemented include cubic and thin plate splines, 
  universal
- Kriging and Kriging for large data sets.  One main feature is any
- 
+ Kriging and Kriging for large data sets. A more modern terminology  for Kriging is 
+ spatial process estimation with covariance parameters determined by maximum likelihood and the uncertainty derived from assumptions of a Gaussian process. 
+ Thoughout we try to include reasonable defaults in functions that reflect
+ our experience with analyzing spatial data.
+ One main feature of the spatial methods is any
  covariance function implemented in R code can be used for spatial prediction.
  Another important feature is that fields will take advantage of compactly
  supported covariance functions in a seamless way through 
-the spam package.
+the spam package. 
 See \code{library( help=fields)} for a listing of all the
-fields contents and we recommend the excellent fields vignette created by Ashton Weins, Mitchell Krock, and Emma Lilly:
-\href{https://github.com/dnychka/fieldsRPackage/fieldsVignette.pdf}{Fields Vignette}.
-fields stives to have readable and tutorial code. Take a look at the 
-source code for  \code{mKrig} to see how things work 
-"under the hood" and how a statistical, linear algebra computation is
-overloaded to handle sparse matrices.
+fields contents. We also  recommend the thoughtful vignette created by Ashton Weins, Mitchell Krock, and Emma Lilly (\code{fieldsVignette.pdf}) int the 
+\href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
 
-The fields source code is liberally commented. Unfortunately on loading R
-strips comments from the source but you can go to 
- \url{https://cran.r-project.org/package=fields}{CRAN fields page} to download
- the latest  "tarball" (Package Source) and unzip to get code with comments.
- 
-We also keep themost recent version  source code on-line in github
-\url{https://github.com/dnychka/fieldsRPackage}{fields Github repository} and for commented source 
-(in the subdirectory fields/src). 
+\code{fields} stives to have readable and tutorial code. Take a look at the 
+source code for  \code{mKrig} to see how things work 
+"under the hood" and how a linear algebra computation is
+overloaded to handle sparse matrices and how an output is built up sequentially throughout a computation. 
+The \code{fields} source code is liberally commented. Unfortunately on loading
+this package,  R will
+strip comments from the source. However, you can go to 
+ \href{https://cran.r-project.org/package=fields}{CRAN fields page} to download
+ the latest  "tarball" ( aka Package Source) and unzip to get code with comments.
+ We also keep the most recent version of this package  at the 
+\href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
+and for commented source go to the 
+the subdirectory \code{fields/src}. This may be a more recent version than what is posted to CRAN. 
 
 \strong{Major methods} 
 \itemize{ 

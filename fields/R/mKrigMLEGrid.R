@@ -31,7 +31,8 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                              GCV  = FALSE,
                        optim.args = NULL,
                  cov.params.start = NULL,
-                          verbose = FALSE) {
+                          verbose = FALSE,
+                            iseed = NA) {
   if( na.rm){
     obj<- mKrigCheckXY(x, y, weights, Z, na.rm)
     x<- obj$x
@@ -96,7 +97,8 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                                      GCV  = GCV,
                                    reltol = reltol,
                          cov.params.start = cov.params.start,
-                                  verbose = verbose)
+                                  verbose = verbose,
+                                    iseed = iseed)
     if( is.na(MLEfit0$summary[1])){
       cat("mKrigMLEGrid: Problems in optim", fill=TRUE)
       return(MLEfit0)

@@ -142,7 +142,7 @@
                                     simulationGridList,
                                     mKrigObject,
                                     np=np,
-                                    giveWarnings= giveWarnings,
+                                    giveWarnings= giveWarnings
                                     )
      )[3]
     #

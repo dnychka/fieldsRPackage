@@ -35,7 +35,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                profileGridN  = 15, 
                   gridARange = NULL,
                   gridLambda = NULL,
-                 CILevel= .95,
+                     CILevel = .95,
+                       iseed = 303, 
                            ...) {
  
 #  THE RULES: 
@@ -163,13 +164,10 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                              REML = REML,
                              GCV = GCV,
                              hessian = TRUE,
-                             verbose = verbose)
+                             verbose = verbose,
+                             iseed = iseed)
        
-       HessianResults<- diag( -1*solve(MLEInfo$optimResults$hessian))
-   if( any( HessianResults < 0) ) {
-           warning("Numerical hessian from optim indicates
-                   MLE is not a maximum")
-           }
+     
    
    if( is.na(MLEInfo$summary[1])){
      cat("spatialProcess: Problems with optim in mKrigMLEJoint ", 
@@ -180,6 +178,12 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
      MLEInfo$call<- match.call()
      return(MLEInfo)
    }
+     
+  HessianResults<- diag( -1*solve(MLEInfo$optimResults$hessian))
+   if( any( HessianResults < 0) ) {
+       warning("Numerical hessian from optim indicates
+                   MLE is not a maximum")
+     }
       
    }
    
