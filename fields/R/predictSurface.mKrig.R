@@ -20,32 +20,39 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 
-"predictSurface.mKrig" <- function(object, grid.list = NULL, 
+"predictSurface.mKrig" <- function(object, gridList=NULL, grid.list=NULL, 
         ynew = NULL,                          
        extrap = FALSE, chull.mask = NA,
        nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE,
        ZGrid=NULL, drop.Z= FALSE, just.fixed=FALSE, 
-       fast=FALSE, np=4,
+       fast=FALSE, NNSize=4, giveWarnings=FALSE,
        derivative=0, ...) {
-  
+#
       if( is.null(ZGrid) & !drop.Z & (!is.null(object$Z)) ) {
       stop("Need to specify covariate (Z) values or set drop.Z==TRUE")
-    }
+      }
+  
+# grid.list is old syntax for fields gridList preferred 
+  if (!is.null(grid.list)){ gridList<-  grid.list}
+  
 # create a default grid if it is not passed    
-    if (is.null(grid.list)) {
+    if (is.null(gridList)) {
     # in more than 2-D 
     # default is 80X80 grid on first two variables
     # rest are set to median value of the x's
-        grid.list <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
+        gridList <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
             xy = xy)
+       
     }
+  
+  #print( gridList)
 # do some checks on Zgrid and also reshape as a matrix
 # rows index grid locations and columns  are the covariates
 # (as Z in predict).
 # if ZGrid is NULL just returns NULL back  ...
-    Z<- unrollZGrid( grid.list, ZGrid) 
-    xg <- make.surface.grid(grid.list)
+    Z<- unrollZGrid( gridList, ZGrid) 
+    xg <- make.surface.grid(gridList)
 # NOTE: the predict function called will need to do some internal checks
 # whether the evaluation of a large number of grid points (xg)  makes sense.
   if( verbose){
@@ -85,13 +92,16 @@
   }
   else{
   # fast approximate method 
-  # will always predict  to full grid. 
+  # will always predict  to full grid.
+    
   out<- mKrigFastPredict( object,
-                          grid.list, ynew = ynew,
+                          gridList= gridList, 
+                          ynew = ynew,
                           derivative = derivative,
                           Z = Z, drop.Z = drop.Z,
-                          collapseFixedEffect = object$collapseFixedEffect, 
-                          np=np, 
+                          NNSize=NNSize, 
+                          giveWarnings=giveWarnings,
+                          
                           ...
                            )
   # wipe out predictions outside convex hull of observations. 

@@ -161,7 +161,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
                     )
                   )
 # catch error in optim and return  
-  if( class(optimResults )=="try-error"){
+  if( is(optimResults, "try-error") ){
     cat("Error in call to optim", fill=TRUE) 
     out =list( summary = NA,
                lnLikeEvaluations = capture.evaluations[-1,],

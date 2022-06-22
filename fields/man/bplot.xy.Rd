@@ -31,8 +31,8 @@ representation
 of the conditional distrubtion of [Y|X] in terms of boxplots.  
 }
 \usage{
-bplot.xy(x, y, N = 10, breaks = pretty(x, N, eps.correct = 1), plot=TRUE,
-         ...)
+bplot.xy(x, y, N = 10, breaks = pretty(x, N, eps.correct = 1),
+                 plot = TRUE, axes = TRUE, ...)
 }
 \arguments{
 \item{x}{
@@ -52,6 +52,7 @@ Break points defining bin boundaries. These can be unequally spaced.
 If FALSE just returns a list with the statistics used for plotting the
 box plots, bin centers, etc. --  More stuff than you can imagine!
 }
+\item{axes}{The usual plotting argument -- If TRUE then axes are plotted.}
 \item{\dots }{
 Any other optional arguments passed to the standard \code{boxplot} function. 
 }

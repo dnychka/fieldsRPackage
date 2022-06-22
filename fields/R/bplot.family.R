@@ -21,24 +21,6 @@
 ##END HEADER
 
 
-"bplot.xy" <- function(x, y, N = 10, breaks = pretty(x, 
-    N, eps.correct = 1), plot = TRUE, ...) {
-    NBIN <- length(breaks) - 1
-    centers <- (breaks[1:NBIN] + breaks[2:(NBIN + 1)])/2
-    obj <- split(y, cut(x, breaks))
-    if (length(obj) == 0) {
-        stop("No points within breaks")
-    }
-    if (plot) {
-        bplot(obj, at = centers, show.names = FALSE, axes = TRUE, 
-            ...)
-        axis(1)
-    }
-    else {
-        return(list(centers = centers, breaks = breaks, boxplot.obj = boxplot(obj, 
-            plot = FALSE)))
-    }
-}
 
 bplot <- function(x, by, pos = NULL, at = pos, add = FALSE, 
     boxwex = 0.8, xlim = NULL, ...) {
@@ -54,6 +36,28 @@ bplot <- function(x, by, pos = NULL, at = pos, add = FALSE,
     boxplot(x, at = at, xlim = xlim, add = add, boxwex = boxwex, 
         ...)
     
+}
+
+bplot.xy<- function (x, y, N = 10, breaks = pretty(x, N, eps.correct = 1), 
+                        plot = TRUE,axes=TRUE,  ...) 
+{
+    NBIN <- length(breaks) - 1
+    centers <- (breaks[1:NBIN] + breaks[2:(NBIN + 1)])/2
+    obj <- split(y, cut(x, breaks))
+    if (length(obj) == 0) {
+        stop("No points within breaks")
+    }
+    if (plot) {
+        bplot(obj, at = centers, show.names = FALSE, axes = axes, 
+              ...)
+        if( axes){ 
+            axis(1)
+        }
+    }
+    else {
+        return(list(centers = centers, breaks = breaks, boxplot.obj = boxplot(obj, 
+                                                                              plot = FALSE)))
+    }
 }
 
 

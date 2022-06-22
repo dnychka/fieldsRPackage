@@ -21,61 +21,81 @@
 %##END HEADER
 \name{offGridWeights}
 \alias{offGridWeights}
-%- Also NEED an '\alias' for EACH other topic documented here.
+\alias{addMarginsGridList}
+\alias{mKrigFastPredictSetup}
 \title{
-Weights to predict off grid locations from a rectangular  grid using nearest neighbors and Kriging. 
-%%  ~~function to do ... ~~
+Utilities for fast spatial prediction. 
 }
 \description{
-Based on a stationary Gaussian process model creates a sparse matrix to predict off grid values (aka interpoltate) from an equally spaced rectangular grid. The sparsity comes about because only a fixed number of neighboring grid points (np) are used in the prediction.  The prediction variance is also give in the returned object. This function is used as the basis for approximate conditional simulation for large spatial datasets. 
+Based on a stationary Gaussian process model these functions support fast prediction onto
+a grid using a sparse matrix approximation. They also allow for fast 
+prediction to off-grid values (aka interpoltation) from an equally spaced rectangular grid and  using a spatial model. The sparsity comes about because only a fixed number of neighboring grid points
+(NNSize) are used in the prediction.  The prediction variance for off-grid location is also give in the returned object. These function are used as the basis for approximate conditional simulation for large
+spatial datasets asnd also for fast spatial prediction from irregular locations onto a grid.
 
-%%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
 offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE)
+   
+addMarginsGridList( xObs, gridList, NNSize)
+
+mKrigFastPredictSetup(mKrigObject,
+                          gridList, 
+                          NNSize,
+			  giveWarnings = TRUE)
 }
-%- maybe also 'usage' for other objects documented here.
+
 \arguments{
   \item{s}{
   Off grid spatial locations
-%%     ~~Describe \code{s} here~~
 }
+
+  \item{xObs}{
+    Off grid spatial locations}
+
   \item{gridList}{
-  A list as the gridList format ( x and y components) that describes the rectagular grid. The grid must have at least np extra grid points beyond the range of the points in \code{s}
-%%     ~~Describe \code{gridList} here~~
+  A list as the gridList format ( x and y components) that describes the
+  rectagular grid. The grid must have at least np extra grid points beyond
+  the range of the points in \code{s}
 }
+
   \item{np}{
-  Number of nearest neighbor grid points to use for prediction.  \code{np = 1} will use the 4 grid points that bound the off grid point.  \code{np = 2} will be a 4X4 subgrid with the middle grid box containing the off gird point. In general there will be  \code{(2*np)^2} neighboring points uses. 
-%%     ~~Describe \code{np} here~~
+  Number of nearest neighbor grid points to use for prediction.  \code{np = 1}
+  will use the 4 grid points that bound the off grid point.  \code{np = 2}
+  will be a 4X4 subgrid with the middle grid box containing the off grid point.
+  In general there will be  \code{(2*np)^2} neighboring points uses. 
+
 }
+ \item{NNSize}{Same as \code{np}. }
+ 
   \item{mKrigObject}{
-  The output object (aka list) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
+  The output object (Aka a list with some specfic components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
   The following items are coded in place of not supplying this object.  See the example below for more details.
-%%     ~~Describe \code{mKrigObject} here~~
 }
+
   \item{Covariance}{
-  The stationary covariance function  (taking pairwise distances as its first argument.)
-%%     ~~Describe \code{Covariance} here~~
+  The stationary covariance function  (taking pairwise distances as its
+  first argument.)
+
 }
   \item{covArgs}{
   If \code{mKrigObject} is not specified  a list giving any additional arguments for the covariance function. 
-%%     ~~Describe \code{covArgs} here~~
 }
   \item{aRange}{
   The range parameter. 
-  
-%%     ~~Describe \code{aRange} here~~
 }
   \item{sigma2}{
   Marginal variance of the process. 
-%%     ~~Describe \code{sigma2} here~~
 }
  \item{giveWarnings}{If TRUE will warn if two or more observations
- are in the same grid box. See details below.} 
+ are in the same grid box. See details below.}
+ 
  \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
+ 
 }
+
 \details{
 This function creates the interpolation weights taking advantage of some
 efficiency in the covariance function being stationary, use
@@ -111,37 +131,32 @@ It is always true that the prediction variance is given by
 The user is also referred to the testing scripts
 \code{offGridWeights.test.R}  and 
 \code{offGridWeights.testNEW.R}in \code{tests} where the 
-Kriging predictions and standard errorsa are computed explicitly and tested against the sparse
+Kriging predictions and standard errors are computed explicitly and tested against the sparse
 matrix computation. This is helpful in defining exactly what
 is being computed.  
-
-%%  ~~ If necessary, more details than the description above ~~
 }
+
 \value{
+
 \item{B}{A sparse matrix that is of dimension mXn with m the number of locations (rows) in \code{s} and n being the total number of grid points. \code{n = length(gridList$x)*length(gridList$y) }
 }
-%%  ~Describe the value returned
-%%  If it is a LIST, use
+
  \item{predictionVariance}{A vector of length as the rows of \code{s} with the Kriging prediction variance based on the nearest neighbor prediction and the specified covariance function. }
  \item{SE}{A sparse matrix that can be used to simulate dependence among prediction errors for observations in the same grid box. (See explanation above.)}
-%%  \item{comp2 }{Description of 'comp2'}
-%% ...
+ 
+
 }
+
 %\references{
 %% ~put references to the literature/web site here ~
 %}
 \author{ Douglas Nychka and Maggie Bailey
-%%  ~~who you are~~
-}
-%\note{
-%%  ~~further notes~~
-%}
 
-%% ~Make other sections like Warning with \section{Warning }{....} ~
+}
 
 \seealso{
-\link{interp.surface} 
-%% ~~objects to See Also as \code{\link{help}}, ~~~
+\link{interp.surface} , \link{mKrigFastPredict}
+
 }
 \examples{
 

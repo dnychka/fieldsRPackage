@@ -27,7 +27,7 @@ unrollZGrid<- function( grid.list, ZGrid){
      if( any(grid.list[[1]] != ZGrid[[1]]) |any(grid.list[[2]] != ZGrid[[2]]) ){
          stop("grid list does not match grid for covariates")
        }  
-# wipe out the x and y components of ZGrid because grid.list will be used
+# wipe out the x and y components of ZGrid 
   ZGrid<- ZGrid$z
   }
 # check dimensions

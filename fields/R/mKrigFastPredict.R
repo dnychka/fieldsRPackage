@@ -20,24 +20,38 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 
-mKrigFastPredict <- function(object, grid.list, ynew = NULL,
+mKrigFastPredict <- function(object, gridList, ynew = NULL,
                           derivative = 0, Z = NULL, drop.Z = FALSE,
-                          collapseFixedEffect = object$collapseFixedEffect, 
-                          np=4,
-                          ...) {
-  # the main reason to pass new args to the covariance is to increase
-  # the temp space size for sparse multiplications
-  # other optional arguments that typically describe the covariance function 
-  # from mKrig are passed along in the list object$args
-  cov.args <- list(...)
+                          NNSize=5, setupObject= NULL,
+                          giveWarnings=TRUE) 
+                           {
+  #NOTE: covariance model is specified by the arguments in object$args
+  #cov.args <- c( object$args, list(...) )
+  
+  # For convenience the Z covariates are already assumed to be 
+  # in the unrolled form. But this may be awkward if this 
+  # function is called directly 
+  # See the code in predictSurface.mKrig for details. E.g. unrollZGrid
+  
+  if (derivative != 0) {
+    stop("Derivatives not supported with fast prediction method")
+  }
+                               
+ if( ncol(object$c.coef)>1 ){
+     stop("Replicated fields currently not supported for fast predict.")
+ }
+                               
+  names( gridList)<- c("x","y")
+  
+  np<- NNSize                            
   xObs<- object$x
   
-  nx<- length(grid.list$x )
-  ny<- length(grid.list$y )
+  nx<- length(gridList$x )
+  ny<- length(gridList$y )
   
   if (!is.null(ynew)) {
     coef.hold <- mKrig.coef(object, ynew,
-                            collapseFixedEffect=collapseFixedEffect)
+                            collapseFixedEffect=TRUE)
     c.coef <- coef.hold$c.coef
     beta <- coef.hold$beta
   }
@@ -54,7 +68,7 @@ mKrigFastPredict <- function(object, grid.list, ynew = NULL,
          use drop.Z = FALSE to omit Z ")
   }
   if( object$nt>0){
-    xnew<- make.surface.grid( grid.list)
+    xnew<- make.surface.grid( gridList)
     if (derivative == 0) {
       if (drop.Z | object$nZ == 0) {
         # just evaluate polynomial and not the Z covariate
@@ -88,49 +102,62 @@ mKrigFastPredict <- function(object, grid.list, ynew = NULL,
   # that have been passed as their name.
   
   # enlarge the grid if needed so that obs have np grid point points on all margins. 
-         
-  if( (min(xObs[,1]) < grid.list$x[1]) | (max(xObs[,1]) > grid.list$x[nx] ) ) {
+  
+  if( (min(xObs[,1]) < gridList$x[1]) | (max(xObs[,1]) > gridList$x[nx] ) ) {
     stop( "x obs locations can not be outside the grid ")
   }
-  if( (min(xObs[,2]) < grid.list$y[1]) | (max(xObs[,2]) > grid.list$y[ny])  ){
+  if( (min(xObs[,2]) < gridList$y[1]) | (max(xObs[,2]) > gridList$y[ny])  ){
     stop( "y obs locations can not be outside the grid ")
   }
   
-  # adjust grid if needed to include a margin of np+1 grid points beyond xObs
-   
-  marginInfo<- addMarginsGridList(xObs, grid.list, np)
-
+  # adjust grid if needed to include a margin of NNSize+1 grid points beyond xObs
   # these are the slightly larger grids by adding margins.
-  gridListNew<-  marginInfo$gridListNew
+  # also create sparse matrices. 
+     
+  if( is.null(setupObject) ){
+  setupObject<- mKrigFastPredictSetup(object, 
+                                      gridList = gridList, 
+                                        NNSize = NNSize,
+                                  giveWarnings = giveWarnings)
+                                                 
+  }
+    
+  gridListNew<-  setupObject$marginInfo$gridListNew
   nxNew<- length(gridListNew$x )
   nyNew<- length(gridListNew$y )
+  # indX and indY are the subset of indices that match gridList
+  # ( gridListNew contains the grids in gridList)
+  indX<- setupObject$marginInfo$indX
+  indY<- setupObject$marginInfo$indY
   
-  if (derivative == 0) {
-    offGridObject<- offGridWeights( xObs,
-                                    gridListNew,
-                                    mKrigObject = object,
-                                    np=np,
-                                    giveWarnings = TRUE
-    )
-    cov.obj<- stationary.image.cov( setup=TRUE, 
-                                    grid=gridListNew,
-                                    cov.args= object$args)
+  if( ((indX[2]- indX[1] + 1)!= nx)| ((indY[2]- indY[1] + 1)!= ny)) {
+    cat(" indX, nx") 
+    print( c(indX, nx) )
+    cat(" indY, ny")
+    print( c(indY, ny) )
+    stop("mismatch between  subset of larger grid and gridList passed")
+  }
+ 
     c.coefWghts<-  colSums( diag.spam( c(object$c.coef) ) %*% 
-                       offGridObject$B )
+                              setupObject$offGridObject$B )
     c.coefWghts<- matrix( c.coefWghts, nxNew, nyNew )
-    temp2<-  stationary.image.cov(Y=c.coefWghts, cov.obj=cov.obj)
-    # cut down the size of temp2 trimming off margins. 
-    temp2<- temp2[marginInfo$indX, marginInfo$indY]
-  }
-  else {
-    stop("Derivatives not supported with fast prediction method")
-  }
-  # add two parts together and coerce to vector
+    
+    
+    # fast multiplication of covariances on the grid with
+    # the coefficients on the grid
+    
+    temp2<-  stationary.image.cov( Y=c.coefWghts, cov.obj=setupObject$cov.obj)
+
+    # cut down the size of temp2 trimming off margins using to approximate
+    # exact covariance kernel. 
+    temp2<- temp2[ indX[1]:indX[2], indY[1]:indY[2] ]
+    
+  # add fixed part and spatial  parts together and coerce to matrix
   if( object$nt>0){
-    return((matrix(temp1,nx,ny) + temp2))
+    return( (matrix(temp1,nx,ny) + temp2) )
   }
   else{
-    # only the spatial part fixed part is absent. 
+    # return only the spatial part  because the fixed part is absent. 
     return(  temp2)
   }
 }

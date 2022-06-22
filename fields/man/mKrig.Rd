@@ -163,21 +163,44 @@ and
 done for a fixed lambda parameter and other covariance parameters (e.g. aRange) and for unique spatial locations. 
 This is also the basic computational element of the top level \code{\link{spatialProcess} } function for finding MLEs. 
 See the source code for a commented version that described the computation.
-
-
 These restrictions simplify the code for reading. Note that also
 little checking is done and the spatial locations are not transformed
-before the estimation.  Because most of the operations are linear
+before the estimation. 
+
+\strong{Repeated locations} To keep the coding simple \code{x} must be a set of unique locations. When there are multiple observations at a location -- also known as replicated locations -- one strategy is to use the average spatial value for this location in place of mulitple observations.  One can also adjust the weights accordingly  for this location if that makes sense. To do this use the function 
+\code{\link{Krig.replicates}}. 
+For example 
+
+\preformatted{
+ out<- Krig.replicates( x=x, y=y)
+}
+
+and \code{out$xM, out$yM, out$weightsM} will be the unique locations with averaged values and the number of observations.  
+
+
+\preformatted{
+ out<- Krig.replicates( x=x, y=y, weights= weights)
+}
+
+will also combine the weight vector  based on the  replications and be returned as  \code{out$weightsM}.
+
+
+
+
+
+\strong{Multiple fields}  Because most of the operations are linear
 algebra this code has been written to handle multiple data
 sets. Specifically, if the spatial model is the same except for
 different observed values (the y's), one can pass \code{y} as a matrix
 and the computations are done efficiently for each set.
-The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also not the \code{collapseFixedEffects} switch to determine if the regression part is found seperately for each replicate or combined into a single model. Note that
+The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also note the \code{collapseFixedEffects} switch to determine if the regression part is found seperately for each replicate or combined into a single model. Note that
 this is not a multivariate spatial model  -- just an efficient computation
 over several data vectors without explicit looping. A big difference in
 the computations is that an exact expression for the trace of the
 smoothing matrix is (trace A(lambda)) is computationally expensive and
 a Monte Carlo approximation is supplied instead.
+
+\strong{Supporting functions}
 
 See \code{predictSE.mKrig} for prediction standard errors and 
 \code{sim.mKrig.approx} to quantify the uncertainty in the estimated function using conditional 
@@ -195,14 +218,14 @@ example the wendland.cov function supports derivatives.
 \code{print.mKrig} prints a summary for the \code{mKrig} object that the combines the summary and  print methods.
 
 
-\code{mKrig.coef} finds the "d" and "c" coefficients represent the
-solution using the previous cholesky decomposition for a new data
+\code{mKrig.coef} finds "beta"" and "c"  coefficients representing the
+solution using the previous cholesky decomposition but  for a new data
 vector. This is used in computing the prediction standard error in
 predictSE.mKrig and can also be used to evalute the estimate
-efficiently at new vectors of observations provided the locations and
-covariance remain fixed.
+efficiently at new vectors of observations provided the locations, fixed part,  and
+the covariance matrix  all remain  the same .
 
-Sparse matrix methods are handled through overloading the usual linear
+\strong{Sparse covariance functions} Sparse matrix methods are handled through overloading the usual linear
 algebra functions with sparse versions. But to take advantage of some
 additional options in the sparse methods the list argument chol.args
 is a device for changing some default values. The most important of
@@ -215,6 +238,7 @@ one would use the following argument for chol.args in mKrig:
 
 \code{ chol.args=list(pivot=TRUE,memory=list(nnzR= 450000))}
 
+\strong{Approximation trace estimate}
 \code{mKrig.trace} This is an internal function called by \code{mKrig}
 to estimate the effective degrees of freedom.  The Kriging surface
 estimate at the data locations is a linear function of the data and

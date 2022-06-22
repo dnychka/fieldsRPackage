@@ -26,7 +26,7 @@ compactToMat = function(compactMat, diagVal=0, lower.tri=FALSE, upper.tri=TRUE) 
   #lower.tri: if TRUE, fills in lower tringular portion of the matrix
   #upper.tri: if TRUE, fills in upper tringular portion of the matrix
   
-  if(class(compactMat) == 'dist') {
+  if( is(compactMat,"dist") ) {
     n <- attr(compactMat, "Size")
   } else { # (n^2 - n)/2 = length(compactMat)
     stop("input matrix is not compact or is not of class \"dist\"")

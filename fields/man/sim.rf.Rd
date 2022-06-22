@@ -35,12 +35,12 @@ circulant embedding.
 \usage{
 sim.rf(obj)
 circulantEmbedding(obj)
-circulantEmbeddingSetup( 
-     grid, M = NULL, cov.function="stationary.cov", cov.args=NULL,delta=NULL,
-        ...)
+circulantEmbeddingSetup(grid, M = NULL, mKrigObject = NULL,
+cov.function = "stationary.cov", cov.args = NULL, delta = NULL, ...)
 
 }
 \arguments{
+
 \item{obj}{A list (aka covariance object) that includes information about the covariance
 function and the grid for evaluation. Usually this is created by a
 setup call to Exp.image.cov, stationary.image.cov, matern.image.cov or
@@ -60,8 +60,13 @@ in finding distances.}
 
 \item{cov.args}{A list of arguments to include with the covariance function, Eg. aRange and 
 smoothness for the Matern.}
+
 \item{delta}{If NULL the spatial domain is artifically doubled in size in all dimensions to account for the periodic wrapping of the fft. If  passed this is the amount to extend the domain and can be less than double if a compact covariance function is used. }
+
+\item{mKrigObject}{Object from fitting surface using the mKrig or spatialProcess functions.}
+
 \item{\dots}{For convenience any other arguments to pass to the covariance function. }
+
 }
 
 \value{

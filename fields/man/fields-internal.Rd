@@ -55,9 +55,7 @@
 \alias{imageplot.setup}
 \alias{krig.image.parameters}
 
-\alias{makeSimulationGrid}
-%\alias{makeSimulationGrid2}
-\alias{makePredictionPoints}
+
 \alias{multWendlandGrid}
 
 \alias{minimax.crit}
@@ -176,13 +174,6 @@ imageplot.setup(x, add=FALSE,  legend.shrink = 0.9, legend.width = 1,
 horizontal = FALSE, legend.mar=NULL, bigplot = NULL, smallplot = NULL,...)
 
 
-makeSimulationGrid(mKrigObject, predictionPoints, nx, ny, nxSimulation,
-                 nySimulation, gridRefinement, gridExpansion)
-                 
-%makeSimulationGrid2 (fastTpsObject, predictionPointsList,
-%                               gridRefinement, gridExpansion)
-
-
   
 minimax.crit (obj, des = TRUE, R) 
  
@@ -202,8 +193,6 @@ minimax.crit (obj, des = TRUE, R)
 \method{print}{summary.sreg} (x, ...) 
  
 printGCVWarnings( Table,  method = "all")
- 
-makePredictionPoints(mKrigObject, nx, ny, predictionPointsList)
 
 multWendlandGrid( grid.list,center, delta, coef, xy = c(1, 2))
 
