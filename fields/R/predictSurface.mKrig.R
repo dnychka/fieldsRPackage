@@ -85,7 +85,7 @@
       
     if(!fast){
 # here is the heavy lifting 
-    out[indexGood] <-  predict(object, x=xg[indexGood,], ynew=ynew,
+    out[indexGood] <-  predict.mKrig(object, x=xg[indexGood,], ynew=ynew,
                                Z=Z[indexGood,], drop.Z= drop.Z, 
                                collapseFixedEffect = object$collapseFixedEffect,
                                just.fixed=just.fixed, ...)

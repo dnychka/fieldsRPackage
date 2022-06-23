@@ -45,7 +45,8 @@ mKrigFastPredictSetup <- function(mKrigObject,
                                     giveWarnings = giveWarnings
     )
     cov.obj<- stationary.image.cov( setup=TRUE, 
-                                    grid=gridListNew,
+                                    grid=gridListNew, 
+                                    cov.function=mKrigObject$cov.function.name,
                                     cov.args= mKrigObject$args)
     return( 
        list(offGridObject = offGridObject,

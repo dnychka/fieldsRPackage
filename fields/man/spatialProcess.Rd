@@ -540,29 +540,7 @@ title("Matern sm= .5")
 set.panel(1,1)
 }
 
-\dontrun{
-### comparison with GeoR
-data(ozone2)
-    x<- ozone2$lon.lat
-    y<- ozone2$y[16,]
-    good<-!is.na(y)
-    x1<- x[good,]
-    y1<- y[good]
-    
-# spatialProcess takes longer because of grid search on aRange.    
-    obj<- spatialProcess( x1, y1,
-                          mKrig.args = list(m=1),
-  			                  smoothness = .5)
-    library( geoR)
-    ml.n <- likfit(coords= x1, data=y1, ini = c(570, 3), nug = 50)
-    # compare to 
-    stuffFields<- obj$MLESummary[c("lnProfileLike.FULL",
-                                   "aRange","tau","sigma2")]
-    stuffGeoR<- c( ml.n$loglik, ml.n$phi, sqrt(ml.n$nugget),
-                   ml.n$sigmasq) 
-    test.for.zero(  max(stuffFields/stuffGeoR), 1, tol=.004)
-   
-}
+
 }
 \keyword{ spatial}
 % __ONLY ONE__ keyword per line
