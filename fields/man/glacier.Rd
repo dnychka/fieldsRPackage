@@ -97,7 +97,10 @@ table( glacier$y)
 # set.panel()
 
 # just evaluate at MLE
-# reset default matrix size that the spam pacakge will use. 
+# reset default matrix size that the spam pacakge will use.
+
+\dontrun{
+
 options(spam.nearestdistnnz=c(5e7,1e3))
 system.time( obj1<- 
                fastTps(glacier$loc, glacier$y, 
@@ -112,7 +115,7 @@ look1<- predictSurface( obj1, nx=150, ny=150)
 
 imagePlot( look1)
 
-\dontrun{
+
 system.time(
 out<- simLocal.spatialProcess(obj1, M=3, nx=150, ny=150)
 )
