@@ -102,9 +102,9 @@ test.for.zero( hold, hold4, tag="predict for null drift " )
 tps.fit<-Tps( x,y, scale.type="unscaled", Z= Zcov)
 
 # here is lazy way to get a grid.list
-   fields.x.to.grid( x, nx=20,ny=20)-> gridlist
+   gridList<- fields.x.to.grid( x, nx=20,ny=20)
 
-   xg<- make.surface.grid(gridlist)
+   xg<- make.surface.grid(gridList)
    Zcov.grid<- xg[,1]**3 + xg[,2]**3
 
 ########### tests on just predict have been commented out to 
@@ -113,11 +113,11 @@ tps.fit<-Tps( x,y, scale.type="unscaled", Z= Zcov)
 ########### future debugging ...
 
 # full surface with covariate
-#   curv.mean1 <- predictSurface(tps.fit, grid.list = gridlist, extrap = TRUE,
+#   curv.mean1 <- predictSurface(tps.fit,  gridlist, extrap = TRUE,
 ##        Z =Zcov.grid, drop.Z = FALSE)$z
 
 # just the spline surface
-#   curv.mean2 <- predictSurface(tps.fit, grid.list = gridlist,
+#   curv.mean2 <- predictSurface(tps.fit, gridlist,
 #                   extrap = TRUE,drop.Z=TRUE)$z
 
 # explicitly here is the difference surface of curv.mean1 and curv.mean2
@@ -126,7 +126,7 @@ tps.fit<-Tps( x,y, scale.type="unscaled", Z= Zcov)
 
 ## new tests
 
-   predictSurfaceSE( tps.fit, grid.list=gridlist, extrap=TRUE,
+   predictSurfaceSE( tps.fit, gridList, extrap=TRUE,
                drop.Z=TRUE)$z-> curv.var1
 
    predictSE( tps.fit, xg, drop.Z=TRUE)-> curv.var2

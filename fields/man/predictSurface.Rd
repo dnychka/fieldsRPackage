@@ -45,7 +45,7 @@ surfaces.
                      extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
                         xy = c(1,2),  verbose = FALSE, ...)
 
-\method{predictSurface}{fastTps}(object, grid.list = NULL, 
+\method{predictSurface}{fastTps}(object, gridList = NULL, 
        extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE, ...)
        

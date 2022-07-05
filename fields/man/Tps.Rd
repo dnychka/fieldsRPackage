@@ -375,8 +375,8 @@ out.p<-predictSurface( fit,df=10)
 # then use same grid for the predictions: CO.Grid1<- CO.elev1[c("x","y")]
   obj<- Tps( CO.loc, CO.tmin.MAM.climate, Z= CO.elev)
   out.p<-predictSurface( obj,
-            grid.list=CO.Grid, ZGrid= CO.elevGrid)
-  image.plot( out.p)        
+              CO.Grid, ZGrid= CO.elevGrid)
+  imagePlot( out.p)        
   US(add=TRUE, col="grey")
   contour( CO.elevGrid, add=TRUE, levels=c(2000), col="black")
 }

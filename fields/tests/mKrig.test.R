@@ -221,7 +221,7 @@ ind<- sample( 1:(nx*ny), 600)
 xdat<- xg[ind,]
 ydat <- ztrue[ind]
 out<- fastTps(xdat, ydat, aRange=.3)
-out.p<-predictSurface( out, grid=gl, extrap=TRUE)
+out.p<-predictSurface( out, gridList=gl, extrap=TRUE)
 # perfect agreement at data
 test.for.zero( ydat, c( out.p$z)[ind],tol=5e-7, tag="fastTps interp1")
 #image.plot(x,y,matrix( ztrue, nx,ny)- out.p$z) 

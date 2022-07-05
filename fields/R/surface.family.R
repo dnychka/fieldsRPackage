@@ -25,7 +25,7 @@
     nx = 80, ny = 80, col=viridis(256), ...) {
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
-    out.p <- predictSurface(object, grid.list = grid.list, extrap = extrap, 
+    out.p <- predictSurface(object,  grid.list, extrap = extrap, 
         nx = nx, ny = ny, drop.Z = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab
@@ -56,7 +56,7 @@
     nx = 80, ny = 80, col=viridis(256),...) {
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
-    out.p <- predictSurface(object, grid.list = grid.list, extrap = extrap, 
+    out.p <- predictSurface(object, grid.list, extrap = extrap, 
         nx = nx, ny = ny, drop.Z = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab

@@ -149,7 +149,8 @@
      )[3]
     #
     # find conditional mean field from initial fit
-      hHat <- predictSurface.mKrig(mKrigObject,
+    
+      hHat <- predictSurface(mKrigObject,
                            gridList = predictionGridList,
                            fast=fast, 
                            NNSize= NNSize,

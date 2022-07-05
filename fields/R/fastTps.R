@@ -20,7 +20,8 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "fastTps" <- function(x, Y, m = NULL, p = NULL, aRange, 
-                      lon.lat = FALSE, find.trA=FALSE,  REML=FALSE, theta=NULL,
+                      lon.lat = FALSE, find.trA=FALSE,
+                      REML=FALSE, theta=NULL,
                       ...) {
   # theta argument has been depreciated.
   if( !is.null( theta)){

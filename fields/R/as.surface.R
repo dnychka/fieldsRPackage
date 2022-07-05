@@ -41,6 +41,11 @@
       temp<- matrix( temp, ncol = hold$ny, nrow = hold$nx)
     }
     else{
+      if( length(c(z))!= hold$ny*hold$nx){
+        print( length(c(z)))
+        print( c(hold$ny*hold$nx))
+        stop("z does not match number of grid points")
+      }
       temp<- matrix( z,    ncol = hold$ny, nrow = hold$nx)
     }
     #

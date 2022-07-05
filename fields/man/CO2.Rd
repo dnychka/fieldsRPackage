@@ -92,8 +92,8 @@ temp[ CO2.true$mask] <- CO2$y
  image.plot(CO2.true$x,CO2.true$y, temp)
 
 # to predict _exactly_ on this grid for the second fit;
-# (this take a while)
-look<- predictSurface( out2, grid.list=list( x=CO2.true$x, y=CO2.true$y))
+# (this takes a while)
+look<- predictSurface( out2, list( x=CO2.true$x, y=CO2.true$y) )
 image.plot(look)
 
 }

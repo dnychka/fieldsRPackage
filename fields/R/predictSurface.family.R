@@ -63,32 +63,34 @@ predict.surface.default<- function(object,...){
 }
 
 
-"predictSurface.fastTps" <- function(object, grid.list = NULL, 
+"predictSurface.fastTps" <- function(object, gridList=NULL, 
        extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE, ...) {
 # NOTE:  See  predictSurface.default for comments
-    if (is.null(grid.list)) {
-        grid.list <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
+    if (is.null(gridList)) {
+        gridList <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
             xy = xy)
     } 
 #  in the case of fastTps and not great circle distance
 #  pass the grid list instead of the locations of grid points
 #  (see xg in predictSurface.default)
     if( object$args$Dist.args$method =="greatcircle"){
-      out <-  predict(object, xnew= make.surface.grid(grid.list), xy=xy, ...)
+      out <-  predict(object, 
+                      xnew= make.surface.grid(gridList), 
+                      xy=xy, ...)
     }
     else{
-    out <-  predict(object, grid.list=grid.list, xy=xy, ...)
+    out <-  predict(object, grid.list=gridList, xy=xy, ...)
     }
 # coerce to image format   
-    out <-  as.surface(grid.list, out )
+    out <-  as.surface(gridList, out )
     #
     # if extrapolate is FALSE set all values outside convex hull to NA
     if (!extrap) {
         if (is.na(chull.mask)) {
             chull.mask <- unique.matrix(object$x[, xy])
         }
-        xg<- make.surface.grid( grid.list)
+        xg<- make.surface.grid( gridList)
         out$z[!in.poly(xg[, xy], xp = chull.mask, convex.hull = TRUE)] <- NA
     }
     #

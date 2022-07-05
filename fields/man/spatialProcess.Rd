@@ -412,7 +412,7 @@ data(COmonthlyMet)
   set.panel(1,2)
   
 # plots of the fitted surface and surface of prediction standard errors   
-  out.p<-predictSurface( fit1E, grid.list=CO.Grid,
+  out.p<-predictSurface( fit1E,CO.Grid,
                              ZGrid= CO.elevGrid, extrap=TRUE)
 
   imagePlot( out.p, col=larry.colors())
@@ -420,7 +420,7 @@ data(COmonthlyMet)
   contour( CO.elevGrid, add=TRUE, levels=seq(1000,3000,,5), col="black")
   title("Average Spring daily min. temp in CO")
 
-  out.p2<-predictSurfaceSE( fit1E, grid.list=CO.Grid,
+  out.p2<-predictSurfaceSE( fit1E,CO.Grid,
                          ZGrid= CO.elevGrid,
                          extrap=TRUE, verbose=FALSE) 
 
