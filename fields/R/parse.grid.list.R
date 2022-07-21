@@ -26,13 +26,21 @@
     #
     M <- length(grid.list)
     gcounts <- unlist(lapply(grid.list, FUN = length))
-    xy <- (1:M)[gcounts > 1]
+    
+    xy <- (1:M)[(gcounts > 1)]
+    
+    if( length(xy) ==1){
+       xy<- sort( c(xy,  which(gcounts == 1 ) ) )
+    }
+    
+    
     if (length(xy) > 2) {
         stop("only two components of the grid list\ncan have more than one element")
     }
+    
     #
-    # swap the roles of x and y
-    if (order.variables == "yx") {
+    # swap the roles of x and y for 2D grid
+    if (order.variables == "yx" & (M!=1) ) {
         xy <- xy[2:1]
     }
     #

@@ -20,16 +20,22 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "fields.x.to.grid" <- function(x, nx = 80, ny = 80, xy = c(1, 2)) {
-    if (is.null(x)) {
-       stop("Need a an x matrix to determine ranges for grid")
-        }
-    M <- ncol(x)
+  if (is.null(x)) {
+    stop("Need a an x matrix to determine ranges for grid")
+  }
+  M <- ncol(x)
+  if (M == 1) {
+    #special case of 1-D
+    grid.list <-  list(x = seq(min(x), max(x), length.out = nx))
+    
+  }
+  else{
     grid.list <- as.list(1:M)
     # add columns names
     names(grid.list) <- dimnames(x)[[2]]
     #     cruise through x dimensions and find medians.
     for (k in 1:M) {
-        grid.list[[k]] <- median(x[, k])
+      grid.list[[k]] <- median(x[, k])
     }
     #
     #
@@ -38,5 +44,6 @@
     yr <- range(x[, xy[2]])
     grid.list[[xy[1]]] <- seq(xr[1], xr[2], , nx)
     grid.list[[xy[2]]] <- seq(yr[1], yr[2], , ny)
-    grid.list
+  }
+    return(grid.list)
 }

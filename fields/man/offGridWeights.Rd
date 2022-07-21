@@ -39,6 +39,10 @@ offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE)
    
+   offGridWeights1D(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
+   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
+   debug=FALSE)
+   
 addMarginsGridList( xObs, gridList, NNSize)
 
 mKrigFastPredictSetup(mKrigObject,
@@ -107,7 +111,11 @@ example below for the "one-liner" to make the prediction
 once the weights are computed. Although created primarily
 for conditional simulation of a spatial process this
 function is also useful for interpolating to off grid
-locations from a rectangular field. 
+locations from a rectangular field.
+
+In most cases one would not use these approximations for a 1D problem. However,
+the 1D algorithm is include as a separate function for testing and also because this is easier to read and understand the conversion between the Kriging weightsfor each point and the sparse matrix encoding of them.
+
 
 The interpolation errors are also computed based on the nearest neighbor
 predictions. This is returned as a sparse matrix in the component SE. 

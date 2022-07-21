@@ -51,7 +51,7 @@ describing the grid to interpolate. The grids do not need to be equally spaced.}
 }
 \value{
  An vector of interpolated values.  NA are returned for
-regions of the obj\$z that are NA and also for locations outside of the
+regions of the  z matrix  that are NA and also for locations outside of the
 range of the parent grid. 
 }
 \details{

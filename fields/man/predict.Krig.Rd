@@ -74,7 +74,7 @@ evaluate the fitted surface.}
 \item{just.fixed}{ Only fixed part of model is evaluated}
 
 
-\item{lambda}{ Smoothing parameter. If omitted, out\$lambda will be
+\item{lambda}{ Smoothing parameter. If omitted,  the value in the \code{lambda} of the object  will be
 used.  (See also df and gcv arguments) } \item{model}{ Generic
 argument that may be used to pass a different lambda.  }
 \item{object}{ Fit object from the Krig, Tps, mKrig, or fastTps
@@ -92,7 +92,7 @@ same order as the old data). This is equivalent to recomputing the
 Krig object with this new data but is more efficient because many
 pieces can be reused. Note that the x values are assumed to be the
 same.  } \item{x}{ Matrix of x values on which to evaluate the kriging
-surface.  If omitted, the data x values, i.e. out\$x will be used.  }
+surface.  If omitted, the data x values will be used.  }
 
 \item{xnew}{Same as x above.}
 

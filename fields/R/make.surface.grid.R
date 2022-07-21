@@ -30,10 +30,12 @@
     # and carries along the names of the grid.list variables.
     # along the information as to how it was created.
     # see as.surface
+    # NOTE: for compatibility this works for a 1D grid
+    #
     temp <- as.matrix(expand.grid(grid.list))
     # wipe out row names
     dimnames(temp) <- list(NULL, names(grid.list))
     # set attribute
     attr(temp, "grid.list") <- grid.list
-    temp
+    return(temp)
 }

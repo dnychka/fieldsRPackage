@@ -52,6 +52,7 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   # Tmatrix <- fields.mkpoly(xnew, m=object$m)
   # only do this if nt>0, i.e. there is a fixed part.
   #
+  
   if( object$nt>0){
     if (derivative == 0) {
       if (drop.Z | object$nZ == 0) {

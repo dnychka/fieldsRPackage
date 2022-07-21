@@ -38,8 +38,9 @@
   
 # create a default grid if it is not passed    
     if (is.null(gridList)) {
-    # in more than 2-D 
-    # default is 80X80 grid on first two variables
+      
+    # default is 80X80 grid on first  variables in 1D
+    # first two in 2D or greater for > 2D 
     # rest are set to median value of the x's
         gridList <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
             xy = xy)
@@ -59,6 +60,7 @@
     print( dim( xg))
     print( nrow( xg))
     print( drop.Z)
+    cat("dim of Z", fill=TRUE)
     print( dim( Z))
   }
     if( nrow(xg) > 5e5){
@@ -66,23 +68,27 @@
               consider approximate prediction using fast==TRUE")
     }
     out<- rep( NA, nrow(xg))  
-# if extrapolate is FALSE set all values outside convex hull to NA
+    
+# if extrapolate is FALSE only predict for locations inside convex hull
+# (or the range in 1D) 
+    
+    indexGood <- rep(TRUE, nrow(xg))
     if (!extrap) {
-      if( is.null( object$x)){
-        stop("need an x matrix in object")
+      if (ncol(xg) > 1)
+      {
+        if (is.na(chull.mask)) {
+          chull.mask <- unique.matrix(object$x[, xy])
+        }
+        indexGood <-
+          in.poly(xg[, xy], xp = chull.mask, convex.hull = TRUE)
       }
-      if (is.na(chull.mask)) {
-        chull.mask <- unique.matrix(object$x[, xy])
-      }
-      indexGood<- in.poly(xg[, xy], xp = chull.mask, convex.hull = TRUE)
-      if( verbose){
-        print( sum( indexGood) )
+      else{
+        # 1D case
+        indexGood <-  xg[, 1] >= min(object$x[, 1]) &
+          xg[, 1] <= max(object$x[, 1])
       }
     }
-    else{
-      indexGood<- rep( TRUE, nrow( xg))
-    }
-      
+    
     if(!fast){
 # here is the heavy lifting 
     out[indexGood] <-  predict.mKrig(object, xnew=xg[indexGood,], ynew=ynew,
@@ -110,7 +116,8 @@
   }
     
   }
-# reshape as list with x, y and z components    
+# reshape as list with x, y and z components  
+   
     out <-  as.surface( xg, out )
     #
     #

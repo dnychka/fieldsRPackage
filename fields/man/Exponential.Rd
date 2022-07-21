@@ -83,7 +83,7 @@ exp( -d/range)
 
 Matern:
 
-   con*(d\^nu) * besselK(d , nu )
+   con*(d**nu) * besselK(d , nu )
 
  Matern covariance function transcribed from Stein's book page 31
 nu==smoothness, alpha ==  1/range
@@ -112,7 +112,7 @@ Radial basis functions:
 }
 where C.m.d is a constant based on spline theory and r is the radial distance
 between points. See \code{radbas.constant} for the computation of the constant.
-NOTE: Earlier versions of fields used ln(r^2) instead of ln(r) and so differ by a factor of 2. 
+
 }
 \value{
 

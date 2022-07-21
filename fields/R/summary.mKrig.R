@@ -91,18 +91,27 @@ summary.mKrig <- function(object, ...) {
     beta<-  object$beta[,1]
     print( beta)
     pValue<- pnorm(abs(beta/SE), lower.tail = FALSE)*2
+    if( !is.null(beta)){
     outObject$fixedEffectsTable<- cbind( signif(beta, digits), 
                                          signif(SE, digits),
                                          signif(pValue, digits)
     )
+    }
+    else{
+      outObject$fixedEffectsTable<- NA
+    }
+    
     if( is.null( object$fixedEffectNames )){
       outObject$fixedEffectNames<- paste0("d",1:(object$nt) )
     }
     else{
       outObject$fixedEffectNames<- object$fixedEffectNames
     }
-    dimnames( outObject$fixedEffectsTable) <- list( outObject$fixedEffectNames,
-                                                    c("estimate", "SE", "pValue") )
+    if(!is.null(beta)){
+    dimnames( outObject$fixedEffectsTable) <- list( 
+      outObject$fixedEffectNames,
+                       c("estimate", "SE", "pValue") )
+    }
     ########### save covariance information
   } 
   outObject$cov.function<- object$cov.function

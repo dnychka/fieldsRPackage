@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-"simLocal.spatialProcess" <- function(mKrigObject,  
+"simLocal.spatialProcessOLD" <- function(mKrigObject,  
     predictionGridList = NULL,
     simulationGridList = NULL, 
         gridRefinement = 1, 
@@ -38,11 +38,7 @@
    sDimension<- ncol(mKrigObject$x)
    if ( sDimension > 2) {
         stop("conditional simulation only implemented for 1 and 2 dimensions")
-   }
-   
-   if( sDimension ==1 & fast){
-     stop("fast prediction not implemented in 1 D")
-   }
+    }
    
     # create prediction set of points based on what is passed
     # and if the grid is not specified 
@@ -68,75 +64,60 @@
      }
    }
     else{
-        # to keep track of 1D grids set ny to 1 
-        # although predictionGridList$y for 1D will be NULL .
+        # to keep track of 1D grids set ny to NA.
         nx<- length( predictionGridList$x)
         ny<- ifelse( sDimension==2,
               length( predictionGridList$y), 
-              1)
+              NA)
     }
     
    
 # check that predictionGrid is equally spaced
 # this is needed because of the fast simulation algorithm
-   testX <-
-     sd(diff(predictionGridList$x)) / mean(diff(predictionGridList$x))
-   if (testX > 1e-8) {
-     stop("predictionGridList$x must be equally spaced")
-   }
-   dx <- predictionGridList$x[2] - predictionGridList$x[1]
-   if (sDimension == 2) {
-     testY <-
-       sd(diff(predictionGridList$x)) / mean(diff(predictionGridList$x))
-     if (testY > 1e-8) {
-       stop("predictionGridList$y must be equally spaced")
-     }
-     dy <- predictionGridList$y[2] - predictionGridList$y[1]
-   }
+    testX<- sd(diff(predictionGridList$x))/ mean(diff(predictionGridList$x) )
+    if(  testX > 1e-8  ){
+      stop( "predictionGridList$x must be equally spaced")
+    }
+    dx<- predictionGridList$x[2] - predictionGridList$x[1]
+    if( sDimension ==2){
+    testY<- sd(diff(predictionGridList$x))/ mean(diff(predictionGridList$x) )
+    if(  testY > 1e-8  ){
+      stop( "predictionGridList$y must be equally spaced")
+    }
+    dy<- predictionGridList$y[2] - predictionGridList$y[1]
+    }
     #
     #
     
-   if (is.null(simulationGridList)) {
-     simulationGridList <- list(x = seq(
-       min(predictionGridList$x),
-       max(predictionGridList$x),
-       dx / gridRefinement
-     ))
-     if (sDimension == 2) {
-       simulationGridList$y <-
-         seq(min(predictionGridList$y),
-             max(predictionGridList$y),
-             dy / gridRefinement)
-     }
+    
+    
+     if (is.null(simulationGridList)) {
          
-# round off the grids so that they match to 8 digits
-# that way prediction grid is a subset of simulation grid
+         simulationGridList<- list( x= seq( min(predictionGridList$x), 
+                                            max(predictionGridList$x),
+                                            dx/gridRefinement)
+                                              ,
+                                    y= seq( min(predictionGridList$y), 
+                                            max(predictionGridList$y),
+                                             dy/gridRefinement )
+         )
+# round off the grids so that they match
          predictionGridList$x<- signif(predictionGridList$x, 8)
-         simulationGridList$x<- signif(simulationGridList$x, 8)
-         if( sDimension ==2){
          predictionGridList$y<- signif(predictionGridList$y, 8)
+         simulationGridList$x<- signif(simulationGridList$x, 8)
          simulationGridList$y<- signif(simulationGridList$y, 8)
-         }
-         
+        
          indexSubset<-  list( x=match(predictionGridList$x,
-                                      simulationGridList$x))
-         # # shortcut to avoid if statement for predicted in for 
-         # # loop 
-         # indexSubset$y = rep(1, length( indexSubset$x) ) 
+                                        simulationGridList$x),
+                              y=match(predictionGridList$y,
+                                        simulationGridList$y)
+                              )
          
-         if( sDimension ==2){
-         indexSubset$y=match(predictionGridList$y,
-                                      simulationGridList$y)
-         }
-         
-         print( indexSubset)
-         
-         if( any( is.na( unlist(indexSubset) ) )){
+         if( any( is.na( indexSubset))){
              stop("prediction grid is not a subset 
                   of the simulation grid")
          }
-   }
-   
+     }
  # core covariance parameters from spatial model   
     tau <-    mKrigObject$summary["tau"]
     sigma2 <- mKrigObject$summary["sigma2"]
@@ -164,37 +145,18 @@
                                        cov.args = mKrigObject$args,
                                         delta=delta )
     )[3]
-    #
     if (verbose) {
         cat("dim of full circulant matrix ", CEObject$M, 
             fill = TRUE)
     }
-    if (sDimension == 2) {
-      timeOffGridSetup <- system.time(
-        offGridObject <- offGridWeights(
-          mKrigObject$x,
-          simulationGridList,
-          mKrigObject,
-          np = np,
-          giveWarnings = giveWarnings
-        )
-      )
-    }
-    else{
-      timeOffGridSetup <- system.time(
-        offGridObject <- offGridWeights1D(
-          mKrigObject$x,
-          simulationGridList,
-          mKrigObject,
-          np = np,
-          giveWarnings = giveWarnings
-        )
-      )
-      
-    }
-    # save just the final time. 
-    timeOffGridSetup<-  timeOffGridSetup[3]
-    
+    timeOffGridSetup<- system.time(
+     offGridObject<- offGridWeights( mKrigObject$x,
+                                    simulationGridList,
+                                    mKrigObject,
+                                    np=np,
+                                    giveWarnings= giveWarnings
+                                    )
+     )[3]
     #
     # find conditional mean field from initial fit
     
@@ -204,12 +166,7 @@
                            NNSize= NNSize,
                             ...)$z
     # setup output array to hold ensemble
-    if( sDimension==2){
     out <- array(NA, c( nx, ny, M))
-    }
-    else{
-      out <- array(NA, c( nx, M))
-    }
     # empty image object to hold simulated fields
     
     ##########################################################################################
@@ -225,8 +182,6 @@
         t1[k]<- system.time(
         hTrue<- sqrt(sigma2) * circulantEmbedding(CEObject)
         )[3]
-        
-        
         
         # NOTE: fixed part of model (null space) does not need to be simulated
         # because the  estimator is unbiased for this part.
@@ -258,19 +213,10 @@
          
         )[3]
  
-        if( sDimension==2){
-        spatialError <- spatialError - hTrue[indexSubset$x, indexSubset$y]
+        
+        spatialError <- spatialError - hTrue[indexSubset$x, indexSubset$y] 
         # add the error to the actual estimate  (conditional mean)
         out[,, k] <- hHat + spatialError
-        }
-        else{
-          
-          spatialError <- spatialError - hTrue[indexSubset$x]
-          # add the error to the actual estimate  (conditional mean)
-          out[, k] <- hHat + spatialError
-        }
-        
-        
         
      }
     
@@ -279,7 +225,6 @@
     return(list(x = predictionGridList$x,
                 y = predictionGridList$y,
                 z = out, 
-                hHat= hHat,
                 timing=c( CESetup=timeCESetup,
                           OffSetup=timeOffGridSetup,
                                   CE = median(t1), 

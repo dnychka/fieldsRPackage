@@ -31,6 +31,8 @@
     out<-  Re(
                fft(sqrt(obj$wght) * Z, inverse = TRUE)
              )/sqrt(prodM)
+    
     out<- array( out[makeMultiIndex(m)], m)
+  
     return( out)
 }

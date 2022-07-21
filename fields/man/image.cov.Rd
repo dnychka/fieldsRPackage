@@ -86,7 +86,8 @@ This is only required if setup is true.
 Size of x-grid used to compute multiplication (see notes on image.smooth 
 for details) by the FFT. If NULL, the default for M is the largest power 
 of 2 
-greater than or equal to 2*m where m= length( grid\$x). 
+greater than or equal to 2*m where m is the length of the x component of the grid.
+
 This  will give an exact 
 result but  smaller values of M will yield an approximate, faster result. 
 }
@@ -98,7 +99,8 @@ result but  smaller values of M will yield an approximate, faster result.
 \item{\dots}{
 Any arguments to pass to the covariance function in setting up the
 covariance object. This is only required if setup is TRUE.
-For \code{stationary.image.cov} one can include \code{V} a matrix reflecting a rotation and scaling of 
+For \code{stationary.image.cov} one can include \code{V} a matrix reflecting
+a rotation and scaling of 
 coordinates. See stationary.cov for details. }
 }
 \value{
@@ -115,12 +117,15 @@ points.
 overlay a grid on them.) 
 
 Returned value: If ind1 and ind2 are matrices where nrow(ind1)=m and
-nrow(ind2)=n then the cross covariance matrix, Sigma is an mXn matrix
+nrow(ind2)=n then the cross covariance matrix, Sigma, is an mXn matrix
 (i,j) element is the covariance between the grid locations indexed at
-ind1[i,] and ind2[j,]. The returned result is Sigma\%*\%Y. Note that one can
+ind1[i,] and ind2[j,]. The returned result is Sigma multiplied by Y. Note that
+one can
 always recover the coordinates themselves by evaluating the grid list at
-the indices.  e.g.  cbind( grid\$x[ ind1[,1]], grid\$y[ind1[,2])) will give
-the coordinates associated with ind1. Clearly it is better just to work
+the indices.  E.g. If \code{x} and \code{y} are the grids for the X and Y
+dimensions,  \code{cbind( x[ind1[,1]], y[ind1[,2]))} will give
+the coordinates associated with ind1.
+Clearly it is better just to work
 with ind1!
   
 Functional Form: Following the same form as Exp.cov stationary.cov for 
