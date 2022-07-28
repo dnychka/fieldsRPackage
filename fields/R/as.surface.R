@@ -59,7 +59,7 @@ as.surface <-
       }
     }
     else{
-      temp <- z
+      temp <- matrix(z,    ncol = 1, nrow = hold$nx)
     }
     
     #

@@ -25,6 +25,9 @@
 \alias{simSpatialData}
 \alias{sim.spatialProcess}
 \alias{simLocal.spatialProcess}
+\alias{checkPredictGrid}
+\alias{makePredictionGridList}
+\alias{makeSimulationGrid}
 
 \title{Unconditional and conditional simulation of a spatial process}
 \description{
@@ -46,6 +49,12 @@ simLocal.spatialProcess(mKrigObject, predictionGridList = NULL,
                  M = 1, nx = 80, ny = 80, verbose = FALSE, delta =
                  NULL, giveWarnings = TRUE, fast = FALSE, NNSize = 5,
                  ...)
+             
+checkPredictGrid(predictionGridList) 
+
+makePredictionGridList(mKrigObject, nx, ny, np)
+
+makeSimulationGrid(predictionGridList, gridRefinement)   
 } 
  
 \arguments{
@@ -147,7 +156,7 @@ The outline of the algorithm is
 0) Find the spatial prediction at the unobserved locations based on
  the actual data. Call this h.hat(x) and this is the conditional mean. 
 
-1) Generate an unconditional spatial process and from this process
+1) Generate a realization that includes both prediction and observation locations from the unconditional spatial process and from this process
 simluate synthetic observations. 
 
 2) Use the spatial prediction model ( using the true covariance) to
@@ -158,9 +167,21 @@ prediction based on synthetic observations. Call this e(x).
 
 4) h.hat(x) + e(x) is a draw from [h(x) | Y ].
 
-The approximations  for simulation come in at step 1).
+The approximations for this simulation come in at step 1).
 Here the field at the observation locations is
-approximated using a local conditional simulation from the nearest grid points. 
+approximated using a local conditional simulation from
+the nearest grid points. 
+
+NOTE: A fixed part in the model is handled easily by
+simply
+making the prediction from the synthetic observations
+that have mean zero but include estimation of the
+fixed part as part of the prediction. 
+Because the
+regression estimates are unbaised, this gives a
+valid draw from the correct mulitvariate distribution
+even though the synthetic observations do not include
+a fixed part. 
 
 
 \code{sim.spatialProcess} Follows this algorithm exactly. For the case of an
@@ -175,7 +196,28 @@ The naming is through convenience.
 \code{sim.Krig}  Also follows this algorithm exactly but for the older \code{Krig} object.  Note the inclusion of
 drop.Z=TRUE or FALSE will determine whether the conditional simulation 
 includes the covariates Z or not. (See example below.) 
+\code{simLocal.spatialProcess}{This function is
+designed for conditional simulation for a large
+prediction grid and for a large number of observation
+s. The approximation will be accurate for fine grids
+that separate clusters of observation locations. E.g.
+multiple observations in a single gridbox are treated
+exactly. If observation location are separated by a
+grid box then due to the screening effect the
+approximation error will be negliable, especially if a
+nugget component  (tau ) is present. 
 
+The 1D version of this function will not be much more
+efficient than an exact computation. However, it is
+included as easy to read source code and for checking
+(see examples.)
+
+See the utility function \code{\link{offGridWeights}} for the function that creates weights used to generate the (approximate) conditional sample.  The functions 
+\code{checkPredictGrid}, 
+\code{makePredictionGridList} and 
+\code{makeSimulationGrid} are utilities to setup the grids when not specified. 
+
+}
 
 
 }
@@ -393,6 +435,47 @@ set.seed( 399)
 # 5 draws from process at xp given the data 
 # this is an exact calculation
  sim.Krig( out,xp, M=5)-> sim.out
+
+}
+
+\dontrun{
+## testing the local method on a 1D case.
+
+set.seed(124) 
+# 10 observations -- massive dataset!
+s<-  cbind(runif(  10, 5,45)) 
+y<-  cbind(runif(  10))
+aRange<- 10 
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",
+             smoothness=1.0,
+             lambda=.01,tau=sqrt(.01),
+                      m=0)
+#                    
+# M should be much larger for an accurate check on code
+#
+
+gridList<- list( x= seq(0,50, length.out=15))
+
+look<- simLocal.spatialProcess(obj,
+                               np=3,
+                               predictionGridList = gridList,
+                               gridRefinement = 3,
+                               M=50, extrap=TRUE) 
+                               
+simSE<- apply(look$z, 1, sd )
+
+checkSE<- predictSE( obj, xnew= cbind(look$x ), drop.Z=TRUE )
+# percentage error from true SE at each location.
+stats( 100*abs(1- simSE/checkSE) )
+    
+# Maggie plot  
+plot( look$x, checkSE, type="b", col="blue",
+xlab="Location", ylab="Prediction SE")
+rug( look$x, col="blue", lwd=3)
+points( look$x, simSE, col="orange3", pch=16)
+xline( s, col="grey", lwd=2)
+title("Exact (blue) and Monte Carlo (orange) 
+for the prediction SE based on observations (grey) ")
 
 }
 

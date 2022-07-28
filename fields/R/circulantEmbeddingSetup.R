@@ -89,17 +89,21 @@ circulantEmbeddingSetup <- function(
         # coerce to an array note that this depends on the bigIndex varying in the right way
         out<- array( c(out),M)
         #
-        # this normalization can be skipped because the simulated field 
-        # is stationary and periodic.
-        # for example
-        # wght <- fft(out)/prod(M)
-        # OLD CODE:
         # a simple way to normalize. This could be avoided by
         # translating image from the center ...
         # add to the middle point in the array -- matches the center from above
          temp <- array( 0, M)
          temp[rbind( MCenter)] <- 1
          wght <- fft(out)/(fft(temp) * prod(M))
+         if( any( Re(wght) < 0 ) ){
+           cat("summary of real part of weights", fill=TRUE)
+           print( stats(Re(wght)))
+           stop(" 
+                some weights appear to be less than zero.
+              This can be due to the correlation range being too large for the grid.
+                Try increasing the spatial domain or decreasing the number of grid points.
+                ")
+         }
         
         #
         # wght is the discrete FFT for the covariance suitable for fast

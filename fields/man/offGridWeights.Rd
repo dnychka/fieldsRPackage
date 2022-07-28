@@ -23,6 +23,8 @@
 \alias{offGridWeights}
 \alias{addMarginsGridList}
 \alias{mKrigFastPredictSetup}
+\alias{offGridWeights1D}
+\alias{offGridWeights2D}
 \title{
 Utilities for fast spatial prediction. 
 }
@@ -39,7 +41,13 @@ offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE)
    
-   offGridWeights1D(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
+   offGridWeights1D(s, gridList, np = 2, mKrigObject = NULL,
+   Covariance = NULL,
+   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
+   debug=FALSE)
+   
+   offGridWeights2D(s, gridList, np = 2, mKrigObject = NULL,
+   Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE)
    
@@ -113,8 +121,13 @@ for conditional simulation of a spatial process this
 function is also useful for interpolating to off grid
 locations from a rectangular field.
 
-In most cases one would not use these approximations for a 1D problem. However,
-the 1D algorithm is include as a separate function for testing and also because this is easier to read and understand the conversion between the Kriging weightsfor each point and the sparse matrix encoding of them.
+The function \code{offGridWeights} is a simple wrapper to call either the 1D or 2D functions 
+
+In most cases one would not use these approximations for a 1D problem.
+However,
+the 1D algorithm is included as a separate function for testing and also
+because this is easier to read and understand the conversion between the
+Kriging weights for each point and the sparse matrix encoding of them.
 
 
 The interpolation errors are also computed based on the nearest neighbor
@@ -129,17 +142,17 @@ observations then
 
 \preformatted{error <- obj$SE\%*\% rnorm( nObs)} 
 will simulate a prediction error that includes the dependence. Note that in
-the case that there all observations are in separate grid boxes this code line is the same as 
+the case that there all observations are in separate grid boxes this code 
+line is the same as 
 \preformatted{error <- sqrt(obj$predictionVariance)*rnorm( nObs)}
 It is always true that the prediction variance is given by 
 \code{ diag( obj$SE\%*\% t( obj$SE))}.
 
-
-
 The user is also referred to the testing scripts
 \code{offGridWeights.test.R}  and 
 \code{offGridWeights.testNEW.R}in \code{tests} where the 
-Kriging predictions and standard errors are computed explicitly and tested against the sparse
+Kriging predictions and standard errors are computed explicitly and 
+tested against the sparse
 matrix computation. This is helpful in defining exactly what
 is being computed.  
 }
@@ -155,11 +168,11 @@ is being computed.
 
 }
 
-%\references{
-%% ~put references to the literature/web site here ~
-%}
-\author{ Douglas Nychka and Maggie Bailey
+\references{ 
+Bailey, Maggie D., Soutir Bandyopadhyay, and Douglas Nychka. "Adapting conditional simulation using circulant embedding for irregularly spaced spatial data." Stat 11.1 (2022): e446.
+}
 
+\author{ Douglas Nychka and Maggie Bailey
 }
 
 \seealso{
