@@ -469,7 +469,7 @@ data(COmonthlyMet)
 # The 6 ensemble members 
    set.panel( 3,2)
    for( k in 1:6){
-    imagePlot( as.surface( xGrid, ensemble[k,]))
+    imagePlot( as.surface( xGrid, ensemble[,k]))
    }
   set.panel()
 }

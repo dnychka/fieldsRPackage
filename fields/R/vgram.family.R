@@ -258,7 +258,7 @@ plot.vgram = function(x, N=10, breaks = pretty(x$d, N, eps.correct = 1), add=FAL
   #set plot title if not set by user
   if(is.null(otherArgs$main)) {
     if(type=="variogram")
-      otherArgs$main = "Empirical Variogram"
+      otherArgs$main = "Empirical Variogram (square root scale) "
     else if(type=="covariogram")
       otherArgs$main = "Empirical Covariogram"
     else if(type=="correlogram")
@@ -284,15 +284,15 @@ plot.vgram = function(x, N=10, breaks = pretty(x$d, N, eps.correct = 1), add=FAL
   if(!plot)
     return(bplot)
   
-  #plot bin means with plot parameters given in plot.args (with defaults to look pretty)
-  plot.args$x=x
-  plot.args$add=TRUE
-  plot.args$breaks=breaks
-  if(is.null(plot.args$col))
-    plot.args$col = "red"
-  if(is.null(plot.args$type))
-    plot.args$type = "p"
-  do.call("plot.vgram", plot.args)
+  # #plot bin means with plot parameters given in plot.args (with defaults to look pretty)
+  # plot.args$x=x
+  # plot.args$add=TRUE
+  # plot.args$breaks=breaks
+  # if(is.null(plot.args$col))
+  #   plot.args$col = "red"
+  # if(is.null(plot.args$type))
+  #   plot.args$type = "p"
+  # do.call("plot.vgram", plot.args)
 }
 
 # Returns the variogram bin centers and means

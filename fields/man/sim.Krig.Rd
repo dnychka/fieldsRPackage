@@ -78,15 +78,12 @@ circulant covariance function.  }
 
  
   \item{M}{Number of draws from conditional distribution.}
-   \item{np}{Degree of nearest neighbors to use. Default \code{np=2} uses 16
+   \item{np}{Degree of nearest neighbors to use. In the 2D case, the default \code{np=2} uses 16
    points in a 4X4 grid for prediction of the off grid point. }
   \item{NNSize}{Degree of neighborhood use for fast prediction.
   ( See \code{ predictSurface.mKrig}  with \code{fast= TRUE} ) } 
   \item{nx}{ Number of grid points in prediction locations for x coordinate.}
   \item{ny}{ Number of grid points in  prediction locations for x coordinate.}
-  
-
- 
 
   \item{object}{The spatial fit object.}
   
@@ -136,7 +133,7 @@ Y.k =  Z(x.k)d + P(x.k) + g(x.k) + e.k
 
 where P(x) is a low order, fixed polynomial and g(x) a Gaussian spatial 
 process and Z(x.k) is a vector of covariates that are also indexed by space (such as elevation).
-Z(x.k)d is a linear combination of the the covariates with the parameter vector d being a
+Z(x.k)d is a linear combination of the covariates with the parameter vector d being a
 component of the fixed part of the 
 model and estimated in the usual way by generalized least squares.
 
@@ -146,15 +143,18 @@ the goal is to sample the conditional distribution of the process.
 [h(x) | Y ]  or the full prediction Z(x)d + h(x)
 
 For fixed a covariance this is just a multivariate normal sampling
-problem.  \code{sim.Krig.standard} samples this conditional process at
+problem.  \code{sim.spatialProcess} samples this conditional process at
 the points \code{xp} and is exact for fixed covariance parameters.
-\code{sim.Krig.grid} also assumes fixed covariance parameters and does
-approximate sampling on a grid.
 
-The outline of the algorithm is
+The outline of the conditional simulation algorithm is given below and has the
+advantage that is only depends on the unconditional simulation
+of the spatial process and being able to make a spatial prediction - the
+conditional mean of the process given the observations and covariance function.
+
+\strong{ Conditional Simulation Algorithm: }
 
 0) Find the spatial prediction at the unobserved locations based on
- the actual data. Call this h.hat(x) and this is the conditional mean. 
+ the actual data. Call this h.hat(x) and this is also  the conditional mean. 
 
 1) Generate a realization that includes both prediction and observation locations from the unconditional spatial process and from this process
 simluate synthetic observations. 
@@ -226,26 +226,21 @@ See the utility function \code{\link{offGridWeights}} for the function that crea
  a matrix with rows indexed by the locations in \code{xp} and columns being the 
  \code{M} independent draws.
 
-
-\code{simLocal.spatialProcess} a list with \code{predictionPoints} being the
-locations where the field has been simulated.If these have been created from a 
-grid list that information is stored in the \code{attributes} of \code{predictionPoints}. 
- \code{Ensemble} is a
-matrix where rows index the simulated values of the field and columns
-are the different draws, \code{call} is the calling sequence. Not that if \code{predictionPoints}
-has been omitted in the call or is created beforehand using \code{make.surface.grid} it is 
-easy to reformat the results into an image format for ploting using \code{as.surface}.
-e.g. if \code{simOut} is the output object then to plot the 3rd draw:
-
-\preformatted{
-     imageObject<- as.surface(simOut$PredictionGrid, simOut$Ensemble[,3] )
-     image.plot( imageObject)
+\code{simLocal.spatialProcess} a list with components \code{x}, \code{y}
+and \code{z} being the simulations at the prediction grid.
+The x and y are the typical image format specifying a regular grid.  If
+\code{nx} and \code{ny} are the lengths of the grid values in X and Y then  \code{z}
+is a array with dimension  \code{ c(nx, ny, M)}. For the 1D case ny is set to 1.
+The component \code{hHat} is the conditional mean ( as an 
+\code{nx} X \code{ny} matrix)  and the remaining arguments
+are various timing results for parts of the computation. 
+ 
 }
 
 
 
 
-}
+
 
 \author{Doug Nychka}
 \seealso{ sim.rf, Krig, spatialProcess}
@@ -268,6 +263,14 @@ allTime0<- system.time(
  look0<- sim.spatialProcess(fitObject, xp=xGrid, M=5)
 )
 print( allTime0)
+
+# for M=5 this does not make much sense ... however here are the 
+# Monte Carlo based prediction standard deviations. 
+
+predictSE<- apply( look0, 1, sd)
+
+# compare to  predictSE(fitObject, xp=xGrid)
+
 
 ## Local simulation with extra refinement of the grid for embedding
 ## and same grid size for prediction 
@@ -376,7 +379,7 @@ cat( fill= TRUE)
 # for just the smooth surface in lon/lat
 #  SEout<- sim.spatialProcess( fit1E, xp=COGridPoints,  drop.Z=TRUE, M= 30)
 # in practice M should be larger to reduce Monte Carlo error.      
-   surSE<- apply( SEout, 2, sd )
+   surSE<- apply( SEout, 1, sd )
    image.plot( as.surface( COGridPoints, surSE)) 
    points( fit1E$x, col="magenta", pch=16) 
    
@@ -426,15 +429,13 @@ set.seed( 399)
             aRange=1.0,smoothness=1.0, na.rm=TRUE)
 
 # NOTE aRange =1.0 is not the best choice but 
-# allows the sim.rf circulant embedding algorithm to 
-# work without increasing the domain.
 
-#six missing data locations
+# the six missing data locations
  xp<-  ozone2$lon.lat[ is.na(ozone2$y[16,]),]
 
-# 5 draws from process at xp given the data 
-# this is an exact calculation
- sim.Krig( out,xp, M=5)-> sim.out
+# 30 draws from process at xp given the data 
+
+ sim.out<- sim.Krig( out,xp, M=30)
 
 }
 

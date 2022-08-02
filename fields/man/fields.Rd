@@ -28,40 +28,45 @@ fields - tools for spatial data
 }
 \description{
  \code{fields} is a collection of functions for curve and function
- fitting with an emphasis on spatial data and spatial statistics. It was developed over 20+ years to provide easy to use but sophistciated tools for analyzing
- spatial data, particularly that encountered in the environemental sciences.
- Please send bugs and questions to Doug Nychka nychka@mines.edu. Positive
+ fitting with an emphasis on spatial data and spatial statistics. It was developed over 20+ years to provide easy to use but sophisticated tools for analyzing
+ spatial data, particularly that encountered in the environmental sciences. For the impatient users, jump to the examples below to see how easy this is use. 
+ Please send bugs and questions to Doug Nychka, nychka@mines.edu. Positive
  comments are also welcome!
 
 The
  major methods implemented include cubic and thin plate splines, 
  universal
- Kriging and Kriging for large data sets. A more modern terminology  for Kriging is 
+ Kriging and Kriging for large data sets. A more modern framework  for Kriging is 
  spatial process estimation with covariance parameters determined by maximum likelihood and the uncertainty derived from assumptions of a Gaussian process. 
- Thoughout we try to include reasonable defaults in functions that reflect
- our experience with analyzing spatial data.
- One main feature of the spatial methods is any
- covariance function implemented in R code can be used for spatial prediction.
+ Throughout we try to include reasonable defaults in functions that reflect
+ our experience with analyzing spatial data. For example, the Matern covariance function is the default choice for the main spatial method. 
+ 
+ A key feature of this package is any
+ covariance function implemented in R code can be used for spatial prediction through the spatial functions.  
  Another important feature is that fields will take advantage of compactly
  supported covariance functions in a seamless way through 
 the spam package. 
 See \code{library( help=fields)} for a listing of all the
-fields contents. We also  recommend the thoughtful vignette created by Ashton Weins, Mitchell Krock, and Emma Lilly (\code{fieldsVignette.pdf}) int the 
+fields contents. We also  recommend the thoughtful vignette created by Ashton Weins, Mitchell Krock, and Emma Lilly (\code{fieldsVignette.pdf}) in the 
 \href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
 
-\code{fields} stives to have readable and tutorial code. Take a look at the 
+\code{fields} strives to have readable and tutorial code. Take a look at the 
 source code for  \code{mKrig} to see how things work 
-"under the hood" and how a linear algebra computation is
-overloaded to handle sparse matrices and how an output is built up sequentially throughout a computation. 
+"under the hood". E.g. how a linear algebra computation is
+overloaded to handle sparse matrices and how an output  object is built up sequentially throughout a computation.
+
 The \code{fields} source code is liberally commented. Unfortunately on loading
 this package,  R will
-strip comments from the source. However, you can go to 
+strip comments from the source for efficiency.   You can go to 
  \href{https://cran.r-project.org/package=fields}{CRAN fields page} to download
  the latest  "tarball" ( aka Package Source) and unzip to get code with comments.
  We also keep the most recent version of this package  at the 
 \href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
 and for commented source go to the 
 the subdirectory \code{fields/src}. This may be a more recent version than what is posted to CRAN. 
+}
+
+\details{
 
 \strong{Major methods} 
 \itemize{ 
@@ -69,24 +74,35 @@ the subdirectory \code{fields/src}. This may be a more recent version than what 
 \item \code{\link{spatialProcess}} An easy to use method that fits a spatial process model
 ( e.g. Kriging) but also estimates the key spatial parameters:  nugget variance, sill variance and range by maximum likelihood. Default covariance model is a Matern covariance function. This function and related functions called by this are the core methods in fields and have much flexibility. 
 
-\code{\link{spatialProcess}} allows one to supply a covariance function that is
-written in native R code.  See (\code{\link{stationary.cov}}) that includes
+\code{\link{spatialProcess}} allows one to supply a covariance
+function that is
+written in native R code.  See (\code{\link{stationary.cov}}) that
+includes
 several families of covariances  including the
-Matern and several distance metrics including great circle distance.
+Matern and several distance metrics including great circle distance
+. 
+\code{\link{sim.spatialProcess}} and \code{\link{simLocal.spatialProcess}} provide  "one liners"" for conditional simulation of the fitted surface. 
  
 \item \code{\link{Tps}} Thin Plate spline
-regression including GCV and REML estimates for the smoothing parameter. 
+regression including GCV and REML estimates for the smoothing parameter. For moderate size data sets as a first look we use \code{Tps} all the time. See also \code{\link{fastTps}} for an 
+approximate method to handle very large numbers of spatial locations 
 
-\item \code{\link{mKrig}} (micro Krig) and
-      \code{\link{fastTps}}
- fast efficient Universal Kriging and spline-like functions, that can take advantage of sparse covariance
-functions and thus handle very large numbers of spatial locations. 
- \code{\link{QTps}} A easy to use extension of thin plate splines for quantile and robust surface fitting.
+\item \code{\link{sreg}} , \code{\link{splint}}   Fast 1-D cubic smoothing 
+splines and interpolating  splines, a workhorse  algorithm for more EDA and more complicated methods.  
+
+\item \code{\link{mKrig}} (micro Krig) 
+    Efficient Universal Kriging and Gaussian process function,
+    that can take advantage of sparse covariance
+    
+functions and is the core algorithm called by optimization
+functions and for spatial predictio. 
+
+\item \code{\link{QTps}} A easy to use extension of thin plate splines for quantile and robust surface fitting.
 
 \item \code{\link{mKrigMLEGrid}} and \code{\link{mKrigMLEJoint}} for maximum likelihood estimates of covariance parameters. These functions also 
 handle replicate fields, assumed to be independent realizations, at the same locations and can also take any covariate function function written in R following the \code{fields} format 
+}  % end itemize
 
-}
 
 \strong{Other noteworthy functions}
 \itemize{
@@ -109,10 +125,6 @@ maybe reasonably) creating and  placing a color scale on  plots:
 See also  \code{\link{grid.list}} for how fields works with grids and
 \code{\link{US}}
 and \code{\link{world}} for adding a map quickly. 
-
-\item \code{\link{sreg}} \code{\link{splint}}   Fast 1-D cubic smoothing 
-splines and interpolating cubic splines.
-
 }
 
 
@@ -126,82 +138,96 @@ splines and interpolating cubic splines.
 \code{\link{predictSE}}- prediction standard errors at arbitrary points. \cr
 \code{\link{sim.rf}}- Simulate a random fields on a 2-d grid.
 
-\strong{Getting Started}
+} % end details
 
- Try some of the examples from help files for \code{Tps} or 
-\code{spatialProcess}. 
+\section{Getting Started}{
 
-\strong{Graphics tips}
+ Try some of the examples from help files for 
+\code{\link{spatialProcess}} or \code{\link{Tps}}.
 
-\code{help( fields.hints)}
- gives some R code tricks for setting up common legends and axes. 
-And has little to do with this package!
+}
 
-\strong{Testing}
-See \code{help(fields.tests)} for testing fields. 
-
-\strong{Some fields datasets}
+\section{\strong{Some fields datasets}}{
 \itemize{
 \item \code{\link{CO2}} Global satelite CO2 concentrations (simulated field)
-\item \code{\link{RCMexample}} Regional climate model output
-\item \code{\link{lennon}} Image of John Lennon
 \item \code{\link{COmonthlyMet}} Monthly mean temperatures and precip for Colorado
-\item \code{\link{RMelevation}} Digital elevations for the Rocky Mountain Empire
+\item \code{\link{glacier}} An elevation dataset of a glacier also used by the applied math community to test interpolation methods. 
+\item \code{\link{lennon}} Image of John Lennon
+\item \code{\link{NorthAmericanRainfall}} 50+ year average and trend for summer rainfall at 
+1700+ stations. 
 \item \code{\link{ozone2}}  Daily max 8 hour ozone concentrations for the US midwest 
 for summer 1987.
 \item \code{\link{PRISMelevation}} Digital elevations for the 
    continental US at approximately 4km resolution
-\item \code{\link{NorthAmericanRainfall}} 50+ year average and trend for summer rainfall at 
-1700+ stations. 
-\item \code{\link{rat.diet}} Small paired study on rat food intake over time.
+\item \code{\link{rat.diet}} Small paired study on rat food
+intake over time.
+\item \code{\link{RCMexample}} Regional climate model output
+\item \code{\link{RMelevation}} Digital elevations for the Rocky
+Mountain Empire
+
 \item \code{\link{WorldBankCO2}} Demographic and carbon emission data 
  for 75 countries and for 1999. 
 }
+}
 
-\strong{DISCLAIMER:}
+
+\section{\strong{DISCLAIMER:}}{
  The
 authors can not guarantee the correctness of any function or program in
 this package. 
-
 }
 
 \examples{
-\dontrun{
-# some air quality data, daily surface ozone measurements for the Midwest:
-data(ozone2)
-x<-ozone2$lon.lat
-y<- ozone2$y[16,] # June 18, 1987 , there are some missing values 
+# some air quality data, daily surface ozone measurements for 
+# the Midwest:
 
-# pixel plot of spatial data
-quilt.plot( x,y)
+data(ozone2)
+s<-ozone2$lon.lat
+y<- ozone2$y[16,] # June 18, 1987 
+
+# quick plot of spatial data with map
+bubblePlot( s,y)
 US( add=TRUE) # add US map
 
-# fitting a thin plate spline surface (always a good way to start)
-fit0<- Tps(x,y)
+# fitting a thin plate spline surface (always a good place to 
+# start). Here the  default smoothing (aka lambda) found by cross-validation
+  fit0<- Tps(s,y)
 # fits a GCV thin plate smoothing spline surface to ozone measurements.
 # Hey, it does not get any easier than this!
 
-summary(fit0) #diagnostic summary of the fit 
-set.panel(2,2)
-plot(fit0) # four diagnostic plots of fit and residuals.
+  summary(fit0) #diagnostic summary of the fit 
+  set.panel(2,2)
+  plot(fit0) # four diagnostic plots of fit and residuals.
 
 # quick plot of predicted surface
-set.panel()
-surface(fit0) # contour/image plot of the fitted surface
-US( add=TRUE, col="magenta", lwd=2) # US map overlaid
-title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
+  set.panel()
+  surface(fit0) # contour/image plot of the fitted surface
+# see also predictSurface for more control over the evaluation grid
+#
+  US( add=TRUE, col="magenta", lwd=2) # US map overlaid
+  title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
 
 ####
-fit2<- spatialProcess( x,y)
-# a "Kriging" model. The covariance defaults to a Matern with smoothness 1.0.
+  fit2<- spatialProcess( s,y)
+# a "Kriging" model. The covariance defaults to a Matern 
+# with smoothness 1.0.
 # the nugget, sill and range parameters are found by maximum likelihood
-# summary, plot, and surface also work for  fit2 !
+# summary, plot, and surface also work for \code{fit2} !
 
-surface(fit2) # contour/image plot of the fitted surface
-US( add=TRUE, col="magenta", lwd=2) # US map overlaid
-title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
+  surface(fit2) # contour/image plot of the fitted surface
+  US( add=TRUE, col="magenta", lwd=2) # US map overlaid
+  title("Daily max 8 hour ozone in PPB,  June 18th, 1987")
+\dontrun{
+# And 20 approximate conditional draws of the spatial field on a grid
+# with uncertainty in the 120PPB contour 
+   look<- simLocal.spatialProcess(fit2, M=20)
+for( k in 1:20){
+contour( look$x, look$y, look$z[,,k], add=TRUE, level=c(120),
+  col="white",  drawlabels=FALSE)
+}
+
+}  
 
 }
 
-}
 \keyword{datasets}

@@ -90,7 +90,7 @@
     #
     # output matrix to hold results
     N.full <- nrow(x)
-    out <- matrix(NA, ncol = m, nrow = M)
+    out <- matrix(NA, nrow = m, ncol = M)
     #
     # find conditional mean field from initial fit
     # don't multiply by sd or add mean if this is
@@ -134,7 +134,7 @@
             h.true
         # add the error to the actual estimate  (conditional mean)
         # and adjust by marginal standard deviation
-        out[k, ] <- h.hat + temp.error * temp.sd
+        out[,k ] <- h.hat + temp.error * temp.sd
     }
     out
 }

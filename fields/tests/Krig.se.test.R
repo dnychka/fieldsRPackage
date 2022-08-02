@@ -28,12 +28,12 @@ suppressMessages(library(fields))
 
 #options( echo=FALSE)
 
-test.for.zero.flag<- 1
+
 
 x0<- expand.grid( c(-8,-4,0,20,30), c(10,8,4,0))
 
 
-Krig( ChicagoO3$x, ChicagoO3$y, cov.function = "Exp.cov", aRange=50)-> out
+out<- Krig( ChicagoO3$x, ChicagoO3$y, cov.function = "Exp.cov", aRange=50)
 
 
 # direct calculation
@@ -72,8 +72,9 @@ test.for.zero( look, test,tag="Full covariance predictSE")
 set.seed( 333)
 
 sim.Krig( out, x0,M=4e3)-> test
+ # columns are the realizations rows are locations
 
-var(test)-> look
+var(t(test))-> look
 
 predictSE( out, x=x0)-> test2
 mean( diag( look)/ test2**2)-> look2
@@ -86,7 +87,7 @@ predictSE( out, x=x0, cov=TRUE)-> test2
 
 eigen( test2, symmetric=TRUE)-> hold
 hold$vectors%*% diag( 1/sqrt( hold$values))%*% t( hold$vectors)-> hold
-cor(test%*% hold)-> hold2
+cor(t(test)%*% hold)-> hold2
 # off diagonal elements of correlations -- expected values are zero. 
 
 abs(hold2[ col(hold2)> row( hold2)])-> hold3
@@ -95,7 +96,7 @@ test.for.zero(   mean(hold3), 0, relative=FALSE, tol=.02,
           tag="Full covariance standard Cond. Sim.")
 
 
-# test of sim.Krig.approx.R
+# test of A matrix
 #
 # first create and check a gridded test case. 
 
@@ -149,51 +150,6 @@ test<- predictSE( out, x0, cov=TRUE)
 test.for.zero( c( look), c( test), tag="Weighted case and exact for ozone2 full 
 cov", tol=1e-8)
 
-########################################################################
-######### redo test with smaller grid to speed things up
-#cat("Conditional simulation test -- this takes some time", fill=TRUE)
 
-# redo data set to smaller grid size
-##D N1<-4
-##D N2<-5
-##D as.image(ozone2$y[16,], x= ozone2$lon.lat, ny=N2, nx=N1, 
-##D          na.rm=TRUE)-> dtemp
-#
-# A useful discretized version of ozone2 data
- 
-##D xd<- dtemp$xd
-##D y<- dtemp$z[ dtemp$ind]
-##D weights<- dtemp$weights[ dtemp$ind]
-
-##D Krig( xd, y, Covariance="Matern", 
-##D    aRange=1.0, smoothness=1.0, weights=weights) -> out
-
-
-##D xr<- range( dtemp$x)
-##D yr<- range( dtemp$y)
-##D M1<-N1
-##D M2<- N2
-##D glist<- list( x=seq( xr[1], xr[2],,M1) , y=seq( yr[1], yr[2],,M2))
-
-##D set.seed( 233)
-# with extrap TRUE this finesses problems with
-# how NAs are handled in var below
-
-##D sim.Krig.approx( out, grid= glist, M=3000, extrap=TRUE)-> look
-
-##D predictSE( out, make.surface.grid( glist))-> test
-
-
-##D look2<- matrix( NA, M1,M2)
-
-##D for(  k in 1:M2){
-##D     for ( j in 1:M1){
-##D       look2[j,k] <- sqrt(var( look$z[j,k,], na.rm=TRUE)) }
-##D }
-
-
-##D test.for.zero(  1-mean(c(look2/test), na.rm=TRUE), 0, relative=FALSE, 
-##D tol=.001, tag="Conditional simulation marginal se for grid")
-
-cat("all done testing predictSE ", fill=TRUE)
+cat("all done testing predictSE.Krig ", fill=TRUE)
 options( echo=TRUE)

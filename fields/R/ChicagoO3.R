@@ -19,6 +19,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
+# test data -- some old ozone data for chicago area
+
 "ChicagoO3" <- structure(list(x = structure(c(10.2420950223404, 
     3.80376523711237, 9.10894898014071, 9.62401536295848, -2.42853799498812, 
     -12.626852374789, -0.419779101996896, -7.88824165286121, 
