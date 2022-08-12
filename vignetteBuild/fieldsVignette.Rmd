@@ -1,0 +1,95 @@
+---
+title: '`fields` vignette'
+author: "Ashton Wiens, Mitchell Krock, Emma Lilly and Doug Nychka"
+date: "`r format(Sys.time(), '%d %B, %Y')`"
+output:
+  pdf_document:
+    number_sections: yes
+    toc: yes
+---
+
+```{r set-options, echo=FALSE, eval=TRUE}
+options(width = 400)
+knitr::opts_chunk$set(fig.show = 'asis')   
+# use 'hide' only if you want no figures
+library( fields)
+```
+<style type="text/css">
+
+body{ /* Normal  */
+      font-size: 14px;
+  }
+td {  /* Table  */
+  font-size: 8px;
+}
+h1.title {
+  font-size: 38px;
+  color: DarkRed;
+}
+h1 { /* Header 1 */
+  font-size: 28px;
+  color: DarkBlue;
+}
+h2 { /* Header 2 */
+    font-size: 20px;
+  color: DarkGreen;
+}
+h3 { /* Header 3 */
+  font-size: 18px;
+  font-family: "Times New Roman", Times, serif;
+  color: DarkBlue;
+}
+code.r{ /* Code block */
+    font-size: 12px;
+}
+pre { /* Code block - determines code spacing between lines */
+    font-size: 14px;
+}
+</style>
+
+```{r child="Introduction.Rmd"}
+```
+
+\newpage
+```{r child="FieldsInAction.Rmd"}
+```
+
+\newpage
+```{r child="splines.Rmd"}
+```
+
+\newpage
+```{r child="IntroToSpatialStatistics.Rmd"}
+```
+
+\newpage
+```{r child="TraditionalGeostatistics.Rmd"}
+```
+
+\newpage
+```{r child="spatProc.Rmd"}
+```
+\newpage
+```{r child="images.Rmd"}
+```
+
+\newpage
+```{r child="smooth.Rmd"}
+```
+
+\newpage
+```{r child="CovarianceRevisited.Rmd"}
+```
+
+
+\newpage
+```{r child="mKrig.Rmd"}
+```
+
+\newpage
+```{r child="Tpsfast.Rmd"}
+```
+
+\newpage
+```{r child="KrigingTheory.Rmd"}
+```

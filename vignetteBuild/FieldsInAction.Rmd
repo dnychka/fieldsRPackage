@@ -1,0 +1,125 @@
+# `fields` in action
+
+```{r, include=FALSE, results='hide'}
+knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
+library(fields)
+```
+
+This package deals with fitting curves and surfaces to data to try to represent the underlying model/process. Our overall goal is to write R functions that make data analysis fluid and simple. Much of the framework can be thought of as a generalization of what one learns in a basic statistics course - namely fitting a model by finding the optimal parameters using some measure of goodness-of-fit such as the residual sum of squares. This means that all of the model objects fit in this package will include standard statistical output such as the parameters, fitted values, and residuals. In general we strive to code the `fields` functions in a modular way with numerous comments. We also tend to avoid formula and additional object classes to keep code structure transparent.
+
+Some readers may be interested in analyzing the source code of `fields` functions. Comments in the source code are not available when `fields` is downloaded from CRAN, but are available when downloaded from https://www.image.ucar.edu/~nychka/Fields/.
+
+In this first section we highlight some of the high-level functions and how to use them for the impatient reader. The rest of the vignette goes into much more depth concerning the theory behind and use of the most of the external functions in `fields`.
+
+***
+
+## Visualizing raw data with `quilt.plot`
+
+The `quilt.plot` function takes irregularly-spaced data, puts it on a grid, and plots the result. This can be useful if you have many datapoints that are nearly collocated.
+Consider the `NorthAmericanRainfall` dataset, which describes precipitation over North American at non-gridded longitude and latitude values. Here the spatial locations are registered to a 100X100 grid and the average value is assigned a color.
+
+```{r plot}
+library(fields)
+data(NorthAmericanRainfall)
+x<- cbind(NorthAmericanRainfall$longitude, NorthAmericanRainfall$latitude)
+y<- NorthAmericanRainfall$precip
+quilt.plot(x, (y/100), nx=100, ny=100)
+world(add=TRUE)
+title("Average summer rainfall (cm)  ")
+```
+
+The `fields` commands `world(add=TRUE)` and `US(add=TRUE)` can quickly add outlines to our maps.
+
+
+ A slightly different way to veiw these data is a as a bubble plot where each spatial location is color coded by its value. For larger data sets this kind of plot is not as useful as spatial locations may be plotted on top of each.  Below is the same data set and using a transparency level to help with overlapping points, adjusting the size, and also omitting an outline of each colored dot. The default color scale here is *viridis*.  See the help file for more about these features. 
+ 
+
+```{r}
+bubblePlot(x,(y/100), 
+           size=.6,  highlight = FALSE)
+world(add=TRUE)
+title("average summer rainfall (cm)  ")
+```
+
+
+Be aware that there is an important difference between these functions: `quilt.plot` by default finds the average in each grid box, while `bubblePlot` overlays all the individual values.
+
+## `spatialProcess` with a covariate
+
+`fields` makes it easy to fit a spatial model from data, predict at arbitrary locations or on a grid, and plot the results. Additional covariates (e.g. elevation) can also be included in the linear trend. We can use `predictSurface` to predict on a grid and output a surface object, much like `predict` but more convenient for plotting.
+Here we look at some climate data for Colorado. 
+
+```{r, results='hide'}
+data( COmonthlyMet)
+# predicting average daily minimum temps for spring in Colorado
+obj<- spatialProcess( CO.loc, CO.tmin.MAM.climate, Z= CO.elev)
+out.p<-predictSurface.Krig( obj, grid.list=CO.Grid, ZGrid= CO.elevGrid, extrap=TRUE)
+
+image.plot( out.p, col=larry.colors())
+US(add=TRUE, col="grey")
+contour( CO.elevGrid, add=TRUE, levels=seq(1000,3000,,5), col="black")
+title("Average Spring daily min. temp in CO")
+```
+
+We can also find standard errors (for a fixed set of parameter estimates):
+
+```{r, eval=TRUE}
+out.p<-predictSurfaceSE( obj, grid.list=CO.Grid, ZGrid= CO.elevGrid, extrap=TRUE) #ZGrid= CO.elevGrid
+# error drop.Z not supported ??
+imagePlot( out.p, col=larry.colors())
+US(add=TRUE, col="grey")
+points(CO.loc[,1], CO.loc[,2],  pch=19, cex=.5)
+title("Standard errors for avg Spring daily min. temp in CO")
+```
+
+Computing standard errors can be computationally expensive. An alternative is to use `sim.spatialProcess` or `simLocal.spatialProcess` to conditionally simulate the process, and then use these simulations to approximate the standard errors. See the function **sim.spatialProcess** how to do this easily. 
+
+
+## Univariate `Tps`
+
+A final example shows how to fit a thin plate spline for one-dimensional smoothing and interpolation. We use the `WorldBankCO2` data included in `fields`, which is a $75 \times 5$ matrix with row names identifying countries. The five columns are 
+* `GDP.cap`: Gross Domestic Product (in dollars) per capita  
+* `Pop.mid`: Percentage of population within ages of 15 to 65  
+* `Pop.urb`: Percentage of population living in an urban environment  
+* `CO2.cap`: Equivalent CO2 emissions per capita  
+* `Pop`: Total population.    
+
+We examine the relationship between the log of `Pop.mid` and the log of`CO2.cap`. We use the `fields` function `Tps` to fit a thin plate spline/   In this one-dimeonsional case, the  the default `Tps` settings  and the classical cubic smoothing spline are the same. A specific and more efficient imnplementation of the cubic smoothing spline is the **sreg** and **splint** functions. 
+
+The pointwise confidence intervals for the fit  are shown as dashed blue  lines around the fitted curve.
+Also, A quick, but conservative way to get a *simultaneous* confidence band is use Bonferonni. Here adjust the $Z_{\alpha/2}$ by $\alpha/(2N)$ where $N$ are number of intervals. The interpretation of this pink region is that we are 95% confident the unknown curve is in this envelope. 
+
+```{r,results="hide"}
+data("WorldBankCO2")
+x <- log(WorldBankCO2[,'Pop.mid'])
+y <- log(WorldBankCO2[,'CO2.cap'])
+
+# fit a cubic smoohting spline using cross-validation 
+out <- Tps(x,y)
+```
+
+Now plot the results and add confidence intervals. 
+
+```{r,results="hide",fig.width=6}
+N<- 50
+xgrid<- seq(  min( out$x), max( out$x),length.out=N)
+fhat<- predict( out,xgrid)
+
+plot(x,y, type="n")
+title('Cubic smoothing spline fit')
+SE<- predictSE( out, xgrid)
+# Bonferonni bound
+B<- qnorm( .025/N, lower.tail = FALSE )
+B
+envelopePlot( xgrid,fhat + B* SE, xgrid, fhat - B*SE)
+lines( xgrid, fhat + 1.96* SE, col="blue", lty=2)
+lines( xgrid, fhat - 1.96* SE, col="blue", lty=2)
+points( x,y, pch=16)
+lines( xgrid, fhat, col="blue", lwd=2)
+
+```
+
+
+
+
+
