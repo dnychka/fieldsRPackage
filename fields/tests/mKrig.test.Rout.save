@@ -1,6 +1,6 @@
 
-R version 4.1.1 (2021-08-10) -- "Kick Things"
-Copyright (C) 2021 The R Foundation for Statistical Computing
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
 Platform: x86_64-apple-darwin17.0 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
@@ -18,7 +18,7 @@ Type 'q()' to quit R.
 > #
 > # fields  is a package for analysis of spatial data written for
 > # the R software environment.
-> # Copyright (C) 2021 Colorado School of Mines
+> # Copyright (C) 2022 Colorado School of Mines
 > # 1500 Illinois St., Golden, CO 80401
 > # Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 > #
@@ -35,6 +35,7 @@ Type 'q()' to quit R.
 > # along with the R software environment if not, write to the Free Software
 > # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 > # or see http://www.r-project.org/Licenses/GPL-2
+> ##END HEADER
 > ##END HEADER
 > 
 > 
@@ -99,4 +100,4 @@ all done with mKrig tests
 > 
 > proc.time()
    user  system elapsed 
-  1.955   0.324   2.304 
+  1.993   0.124   2.103 
