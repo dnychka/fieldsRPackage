@@ -41,7 +41,7 @@ poly.image.regrid <- function(x) {
 poly.image <- function(x, y, z, col = tim.colors(64), 
     breaks, transparent.color = "white", midpoint = FALSE, zlim = range(z, 
         na.rm = TRUE), xlim = range(x), ylim = range(y), add = FALSE, 
-    border = NA, lwd.poly = 1, ...) {
+    border = NA, lwd.poly = 1, asp=NA, ...) {
     # check dimensions
     Dx <- dim(x)
     Dy <- dim(y)
@@ -67,7 +67,7 @@ poly.image <- function(x, y, z, col = tim.colors(64),
         transparent.color = transparent.color, breaks = breaks)$color.index
     # blank if not adding to an exising plot
     if (!add) {
-        plot(xlim, ylim, type = "n", ...)
+        plot(xlim, ylim, type = "n",asp=asp,  ...)
     }
     N <- ncol(x)
     Nm1 <- N - 1

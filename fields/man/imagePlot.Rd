@@ -39,7 +39,7 @@ into two parts. Putting the image in one and the legend in the other. After the
 legend is added the plot region is reset to the main image plot.
 This function also allows for plotting quadrilateral cells in the image format that
 often arise from regular grids transformed with a map projection or a scaling and rotation of coordinates. Finally, see the last example where this function can create a similar graphic to the ggplot package but using all base R graphics.
-Two additional functions are provided to add color scale to other kinds
+Two additional functions are provided to add a color scale to other kinds
 of figures. 
 }
 \usage{
@@ -50,9 +50,9 @@ imagePlot(..., add = FALSE, breaks = NULL, nlevel = 64, col =
                  graphics.reset = FALSE, bigplot = NULL, smallplot =
                  NULL, legend.only = FALSE, lab.breaks = NULL,
                  axis.args = NULL, legend.args = NULL, legend.cex = 1,
-                 midpoint = FALSE, border = NA, lwd = 1,
-                 lowerTriangle = FALSE,
-                 upperTriangle = FALSE, verbose = FALSE)
+                 midpoint = FALSE, border = NA, lwd = 1, lowerTriangle
+                 = FALSE, upperTriangle = FALSE, asp = NA, verbose =
+                 FALSE)
                  
 colorBar(breaks, smallplot, colorTable, horizontal = FALSE,
                  lab.breaks, axis.args, legend.lab, legend.line = 2,
@@ -93,7 +93,7 @@ on the image plot. To change the graphical defaults for the legend use
 \item{add}{
 If true add image and a legend strip to the existing plot. 
 }
-
+\item{asp}{ Plot aspect. The same function as in the \code{plot} or \code{image} functions.}
 \item{axis.args}{Additional arguments for the axis function used to 
 create the legend axis. (See example below adding a log scaling.)}
 

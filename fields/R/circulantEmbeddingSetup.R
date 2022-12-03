@@ -25,9 +25,6 @@ circulantEmbeddingSetup <- function(
      cov.function="stationary.cov", cov.args=NULL,
      delta=NULL, ...) {
     #
-    # if cov object is missing then create
-    # basically need to enlarge domain and find the FFT of the
-    # covariance
     #
     if( !is.null(mKrigObject)){
     #  mine the mKrigObject to get the covariance model.  
@@ -46,8 +43,10 @@ circulantEmbeddingSetup <- function(
           m[i]<- length( gridTmp)
         }
        
-# M is the larger grid  for circulant covariance that includes m 
-# should be at least 2*m for embedding to be exact.   
+# M is the larger grid size for the circulant covariance that includes m 
+# should be at least 2*m for embedding to be exact.
+# It can be made larger to enforce positive definiteness
+#
         if( !is.null(delta)){
             M<- rep( NA, L)
             for( i in 1:L){
@@ -71,7 +70,7 @@ circulantEmbeddingSetup <- function(
         if( length(M)!= length( grid)){
           stop("M should be same length as grid")
         }
-# create the larger multigrid using M
+# create the larger multigrid now using M
         bigIndex<- makeMultiIndex( M)
         MCenter<- round( M/2)
         center<-      rbind( MCenter* dx)
@@ -97,11 +96,15 @@ circulantEmbeddingSetup <- function(
          wght <- fft(out)/(fft(temp) * prod(M))
          if( any( Re(wght) < 0 ) ){
            cat("summary of real part of weights", fill=TRUE)
-           print( stats(Re(wght)))
+           print( t(stats( c(Re(wght))) ) )
            stop(" 
-                some weights appear to be less than zero.
-              This can be due to the correlation range being too large for the grid.
-                Try increasing the spatial domain or decreasing the number of grid points.
+                Some weights are less than zero indicating
+                a circulant embedding that is not postive definite. 
+                This can be due to the correlation range being too 
+                large for the grid.
+                
+                Try increasing the spatial domain or decreasing 
+                the number of grid points.
                 ")
          }
         

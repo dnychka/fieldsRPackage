@@ -19,10 +19,16 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-"stats.bin" <- function(x, y, N = 10, breaks = NULL) {
+"stats.bin" <- function(x, y, N = 10, breaks = NULL, prettyBins=FALSE) {
     out <- list()
+    
     if (is.null(breaks)) {
+      if(prettyBins){
         breaks <- pretty(x, N)
+      }
+      else{
+        breaks<- seq( min( x), max(x), length.out=N)
+      }
     }
     NBIN <- length(breaks) - 1
     centers <- (breaks[1:NBIN] + breaks[2:(NBIN + 1)])/2

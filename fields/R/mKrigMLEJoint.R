@@ -20,6 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
+                               ZCommon = NULL,
                             mKrig.args = NULL,
                                  na.rm = TRUE,
                           cov.function = "stationary.cov",
@@ -36,11 +37,12 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
   # overwrite basic data to remove NAs this has be done in case distance 
   # matrices are precomputed (see below)
   if( na.rm){
-    obj<- mKrigCheckXY(x, y, weights, Z, na.rm)
+    obj<- mKrigCheckXY(x, y, weights, Z, ZCommon, na.rm)
     x<- obj$x
     y<- obj$y
     weights<- obj$weights
     Z<- obj$Z
+    ZCommon<- obj$ZCommon
   }
   # main way to keep track of parameters to optimize  
   # lambda is  included  if lambda.fixed is NULL
@@ -70,7 +72,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
 # if lambda is  then it has been added to mKrig.args 
 # if lambda.start then it is part of the parameter names and will 
 # added in the cov.args list 
-  mKrig.args <- c(list(x = x, y = y, weights = weights, Z = Z ),
+  mKrig.args <- c(list(x = x, y = y, weights = weights, Z = Z, ZCommon = ZCommon ),
                    mKrig.args,
                   list(cov.function=cov.function) 
                   )

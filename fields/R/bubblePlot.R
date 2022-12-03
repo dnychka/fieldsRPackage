@@ -23,7 +23,7 @@ bubblePlot<- function (x, y, z, col = viridis::viridis(256), zlim = NULL,
     plot(x, y, col = ctab, cex = size, pch = 16, ...)
   }
   else {
-    points(x, y, cex = size, col = ctab, pch = 16, ...)
+    points(x, y, cex = size, col = ctab, pch = 16)
   }
   if (highlight) {
     points(x, y, cex = size, col = highlight.color)

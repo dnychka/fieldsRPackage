@@ -45,12 +45,13 @@ object based on the bin breaks provided by the user.
 }
 \usage{
 vgram(loc, y, id = NULL, d = NULL, lon.lat = FALSE, 
-                    dmax = NULL, N = NULL, breaks = NULL, 
+                    dmax = NULL, N = NULL, breaks = NULL, prettyBins = FALSE,
                     type=c("variogram", "covariogram", "correlogram"))
 
 crossCoVGram(loc1, loc2, y1, y2, id = NULL, d = NULL, lon.lat = FALSE, 
                         dmax = NULL, N = NULL, breaks = NULL, 
-                        type=c("cross-covariogram", "cross-correlogram"))
+                        type=c("cross-covariogram", "cross-correlogram"),
+                        prettyBins = FALSE)
 
 boxplotVGram(x, N=10, breaks = pretty(x$d, N, eps.correct = 1), plot=TRUE, plot.args, ...)
 
@@ -119,6 +120,8 @@ If \code{TRUE}, creates a plot, otherwise returns variogram statistics output by
 \item{plot.args}{
 Additional arguments to be passed to \code{plot.vgram}.
 }
+\item{prettyBins}{If FALSE creates exactly N-1 bins. If TRUE you are at the mercy of giving N to the pretty function! } 
+
 \item{type}{
 One of "variogram", "covariogram", "correlogram", "cross-covariogram", and 
 "cross-correlogram".  \code{vgram} supports the first three of these and 

@@ -40,7 +40,7 @@ This function is called higher level functions for maximum likelihood estimates 
 covariance paramters. 
 }
 \usage{
-mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL,
+mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
                  cov.function = "stationary.cov", cov.args = NULL,
                  lambda = NA, m = 2, chol.args = NULL, find.trA = TRUE,
                  NtrA = 20, iseed = NA,  na.rm = FALSE,
@@ -60,7 +60,7 @@ mKrig.coef(object, y, collapseFixedEffect=TRUE)
 
 mKrig.trace( object, iseed, NtrA)
 
-mKrigCheckXY(x, y, weights, Z, na.rm) 
+mKrigCheckXY(x, y, weights, Z, ZCommon, na.rm) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -151,6 +151,12 @@ the returned mKrig object.)}
   model that are distinct from the default low order 
   polynomial in \code{x}. (NOTE the order of the polynomial
   determined by \code{m})}
+  
+\item{ZCommon}{  Linear covariates to be included in fixed part of the 
+  model. This option is only relevant for independent realizations of the fields
+  (i.e. y is a matrix). The number of rows of \code{ZCommon} should be equal to
+  the
+  number of observations times the number of realizations. } 
 
 \item{\dots}{ In \code{mKrig} and \code{predict} additional arguments
 that will be passed to the covariance function.}

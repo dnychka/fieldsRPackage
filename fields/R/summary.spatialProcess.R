@@ -51,10 +51,16 @@ summary.spatialProcess <- function(object, ...) {
   }
   c1 <- c(c1, "Total number of parameters in fixed part: ")
   c2 <- c(c2, object$nt)
+  
   if (object$nZ > 0) {
     c1 <- c(c1, "Number of additional covariates (Z)")
     c2 <- c(c2, object$nZ)
   }
+  
+  if (!is.na(object$gamma[1]) ) {
+    c1 <- c(c1, "Number of common covariates (ZCommon)")
+    c2 <- c(c2, length(object$gamma))
+      }
   
    
   c1 <- c(c1, "sigma Process stan. dev: ")
@@ -79,62 +85,95 @@ summary.spatialProcess <- function(object, ...) {
     }
   }
   
-  c1<- c(c1, "log Likelihood: " )
-  c2<- c( c2, object$summary["lnProfileLike.FULL"])
-  c1<- c(c1, "log Likelihood REML: " )
-  c2<- c( c2, object$summary["lnProfileREML.FULL"])
+  c1 <- c(c1, "log Likelihood: ")
+  c2 <- c(c2, object$summary["lnProfileLike.FULL"])
+  c1 <- c(c1, "log Likelihood REML: ")
+  c2 <- c(c2, object$summary["lnProfileREML.FULL"])
   
-  summaryStuff<-  cbind(c1, c2)
+  summaryStuff <-  cbind(c1, c2)
   dimnames(summaryStuff) <- list(rep("",
-                               dim(summaryStuff)[1]), 
-                               rep("", dim(summaryStuff)[2]))
-###########  
-  outObject$summaryTable<- summaryStuff
-  outObject$collapseFixedEffect<- object$collapseFixedEffect
-  outObject$CITable<- object$CITable
-###########
-  if( !is.null( object$MLEInfo)){
-  outObject$MLEpars<-  names( object$MLEInfo$pars.MLE) 
-  outObject$MLESummary<- object$summary
+                                     dim(summaryStuff)[1]),
+                                 rep("", dim(summaryStuff)[2]))
+  ###########
+  outObject$summaryTable <- summaryStuff
+  outObject$collapseFixedEffect <- object$collapseFixedEffect
+  outObject$CITable <- object$CITable
+  ###########
+  if (!is.null(object$MLEInfo)) {
+    outObject$MLEpars <-  names(object$MLEInfo$pars.MLE)
+    outObject$MLESummary <- object$summary
   }
   else{
     outObject$MLEpars <- NA
-    outObject$MLESummary<- object$summary
+    outObject$MLESummary <- object$summary
   }
-########### information for SE for fixed effects
-  if(!is.null(object$beta) ){
-  if( outObject$collapseFixedEffect | (nData==1) ){
-    outObject$fixedEffectsCov<- object$fixedEffectsCov
-    SE<- sqrt(diag(outObject$fixedEffectsCov))
-    beta<-  object$beta[,1]
-    pValue<- pnorm(abs(beta/SE), lower.tail = FALSE)*2
-    outObject$fixedEffectsTable<- cbind( signif(beta, digits), 
-                                      signif(SE, digits),
-                                      signif(pValue, digits)
-                                    )
-    if( is.null( object$fixedEffectNames ) ){
-      outObject$fixedEffectNames<- paste0("d",1:(object$nt) )
+  ########### information for SE for fixed effects
+  if (!is.null(object$beta)){
+    if (outObject$collapseFixedEffect | (nData == 1)) {
+      outObject$fixedEffectsCov <- object$fixedEffectsCov
+      SE <- sqrt(diag(outObject$fixedEffectsCov))
+      SEbeta <- SE[1:length(beta)]
+      beta <-  object$beta[, 1]
+      pValue <- pnorm(abs(beta / SEbeta), lower.tail = FALSE) * 2
+      outObject$fixedEffectsTable <- cbind(signif(beta, digits),
+                                           signif(SEbeta, digits),
+                                           signif(pValue, digits))
+      # get row names
+      if (is.null(object$fixedEffectNames)) {
+        outObject$fixedEffectNames <- paste0("d", 1:(object$nt))
+      }
+      else{
+        outObject$fixedEffectNames <- object$fixedEffectNames
+      }
+      dimnames(outObject$fixedEffectsTable) <-
+        list(outObject$fixedEffectNames,
+             c("estimate", "SE", "pValue"))
     }
     else{
-      outObject$fixedEffectNames<- object$fixedEffectNames
+      # if more that one realization just summarize the coefficients
+      outObject$fixedEffectsTable <- stats(t(object$beta))
     }
-    dimnames( outObject$fixedEffectsTable) <- list( outObject$fixedEffectNames,
-                                           c("estimate", "SE", "pValue") )
   }
-  }
-  else{
-    outObject$fixedEffectsTable<- NA
-  }
-#####################
-  outObject$nData <- nData
-  outObject$call<- object$call
-  outObject$cov.function<- object$cov.function
-  outObject$args<- object$args
-  outObject$nonzero.entries<- object$nonzero.entries
-  outObject$MLEInfo<- object$MLEInfo
+  if (is.null(object$beta)) {
+    outObject$fixedEffectsTable <- NA
+     }
   
-  class( outObject)<-"spatialProcessSummary"
+  if (!is.null(object$gamma)) {
+    gamma <- object$gamma
     
-  return( outObject)
-
+    if( object$collapseFixedEffect){
+    SE <- sqrt(diag(object$fixedEffectsCov))
+    SEgamma <- SE[(1:length(gamma)) + length(beta)]
+    }
+    else{
+      SEgamma <- sqrt(diag(object$fixedEffectsCovCommon))
+    }
+    
+    pValue <- pnorm(abs(gamma / SEgamma), lower.tail = FALSE) * 2
+    outObject$fixedEffectsTableCommon <-
+      cbind(signif(gamma, digits),
+            signif(SEgamma, digits),
+            signif(pValue, digits))
+    tmp <- paste0("gamma", 1:length(gamma))
+    dimnames(outObject$fixedEffectsTableCommon) <- list(tmp,
+                                                        c("estimate", "SE", "pValue"))
+  }
+  
+  if (is.null(object$gamma)) {
+    outObject$fixedEffectsTableCommon <- NA
+  }
+  
+  
+  #####################
+  outObject$nData <- nData
+  outObject$call <- object$call
+  outObject$cov.function <- object$cov.function
+  outObject$args <- object$args
+  outObject$nonzero.entries <- object$nonzero.entries
+  outObject$MLEInfo <- object$MLEInfo
+  
+  class(outObject) <- "spatialProcessSummary"
+  
+  return(outObject)
+  
 }

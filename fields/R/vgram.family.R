@@ -21,12 +21,16 @@
 ##END HEADER
 
 "vgram" <- function(loc, y, id = NULL, d = NULL, lon.lat = FALSE, 
-                    dmax = NULL, N = NULL, breaks = NULL, 
+                    dmax = NULL, N = NULL, breaks = NULL, prettyBins=FALSE,
                     type=c("variogram", "covariogram", "correlogram")) {
   
   type=match.arg(type)
-  
-  # coerce to matrix
+  #
+  # if prettyBins is FALSE then generate exactly N breaks and so N-1 bins.
+  # otherwise number of breaks is at the mercy of the pretty function 
+  # and may be N-1 or something else!
+  #
+  # coerce to  matrix
   y <- cbind(y)
   # if nearest neighbor indices are missing create all possible pairs.
   if (is.null(id)) {
@@ -84,7 +88,8 @@
   ## add a binned  variogram if breaks are supplied
   out <- list(d = d[ind], vgram = vg[ind], call = call, type=type)
   if (!is.null(breaks) | !is.null(N)) {
-    out <- c(out, stats.bin(d[ind], vg[ind], N = N, breaks = breaks))
+    out <- c(out, stats.bin(d[ind], vg[ind], N = N, breaks = breaks,
+                            prettyBins=prettyBins))
   }
   class(out) = c("vgram", class(out))
   out
@@ -94,7 +99,8 @@
 #cross-correlation)
 crossCoVGram = function(loc1, loc2, y1, y2, id = NULL, d = NULL, lon.lat = FALSE, 
                         dmax = NULL, N = NULL, breaks = NULL, 
-                        type=c("cross-covariogram", "cross-correlogram")) {
+                        type=c("cross-covariogram", "cross-correlogram"),
+                        prettyBins=FALSE) {
   
   type=match.arg(type)
   
@@ -156,7 +162,8 @@ crossCoVGram = function(loc1, loc2, y1, y2, id = NULL, d = NULL, lon.lat = FALSE
   ## add a binned  variogram if breaks are supplied
   out <- list(d = d[ind], vgram = vg[ind], call = call, type=type)
   if (!is.null(breaks) | !is.null(N)) {
-    out <- c(out, stats.bin(d[ind], vg[ind], N = N, breaks = breaks))
+    out <- c(out, stats.bin(d[ind], vg[ind], N = N, breaks = breaks,
+                            prettyBins=prettyBins))
   }
   class(out) = c("vgram", class(out))
   out

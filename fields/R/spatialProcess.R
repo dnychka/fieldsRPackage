@@ -20,6 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
+                     ZCommon = NULL,
                   mKrig.args = NULL,
                 cov.function = NULL, 
                   	cov.args = NULL,
@@ -37,6 +38,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                   gridLambda = NULL,
                      CILevel = .95,
                        iseed = 303, 
+         collapseFixedEffect = TRUE,
                            ...) {
  
 #  THE RULES: 
@@ -59,14 +61,15 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
    }
    
    obj<- spatialProcessSetDefaults(x, 
-                                   cov.function=cov.function, 
-                                   cov.args=cov.args,
-                                   cov.params.start=cov.params.start,
-                                   mKrig.args = mKrig.args,
-                                   extraArgs = extraArgs,
-                                   parGrid=parGrid,
+                            cov.function = cov.function, 
+                                cov.args = cov.args,
+                        cov.params.start = cov.params.start,
+                              mKrig.args = mKrig.args,
+                               extraArgs = extraArgs,
+                                 parGrid = parGrid,
                                    gridN = gridN,
-                                   verbose=verbose)
+                     collapseFixedEffect =  collapseFixedEffect,
+                                 verbose = verbose)
    #
    # obj$CASE 
    # 0 evaluate on passed cov parameters but MLEs for sigma, tau found from
@@ -79,7 +82,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
    #   for the MLEs 
    #
    # 3 profile over lambda and/or aRange 
-   # this is fairly computationally demanding. 
+   # this is more computationally demanding. 
    
   if( verbose){
     cat(" The CASE:", obj$CASE, fill=TRUE)
@@ -109,6 +112,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     InitialGridSearch<- mKrigMLEGrid(x, y,  
                              weights = weights,
                                    Z = Z, 
+                             ZCommon = ZCommon,
                           mKrig.args = mKrig.args,
                         cov.function = obj$cov.function, 
                            cov.args  = obj$cov.args,
@@ -154,7 +158,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
      # where starting values are given or if
      # values in cov.args are omitted. 
      obj$cov.params.start<- cov.params.start
-     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, Z= Z, 
+     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, Z = Z, 
+                             ZCommon = ZCommon,
                              mKrig.args = obj$mKrig.args,
                              cov.function = obj$cov.function, 
                              cov.args  = obj$cov.args,
@@ -211,7 +216,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 	                c( list(x=x,
 	                        y=y,
 	                  weights=weights,
-	                        Z=Z),
+	                        Z=Z,
+	                  ZCommon=ZCommon),
 	                  obj$mKrig.args,
 	             list( na.rm=na.rm),
 	             list(cov.function = obj$cov.function),
@@ -240,7 +246,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
   }
   
 ####################################################################
-#  Fill in all info related to finding MLE
+#  Fill in all info related to finding MLE (Not CASE 0)
 ####################################################################
   if( obj$CASE!=0){
     # logical to distinguish from optim failure
@@ -253,8 +259,9 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     obj$parameterCovariance<- solve(
             -1*MLEInfo$optimResults$hessian)
 ####################################################################
-# Approximate large sample confidence intervals on the transformed scale following by
-#	then transform back to original scale (see MLEInfo$par.transform)
+# Approximate large sample confidence intervals on the transformed scale
+# followed by
+#	then transforming back to original scale (see MLEInfo$par.transform)
 # These are filled with NAs when numerical Hessian is not
 # positive definite
 ####################################################################	

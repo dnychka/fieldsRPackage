@@ -41,7 +41,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
+spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
                   mKrig.args = NULL,
                 cov.function = NULL, 
                     cov.args = NULL,
@@ -57,8 +57,9 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                profileGridN  = 15, 
                   gridARange = NULL,
                   gridLambda = NULL,
-                 CILevel= .95,
-                  iseed = 303,
+                     CILevel = .95,
+                       iseed = 303,
+	 collapseFixedEffect = TRUE,
                            ...)
 \method{summary}{spatialProcess}(object,  ...)
 \method{print}{spatialProcess}(x, digits = 4, ...)
@@ -67,8 +68,8 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 
                            
 spatialProcessSetDefaults(x, cov.function, cov.args, cov.params.start, parGrid,
-                 mKrig.args, extraArgs = NULL, gridN = 5, verbose =
-                 FALSE)
+                 mKrig.args, extraArgs = NULL, gridN = 5,
+                 collapseFixedEffect = TRUE, verbose = FALSE)
     
 confidenceIntervalMLE( obj, CILevel, verbose=FALSE)
 
@@ -91,9 +92,17 @@ reciprocal variance.}
 model.
 E.g. elevation for fitting climate data over space. }
 
+\item{ZCommon}{
+A matrix of extra covariates for the fixed part of spatial
+model that pertain to parameters that hold across all realizations.
+This covariates only makes sense for multiple realizations (i.e. y is a matrix with more than one column). }
+
 \item{CILevel}{Confidence level for intervals for the estimated
 parameters.}
 
+ \item{collapseFixedEffect}{ If TRUE a single vector of parameters are found in the fixed part for all realizations. E.g. if the fixed part includes a linear function of the locations. The parmeters for the linear function are the same for all realizations. If FALSE parameters are estimated separately for each realization. This option only makes sense for multiple realizations of
+ the field. I.e. y is a matrix with more than one column.  }
+ 
  \item{cov.args}{ A list specifying parameters and other components 
  of the
  covariance function. Default is not extra arguments required.]

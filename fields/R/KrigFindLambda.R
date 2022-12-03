@@ -229,5 +229,7 @@
     	cat("Methods at endpoints of grid search:", fill=TRUE)
     	print(warningTable[warningTable$Warning,])
     }
-    list(gcv.grid = gcv.grid, lambda.est = lambda.est, warningTable=warningTable)
+    list(gcv.grid = gcv.grid,
+         lambda.est = lambda.est, info=info, D=D,
+         warningTable=warningTable)
 }

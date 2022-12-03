@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
+mKrigOLD <- function(x, y, weights=rep(1, nrow(x)), Z = NULL,
                   cov.function="stationary.cov", 
                   cov.args = NULL, lambda = NA, m = 2, 
                   chol.args = NULL, find.trA = TRUE, NtrA = 20, 
@@ -35,7 +35,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   #play nice with predict.mKrig, called by mKrig.trace)
   #
   # next function also omits NAs from x,y,weights, and Z  if na.rm=TRUE.
-  object<- mKrigCheckXY( x, y, weights, Z, ZCommon,na.rm = na.rm)
+  object<- mKrigCheckXY( x, y, weights, Z, na.rm = na.rm)
   # as the computation progresses additional components are 
   # added to the object list and by the end this is the returned 
   # object of class mKrig.
@@ -135,7 +135,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # If chol.args is NULL then this is the same as
   #              Mc<-chol(Mc), chol.args))
   Mc <- do.call("chol", c(list(x = Mc), chol.args))
-
+ 
   lnDetCov <- 2 * sum(log(diag(Mc)))
   
   #
@@ -144,36 +144,32 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # of several data sets and one is solving for the coefficients
   # of all of these at once. In this case beta and c.coef are matrices
   #
-  if( !is.null(Tmatrix) | !is.null(ZCommon) ){
-    # Efficent way to multply inverse of Mc times the Tmatrix  
-    TStar<- forwardsolve(Mc, x = Tmatrix, k=ncol(Mc), transpose = TRUE, upper.tri = TRUE)
-    qr.VT <- qr(TStar)
-    # GLS covariance matrix for fixed part.
-    Rinv <- solve(qr.R(qr.VT))
-    Omega <- Rinv %*% t(Rinv)
-    lnDetOmega<- sum( log( diag(Rinv)^2 ) ) 
-    # now do generalized least squares for beta
-    YStar<- forwardsolve(Mc, transpose = TRUE, 
-                         object$y, upper.tri = TRUE)
-  }
+  if( !is.null(Tmatrix)){
+  # Efficent way to multply inverse of Mc times the Tmatrix  
+  VT <- forwardsolve(Mc, x = Tmatrix, k=ncol(Mc), transpose = TRUE, upper.tri = TRUE)
+  qr.VT <- qr(VT)
   
-  ##########################################
-  ### only the T and Z covariate fixed parts
-  ##########################################
-  if( !is.null(Tmatrix) & is.null(ZCommon) ){
-    beta <- as.matrix(qr.coef(qr.VT, YStar))
+  # now do generalized least squares for d
+    beta <- as.matrix(qr.coef(qr.VT, forwardsolve(Mc, transpose = TRUE, 
+                                                  object$y, upper.tri = TRUE)))
+    
     if (collapseFixedEffect) {
       # use a common estimate of fixed effects across all replicates      
       betaMeans <- rowMeans(beta)
       beta <- matrix(betaMeans, ncol = ncol(beta), 
                        nrow = nrow(beta))
     }
+    
+    resid<-  object$y - Tmatrix %*% beta
+  # GLS covariance matrix for fixed part.
+    Rinv <- solve(qr.R(qr.VT))
+    Omega <- Rinv %*% t(Rinv)
 #    
-#  Omega from above  is  solve(t(Tmatrix)%*%solve( Sigma)%*%Tmatrix)
+#  Omega is  solve(t(Tmatrix)%*%solve( Sigma)%*%Tmatrix)
 #   where Sigma = cov.function( x,x) + lambda/object$weights    
 #   proportional to fixed effects covariance matrix.
-#   for the GLS estimates of
-#   the fixed linear part of the model. 
+#    for the GLS estimates of
+#  the fixed linear part of the model. 
 #    
 #  SEdcoef = diag( Omega) * sigma2.MLE.FULL
 # 
@@ -182,84 +178,11 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     if (collapseFixedEffect) {
       Omega <- Omega/ ncol(beta)
     }
-# set ZCommon  parameters to NA   
-  gamma<- NA
-  OmegaZCommon<- NULL
-  
-#   GLS residual now used to evaluate likelihood
-  resid<-  object$y - Tmatrix %*% beta
-  
-  }
-  
-  if( !is.null(ZCommon) ){
-    if( is.null(T)){
-      stop("need a fixed part matrix  (m>0, T and/or Z) to add ZCommon")
-    }
-    # check dimensions
-     n<- nrow(object$y)
-     M<- ncol( object$y)
-     if( M ==1){
-       stop("No replications just use the Z argument!")
-     }
-     N<- n*M
-     if( nrow( ZCommon)!= N){
-       stop("dimension of ZCommon should be nObs X nReps")
-     }
-     
-     ZCStar<- matrix( NA, N, ncol(ZCommon))
-     
-     for( k in 1:ncol(ZCommon) ) {
-      ZCtmp<- matrix(ZCommon[,k],n,M )
-      temp<- forwardsolve(Mc, 
-                          x = ZCtmp,
-                          k=ncol(Mc),
-                          transpose = TRUE,
-                          upper.tri = TRUE)
-       ZCStar[,k]<- c(temp)
-     }
-     testZ<- matrix( NA, N, ncol(ZCommon))
-  # Project ZCommon onto subspace orthogonal to  TStar  
-     for( k in 1:ncol(ZCommon) ) {
-       temp<-  qr.resid(qr.VT, matrix( ZCStar[,k],n,M) )
-       testZ[,k]<- c(temp)
-     }
-     testY<- c( qr.resid(qr.VT,  YStar) )
-     ##########################################
-     # ifelse block on collapseFixedEffects
-     ##########################################
-     if (!collapseFixedEffect) {
-     
-     gamma<- lsfit(  testZ,testY, intercept=FALSE)$coefficients
-     OmegaZCommon<-  solve( t( testZ)%*%testZ )
-     
-     # find correct beta having adjusted by gamma   
-     tmpResid<- YStar -  matrix(ZCStar%*%gamma,n,M)
-     beta<- qr.coef(qr.VT, tmpResid )
-     }
-     else{
-       # collapse beta fit -- common fixed effect parameters in T
-       # but need to adjust for ZCommon that might not be the same at 
-       # each realization.
-       UStar<- cbind( rep(1,M)%x%TStar , ZCStar)
-       allPar<- lsfit( UStar,c(YStar), intercept=FALSE)$coefficients
-       # extract beta and gamma 
-       nBeta<- ncol(TStar)
-       nZC<- ncol(ZCommon)
-       betaCommon<- allPar[1: nBeta]
-       gamma<- allPar[(1: nZC)+ nBeta]
-       # repeat beta for all realizations to have consitent format with 
-       # collapseFixedEffects =FALSE
-       beta <- matrix(betaCommon, ncol = M, 
-                      nrow = nBeta)
-       # correct Omega matrices
-       Omega<- solve( t(UStar)%*%UStar)
-       OmegaZCommon<- Omega[(1: nZC)+ nBeta,(1: nZC)+ nBeta]
-     }
-     #   GLS residual now used to evaluate likelihood   
-     resid<- object$y - Tmatrix%*%beta - matrix(ZCommon%*%gamma,n,M)
-  }
     
-  if( is.null(Tmatrix)){
+    R2diag<-  diag( qr.R(qr.VT) )^2
+    lnDetOmega<- -1* sum( log(R2diag) ) 
+  }
+  else{
 # much is set to NULL because no fixed part of model    
     nt<- 0
     resid<- object$y
@@ -268,15 +191,11 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     qr.VT<- NULL
     beta<- NULL
     lnDetOmega <- 0
-    # set ZCommon  parameters to NULL  
-    gamma<- NULL
-    OmegaZCommon<- NULL
   }
   # and now find c.
   #  the coefficents for the spatial part.
   # if there is also a linear fixed part  resid are the residuals from the 
   # GLS regression.
-  
   c.coef <- as.matrix(forwardsolve(Mc, transpose = TRUE,
                                    resid, upper.tri = TRUE))
   # save intermediate result this is   t(y- T beta)( M^{-1}) ( y- T beta)
@@ -360,37 +279,23 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     quad.form = quad.form
   )
    object2 <-  
-     list(
-       beta = beta,
-       gamma = gamma,
-       c.coef = c.coef,
-       nt = nt,
-       np = np,
-       lambda.fixed = lambda,
-       cov.function.name = cov.function,
-       args = cov.args,
-       m = m,
-       chol.args = chol.args,
-       call = match.call(),
-       nonzero.entries = nzero,
-       replicateInfo = replicateInfo,
-       lnLike.FULL = lnLike.FULL,
-       lnLikeREML.FULL = lnLikeREML.FULL,
-       lnDetCov = lnDetCov,
-       lnDetOmega = lnDetOmega,
-       Omega = Omega,
-       lnDetOmega = lnDetOmega,
-       OmegaZCommon = OmegaZCommon,
-       qr.VT = qr.VT,
-       Mc = Mc,
-       Tmatrix = Tmatrix,
-       ind.drift = ind.drift,
-       nZ = nZ,
-       fixedEffectsCov = Omega * sigma2.MLE.FULL,
-       fixedEffectsCovCommon = OmegaZCommon * sigma2.MLE.FULL,
-       collapseFixedEffect = collapseFixedEffect
-     )
-   
+               list( 
+               beta = beta, c.coef = c.coef, nt = nt, np = np, 
+              lambda.fixed = lambda, 
+              cov.function.name = cov.function, 
+              args = cov.args, m = m, chol.args = chol.args, call = match.call(), 
+              nonzero.entries = nzero, 
+              replicateInfo = replicateInfo,
+              lnLike.FULL = lnLike.FULL,
+              lnLikeREML.FULL = lnLikeREML.FULL,
+              lnDetCov = lnDetCov, lnDetOmega = lnDetOmega,
+               Omega = Omega, lnDetOmega=lnDetOmega,
+              qr.VT = qr.VT, 
+              Mc = Mc,
+          Tmatrix = Tmatrix, ind.drift = ind.drift, nZ = nZ,
+          fixedEffectsCov = Omega * sigma2.MLE.FULL, 
+          collapseFixedEffect= collapseFixedEffect)
+    
     object<- c( object, object2)
   #
  

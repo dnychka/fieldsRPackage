@@ -19,7 +19,6 @@
 %# Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 %# or see http://www.r-project.org/Licenses/GPL-2
 %##END HEADER
-%##END HEADER
 \name{poly.image}
 \alias{poly.image}
 \alias{poly.image.regrid}
@@ -34,9 +33,11 @@ specified as two matrices x and y that given the grid x and y coordinates
 explicitly for every grid point. 
 }
 \usage{
-poly.image(x, y, z, col = tim.colors(64), breaks, transparent.color = "white", 
- midpoint = FALSE, zlim = range(z, na.rm = TRUE), 
- xlim = range(x), ylim = range(y), add = FALSE, border=NA,lwd.poly=1,...)
+poly.image(x, y, z, col = tim.colors(64), breaks,
+                 transparent.color = "white", midpoint = FALSE, zlim =
+                 range(z, na.rm = TRUE), xlim = range(x), ylim =
+                 range(y), add = FALSE, border = NA, lwd.poly = 1, asp
+                 = NA, ...)
 
 poly.image.regrid(x)
 }
@@ -58,13 +59,23 @@ FALSE the x/y grid will be expanded and shifted to represent grid cells
 corners. (See poly.image.regrid.) }
  
  \item{zlim}{ Plotting limits for z. }
+ 
   \item{xlim}{Plotting limits for x. }
+  
   \item{ylim}{Plotting limits for y.}
+  
   \item{add}{ If TRUE will add image onto current plot. }
+  
   \item{border}{Color of the edges of the quadrilaterals, the default is
 no color.}
-  \item{lwd.poly}{Line width for the mesh surface. i.e. the outlines of the quadrilateral
-facets. This might have to be set smaller than one if rounded corners on the facets are visible. }
+
+  \item{lwd.poly}{Line width for the mesh surface. i.e. the outlines of the
+  quadrilateral facets. This might have to be set smaller than one if rounded
+  corners on the facets are visible. }
+
+  \item{asp}{The plot aspect with similar function to that in the \code{plot}
+  function. }
+
   \item{\dots}{ If add is FALSE, additional graphical arguments that
  will be supplied to the plot function. }
 }

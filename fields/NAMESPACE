@@ -13,6 +13,7 @@ importFrom("utils", "object.size")
 importFrom("maps","map")
 importFrom("viridis","viridis")
 importFrom("stats", "qnorm")
+importFrom("stats", "lsfit")
 
 S3method("[",spatialDesign)
 S3method(coef, Krig)

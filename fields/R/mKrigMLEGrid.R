@@ -21,6 +21,7 @@
 ##END HEADER
 
 mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
+                          ZCommon = NULL,
                        mKrig.args = NULL,
                           cov.function = "stationary.cov", 
                          cov.args = NULL,
@@ -34,22 +35,22 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                           verbose = FALSE,
                             iseed = NA) {
   if( na.rm){
-    obj<- mKrigCheckXY(x, y, weights, Z, na.rm)
+    obj<- mKrigCheckXY(x, y, weights, Z, ZCommon, na.rm)
     x<- obj$x
     y<- obj$y
     weights<- obj$weights
     Z<- obj$Z
+    ZCommon<- obj$ZCommon 
   }
-  #check which optimization options the covariance function supports
-  #precompute distance matrix if possible so it only needs to be computed once
+  # check which optimization options the covariance function supports
+  # precompute distance matrix if possible so it only needs to be computed once
   supportsDistMat = supportsArg(cov.function, "distMat")
-  #precompute distance matrix if possible so it only needs to be computed once
+  # precompute distance matrix if possible so it only needs to be computed once
   if(supportsDistMat) {
-    #Get distance function and arguments if available
-    #If user left all distance settings NULL, use rdist with compact option.
-    #Use rdist function by default in general.
+    # Get distance function and arguments if available
+    # If user left all distance settings NULL, use rdist with compact option.
+    # Use rdist function by default in general.
     #
-   
     if(is.null(cov.args$Distance)) {
       cov.args$Distance  <-  "rdist"
       cov.args$Dist.args <- list(compact=TRUE)
@@ -72,7 +73,6 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
     names(cov.args.temp) <- names( par.grid)
     currentCov.args<- c( cov.args.temp, cov.args) 
     if( verbose){
-      
       cat( "********grid value: " , k, fill=TRUE)
       cat( "Cov args", names(currentCov.args ), fill=TRUE, sep=", ")
       cat("value  aRange", fill=TRUE)
@@ -87,8 +87,10 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
     }
   
     MLEfit0 <- mKrigMLEJoint(x, y, 
-                                  weights = weights, Z=Z, 
-                                  cov.function = cov.function,
+                                  weights = weights, 
+                                        Z = Z, 
+                                  ZCommon = ZCommon,
+                             cov.function = cov.function,
                                optim.args = optim.args,
                                  cov.args = currentCov.args,
                                     na.rm = na.rm,

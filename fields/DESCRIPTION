@@ -1,5 +1,5 @@
 Package: fields
-Version: 14.1
+Version: 14.2
 Date: 2022-08-11
 Title: Tools for Spatial Data
 Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),

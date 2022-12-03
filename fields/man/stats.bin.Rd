@@ -32,7 +32,7 @@ fields
 stats function to each group 
 }
 \usage{
-stats.bin(x, y, N = 10, breaks = NULL)
+stats.bin(x, y, N = 10, breaks = NULL,prettyBins=FALSE)
 }
 \arguments{
 \item{x}{
@@ -49,6 +49,7 @@ on the range of x.
 The bin boundaries. If there are N+1 of these there will be N bins. 
 The bin widths can be unequal.
 }
+\item{prettyBins}{If FALSE creates exactly N-1 bins. If TRUE the number of bins is determined by N and the pretty function.}
 }
 \value{
 A list with several components. stats is a matrix with columns indexing

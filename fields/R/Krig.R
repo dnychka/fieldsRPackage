@@ -271,6 +271,7 @@
     out$gcv.grid <- gcv.out$gcv.grid
     #   save a handy summary table of the search results
     out$lambda.est <- gcv.out$lambda.est
+    
     out$warningTable<- gcv.out$warningTable
     if( verbose){
       cat("summaries from grid search/optimization", fill=TRUE)
@@ -278,7 +279,7 @@
       print(out$warningTable)
     }
     if( give.warnings){
-      #NOTE: only print out grid search warning forthe method of interest.
+      #NOTE: only print out grid search warning for the method of interest.
       printGCVWarnings( gcv.out$warningTable, method=method)
     }
     # assign the preferred lambda either from GCV/REML/MSE or the user value
@@ -296,6 +297,20 @@
       else {
         out$eff.df <- Krig.ftrace(out$lambda, out$matrices$D)
       }
+      # add in  values to GCV table using these values
+      # this the 7th row. 
+      lam.user <- out$lambda
+      info<- gcv.out$info
+      newRow<- c( lam.user,      
+                  out$eff.df,
+                  Krig.fgcv(lam.user, info),
+                  sqrt(Krig.fs2hat(lam.user, info)),
+                  Krig.flplike(lam.user, info),
+                  NA
+      )
+      out$lambda.est <- 
+        rbind( out$lambda.est,user = newRow)
+           
     }
   }
   ##########################

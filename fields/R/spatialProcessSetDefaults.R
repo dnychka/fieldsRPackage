@@ -24,13 +24,19 @@ spatialProcessSetDefaults<- function( x, cov.function,
                                       cov.params.start,
                                       parGrid,
                                       mKrig.args,
-                                      extraArgs=NULL,
-                                      gridN=5,
+                                  extraArgs = NULL,
+                                      gridN = 5,
+                        collapseFixedEffect = TRUE,
                                       verbose=FALSE)
 {
   
   ## convenient defaults for GP fitting.
   ## and also sort what starting parameter values are provided
+  # this code runs on  by perhaps it is useful to see all the defualts and 
+  # logic in one place.
+  # Note the stranger device below where mKrig.args is created and amended
+  #  mKrig is the basic computational function for evaluating the likleihood and 
+  # setting up  the Kriging predictions. 
   #
   # aRange and lambda  are  handled specially because are almost always 
   # estimated and this will simplify the call in  this top level function 
@@ -49,10 +55,10 @@ spatialProcessSetDefaults<- function( x, cov.function,
       }
     }
   } 
-  
+  ###########################################
   # overwrite the default choices if some are passed as ...
   #  (some R arcania!)
-  
+  ###########################################
   if( !is.null( extraArgs)){
     if(!is.null(cov.args)){
       ind<- match( names(cov.args), names(extraArgs) ) 
@@ -62,9 +68,9 @@ spatialProcessSetDefaults<- function( x, cov.function,
       cov.args <- list(extraArgs)
     }
   }
-  
+ ###########################################
  # check for duplicate arguments in starting values and fixed values
-  
+ ###########################################
   covArgsNames <- names(cov.args)
   covStartNames<-names(cov.params.start)
   covParGridNames<- names( parGrid)
@@ -86,7 +92,9 @@ spatialProcessSetDefaults<- function( x, cov.function,
   }
   
   
-  
+  ########################################### 
+  # Some logic to figure out how do MLE search over lambda and aRange
+  ###########################################
   noLambda<- is.null( cov.args$lambda) & is.null(cov.params.start$lambda)
   noARange<- is.null( cov.args$aRange) & is.null(cov.params.start$aRange)
   makeDefaultGrid<- (noLambda | noARange) & is.null(parGrid)
@@ -124,7 +132,10 @@ spatialProcessSetDefaults<- function( x, cov.function,
         parGrid<- data.frame( aRange= aGrid)
       }
   }
-    
+  ########################################### 
+  # Identify the Cases 0 - 4 to set defaults
+  ########################################### 
+  
   # CASE 0 is to evaluate at fixed lambda and aRange
   # and there are no other parameters to optimize over.
   
@@ -146,15 +157,24 @@ spatialProcessSetDefaults<- function( x, cov.function,
     
     CASE<- 2
   }
-  
-  
-  
-# linear fixed model if not specified. 
+
+########################################### 
+# Messing with mKrig
+########################################### 
+# Determine linear fixed model if not specified and add in how to find fixed part.
+# collapseFixedEffect is important enough where it is handled at this level.
+#
   if( is.null(mKrig.args)){
-    mKrig.args<- list( m=2)
+    mKrig.args<- list( m=2, collapseFixedEffect=collapseFixedEffect)
+  }
+  else{
+    if( is.null(mKrig.args$collapseFixedEffect)){
+      mKrig.args$collapseFixedEffect <- collapseFixedEffect
+    }
   }
   
-# don't find eff df for optimization  
+# don't find effective df for optimization -- this would add extra computation that is not 
+# needed 
   if( is.null(mKrig.args$find.trA) ){
     if( (CASE >=3)){
     mKrig.args<- c( mKrig.args, list(find.trA = FALSE))
@@ -164,9 +184,6 @@ spatialProcessSetDefaults<- function( x, cov.function,
   }
   }
   
-  #
-  # tuck in starting value for lambda if missing
-  # 
   out<- 
     list(  
         cov.function = cov.function,

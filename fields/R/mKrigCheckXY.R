@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-mKrigCheckXY <- function(x, y,  weights, Z, na.rm) 
+mKrigCheckXY <- function(x, y,  weights, Z, ZCommon, na.rm) 
     {
   #
   # check for missing values in y or X.
@@ -62,6 +62,14 @@ mKrigCheckXY <- function(x, y,  weights, Z, na.rm)
       stop(" number of rows of y and number of rows of Z differ")
     }
   }
+  if (!is.null(ZCommon)) {
+    if (!is.matrix(ZCommon)) {
+      ZCommon <- as.matrix(ZCommon)
+    }
+    if ( nrow(y)*ncol(y) != nrow(ZCommon) ) {
+      stop(" nrow(y)*ncol(y)   and number of rows of ZCommon differ")
+    }
+  }
   # if NAs can be removed then remove them and warn the user
   if (na.rm) {
     ind <- is.na(y)
@@ -71,9 +79,15 @@ mKrigCheckXY <- function(x, y,  weights, Z, na.rm)
     if (any(ind)) {
       y <- y[!ind]
       x <- as.matrix(x[!ind, ])
+      
       if (!is.null(Z)) {
         Z <- as.matrix(Z[!ind, ])
       }
+      
+      if (!is.null(ZCommon)) {
+        stop("can not reshape ZCommon with missing values")
+      }
+      
       weights <- weights[!ind]
     }
   }

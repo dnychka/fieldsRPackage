@@ -26,10 +26,18 @@ print.spatialProcessSummary <- function(x, digits = 4, ...) {
   cat(" SUMMARY OF MODEL FIT:\n")
   print(x$summaryTable, quote = FALSE)
   cat("\n")
+  if( !is.na(x$fixedEffectsTable[1])){
   cat(" ESTIMATED COEFFICIENTS FOR FIXED PART:", fill = TRUE)
   cat("\n")
   print(x$fixedEffectsTable, quote = FALSE)
   cat("\n")
+  }
+  if( !is.na(x$fixedEffectsTableCommon[1])){
+  cat(" ESTIMATED COEFFICIENTS FOR COMMON COVARIATES:", fill = TRUE)
+  cat("\n")
+  print(x$fixedEffectsTableCommon, quote = FALSE)
+  cat("\n")
+  }
   cat(" COVARIANCE MODEL:", x$cov.function, fill = TRUE)
   if (x$cov.function == "stationary.cov") {
     covName<- ifelse(is.null(x$args$Covariance), 
