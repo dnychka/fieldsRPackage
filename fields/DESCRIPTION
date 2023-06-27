@@ -1,6 +1,6 @@
 Package: fields
-Version: 14.2
-Date: 2022-08-11
+Version: 14.3
+Date: 2023-03-23
 Title: Tools for Spatial Data
 Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),
                email = "douglasnychka@gmail.com"),
@@ -44,11 +44,11 @@ Description: For curve, surface and function fitting with an emphasis
  for a vignette on using this package and some background on spatial statistics.
 License: GPL (>= 2)
 URL: https://github.com/dnychka/fieldsRPackage
-Depends: R (>= 3.5.0), methods, spam, viridis
+Depends: R (>= 3.5.0), methods, spam, viridisLite
 Imports: maps
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2022-08-02; nychka
+Packaged: 2023-03-23; nychka
 Author: Douglas Nychka [aut, cre],
   Reinhard Furrer [aut],
   John Paige [aut],

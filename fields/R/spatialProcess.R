@@ -13,7 +13,6 @@
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
 # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 # GNU General Public License for more details.
-#
 # You should have received a copy of the GNU General Public License
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
@@ -183,14 +182,16 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
      MLEInfo$call<- match.call()
      return(MLEInfo)
    }
-     
-  HessianResults<- diag( -1*solve(MLEInfo$optimResults$hessian))
+    
+  covarianceMLE<-  -1*solve(MLEInfo$optimResults$hessian)
+  HessianResults<- diag( covarianceMLE)
    if( any( HessianResults < 0) ) {
        warning("Numerical hessian from optim indicates
                    MLE is not a maximum")
      }
       
    }
+   
    
 ################################################################################
 # final fit 
@@ -211,7 +212,9 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                              as.list(MLEInfo$pars.MLE) )
      }
    }
- 
+   
+  
+  
   mKrigObj <- do.call( "mKrig", 
 	                c( list(x=x,
 	                        y=y,

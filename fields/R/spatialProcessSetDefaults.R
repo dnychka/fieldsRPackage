@@ -41,6 +41,10 @@ spatialProcessSetDefaults<- function( x, cov.function,
   # aRange and lambda  are  handled specially because are almost always 
   # estimated and this will simplify the call in  this top level function 
   #
+  ###########################################
+  ## Set some convenient default choices for a 
+  ## stationary covariance function 
+  ###########################################
   if( is.null( cov.function)){
     cov.function <- 'stationary.cov'
     if( is.null(cov.args) ){
@@ -55,6 +59,12 @@ spatialProcessSetDefaults<- function( x, cov.function,
       }
     }
   } 
+  ###########################################
+  ## Set some convenient default choices for a 
+  ## thin plate spline  
+  ###########################################
+  if( cov.function==''){}
+  
   ###########################################
   # overwrite the default choices if some are passed as ...
   #  (some R arcania!)
