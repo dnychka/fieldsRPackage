@@ -27,7 +27,8 @@ spatialProcessSetDefaults<- function( x, cov.function,
                                   extraArgs = NULL,
                                       gridN = 5,
                         collapseFixedEffect = TRUE,
-                                      verbose=FALSE)
+                                      verbose=FALSE
+                        )
 {
   
   ## convenient defaults for GP fitting.
@@ -63,7 +64,30 @@ spatialProcessSetDefaults<- function( x, cov.function,
   ## Set some convenient default choices for a 
   ## thin plate spline  
   ###########################################
-  if( cov.function==''){}
+  if( cov.function=='Tps.cov'){
+  # determine cardinal points if not included in
+  # cov.args
+    dimX<- ncol( x)
+  if( is.null( mKrig.args$m)){
+    # m should satisfy  2*m-dimX >0
+    mMin<- max(c(2, ceiling(dimX/2 + 0.1))) 
+   
+    mKrig.args<- list( mKrig.args, m=mMin )
+  }
+    
+#  
+  if( is.null(cov.args)){
+    cov.args<- list()
+  }
+#     
+  if( is.null(cov.args$cardinalX)){
+    nterms <- choose((mKrig.args$m + dimX - 1), dimX)
+    cardinalX<- cover.design(x, nterms, num.nn = 50 )$design
+    cov.args$cardinalX<- cardinalX
+  }
+    cov.args$aRange<- NA
+    
+  }
   
   ###########################################
   # overwrite the default choices if some are passed as ...
