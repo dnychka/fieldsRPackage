@@ -46,6 +46,7 @@ cp  fields.Rcheck/tests/cov.test2.Rout  fields/tests/cov.test2.Rout.save
 cp  fields.Rcheck/tests/mKrigMLETest.Rout  fields/tests/mKrigMLETest.Rout.save
 cp  fields.Rcheck/tests/mKrigREMLTest.Rout  fields/tests/mKrigREMLTest.Rout.save
 cp  fields.Rcheck/tests/SEFixedParameters.Rout  fields/tests/SEFixedParameters.Rout.save
+cp  fields.Rcheck/tests/testZCommon.Rout  fields/tests/testZCommon.Rout.save
 
 cp  fields.Rcheck/tests/offGridWeights.test.Rout  fields/tests/offGridWeights.test.Rout.save
 cp  fields.Rcheck/tests/offGridWeightsNEW.test.Rout  fields/tests/offGridWeightsNEW.test.Rout.save

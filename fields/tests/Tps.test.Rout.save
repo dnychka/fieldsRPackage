@@ -86,6 +86,10 @@ Testing:  Eff.df Tps vs spatialProcess
 PASSED test at tolerance  1e-08
 Testing:  Tps vs spatialProcess SE
 PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess predictions on a grid
+PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess SE predictions on a grid
+PASSED test at tolerance  1e-08
 > cat("all done testing Tps and spatialProcess with Tps.cov", fill=TRUE)
 all done testing Tps and spatialProcess with Tps.cov
 > # 
@@ -96,4 +100,4 @@ all done testing Tps and spatialProcess with Tps.cov
 > 
 > proc.time()
    user  system elapsed 
-  0.714   0.056   0.760 
+  0.745   0.062   0.806 
