@@ -397,13 +397,17 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
     lD <- D2 * lambda
     N2 <- length(D2)
     # MLE estimate of sigma for fixed lambda
-    sigma.MLE <- (sum((D2 * (u2)^2)/(1 + lD)))/N2
+    sigma2.MLE <- (sum((D2 * (u2)^2)/(1 + lD)))/N2
     #
     # ln determinant of    K + lambda*WI
     lnDetCov <- -sum(log(D2/(1 + lD)))
-    
-    -1 * (-N2/2 - log(2 * pi) * (N2/2) - (N2/2) * log(sigma.MLE) - 
-        (1/2) * lnDetCov)
+    logREMLLikelihood<-  -1 * (-N2/2 - log(2 * pi) * (N2/2) - 
+                                 (N2/2) * log(sigma2.MLE) - 
+                                 (1/2) * lnDetCov)
+    return( 
+      logREMLLikelihood
+     
+    )
       
     
 }

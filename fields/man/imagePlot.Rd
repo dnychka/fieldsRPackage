@@ -116,7 +116,7 @@ Default is a pleasing range of 64 divisions suggested by Tim Hoar and
 is similar to 
 the MATLAB (TM) jet color scheme. Note that if \code{breaks} is
 specified there must be one less color specified than the number of
-breaks. 
+breaks. Or use  \code{viridisLite::rocket}.
 }
 
 \item{colorTable}{The colors for the color scale -- the same as col.}

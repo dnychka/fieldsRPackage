@@ -1,7 +1,7 @@
 
-R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
-Copyright (C) 2022 The R Foundation for Statistical Computing
-Platform: x86_64-apple-darwin17.0 (64-bit)
+R version 4.3.1 (2023-06-16) -- "Beagle Scouts"
+Copyright (C) 2023 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20 (64-bit)
 
 R is free software and comes with ABSOLUTELY NO WARRANTY.
 You are welcome to redistribute it under certain conditions.
@@ -74,12 +74,26 @@ Grid searches over lambda (nugget and sill variances) with  minima at the endpoi
    minimum at  right endpoint  lambda  =  6.735369e-05 (eff. df= 475 )
 PASSED test at tolerance  0.001
 PASSED test at tolerance  0.001
-> cat("all done testing Tps", fill=TRUE)
-all done testing Tps
-> 
->  
+Testing:  Tps.cov marginal
+PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess
+PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess tau
+PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess default
+PASSED test at tolerance  1e-08
+Testing:  Eff.df Tps vs spatialProcess
+PASSED test at tolerance  1e-08
+Testing:  Tps vs spatialProcess SE
+PASSED test at tolerance  1e-08
+> cat("all done testing Tps and spatialProcess with Tps.cov", fill=TRUE)
+all done testing Tps and spatialProcess with Tps.cov
+> # 
+> # lambda0<- out0$lambda.est["REML", "lambda"]
+> # 
+> # Krig.flplike(out0, lambda0)
 > 
 > 
 > proc.time()
    user  system elapsed 
-  1.558   0.143   1.642 
+  0.714   0.056   0.760 

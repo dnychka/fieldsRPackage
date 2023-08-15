@@ -23,18 +23,15 @@
 \name{Tps}
 \alias{Tps}
 \alias{fastTps}
+
+
 \title{
   Thin plate spline regression 
 }
 \description{
 Fits a thin plate spline surface to irregularly spaced data. The 
-smoothing parameter is chosen by generalized cross-validation. The assumed 
+smoothing parameter is chosen  as a default by generalized cross-validation. The assumed 
 model is additive  Y = f(X) +e  where f(X) is a d dimensional surface.
-This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba.
-This function also works for just a single dimension and is a special case of a Gaussian process estimate as the range parameter in the Matern family increases to infinity. 
-(Kriging). 
-
-A "fast" version of this function uses a compactly supported Wendland covariance and sparse linear algebra for handling larger datta sets. Although a good approximation to Tps for sufficiently large aRange its actual form is very different from the textbook thin-plate definition.
 
 }
 \usage{
@@ -43,7 +40,8 @@ Tps(x, Y, m = NULL, p = NULL, scale.type = "range", lon.lat = FALSE,
 
 fastTps(x, Y, m = NULL, p = NULL, aRange, lon.lat = FALSE,
                  find.trA = FALSE, REML = FALSE,theta=NULL,  ...)
-          
+		 
+        
 }
 \arguments{
 %To be helpful, a more complete list of arguments are described that are the 
@@ -194,11 +192,18 @@ Please see the documentation on Krig for details of the returned
 arguments.  
 }
 \details{
-Both of these functions are special cases of using the 
-\code{Krig} and \code{mKrig} functions. See the help on each of these
-for more information on the calling arguments and what is returned. 
-\code{Tps} makes use of the stable computations via eigen decompositions in \code{Krig}. \code{fastTps} follows the more standard computations for spatial statistics centered around the Cholesky decomposition in \code{mKrig}.
 
+
+\strong{Overview}
+
+This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba. The computational algorithm is based around a QR decomposition followed by an eigen decomposition on a reduced matrix derived from the spline radial basis functions. This insures a stable computation -- basically bombproof -- but is not the fastest. See the function \link{mKrig} and examples for fitting a thin plate spline using \link{spatialProcess} that uses a different linear algebra approach. This is implemented in the "fast" version albeit approximate version to exploit sparse matrices. 
+
+This function also works for just a single dimension and reproduces the well known cubic smoothing spline for \code{ m ==2} Finally we note that a thin plate spline is a limiting case of a Gaussian process estimate as the range parameter in the Matern family increases to infinity. 
+(Kriging). 
+
+A "fast" version of this function uses a compactly supported Wendland covariance and sparse linear algebra for handling larger datta sets. Although a good approximation to Tps for sufficiently large aRange its actual form is very different from the textbook thin-plate definition. The user will see that \code{fastTps} is largely a wrapper for a call to \code{spatialProcess} with the Wendland covariance function. 
+
+\strong{Background on the thin plate spline function, Tps}
 A thin plate spline is the result of minimizing the residual sum of 
 squares subject to a constraint that the function have a certain 
 level of smoothness (or roughness penalty). Roughness is 
@@ -231,11 +236,12 @@ knots argument where one can use a reduced set of basis functions. This is
 mainly to simplify the code and a good alternative using knots would be to use a
 valid covariance from the Matern family and a large range parameter. 
 
-CAUTION about \code{lon.lat=TRUE}: The option to use great circle distance
+\strong{Using a great circle distance function}
+ The option to use great circle distance
  to define the radial basis functions (\code{lon.lat=TRUE}) is very useful
- for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains the spherical distortion be large enough that the basis function no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
-dimensional thin plate spline the locations being the direction cosines. This will 
-give approximate great circle distances for locations that are close and also the numerical methods will always have a positive definite matrices.
+ for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains the spherical distortion be large enough that the radial basis functions no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
+dimensional thin plate spline with the locations being the direction cosines. This will 
+give approximate great circle distances for locations that are close and also the numerical methods will always have a positive definite matrices. There are other radial basis functions that are specific to a spherical geometry but these are not implemented in fields. 
 
 Here is an example using this idea for \code{RMprecip} and also some 
 examples of building grids and evaluating the Tps results on them:
@@ -263,13 +269,26 @@ The function \code{fastTps} is really a convenient wrapper function that
 calls \code{spatialProcess} with a suitable Wendland covariance 
 function. This means one can use all the additional functions for
 prediction and simulation built for the \code{spatialProcess} and
-\code{mKrig} objects.
+\code{mKrig} objects.  Some care needs to exercised in specifying
+the support \code{aRange} -- a Goldilocks problem -- where aRange
+is large enough so that every location has a reasonable number
+(say 10 or more ) of neighboring locations that have non-zero
+covariances but also the number of neighbors is not so large that
+the sparsity of the covariance matrix is compromised. 
+To figure out the neighborhood pattern are the spatial locations one can use the function \code{nearest.dist}, sparse matrix format,  and \code{table} function. 
+\preformatted{
+set.seed(222)
+s<- cbind( runif(1e4),runif(1e4))
+look<- nearest.dist(s,s, delta = .03)
+look<- spam2spind(look)
 
-This is function is 
-experimental, however, and some care needs to exercised in specifying
-the support \code{aRange} 
- and power ( \code{p}) which describes the polynomial behavior of 
-the Wendland at the origin. Note that unlike Tps the locations are not 
+stats( table( look$ind[,1]))
+}
+Here one has asummary of the number of nearest neighbors within a 
+distance of .03 for these (randomly generated) locations.
+I see a minimum of 7 for at least one location so aRange should be larger than .03. Trial and error with different deltas can lead to a better choice.  
+
+ Note that unlike Tps the locations are not 
 scaled to unit range and this can cause havoc in smoothing problems with
 variables in very different units. 
 So rescaling the locations \code{ x<- scale(x)} 
@@ -280,26 +299,27 @@ for every observation location.
 
 This function does have the potential to approximate estimates of Tps 
 for very large spatial data sets. See \code{wendland.cov} and help on 
-the SPAM package for more background.
+the SPAM package, and the friendly spind format for more background.
 Also, the function \code{predictSurface.fastTps} has been made more
 efficient for the 
-case of k=2 and m=2. 
-
-See also the mKrig function for handling larger data sets and also for
-an example
-of combining Tps and mKrig for evaluation on a huge grid. 
+case of k=2 and m=2 -- a common choice for parameters.
 
  }
 
 \section{References}{
 See "Nonparametric Regression and Generalized Linear Models"  
+
 by Green and Silverman. 
 See "Additive Models" by Hastie and Tibshirani. 
+
+See Wahba, Grace. "Spline models for observational data." Society for industrial and applied mathematics, 1990.
+
 }
 \seealso{
 \code{\link{Krig}},
 \code{\link{mKrig}},
 \code{\link{spatialProcess}},
+\code{\link{Tps.cov}}
 \code{\link{sim.spatialProcess}},
 \code{\link{summary.Krig}},
 \code{\link{predict.Krig}},
@@ -309,11 +329,16 @@ See "Additive Models" by Hastie and Tibshirani.
 \code{\link{plot.Krig}},
 \code{\link{surface.Krig}}, 
 \code{\link{sreg}}
+
 }
 \examples{
 #2-d example 
+data(ozone2)
 
-fit<- Tps(ChicagoO3$x, ChicagoO3$y)  # fits a surface to ozone measurements. 
+x<- ozone2$lon.lat
+y<- ozone2$y[16,]
+
+fit<- Tps(x,y)  # fits a surface to ozone measurements. 
 
 set.panel(2,2)
 plot(fit) # four diagnostic plots of  fit and residuals. 
@@ -341,7 +366,7 @@ surface( fit) # Quick image/contour plot of GCV surface.
 # Note that the GCV function is still computed and minimized
 # but the lambda values used correpsonds to 7.5 df.
 
-fit1<- Tps(ChicagoO3$x, ChicagoO3$y,df=7.5)
+fit1<- Tps(x, y,df=7.5)
 
 set.panel(2,2)
 plot(fit1) # four diagnostic plots of  fit and residuals.
@@ -358,14 +383,14 @@ set.panel()
 # predict onto a grid that matches the ranges of the data.  
 
 out.p<-predictSurface( fit)
-image( out.p) 
+imagePlot( out.p) 
 
 # the surface function (e.g. surface( fit))  essentially combines 
 # the two steps above
 
 # predict at different effective 
 # number of parameters 
-out.p<-predictSurface( fit,df=10)
+out.p<-predictSurface( fit, df=10)
 
 \dontrun{
 # predicting on a grid along with a covariate

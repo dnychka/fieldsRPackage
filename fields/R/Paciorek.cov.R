@@ -24,8 +24,7 @@
                            Distance = "rdist",
                            Dist.args = NULL,
                            aRangeObj = 1,
-                           sigma2Obj = NULL,
-                           sigma2 = 1,
+                           rhoObj = NULL,
                            C = NA,
                            marginal = FALSE,
                            smoothness = .5)
@@ -74,15 +73,13 @@
     
 
     
-    if (!is.null(sigma2Obj)) {
+    if (!is.null(rhoObj)) {
       cat( "sigma Obj used", fill=TRUE)
-      sigmax1 <- c(sqrt(predict(sigma2Obj, x1)))
-      sigmax2 <- c(sqrt(predict(sigma2Obj, x2)))
+      sigmax1 <- c(sqrt(predict(rhoObj, x1)))
+      sigmax2 <- c(sqrt(predict(rhoObj, x2)))
       covMat <-  t(t(sigmax1 * covMat) * sigmax2)
     }
-    else{
-      covMat <-  sigma2 * (covMat)
-    }
+    # else assume that rho is constant and 1.0
     
     if (is.na(C[1])) {
       # distMat is a full matrix
@@ -95,11 +92,11 @@
     }
   }
   else{
-    if (!is.null(sigma2Obj)) {
-      marginalVariance <- predict(sigma2Obj, x1)
+    if (!is.null(rhoObj)) {
+      marginalVariance <- predict(rhoObj, x1)
     }
     else{
-      marginalVariance <- rep(sigma2, ncol(x1))
+      marginalVariance <- rep(1, ncol(x1))
     }
     return(marginalVariance)
   }

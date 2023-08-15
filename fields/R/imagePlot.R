@@ -29,7 +29,8 @@
     legend.line= 2,                    
     graphics.reset = FALSE, bigplot = NULL, smallplot = NULL, 
     legend.only = FALSE,  lab.breaks = NULL, 
-    axis.args = NULL, legend.args = NULL, legend.cex=1.0, midpoint = FALSE, border = NA, 
+    axis.args = NULL, legend.args = NULL, 
+    legend.cex=1.0, midpoint = FALSE, border = NA, 
     lwd = 1,
     lowerTriangle= FALSE, upperTriangle=FALSE, asp = NA, 
     verbose=FALSE) {
@@ -123,7 +124,7 @@
         par(big.par)
         par(plt = big.par$plt, xpd = FALSE)
         par(mfg = mfg.save, new = FALSE)
-        # Suggestion from Karline Soetaert <Karline.Soetaert@nioz.nl>
+        # A suggestion from Karline Soetaert <Karline.Soetaert@nioz.nl>
         # this is to reset margins to be based on the mar arguments
         #      par(mar = par("mar"))  or
         #      par(mar = big.par$mar)

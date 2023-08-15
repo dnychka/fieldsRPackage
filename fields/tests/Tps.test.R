@@ -106,17 +106,24 @@ temp2<- RadialBasis( rdist( x,x), M=2, dimension=2)%*%C
 test.for.zero( temp, temp2)
 
 #### Basic matrix form for Tps as sanity check
-x<- ChicagoO3$x
-y<- ChicagoO3$y
+data("ozone2")
+s<- ozone2$lon.lat
+y<- ozone2$y[16,]
 
-obj<-Tps( x,y, scale.type="unscaled", with.constant=FALSE)
+good<- !is.na( y)
+s<- s[good,]
+y<- y[good]
+data(ozone2)
+
+
+obj<-Tps( s,y, scale.type="unscaled", with.constant=FALSE)
 
 # now work out the matrix expressions explicitly
 lam.test<- obj$lambda
 N<-length(y)
 
-Tmatrix<- cbind( rep( 1,N), x)
-D<- rdist( x,x)
+Tmatrix<- cbind( rep( 1,N), s)
+D<- rdist( s,s)
 R<- ifelse( D==0, 0, D**2 * log(D))
 A<- rbind(
           cbind( R+diag(lam.test,N), Tmatrix),
@@ -128,18 +135,18 @@ A<- rbind(
  zhat<-  R%*%c.coef + Tmatrix%*% d.coef
   test.for.zero( zhat, obj$fitted.values, tag="Tps 2-d m=2 sanity check")
 # out of sample prediction
-xnew<- rbind( c( 0,0),
-              c( 10,10)
+snew<- rbind( c( -87,41),
+              c( -81,44)
               )
-T1<- cbind( rep( 1,nrow(xnew)), xnew)
-D<- rdist( xnew,x)
+T1<- cbind(  1, snew)
+D<- rdist( snew,s)
 R1<- ifelse( D==0, 0, D**2 * log(D))
 z1<-  R1%*%c.coef + T1%*% d.coef
-  test.for.zero( z1, predict( obj, x=xnew), tag="Tps 2-d m=2 sanity predict")
+  test.for.zero( z1, predict( obj, x=snew), tag="Tps 2-d m=2 sanity predict")
 
 #### test Tps verses Krig note scaling must be the same
-   out<- Tps( x,y)
-   out2<- Krig( x,y, Covariance="RadialBasis", 
+   out<- Tps( s,y)
+   out2<- Krig( s,y, Covariance="RadialBasis", 
            M=2, dimension=2, scale.type="range", method="GCV")
    test.for.zero( predict(out), predict(out2), tag="Tps vs.  Krig w/ GCV")
 
@@ -162,10 +169,98 @@ z1<-  R1%*%c.coef + T1%*% d.coef
    test.for.zero( look[,1], test[,1], tol=1e-3)
    test.for.zero( look[,2], test[,2], tol=1e-3)
 
-# matplot( test, look, pch=1)
-
+############################################################
+### testing Tps version using spatialProcess and Tps.cov
+############################################################
+   
+   set.seed(222)
+   n<- 50
+   x1<- cbind( runif(n), runif(n))*100
+   x2<-  cbind( runif(5), runif(5))
+   #x2<- x1
+   cardinalX<- cbind( runif(3), runif(3))
+   m<- 2
+   
+   # simple check of marginal variances 
+   look<- Tps.cov( x1,x1,cardinalX, m=m)
+   look2<- Tps.cov( x1,cardinalX=cardinalX, m=m, marginal=TRUE)
+   test.for.zero(diag(look), look2, tag="Tps.cov marginal" )
+   
+   
+## comparing with the Tps function   
+   data("ozone2")
+   s<- ozone2$lon.lat
+   y<- ozone2$y[16,]
+   
+   good<- !is.na( y)
+   s<- s[good,]
+   y<- y[good]
+##### Tps used as benchmark
+   
+   out0<- Tps( s,y, scale.type ="unscaled", method="REML")
+   lambdaHat<- out0$lambda.est[6,1]
+   fHat<- predict( out0)
+   
+   cardinalX<- s[1:3,]
+   out2<- mKrig( s,y, cov.function="Tps.cov",
+                 cov.args= list( cardinalX=cardinalX,
+                                 aRange=NA),
+                 m=2,lambda=lambdaHat
+   )
+   
+   # should be invariant to cardinal points and not need aRange =NA
+   # defaults supplied by spatialProcessSetDefaults when detecting Tps.cov
+   out3<- spatialProcess( s, y, cov.function="Tps.cov",
+                             mKrig.args = list(m=2,  NtrA = 200),
+                            lambda=lambdaHat )
+   
+   out4<- spatialProcess( s, y, cov.function="Tps.cov",
+                          cov.args= list( 
+                            aRange=NA),
+                          #REML=TRUE,
+                          verbose=FALSE, gridN=50
+   )
+   
+   test.for.zero(fHat, predict( out2, s), tag="Tps vs spatialProcess" )
+   # other parameters and likelihood
+   test.for.zero(out0$tauHat.MLE, 
+                 out3$summary["tau"],tag="Tps vs spatialProcess tau" )
+   test.for.zero(fHat, predict( out3, s),
+                 tag="Tps vs spatialProcess default" )
+   # eff.df exact for spatialProcess because nTrA is larger than 
+   # sample size.
+   test.for.zero( out0$eff.df, out3$summary["eff.df"],
+                  tag="Eff.df Tps vs spatialProcess")
+   # look at prediction standard error computation.
+   SE0<- predictSE( out0, s)
+   SE3<- predictSE( out3,s)
+   test.for.zero(SE0, SE3, tag="Tps vs spatialProcess SE")
+# compare REML for Tps and spatialProcess  
+   # test.for.zero(out0$lambda.est["REML", "-lnLike Prof"], 
+   #               out4$summary["lnProfileREML.FULL"],
+   #               tag="Tps vs spatialProcess  REML log like" )
+   # test.for.zero(out0$lambda.est["REML", "lambda"], 
+   #               out4$summary["lambda"],
+   #               tag="Tps vs spatialProcess w REML lambda Hat" )
+   # 
+   gridList<- fields.x.to.grid( s, nx=20, ny=20)
+   
+   sGrid<- make.surface.grid( gridList)
+   
+   fHatGrid0<- predict( out0, sGrid)
+   fHatGrid3<- predict( out3,sGrid)
+   test.for.zero(fHatGrid0,fHatGrid3,
+                 tag="Tps vs spatialProcess predictions on a grid")
+   
+   fHatGrid0SE<- predict( out0, sGrid)
+   fHatGrid3SE<- predict( out3,sGrid)
+   test.for.zero(fHatGrid0SE,fHatGrid3SE,
+                 tag="Tps vs spatialProcess SE predictions on a grid")
+   
 options( echo=TRUE)
-cat("all done testing Tps", fill=TRUE)
-
- 
+cat("all done testing Tps and spatialProcess with Tps.cov", fill=TRUE)
+# 
+# lambda0<- out0$lambda.est["REML", "lambda"]
+# 
+# Krig.flplike(out0, lambda0)
 

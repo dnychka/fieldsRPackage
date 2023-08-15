@@ -1,6 +1,6 @@
 # bubblePlot fix
 
-bubblePlot<- function (x, y, z, col = viridis::viridis(256), zlim = NULL, 
+bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL, 
                             horizontal = FALSE, legend.cex = 1, legend.lab = NULL, legend.line = 2, 
                             legend.shrink = 0.9, legend.width = 1.2, legend.mar = ifelse(horizontal, 
                                                                                          3.1, 5.1), axis.args = NULL, legend.args = NULL, size = 1, 

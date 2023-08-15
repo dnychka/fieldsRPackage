@@ -14,13 +14,15 @@ Tps.cov<-function (x1, x2 = NULL, cardinalX, m=2,
          to indicate this not used in the covariance.")
   }
   
+  PCard<- fields.mkpoly(cardinalX, m=m)
+  PCoef<- solve(PCard, diag(1, ncol(PCard)) )
+  # Note by consturction  PCard%*%PCoef = I
+  P1<- fields.mkpoly(x1, m=m)%*%PCoef
+  P2<- fields.mkpoly(x2, m=m)%*%PCoef
+  
   if ( !marginal) {
    
-    PCard<- fields.mkpoly(cardinalX, m=m)
-    PCoef<- solve(PCard, diag(1, ncol(PCard)) )
-    # Note by consturction  PCard%*%PCoef = I
-     P1<- fields.mkpoly(x1, m=m)%*%PCoef
-     P2<- fields.mkpoly(x2, m=m)%*%PCoef
+   
     # a computation that is less efficient but easier to read:
     # bigE <- Rad.cov( x1, x2, m=m)
     # K1<- Rad.cov( x1,cardinalX, m=m)%*%t(P2)
@@ -45,6 +47,7 @@ Tps.cov<-function (x1, x2 = NULL, cardinalX, m=2,
         K4C <- P1%*%(t( P2)%*%C)
         covMatrixC<- bigEC - K1C - K2C + K3C + K4C
         return( covMatrixC)
+        # in more verbose form
         # bigE<- Rad.cov( x1,x2, m=m)
         # K1<-       Rad.cov( x1,      cardinalX, m=m, C=t(P2))
         # K2 <-   t( Rad.cov( x2,      cardinalX, m=m, C=t(P1)))
@@ -54,7 +57,16 @@ Tps.cov<-function (x1, x2 = NULL, cardinalX, m=2,
       }
     }   
     else {
-      return(rep(1, nrow(x1)))
+      # NOTE: diag ( bigE) is zero
+      # K2 <- t( Rad.cov( x1,      cardinalX, m=m, C=t(P1)))
+      # K1 <- t(K2)
+      # K3 <- P1%*% Rad.cov(cardinalX,cardinalX, m=m, C=t(P1))
+      # marginalVariance0<- diag(  - K2  - t( K1) + K3 + P1%*%t( P1) )
+       DK2<- rowSums(Rad.cov( x1,      cardinalX, m=m)*P1)
+       DK3<- colSums(Rad.cov(cardinalX,cardinalX, m=m, C=t(P1))*t(P1) )
+       DK4<- rowSums(P1^2)
+      marginalVariance<- (-2*DK2 + DK3 +DK4 )
+      return( marginalVariance)
     }
 }
 

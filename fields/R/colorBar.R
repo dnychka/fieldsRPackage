@@ -32,6 +32,7 @@ colorBar<- function(breaks,
                     lowerTriangle = FALSE,
                     upperTriangle = NULL
                     ){
+  
   # Following code draws the legend using the image function
   # and a one column image.
   # What might be confusing is the values of the "image" are the same 

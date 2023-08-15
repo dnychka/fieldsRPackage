@@ -22,7 +22,7 @@
 "surface.Krig" <- function(object, grid.list = NULL, 
     extrap = FALSE, graphics.reset = NULL, xlab = NULL, ylab = NULL, 
     main = NULL, zlab = NULL, zlim = NULL, levels = NULL, type = "C", 
-    nx = 80, ny = 80, col=viridis(256), ...) {
+    nx = 80, ny = 80, col=viridisLite::viridis(256), ...) {
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object,  grid.list, extrap = extrap, 
@@ -53,7 +53,7 @@
 "surface.mKrig" <- function(object, grid.list = NULL, 
     extrap = FALSE, graphics.reset = NULL, xlab = NULL, ylab = NULL, 
     main = NULL, zlab = NULL, zlim = NULL, levels = NULL, type = "C", 
-    nx = 80, ny = 80, col=viridis(256),...) {
+    nx = 80, ny = 80, col=viridisLite::viridis(256),...) {
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object, grid.list, extrap = extrap, 
