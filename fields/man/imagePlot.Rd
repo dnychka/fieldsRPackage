@@ -86,7 +86,7 @@ locations. The basic concept is that the coordinates of x and y still
 define a grid but the image cells are quadrilaterals rather than being
 restricted to rectangles. NOTE: graphical argruments passed here will only have impact
 on the image plot. To change the graphical defaults for the legend use
- the individual legend arguments and/or  \code{legend.arg} listed 
+ the individual legend arguments, \code{axis.args},  or \code{legend.arg} listed 
  below. 
 }
 
@@ -94,8 +94,8 @@ on the image plot. To change the graphical defaults for the legend use
 If true add image and a legend strip to the existing plot. 
 }
 \item{asp}{ Plot aspect. The same function as in the \code{plot} or \code{image} functions.}
-\item{axis.args}{Additional arguments for the axis function used to 
-create the legend axis. (See example below adding a log scaling.)}
+\item{axis.args}{A list giving additional arguments for the axis function used to 
+create the legend axis. Some typicalones are \code{at} and \code{labels} and specify \code{cex} to control the size of the labels.  (See example below adding a log scaling.)}
 
 \item{bigplot}{
 Plot coordinates for image plot. If not passed
