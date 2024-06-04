@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -24,7 +24,8 @@ offGridWeights2D<-function(s, gridList, np=2,
                          Covariance=NULL, covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
                          giveWarnings=TRUE,
-                         debug=FALSE
+                         debug=FALSE,
+                         findCov=TRUE
                    ){
   #
   # function assumes the grid is 
@@ -35,6 +36,13 @@ offGridWeights2D<-function(s, gridList, np=2,
   # e.g. s  coordinates should be between 
   # 2 and m-3 and 2 and n-3
   #
+  # setup the grid info from which to interpolate
+  m<- length( gridList$x)
+  n<- length( gridList$y)
+  
+  dx<- gridList$x[2]- gridList$x[1]
+  dy<- gridList$y[2]- gridList$y[1]
+  
   # If mKrigObject (result of fitting model) is given 
   # extract all the covariance information from it. 
   # For the Matern family besides aRange and sigma2 is the 
@@ -44,9 +52,12 @@ offGridWeights2D<-function(s, gridList, np=2,
     aRange<- mKrigObject$summary["aRange"]
     Covariance<- mKrigObject$args$Covariance
     if( is.null(Covariance)){
-      Covariance<- "Exponential"
+      Covariance<- "Matern"
+      
     }
+    
     covArgs<-mKrigObject$args 
+    
   # some R arcania -- strip out all arguments used by say stationary.cov
   # but not used by the Covariance function 
   # Do not want to call the covariance function with these extra args. 
@@ -57,13 +68,13 @@ offGridWeights2D<-function(s, gridList, np=2,
       covArgs[is.na( ind)] <- NULL
     }
   }
+  #
+  # wipe out aRange to prevent it from being used twice
+  # in do.call below assumed to be 1.0 with scaled distances
+  #
+  covArgs$aRange<- NULL
   
-  m<- length( gridList$x)
-  n<- length( gridList$y)
-  
-  dx<- gridList$x[2]- gridList$x[1]
-  dy<- gridList$y[2]- gridList$y[1]
-  
+ 
   M<- nrow( s)
   # lower left corner of grid box containing the points
   s0<-  cbind( 
@@ -124,6 +135,7 @@ offGridWeights2D<-function(s, gridList, np=2,
   # pairwise distance among nearest neighbors. 
   dNN<- rdist(nnXYCoords, nnXYCoords )
   # cross covariances
+  print( sigma2)
   Sigma21Star<- sigma2* do.call(Covariance,
                                 c(list(d = dAll/aRange), 
                                          covArgs)) 
@@ -131,6 +143,7 @@ offGridWeights2D<-function(s, gridList, np=2,
   Sigma11 <-  sigma2* do.call(Covariance,
                               c(list(d = dNN/aRange), 
                                 covArgs))
+  
   Sigma11Inv <- solve( Sigma11)
   # each row of B are the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
@@ -145,11 +158,24 @@ offGridWeights2D<-function(s, gridList, np=2,
   #
   # prediction variances  
   # use cholesky for more stable numerics
+  
   cholSigma11Inv<- chol(Sigma11Inv)
   # create spind sparse matrix of sqrt variances
   # or covariances to simulate prediction error. 
   w <- Sigma21Star%*%t(cholSigma11Inv)
+  
+  # print( w[1:5,])
+  # print( rowSums(w^2)[1:5])
+  # 
   predictionVariance <-  sigma2 - rowSums(w^2)
+  # set to NA negative values -- due to colinearity/roundoff
+  predictionVariance<- ifelse( predictionVariance <= 0, NA,predictionVariance )
+  if( findCov|debug){
+  # don't find covariances if findCov is FALSE
+  # but debug=TRUE overrides that 
+  # this saves computation for the cases with multiple 
+  # obs in a single grid box.
+  
   # easiest case of just one obs in each grid box  
   #  sigma2 - diag(Sigma21Star%*%Sigma11Inv%*%t(Sigma21Star) )
   spindObjSE<- list(ind=cbind( 1:M, 1:M),
@@ -199,7 +225,12 @@ offGridWeights2D<-function(s, gridList, np=2,
     #print( length(raDupSE))
   BigSE[indDupSE]<- raDupSE
   }
-
+  }
+  else{
+    BigSE=NA
+    
+  }
+  
  if( debug){ 
     return(
       list( B= BigB, SE= BigSE, 

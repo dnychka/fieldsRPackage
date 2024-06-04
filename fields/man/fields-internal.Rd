@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -65,7 +65,7 @@
 \alias{plot.spatialDesign}
 \alias{predict.interp.surface}
 \alias{predict.krig.image}
-
+\alias{predict.surface}
 \alias{predict.surface.default}
 
 \alias{print.krig.image}

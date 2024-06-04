@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -40,12 +40,12 @@ This function is called higher level functions for maximum likelihood estimates 
 covariance paramters. 
 }
 \usage{
-mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
-                 cov.function = "stationary.cov", cov.args = NULL,
-                 lambda = NA, m = 2, chol.args = NULL, find.trA = TRUE,
-                 NtrA = 20, iseed = NA,  na.rm = FALSE,
+mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon =
+                 NULL, cov.function = "stationary.cov", cov.args =
+                 NULL, lambda = NA, m = 2, chol.args = NULL, find.trA =
+                 TRUE, NtrA = 20, iseed = NA, na.rm = FALSE,
                  collapseFixedEffect = TRUE, tau = NA, sigma2 = NA,
-                 ...)
+                 verbose = FALSE, ...)
 \method{predict}{mKrig}( object, xnew=NULL,ynew=NULL, grid.list = NULL,
 derivative=0,
 Z=NULL,drop.Z=FALSE,just.fixed=FALSE,
@@ -126,8 +126,10 @@ as an quick logical switch, m=0 will result in no fixed part in the spatial mode
   
 \item{sigma2}{Value of the process variance.}  
 
-\item{tau}{ Value of the measurment error standard deviation.}
-  
+\item{tau}{ Value of the measurment error (aka nugget)  standard deviation.}
+
+\item{verbose}{If TRUE prints out intermediate values of objsects for debugging.}
+
 \item{weights}{Precision ( 1/variance) of each observation}
 
 \item{x}{Matrix of unique spatial locations (or in print or surface 

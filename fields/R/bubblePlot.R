@@ -4,7 +4,8 @@ bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL,
                             horizontal = FALSE, legend.cex = 1, legend.lab = NULL, legend.line = 2, 
                             legend.shrink = 0.9, legend.width = 1.2, legend.mar = ifelse(horizontal, 
                                                                                          3.1, 5.1), axis.args = NULL, legend.args = NULL, size = 1, 
-                            add = FALSE, legendLayout = NULL, highlight = TRUE, highlight.color = "grey30", 
+                            add = FALSE, legendLayout = NULL, highlight = FALSE, highlight.color = "grey30", 
+                            bubbleType="circle",
                             ...) 
 {
   x <- as.matrix(x)
@@ -19,17 +20,33 @@ bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL,
                                 legend.width = legend.width, legend.mar = legend.mar, 
                                 horizontal = horizontal)
   }
+  
+  # only square and circle supported!
+  if( bubbleType=="square"){
+  pchSolid<- 15
+  pchOutline<- 0
+  }
+  else{
+    pchSolid<- 16
+      pchOutline<- 1
+  }
+    
+    
   if (!add) {
-    plot(x, y, col = ctab, cex = size, pch = 16, ...)
+    plot(x, y, col = ctab, cex = size, pch = pchSolid, ...)
   }
   else {
-    points(x, y, cex = size, col = ctab, pch = 16)
+    points(x, y, cex = size, col = ctab, pch = pchSolid)
   }
   if (highlight) {
-    points(x, y, cex = size, col = highlight.color)
+    points(x, y, cex = size,
+           pch = pchOutline, col = highlight.color)
   }
+  # save the graphical parameter so they can be reset
   big.par <- par(no.readonly = TRUE)
   mfg.save <- par()$mfg
+  # figure out some legend parameters if they are not already
+  # specified
   if (!add | !is.null(legendLayout)) {
     levelsZ <- attr(ctab, "levelsZ")
     if ((is.null(axis.args)) & (!is.null(levelsZ))) {

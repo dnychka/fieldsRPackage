@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -194,10 +194,11 @@ function will also work with an \code{mKrig} object because the essential
 prediction information in the mKrig and spatialProcess objects are the same.
 The naming is through convenience. 
 
-\code{sim.Krig}  Also follows this algorithm exactly but for the older \code{Krig} object.  Note the inclusion of
+\code{sim.Krig}  Also follows this algorithm exactly but for the older \code{Krig} object.  Note that  the inclusion of
 drop.Z=TRUE or FALSE will determine whether the conditional simulation 
 includes the covariates Z or not. (See example below.) 
-\code{simLocal.spatialProcess}{This function is
+
+\code{simLocal.spatialProcess} This function is
 designed for conditional simulation for a large
 prediction grid and for a large number of observation
 s. The approximation will be accurate for fine grids
@@ -216,10 +217,8 @@ included as easy to read source code and for checking
 See the utility function \code{\link{offGridWeights}} for the function that creates weights used to generate the (approximate) conditional sample.  The functions 
 \code{checkPredictGrid}, 
 \code{makePredictionGridList} and 
-\code{makeSimulationGrid} are utilities to setup the grids when not specified. 
-
-}
-
+\code{makeSimulationGrid} are utilities to setup the grids when not 
+specified. 
 
 }
 \value{

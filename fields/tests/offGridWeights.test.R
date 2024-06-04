@@ -21,10 +21,8 @@
 ##END HEADER
 ##END HEADER
 
-
-# test of sreg and related functions
-
-suppressMessages(library(fields))
+#                  
+ suppressMessages(library(fields))
 options(echo=FALSE)
 
 test.for.zero.flag<- 1
@@ -34,16 +32,6 @@ set.seed(123)
 # Local Kriging - sparse matrix implementation (small example)
 
 #source( "makeBigB.R")
-
-# simple covariance function for implementation
-exp_cov <- function(dist){
-  sigma2<-1 
-  covariance <- sigma2* exp(-dist / 10) # 10 is arbitrary 
-  return(covariance)
-}
-
-
-
 
 # -----------------------------
 # Define grid and observations
@@ -57,7 +45,8 @@ M<- 10
 dx<- 1
 dy<- 1
 sigma2<-2.0 
-np<-3 
+aRange<- 5.5
+np<-4 
 
 set.seed( 123)
 # locations random but  avoid edges
@@ -92,9 +81,9 @@ for(  k in 1:M){
      }
    
   }
-  Sigma11<- sigma2*exp_cov(rdist(sTemp, sTemp))
+  Sigma11<- sigma2*exp(-rdist(sTemp, sTemp)/aRange)
   Sigma11Inv<- solve(Sigma11)
-  Sigma21<- sigma2*exp_cov(rdist(rbind(s[k,]), sTemp))
+  Sigma21<- sigma2*exp(-rdist(rbind(s[k,]), sTemp)/aRange)
   Btest<- Sigma21%*%Sigma11Inv
   result<- Sigma21%*%Sigma11Inv%*%yTemp
   look2[k]<- result
@@ -107,7 +96,7 @@ for(  k in 1:M){
 # test new function
 ###################################
 sparseObj0<-  offGridWeights( s, list( x= 1:m, y=1:n),
-                              aRange=10, sigma2=sigma2, 
+                              aRange=aRange, sigma2=sigma2, 
                               Covariance="Exponential", 
                               np=np)
 look5<- sparseObj0$B%*%yUnrolled
@@ -115,11 +104,13 @@ look5<- sparseObj0$B%*%yUnrolled
 test.for.zero( look2, look5 )
 
 test.for.zero(predVar, sparseObj0$predictionVariance )
-
+# check 15.4
 
 mKrigObj<- mKrig( s, rnorm( nrow(s)),
                             sigma2=sigma2, tau=0,
-                            aRange=10)
+                            aRange=aRange,
+                            Covariance="Exponential")
+
 
 sparseObj<-  offGridWeights( s, list( x= 1:m, y=1:n),
                 mKrigObject = mKrigObj, np=np
@@ -133,8 +124,12 @@ test.for.zero(predVar, sparseObj$predictionVariance )
 
 # cheating on mKrig object
 fakeObj<- list( args = list( Covariance= "Exponential" ), 
-                summary= c(aRange=10*2.5, sigma2=sigma2)
+                summary= c(aRange=aRange*2.5, sigma2=sigma2)
                 )
+
+# fakeObj1<- list( args = list( Covariance= "Matern", smoothness=.5 ), 
+#                 summary= c(aRange=10*2.5, sigma2=sigma2)
+# )
 sparseObj1<-  offGridWeights( s*2.5,
                               list( x = (1:m)*2.5,
                                     y = (1:n)*2.5 ),
@@ -144,18 +139,10 @@ sparseObj1<-  offGridWeights( s*2.5,
 
 look4<- sparseObj1$B%*%yUnrolled
 
-test.for.zero( look2, look4 )
+test.for.zero( look2, look4 , tag="sparse vs mKrig")
 
 test.for.zero( sparseObj$predictionVariance, 
-              predVar )
-
-
-# this switch will just give a warning instead of an error
-
-
-#sparseObj1<-  offGridWeights( s, list( x= 1:4, y=1:4),
-#                             mKrigObject = mKrigObj, np=np, give.warning=TRUE)
-
+              predVar, tag="prediction Variance sparse vs mKrig" )
 
 cat("all done with off grid weight tests part 1", fill=TRUE)
 

@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -29,7 +29,6 @@
 \alias{predictSurface.fastTps}
 \alias{predictSurfaceSE}
 \alias{predictSurfaceSE.default}
-\alias{predict.surface}
 \alias{mKrigFastPredict}
 
 \title{
@@ -39,7 +38,7 @@ the image, persp, or contour functions.
 \description{
 Evaluates a a fitted model or the prediction error on a 2-D grid keeping any other variables constant.
 The resulting object is suitable for use with functions for viewing 3-d
-surfaces.  
+surfaces such as image, imagePlot and contour. 
 }
 \usage{
 \method{predictSurface}{default}(object, grid.list = NULL, 
@@ -68,8 +67,6 @@ mKrigFastPredict(object, gridList, ynew = NULL, derivative = 0, Z =
 \method{predictSurfaceSE}{default}(object, grid.list = NULL, extrap = FALSE, chull.mask =
                  NA, nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE,
                  ZGrid = NULL, just.fixed = FALSE, ...)
-
-\method{predict}{surface}(object,...)
 }
 
 \arguments{

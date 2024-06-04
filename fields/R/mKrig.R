@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,7 +25,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
                   chol.args = NULL, find.trA = TRUE, NtrA = 20, 
                   iseed = NA, na.rm=FALSE, 
                   collapseFixedEffect = TRUE, 
-                  tau=NA, sigma2=NA, ...) {
+                  tau=NA, sigma2=NA, verbose=FALSE, ...) {
   # pull extra covariance arguments from ...  and overwrite
   # any arguments already named in cov.args
   ind<- match( names( cov.args), names(list(...) ) )
@@ -45,11 +45,10 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   if(find.trA == TRUE && supportsArg(cov.function, "distMat"))
     cov.args$distMat= NA
  
-  
   if( !is.na(tau)|!is.na(sigma2)){
     fixedParameters<- TRUE
 # work through the 3 cases for sigma2 and tau  
-# note that for 2 of these als need lambda
+# note that for 2 of these also need lambda
     if( !is.na(tau)&!is.na(sigma2)){
     lambda<- tau^2/sigma2}
     if( is.na(tau)){
@@ -68,9 +67,9 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # check for duplicate x's.
   # stop if there are any
   if (any(duplicated(cat.matrix(x)))) {
-    stop("locations are not unique see help(mKrig) ")
+    stop(" locations are not unique see help(mKrig) to
+         collapse to unique locations and weighted obs ")
   }
- 
   # create fixed part of model as m-1 order polynomial
   # NOTE: if m==0 then fields.mkpoly returns a NULL to 
   # indicate no polynomial part.
@@ -97,8 +96,23 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # covariance matrix at observation locations
   # NOTE: if cov.function is a sparse constuct then Mc will be sparse.
   # see e.g. wendland.cov
-  Mc <- do.call(cov.function, c(cov.args, 
-                                list(x1 = object$knots, x2 = object$knots)))
+  covArgsFull<- c(cov.args=list(cov.args), 
+                  list(x1 = object$knots,
+                       x2 = object$knots)
+  )
+                    
+  if( verbose){
+    cat("********************************",  fill=TRUE)
+    cat("**** Main call to chol in mKrig", fill=TRUE)
+    cat("***cov.function: ",  fill=TRUE)
+    print(cov.function)
+    cat("***cov.args:  ",  fill=TRUE)
+    cat( names( cov.args), fill=TRUE, sep=",")
+  }
+  
+  Mc <- do.call(cov.function, c(cov.args, list(x1 = object$knots, 
+                                               x2 = object$knots)))
+
   #
   # decide how to handle the pivoting.
   # one wants to do pivoting if the matrix is sparse.
@@ -115,6 +129,10 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     chol.args <- chol.args
   }
   # quantify sparsity of Mc for the mKrig object
+  if( verbose){
+    cat("**** In mKrig", fill=TRUE)
+    cat("**** sparse flag",  sparse.flag, fill=TRUE)
+  }
   nzero <- ifelse(sparse.flag, length(Mc@entries), np^2)
   # add diagonal matrix that is the observation error Variance
   # NOTE: diag must be a overloaded function to handle sparse format.
@@ -156,7 +174,6 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     YStar<- forwardsolve(Mc, transpose = TRUE, 
                          object$y, upper.tri = TRUE)
   }
-  
   ##########################################
   ### only the T and Z covariate fixed parts
   ##########################################
@@ -190,7 +207,6 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   resid<-  object$y - Tmatrix %*% beta
   
   }
-  
   if( !is.null(ZCommon) ){
     if( is.null(T)){
       stop("need a fixed part matrix  (m>0, T and/or Z) to add ZCommon")
@@ -258,7 +274,6 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
      #   GLS residual now used to evaluate likelihood   
      resid<- object$y - Tmatrix%*%beta - matrix(ZCommon%*%gamma,n,M)
   }
-    
   if( is.null(Tmatrix)){
 # much is set to NULL because no fixed part of model    
     nt<- 0
@@ -344,6 +359,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # recalculated for new y values.  Make sure onlyUpper and 
   # distMat are unset for compatibility with mKrig S3 functions
   #
+  
    if(!is.null(cov.args$onlyUpper))
      cov.args$onlyUpper = FALSE
    if(!is.null(cov.args$distMat))
@@ -393,11 +409,12 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
    
     object<- c( object, object2)
   #
- 
+  
   #
   # estimate effective degrees of freedom using Monte Carlo trace method.
   # this is optional because not needed for predictions and likelihood
   # but necessary for GCV
+   
   if (find.trA) {
     object3 <- mKrig.trace(object, iseed, NtrA)
     object$eff.df <- object3$eff.df
@@ -415,7 +432,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     object$trA.info <- NA
     object$GCV <- NA
   }
-  
+   
   ################### compile summary vector of parameters
   summaryPars<- rep(NA,10)
   names( summaryPars) <- c( "lnProfileLike.FULL","lnProfileREML.FULL",
@@ -444,6 +461,12 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   summaryPars["GCV"] <- object$GCV
   object$summary<- summaryPars
   
+  
+  
+  if( verbose){
+    cat( "****summary of object from mKrig", fill=TRUE)
+    print( object$summary)
+  }
   ########################
   ### add in some depreciated components so that LatticeKrig 8.4
   ### passes its tests.
@@ -458,5 +481,6 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   object$d<- beta
     
   class(object) <- "mKrig"
+ 
   return(object)
 }

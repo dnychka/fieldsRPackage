@@ -120,8 +120,8 @@ stationary.taper.cov( x[1:3,],x[1:10,] , aRange=200, Taper.args=
 # should be identical to
 # the direct matrix product
 
-temp2<- Exponential( rdist.earth(x[1:3,],x[1:10,]), range=200) * 
-           Wendland(rdist.earth(x[1:3,],x[1:10,]), aRange= 300, k=2, dimension=2)
+temp2<- Exponential( rdist.earth(x[1:3,],x[1:10,]), aRange=200) * 
+           Wendland(rdist.earth(x[1:3,],x[1:10,]),  aRange= 300, k=2, dimension=2)
 
 test.for.zero(  as.matrix(temp), temp2, tol=2e-6, tag="taper with great circle")
 

@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -77,7 +77,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
                   list(cov.function=cov.function) 
                   )
   if( verbose){
-    cat("Info from mKrigJoint:",fill=TRUE)
+    cat("***** Info from call to mKrigJoint:",fill=TRUE)
     cat("Argument names in full mKrig.args: ",  fill=TRUE)
     print( names(mKrig.args) )
     cat("Full cov.args names:\n ", names( cov.args), fill=TRUE)
@@ -95,7 +95,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  Z = NULL,
     nameCriterion<-"GCV"
   }
   if(verbose){
-    cat("nameCriterion", nameCriterion, fill=TRUE)
+    cat("nameCriterion: ", nameCriterion, fill=TRUE)
   }
   callOptim<-  !is.null(cov.params.start) & length(parNames) > 0
   
@@ -205,13 +205,20 @@ else{
 }
 #########################################################
 ### just evaluate
-### at final parameters and also find the trace and GCV 
+### at final parameters  or if a fast return 
+### and also find the trace and GCV 
 #########################################################
   cov.args.final<- c( cov.args, cov.params.final)
-  
-  fastObject   <- do.call("mKrig",
-                          c(mKrig.args, iseed= iseed,
-                          cov.args.final) )$summary
+  mKrigCallingArgs<-  c(mKrig.args, iseed = iseed,
+                        verbose=verbose,
+                       cov.args.final)
+  if( verbose){
+    cat("**** Final call in mKrigMLEJoint",  fill=TRUE)
+     cat( names(mKrigCallingArgs ), sep=",", fill=TRUE)
+  cat("aRange", mKrigCallingArgs$cov.args$aRange,fill=TRUE)
+  print( mKrigCallingArgs$aRange)
+  }
+  fastObject   <- do.call("mKrig", mKrigCallingArgs )$summary
   
 ######################################################### 
   summary <- c( fastObject, optim.counts,

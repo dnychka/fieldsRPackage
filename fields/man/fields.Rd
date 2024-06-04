@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -64,7 +64,7 @@ strip comments from the source for efficiency.   You can go to
  We also keep the most recent version of this package  at the 
 \href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
 and for commented source go to the 
-the subdirectory \code{fields/src}. This may be a more recent version than what is posted to CRAN. 
+the subdirectory \code{fields/R}. This may be a more recent version, however, than what is posted to CRAN. 
 }
 
 \details{
@@ -73,7 +73,7 @@ the subdirectory \code{fields/src}. This may be a more recent version than what 
 \itemize{ 
 
 \item \code{\link{spatialProcess}} An easy to use method that fits a spatial process model
-( e.g. Kriging) but also estimates the key spatial parameters:  nugget variance, sill variance and range by maximum likelihood. Default covariance model is a Matern covariance function. This function and related functions called by this are the core methods in fields and have much flexibility. 
+( e.g. Kriging) but also estimates the key spatial parameters:  nugget variance, sill variance and range parameter by maximum likelihood. The default covariance model is a Matern covariance. This function and related functions called by this are the core methods in fields and have much flexibility. 
 
 \code{\link{spatialProcess}} allows one to supply a covariance
 function that is
@@ -82,11 +82,12 @@ includes
 several families of covariances  including the
 Matern and several distance metrics including great circle distance
 . 
-\code{\link{sim.spatialProcess}} and \code{\link{simLocal.spatialProcess}} provide  "one liners"" for conditional simulation of the fitted surface. 
+\code{\link{sim.spatialProcess}} and \code{\link{simLocal.spatialProcess}} provide  "one liners" for conditional simulation of the fitted surface. 
  
 \item \code{\link{Tps}} Thin Plate spline
 regression including GCV and REML estimates for the smoothing parameter. For moderate size data sets as a first look we use \code{Tps} all the time. See also \code{\link{fastTps}} for an 
-approximate method to handle very large numbers of spatial locations 
+approximate method to handle very large numbers of spatial locations.
+Also see the help file for \code{spatialProcess} to see how to fit a thin plate plate using the more extensive set of spatial stats functions. 
 
 \item \code{\link{sreg}} , \code{\link{splint}}   Fast 1-D cubic smoothing 
 splines and interpolating  splines, a workhorse  algorithm for more EDA and more complicated methods.  
@@ -94,15 +95,15 @@ splines and interpolating  splines, a workhorse  algorithm for more EDA and more
 \item \code{\link{mKrig}} (micro Krig) 
     Efficient Universal Kriging and Gaussian process function,
     that can take advantage of sparse covariance
-    
-functions and is the core algorithm called by optimization
+    functions and is the core algorithm called by optimization
 functions and for spatial predictio. 
 
-\item \code{\link{QTps}} A easy to use extension of thin plate splines for quantile and robust surface fitting.
+\item \code{\link{QTps}} A easy to use extension of thin plate splines for quantile and robust surface fitting. 
 
 \item \code{\link{mKrigMLEGrid}} and \code{\link{mKrigMLEJoint}} for maximum likelihood estimates of covariance parameters. These functions also 
 handle replicate fields, assumed to be independent realizations, at the same locations and can also take any covariate function function written in R following the \code{fields} format 
-}  % end itemize
+}  
+% end itemize
 
 
 \strong{Other noteworthy functions}
@@ -114,9 +115,9 @@ with temporal replications.
 \item \code{\link{cover.design}} Generates space-filling designs where the distance 
 function is expresed in R code.
 
-\item Many
+\item  There are many
 convenient functions for working with image data and rationally (well,
-maybe reasonably) creating and  placing a color scale on  plots: 
+maybe reasonably) creating and  placing a color scale on  plots. This suite of tools are for the users who want to extend the "base R grahics" and retain control over details. See the last amusing example in help(imagePlot) for an example.  
 \code{\link{as.image}}, \code{\link{imagePlot}}, \code{bubblePlot}, \code{
 \link{drape.plot}}, \code{\link{quilt.plot}}
 \code{\link{add.image}}, \code{\link{crop.image}}, \code{\link{half.image}},

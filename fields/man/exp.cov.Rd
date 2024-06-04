@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -55,9 +55,10 @@ using 'Exp' in place of 'exp' to avoid conflict with the generic exponential
 function (\code{exp(...)})in R.
 }
 \usage{
-Exp.cov(x1, x2=NULL, aRange = 1, p=1, distMat = NA, 
-  C = NA, marginal = FALSE, onlyUpper=FALSE, theta=NULL)
-
+Exp.cov(x1, x2 = NULL, aRange = 1, p = 1, distMat = NA, C =
+                 NA, marginal = FALSE, onlyUpper = FALSE, theta = NULL,
+                 ...)
+                 
 Exp.simple.cov(x1, x2, aRange =1, C=NA,marginal=FALSE, theta=NULL)
 
 Rad.cov(x1, x2, p = 1, m=NA, with.log = TRUE, with.constant = TRUE, 

@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -141,7 +141,8 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
     #
     if (out$decomp == "WBW") {
         # pad u with zeroes that corresond to null space basis functions
-        # this makes it compatible with the DR decomposition.
+        # this makes it compatible with the Demmler Reisch decomposition.
+        # from an older version of this code
         u <- rbind(matrix(0, nrow = out$nt, ncol = ndata), t(out$matrices$V) %*% 
             qr.q2ty(out$matrices$qr.T, out$W2 %d*% temp.yM))
         #
@@ -179,6 +180,9 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
         tauHat.pure.error = out2$tauHat.pure.error, pure.ss = out2$pure.ss))
 }
 
+# brute force way to find the smoother matrix:
+# yhat = A(lambda) y
+# trace of A(lambda) is the effective degrees of freedom
 Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL, 
     eval.correlation.model = FALSE, ...) {
     if (is.null(lambda)) {
@@ -202,6 +206,7 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
     }
     return(out)
 }
+
 "Krig.df.to.lambda" <- function(df, D, guess = 1, 
     tol = 1e-05) {
     if (is.list(D)) {

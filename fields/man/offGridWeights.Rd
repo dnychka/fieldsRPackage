@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -26,6 +26,8 @@
 \alias{mKrigFastPredictSetup}
 \alias{offGridWeights1D}
 \alias{offGridWeights2D}
+\alias{findGridBox}
+
 \title{
 Utilities for fast spatial prediction. 
 }
@@ -45,14 +47,16 @@ offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
    offGridWeights1D(s, gridList, np = 2, mKrigObject = NULL,
    Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
-   debug=FALSE)
+   debug=FALSE )
    
    offGridWeights2D(s, gridList, np = 2, mKrigObject = NULL,
    Covariance = NULL,
-   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
-   debug=FALSE)
+   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE, 
+  debug = FALSE,findCov = TRUE)
    
 addMarginsGridList( xObs, gridList, NNSize)
+
+findGridBox(s, gridList) 
 
 mKrigFastPredictSetup(mKrigObject,
                           gridList, 
@@ -60,57 +64,66 @@ mKrigFastPredictSetup(mKrigObject,
 			  giveWarnings = TRUE)
 }
 
-\arguments{
-  \item{s}{
-  Off grid spatial locations
-}
 
-  \item{xObs}{
-    Off grid spatial locations}
 
+\arguments{ 
+ 
+\item{aRange}{
+  The range parameter.}
+\item{covArgs}{
+  If \code{mKrigObject} is not specified  a list giving any additional arguments for the covariance function. }
+
+  \item{Covariance}{
+  The stationary covariance function  (taking pairwise distances as its
+  first argument.) }
+ 
+ \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
+ 
+\item{findCov}{If TRUE the prediction variances (via the Kriging
+  model and assumed covariance function) for the offgrid locations are
+  found. If FALSE just the prediction weights are returned. This option is a bit faster. 
+ This switch only is implemented for the 2 D case since the extra  computational demands for 1 D are modest.}
+ 
+ \item{giveWarnings}{If TRUE will warn if two or more observations
+ are in the same grid box. See details below.}
+ 
   \item{gridList}{
   A list as the gridList format ( x and y components) that describes the
   rectagular grid. The grid must have at least np extra grid points beyond
-  the range of the points in \code{s}
+  the range of the points in \code{s}. See
+  \code{\link{grid.list}}. 
 }
 
-  \item{np}{
+\item{mKrigObject}{
+  The output object (Aka a list with some specfic components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
+  The following items are coded in place of not supplying this object.  See the example below for more details.
+}
+
+\item{np}{
   Number of nearest neighbor grid points to use for prediction.  \code{np = 1}
   will use the 4 grid points that bound the off grid point.  \code{np = 2}
   will be a 4X4 subgrid with the middle grid box containing the off grid point.
   In general there will be  \code{(2*np)^2} neighboring points uses. 
 
 }
+
  \item{NNSize}{Same as \code{np}. }
  
-  \item{mKrigObject}{
-  The output object (Aka a list with some specfic components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
-  The following items are coded in place of not supplying this object.  See the example below for more details.
+ 
+  \item{s}{
+  Off grid spatial locations
 }
 
-  \item{Covariance}{
-  The stationary covariance function  (taking pairwise distances as its
-  first argument.)
-
-}
-  \item{covArgs}{
-  If \code{mKrigObject} is not specified  a list giving any additional arguments for the covariance function. 
-}
-  \item{aRange}{
-  The range parameter. 
-}
-  \item{sigma2}{
+ \item{sigma2}{
   Marginal variance of the process. 
 }
- \item{giveWarnings}{If TRUE will warn if two or more observations
- are in the same grid box. See details below.}
  
- \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
- 
+  \item{xObs}{
+    Off grid spatial locations}
 }
 
 \details{
-This function creates the interpolation weights taking advantage of some
+\strong{offGridWeights} This function creates the interpolation weights taking advantage of some
 efficiency in the covariance function being stationary, use
 of a fixed configuration of nearest neighbors, and Kriging
 predictions from a rectangular grid. 
@@ -118,11 +131,14 @@ predictions from a rectangular grid.
 The returned matrix is in spam sparse matrix format. See
 example below for the "one-liner" to make the prediction
 once the weights are computed. Although created primarily
-for conditional simulation of a spatial process this
+for (approximate) conditional simulation of a spatial process this
 function is also useful for interpolating to off grid
-locations from a rectangular field.
+locations from a rectangular field. It is also used for
+fast, but approximate prediction for Kriging with a
+stationary covariance. 
 
-The function \code{offGridWeights} is a simple wrapper to call either the 1D or 2D functions 
+The function \code{offGridWeights} is a simple wrapper to
+call either the 1D or 2D functions 
 
 In most cases one would not use these approximations for a 1D problem.
 However,
@@ -133,18 +149,21 @@ Kriging weights for each point and the sparse matrix encoding of them.
 
 The interpolation errors are also computed based on the nearest neighbor
 predictions. This is returned as a sparse matrix in the component SE. 
-If all observations are in different grid boxes then \code{SE} is diagonal
-and agrees with the square root of the component \code{predctionVariance} but
-if multiple observations are in the same grid box then SE has blocks of upper
+If all observations are in different grid boxes then \code{SE} is
+diagonal
+and agrees with the square root of the component
+\code{predctionVariance} but
+if multiple observations are in the same grid box then SE has blocks of
+upper
 triangular matrices that can be used to simulate the prediction error
 dependence among observations in the same grid box. 
 Explicitly if \code{obj} is the output object and there are \code{nObs}
 observations then 
 
 \preformatted{error <- obj$SE\%*\% rnorm( nObs)} 
-will simulate a prediction error that includes the dependence. Note that in
-the case that there all observations are in separate grid boxes this code 
-line is the same as 
+will simulate a prediction error that includes the dependence. Note that
+in
+the case that there all observations are in separate grid boxes this code line is the same as 
 \preformatted{error <- sqrt(obj$predictionVariance)*rnorm( nObs)}
 It is always true that the prediction variance is given by 
 \code{ diag( obj$SE\%*\% t( obj$SE))}.
@@ -155,18 +174,35 @@ The user is also referred to the testing scripts
 Kriging predictions and standard errors are computed explicitly and 
 tested against the sparse
 matrix computation. This is helpful in defining exactly what
-is being computed.  
-}
+is being computed. 
+
+Returned value below pertains to the offGridWeights function. 
+
+\strong{addMarginsGridList} This is a supporting function that adds 
+extra grid points for a gridList so that every irregular point has a
+complete number of nearest neighbors.
+
+\strong{findGridBox}This is a handy function that finds the indices of
+the lower left grid box that contains the points in \code{s}. If the
+point is not contained within the range of the grid and NA is returned 
+fo the index. 
+This function assumes that the grid points are equally spaced.}
+
 
 \value{
 
-\item{B}{A sparse matrix that is of dimension mXn with m the number of locations (rows) in \code{s} and n being the total number of grid points. \code{n = length(gridList$x)*length(gridList$y) }
+\item{B}{A sparse matrix that is of dimension mXn with m the number of
+locations (rows) in \code{s} and n being the total number of grid points.
+\code{n = length(gridList$x)*length(gridList$y) }
 }
 
- \item{predictionVariance}{A vector of length as the rows of \code{s} with the Kriging prediction variance based on the nearest neighbor prediction and the specified covariance function. }
- \item{SE}{A sparse matrix that can be used to simulate dependence among prediction errors for observations in the same grid box. (See explanation above.)}
+\item{predictionVariance}{A vector of length as the rows of \code{s}
+with the Kriging prediction variance based on the nearest neighbor
+prediction and the specified covariance function. }
+ \item{SE}{A sparse matrix that can be used to simulate dependence among
+prediction errors for observations in the same grid box. 
+(See explanation above.)}
  
-
 }
 
 \references{ 

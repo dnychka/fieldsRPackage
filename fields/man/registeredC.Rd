@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -74,7 +74,7 @@ package source (src) directory.
   }
 \details{
  \describe{
-\item{addToDiagC}{ adds diagonal elements to a matrix. See code{mKrig}.}
+\item{addToDiagC}{ adds diagonal elements to a matrix. See \code{mKrig}.}
 
 \item{ExponentialUpperC}{Fills in upper triangle of a matrix with the exponential covariance function. See \code{ExponentialUpper}}
 

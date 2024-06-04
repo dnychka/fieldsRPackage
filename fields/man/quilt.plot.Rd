@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -39,15 +39,15 @@ quilt.plot(x, y, z, nx = 64, ny = 64,  grid = NULL,
                  NULL, plot=TRUE, na.rm=FALSE, 
                  boundary.grid = FALSE, ...)
                  
-bubblePlot(x, y, z, col = viridisLite::viridis(256), 
-       zlim=NULL, horizontal = FALSE,
-                 legend.cex = 1, legend.lab = NULL, legend.line = 2,
-                 legend.shrink = 0.9, legend.width = 1.2, legend.mar =
-                 ifelse(horizontal, 3.1, 5.1), axis.args = NULL,
-                 legend.args = NULL, size = 1, add = FALSE,
-                 legendLayout = NULL, highlight = TRUE, highlight.color
-                 = "grey30", ...)
-
+bubblePlot(
+x, y, z, col = viridisLite::viridis(256), zlim = NULL,
+                 horizontal = FALSE, legend.cex = 1, legend.lab = NULL,
+                 legend.line = 2, legend.shrink = 0.9, legend.width =
+                 1.2, legend.mar = ifelse(horizontal, 3.1, 5.1),
+                 axis.args = NULL, legend.args = NULL, size = 1, add =
+                 FALSE, legendLayout = NULL, highlight = FALSE,
+                 highlight.color = "grey30", bubbleType = "circle",
+                 ...)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -88,8 +88,10 @@ If false (default) legend will be a vertical strip on the right side. If
 true the legend strip will be along the bottom.  
 }
 
-\item{highlight}{If TRUE will add a circle around the "bubble" in the color
-\code{highlight.color}.
+\item{bubbleType}{Symbol for the bubble as a text string.
+    Either "circle" (default) or "square".}
+\item{highlight}{If TRUE will add an outline color around the "bubble" with the color
+\code{highlight.color}. This is useful when the bubbles are distinct.
 }
 
 

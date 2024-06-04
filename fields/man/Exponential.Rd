@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -32,20 +32,20 @@ Functional form of covariance function assuming the argument is a
 distance between locations.  As they are defined here, they are in 
 fact correlation functions.  To set the marginal variance (sill) 
 parameter, use the \code{sigma} argument in \code{mKrig} or \code{Krig}.  
-To set the nugget variance, use te \code{tau2} argument in 
+To set the nugget variance, use the \code{tau2} argument in 
 \code{mKrig} or \code{Krig}.
 }
 \usage{
-Exponential(d, range = 1, alpha = 1/range, phi=1.0,theta = NULL)
+Exponential(d, aRange = 1, phi = 1, theta = NULL, range = NULL)
 Matern(d , range = 1,alpha=1/range, smoothness = 0.5, 
        nu= smoothness, phi=1.0) 
 Matern.cor.to.range(d, nu, cor.target=.5, guess=NULL,...)
 RadialBasis(d,M,dimension, derivative = 0)
 
 }
-%- maybe also 'usage' for other objects documented here.
 \arguments{
-
+  \item{aRange}{The usual range parameter for a covariance function. We use this names to be distinct from the "range"" function and the generic parameter name "theta"."}
+  
   \item{d}{ Vector of distances or for \code{Matern.cor.to.range} just a single distance. }
 
   \item{range}{ Range parameter default is one. Note 
@@ -80,7 +80,7 @@ covariance.}
 \details{
 Exponential: 
 
-exp( -d/range)
+exp( -d/aRange)
 
 Matern:
 

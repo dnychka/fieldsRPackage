@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
   if( !is.null( theta)){
     aRange<- theta
   }
-  
+
   cov.args <- list(...)
   # coerce x1 and x2 to matrices
   if (is.data.frame(x1)) 
@@ -96,6 +96,9 @@
     #
     # now convert distance matrix to covariance matrix
     #
+    # print("**** in stationary.cov" )
+    # cat("aRange", aRange, fill=TRUE)
+    # 
     if(inherits(distMat, "dist")) {
       #
       # distMat is in compact form, so evaluate covariance over all distMat and convert to matrix form
@@ -110,7 +113,12 @@
     }
     else {
       # distMat is a full matrix
-      return(do.call(Covariance, c(list(d = distMat/aRange), cov.args)))
+      
+      # print(Covariance)
+      # print( aRange)
+      
+      tmp<- do.call(Covariance, c(list(d = distMat/aRange), cov.args))
+      return( tmp)
     }
   }
   # or multiply cross covariance by C

@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -349,14 +349,16 @@ data( ozone2)
   y<- ozone2$y[16,]
   
 # artifically reduce size of data for a quick example to pass CRAN ...
-  x<- x[1:75,]
-  y<- y[1:75]
+# x<- x[1:75,]
+# y<- y[1:75]
   
 # lots of default choices  made here -- see gridN to increase 
 # the number of points in grid searches for MLEs
 # without specifying  lambda or aRange both are found in a robust 
 # way uses grid searches 
-# profiling over lambda and aRange  is not reuqired but completes the full 
+# the covariance is assumed to be  stationary Matern with a smoothness of 
+# 1.0 (aka Whittle). 
+# profiling over lambda and aRange  is not required but completes the full 
 # example.  Omit this for a faster computation.
 
   obj<- spatialProcess( x, y, profileLambda=TRUE, profileARange=TRUE)
@@ -404,6 +406,15 @@ objTest<- spatialProcess( x, y,
                           
 test.for.zero(objTest$fitted.values, obj$fitted.values, 
             tag="sanity check" )
+
+# swtiching to an exponential function 
+# See Exponential for the definition. 
+#
+objExponential <- spatialProcess( x, y, 
+              Covariance="Exponential" )
+              
+objExponential$summary
+
 
 \dontrun{
 ##################################

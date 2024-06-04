@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -25,6 +25,7 @@ predictSE.mKrig<- function(object, xnew = NULL,
   #
   # name of covariance function
   call.name <- object$cov.function.name
+  # check for collapsed fixed effects
   
   # if(drop.Z){
   #   stop("  Sorry drop.Z not supported")
@@ -56,31 +57,29 @@ predictSE.mKrig<- function(object, xnew = NULL,
   }
   k0 <- do.call(call.name, c(object$args, list(x1 = object$x, 
                                                x2 = xnew)))
-  # fixed effects matrix includes both spatial drift and covariates.
-  if (!drop.Z) {
-    t0 <- t(cbind(fields.mkpoly(xnew, m = object$m), Z))
-  }
-  
   #
   # old form based on the predict function
   #   temp1 <-  sigma2*(t0%*% object$Omega %*%t(t0)) -
   #          sigma2*predict( object, y= k0, x=x) -
   #          sigma2*predict( object, y= k0, x=x, just.fixed=TRUE)
-  
   # alternative formula using the beta and c.coef coefficients directly.
   # collapseFixedEffect=FALSE because
   # we want the "fixed effect" computation
   # to be done separately for each column of k0
   hold <- mKrig.coef(object, y = k0, collapseFixedEffect=FALSE)
- 
-  # find marginal variances -- trival in the stationary case!
+  #print( hold$beta)
+  # temp0 are marginal variances -- trival in the stationary case!
   temp0<- sigma2 * do.call(call.name,
-                            c(object$args, list(x1 = xnew, marginal = TRUE))) 
+                            c(object$args, 
+                              list(x1 = xnew, marginal = TRUE))) 
   temp <- temp0 - sigma2 *colSums((k0) * hold$c.coef)
-  # Add marginal variance to part from estimate
+  # add contribution from fixed effect covariates 
   if( !drop.Z){
+    # fixed effects matrix includes both spatial drift and covariates.
+    t0 <- t(cbind(fields.mkpoly(xnew, m = object$m), Z))
     temp1 <- sigma2 * (colSums(t0 * (object$Omega %*% t0)) 
                        - 2 * colSums(t0 * hold$beta))
+    #print( colSums(t0 * (object$Omega %*% t0)))
     temp <- temp + temp1
   }
   # return square root as the standard error in units of observations.

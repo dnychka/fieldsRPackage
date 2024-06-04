@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -22,7 +22,6 @@
 
 mKrig.trace <- function(object, iseed, NtrA) {
 # do not reset the random seed if NA. 
-  
     if (exists(".Random.seed", .GlobalEnv)){
       oldseed <- .GlobalEnv$.Random.seed
     }
@@ -38,7 +37,8 @@ mKrig.trace <- function(object, iseed, NtrA) {
     if (NtrA >= object$np) {
         Ey <- diag(1, np)
         NtrA <- np
-        hold <- diag(predict.mKrig(object, ynew = Ey, collapseFixedEffect=FALSE))
+        hold <- diag(predict.mKrig(object, ynew = Ey, 
+                                   collapseFixedEffect=FALSE))
         trA.info<- NA
         trA.est <- sum(hold)
     }
@@ -51,8 +51,9 @@ mKrig.trace <- function(object, iseed, NtrA) {
         # create random normal 'data'
         Ey <- matrix(rnorm(np * NtrA), nrow = np, 
             ncol = NtrA)
-        trA.info <- colSums(Ey * (predict.mKrig(object, ynew = Ey,
-                                    collapseFixedEffect=FALSE)))
+        tmp<- Ey * (predict.mKrig(object, ynew = Ey,
+                                  collapseFixedEffect=FALSE))
+        trA.info <- colSums(tmp)
         trA.est <- mean(trA.info)
     }
     if (NtrA < np) {

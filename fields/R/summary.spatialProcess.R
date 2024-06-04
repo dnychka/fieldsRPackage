@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -112,8 +112,8 @@ summary.spatialProcess <- function(object, ...) {
     if (outObject$collapseFixedEffect | (nData == 1)) {
       outObject$fixedEffectsCov <- object$fixedEffectsCov
       SE <- sqrt(diag(outObject$fixedEffectsCov))
-      SEbeta <- SE[1:length(beta)]
       beta <-  object$beta[, 1]
+      SEbeta <- SE[1:length(beta)]
       pValue <- pnorm(abs(beta / SEbeta), lower.tail = FALSE) * 2
       outObject$fixedEffectsTable <- cbind(signif(beta, digits),
                                            signif(SEbeta, digits),
@@ -128,6 +128,7 @@ summary.spatialProcess <- function(object, ...) {
       dimnames(outObject$fixedEffectsTable) <-
         list(outObject$fixedEffectNames,
              c("estimate", "SE", "pValue"))
+      
     }
     else{
       # if more that one realization just summarize the coefficients

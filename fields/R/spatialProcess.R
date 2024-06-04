@@ -1,9 +1,9 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2022 Colorado School of Mines
+# Copyright (C) 2024 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
-# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
 # This program is free software; you can redistribute it and/or modify
 # it under the terms of the GNU General Public License as published by
@@ -40,25 +40,43 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
          collapseFixedEffect = TRUE,
                            ...) {
  
+# Through out this code:  obj is the output list and will be added to throughout the computation
+# This device is typical in fields functions where a list is built up in the process of the 
+# computation. 
+  
 #  THE RULES: 
 # Being in the cov.params.start list means a parameter will be optimized
 # by maximum likelhood. 
-# If a  parameter is in the cov.args list it will be fixed in its value
+# If a  parameter is in the cov.args list it will be fixed at that value
 #  
   
 # NOTE all the  ... extra arguents are assumed to be for the cov.args list
-  GCV<- FALSE # top level placeholder to add GCV search capability once
+  GCV<- FALSE # A top level placeholder to add GCV search capability once
 # algorithm is stable 
 # this default choice is used in the next level functions.
+############################################################ 
+#### Setting some defaults for the covariance function and parameters
+############################################################ 
   
-# set defaults based on the model passed. 
-# obj is the output list and will be added to throughout the computation
-   extraArgs<- list(...)
-   
+
+  
+# It is also convenient to just add a few arugments of the covariance driectly in the 
+# this list collects those.  E.g. spatialProcess( x, y, Covariance="Exponential" )
+# will pass this choice along to the default covariance function, stationary.cov
+#
+  
+  extraArgs<- list(...)
+  
    if( REML&GCV){
      stop("Cannot optimize for both REML and GCV!")
    }
-   
+  
+# set defaults based on the model passed. 
+# the following function fills in some typical models and 
+# just avoids some typing and makes for some clean examples
+#   
+# note this also creates the initial components for the output list. 
+#
    obj<- spatialProcessSetDefaults(x, 
                             cov.function = cov.function, 
                                 cov.args = cov.args,
@@ -87,6 +105,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     cat(" The CASE:", obj$CASE, fill=TRUE)
     cat("Complete list of components in cov.args: ", "\n",
         names(obj$cov.args),fill=TRUE )
+    cat("Complete list of components in mKrig.args: ", "\n",
+        names(obj$mKrig.args),fill=TRUE )
   }
    
   if( verbose){
@@ -102,12 +122,17 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
    
   if( (obj$CASE == 2 )  ){
     if( verbose){
-      cat("grid search starts", fill=TRUE)
+      
+      cat("*****************************************", fill=TRUE)
+      cat("***** Grid search ", fill=TRUE)
+      cat("***** Grid search starting values: ", fill=TRUE)
       print(cov.params.start )
-      cat("parGrid names: " , fill=TRUE)
+      cat("***** parGrid names: " , fill=TRUE)
       print( names( parGrid))
-
+      cat("***** the grid to search:", fill=TRUE)
+      print( names( obj$parGrid))
     }
+    
     InitialGridSearch<- mKrigMLEGrid(x, y,  
                              weights = weights,
                                    Z = Z, 
@@ -133,6 +158,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     }
     
     if( verbose){
+      cat("results of intitial grid search: ", fill=TRUE)
       print(InitialGridSearch$indMax )
     }
     parNames<- names( obj$parGrid)
@@ -141,9 +167,6 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
       names(cov.params.start )<- parNames
     }
     else{
-      #print( parNames)
-      #print( obj$parGrid)
-      
     cov.params.start[parNames] <- 
        obj$parGrid[InitialGridSearch$indMax, parNames]
     }

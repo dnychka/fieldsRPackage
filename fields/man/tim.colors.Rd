@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -90,10 +90,10 @@ that the x values are equally spacesd from 0 to 1.}
 \item{eps}{A small inflation of the range to avoid the  boundary values of
 \code{z} being coded as NAs.}
 
-\item{NC}{The number of colors to return from calling the function passed in the \code{col} argument. This is only used if \code{col} is a function.
-}
+\item{NC}{The number of colors to return from calling the function passed in the
+\code{col} argument. This is only used if \code{col} is a function.}
 
-\item{\dots}{Additional plotting arguments to code{image.plot}}
+\item{\dots}{Additional plotting arguments that are passed to \code{image.plot}. }
 
 }
 

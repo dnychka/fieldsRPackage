@@ -1,7 +1,7 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2022 Colorado School of Mines
+%# Copyright (C) 2024 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
 %# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
 %#
@@ -23,6 +23,7 @@
 
 \name{imagePlot}
 \alias{imagePlot}
+\alias{plotMatrix}
 \alias{colorBar}
 \alias{setupLegend}
 \alias{addLegend}
@@ -32,15 +33,8 @@
 a regular grid or a grid of quadrilaterals.  
 }
 \description{
-This function combines the R image function with some automatic 
-placement of a legend. It is backwardly compatible with the older function \code{\link{image.plot}}.
-This function works by  by splitting the plotting region  
-into two parts. Putting the image in one and the legend in the other. After the
-legend is added the plot region is reset to the main image plot.
-This function also allows for plotting quadrilateral cells in the image format that
-often arise from regular grids transformed with a map projection or a scaling and rotation of coordinates. Finally, see the last example where this function can create a similar graphic to the ggplot package but using all base R graphics.
-Two additional functions are provided to add a color scale to other kinds
-of figures. 
+These functions combines the R image function with some automatic 
+placement of a colorbar legend. \code{imagePlot} is backwardly compatible with the older function \code{\link{image.plot}}. \code{plotMatrix} gives an image plot but shuffles the matrix so that it is in its usual tabular order. There are also some supporting functions to place color bars on other kinds of plots.
 }
 \usage{
 imagePlot(..., add = FALSE, breaks = NULL, nlevel = 64, col =
@@ -70,7 +64,9 @@ addLegend(legendLayout, col, zlim, axis.args = NULL, legend.args
 		 
 addColorBarTriangle(lowerColor=NULL,
                                 upperColor=NULL,
-                                horizontal=TRUE)		 
+                                horizontal=TRUE)
+                                
+plotMatrix(A, M = 5, N = 5, ...)
 }
 
 \arguments{ 
@@ -97,6 +93,7 @@ If true add image and a legend strip to the existing plot.
 \item{axis.args}{A list giving additional arguments for the axis function used to 
 create the legend axis. Some typicalones are \code{at} and \code{labels} and specify \code{cex} to control the size of the labels.  (See example below adding a log scaling.)}
 
+\item{A}{Matrix to plot as an image.}
 \item{bigplot}{
 Plot coordinates for image plot. If not passed
 these will
@@ -187,6 +184,7 @@ that the width of a character. }
 \item{lwd}{Line width of bordering lines around pixels.
  This might need to be set less than 1.0 to avoid visible rounding of the pixel corners.}
 
+\item{M}{Number of rows to label in \code{plotMatrix}}
 \item{midpoint}{ 
 This option is for the case of unequally spaced grids with x and y
 being 
@@ -202,6 +200,7 @@ quadralaterals. (See help on poly.image for details). In most cases
 midpoint should be FALSE to preserve exact values for z and 
 let the grid polygons be modified.}
 
+\item{N}{Number of columns to label in \code{plotMatrix}}
 \item{nlevel}{
 Number of color levels used in legend strip  
 }
@@ -246,10 +245,20 @@ coding was done to make it easier for users to see how
 this function works and to modify. This will have the
 same functionaity as the older \code{image.plot} but
 calls the \code{colorBar} function in place of direct
-coding in the main function.  The functions \code{colorBar} and
+coding in the main function.  The functions \code{colorBar}
+and
 \code{addColorBarTriangle} are used internally and included for completeness. 
 
 \strong{How this function works:}
+
+This function works by  splitting the plotting region  
+into two parts. Putting the image in one and the legend in the other. After the
+legend is added the plot region is reset to the main image plot.
+This function also allows for plotting quadrilateral cells in the image format that
+often arise from regular grids transformed with a map projection or a scaling and rotation of coordinates. Finally, see the last example where this function can create a similar graphic to the ggplot package but using all base R graphics.
+Two additional functions are provided to add a color scale to other kinds
+of figures.
+
 The strategy for \code{imagePlot} is simple: divide the plotting region
 into two smaller regions \code{bigplot} and \code{smallplot}. The image
 goes in one and the legend in the other. This way there is always room for
@@ -259,7 +268,7 @@ sticking the legend strip close to the image plot. The functionality has
 evolved over many uses of image plots for geophysical data and the examples
 given below show the flexibility of this function. Also this function is backwardly
 compatible with the older \code{image.plot} but includes adding endcap trianglesto the color bar to indicate values beyond the range of the color scale.
-Also the function uses \code{colorBar} to add the legend strip and perhaps this function is useful on its own in other applictions.    
+Also the function uses \code{colorBar} to add the legend strip a function that is useful on its own in other applictions.    
 
 \strong{Figure real estate} 
 One can specify the
@@ -272,7 +281,7 @@ Sometimes this function will not reset the type of margins correctly and the
 "null" call \code{par(mar = par("mar"))} may help to fix this issue.
 
 \strong{The text is too small!} 
-This always seems to happen as one is rushing to finish a talk and the figures have tiny default axis labels. Try just calling the function \code{fields.style} before plotting. List out this function to see what is changed, however, all text is increased by 20\% in size. 
+This always seems to happen as one is rushing to finish a talk and the figures have tiny default axis labels. Try just calling the function \code{fields.style} before plotting and list out this function to see how to make further changes. 
 
 \strong{Why ``imagePlot" and not ``image"?} The R Base function \code{image} is very 
 useful but it is awkward to place a legend quickly. However, that said if you are
@@ -362,7 +371,7 @@ as  default color scales and so if this what you use this can be omitted.
 Unfortunately this is not the default for the \code{image} function. Another
 important color scale is \code{ viridis() } from the viridis package.
 It seems that by
-and large everyone seems to react postively to viridis -- guess that is the
+and large everyone seems to react positively to viridis -- guess that is the
 point!
 
 The
@@ -474,6 +483,9 @@ add.image, colorbar.plot, tim.colors, designer.colors }
   y<- 1:15
   z<- outer( x,y,"+") 
   imagePlot(x,y,z) 
+  
+# to view z in the usual  matrix indexing:
+  plotMatrix( z)
 
 # or 
   obj<- list( x=x,y=y,z=z)
@@ -621,11 +633,29 @@ set.panel() # reset plotting device
 
 
 # you can always add a legend arbitrarily to any plot;
-# note that here the plot is too big for the vertical strip but the
-# horizontal fits nicely.
+# note that here the plot by default is too big for the vertical strip 
+# or  horizontal strip. 
+# just increase the margin size to accomodate 
+# this fix will be graphics device dependent so I recommend 
+# using the pdf function and saving to a pdf file to get consistent results
+
 plot( 1:10, 1:10)
 imagePlot( zlim=c(0,25), legend.only=TRUE)
 imagePlot( zlim=c(0,25), legend.only=TRUE, horizontal =TRUE)
+
+par( mar=c( 10,5,2,2))
+plot( 1:10, 1:10)
+imagePlot( zlim=c(0,25), legend.only=TRUE, horizontal = TRUE)
+
+\dontrun{
+# drawing and saving the plot to a pdf file.
+pdf("test.pdf", width=6, height=4)
+par( mar=c( 10,5,2,2) ) # you may have to adjust these.
+plot( 1:10, 1:10)
+imagePlot( zlim=c(0,25), legend.only=TRUE, horizontal = TRUE)
+dev.off()
+}
+
 
 # combining the  usual image function and adding a legend
 # first change margin for some more room
