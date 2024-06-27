@@ -1,6 +1,6 @@
 Package: fields
-Version: 16.0
-Date: 2024-06-03
+Version: 16.2
+Date: 2024-06-27
 Title: Tools for Spatial Data
 Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),
                email = "douglasnychka@gmail.com"),

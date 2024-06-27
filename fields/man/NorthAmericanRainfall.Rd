@@ -38,7 +38,7 @@ or 1971-2023 (new version, 4800+ locations) and for North America. The old versi
  For both versions  the format is a list with components:
 "longitude" "latitude"  "precip"    "elevation" "precipSE" "trend" "trendSE" "type" "x.s" "sProjection"
 with elevation in meters, longitude as (-180,180), latitude as (-90, 90) and precipitaion in 1/10 mm 
-( precip/254  converts to inches of rainfall). Note that the usual convention is to report a total amount of rainfall but here we give the mean over the three summer months. Multiple by 3 to get total precipitation over June through August.
+( precip/254  converts to inches of rainfall). Note that the usual convention is to report a total amount of rainfall over the season. Divide by 3 to get the mean. 
 
 \code{precip} is the intercept for 1980.5 (1997 for new version) when a straight line least squares regression is fit to 
 each station's record. SE is the companion standard error from the least squares fit.
@@ -84,8 +84,10 @@ world( add=TRUE)
 Zstat<- NorthAmericanRainfall$trend / NorthAmericanRainfall$trendSE
 quilt.plot( x, Zstat)
 
+\dontrun{
 # with a better projection
 library( maps)
+library( mapproj)
 bubblePlot( NorthAmericanRainfall$x.s, 
 NorthAmericanRainfall$precip,
 size=.3, col=rev(tim.colors()) )
@@ -93,8 +95,10 @@ map("world",
 projection=NorthAmericanRainfall$projection,
 orientation= NorthAmericanRainfall$orientation,
 add=TRUE, col="grey30")
-
+}
 # note station sparsity outside CONUS and lower CA.
+
+# comparing older and newer versions 
 
 data(NorthAmericanRainfall)
 bubblePlot( NorthAmericanRainfall$lon, NorthAmericanRainfall$lat,
@@ -109,4 +113,5 @@ size=.3, col=rev(tim.colors()), xlim= c(-130,-50))
 world( add=TRUE, col="grey30")
 
 }
+
 \keyword{datasets}

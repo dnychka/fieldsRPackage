@@ -129,10 +129,9 @@ lambda can be strange so it should be plotted.
   
 }
 \seealso{
-\code{\link{sreg}} 
-}
+\code{\link{sreg}} and \code{\link{QTps}} } 
 \examples{
-
+\dontrun{
      # fit a CV  quantile spline
      fit50<- qsreg(rat.diet$t,rat.diet$con)
      # (default is .5 so this is an estimate of the conditional median)
@@ -176,6 +175,7 @@ lambda can be strange so it should be plotted.
      # and now zee quantile splines at 10% 50% and 90%.
      #
      matlines( xg, sm, col=c( 3,3,2,3), lty=1) # the spline
+     }
   
 }
 \keyword{smooth}
