@@ -32,7 +32,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
 {
   
   ## convenient defaults for GP fitting.
-  ## and also sort what starting parameter values are provided
+  ## and also sort out what starting parameter values are provided
   # this code runs on  by perhaps it is useful to see all the defualts and 
   # logic in one place.
   # Note the stranger device below where mKrig.args is created and amended
@@ -69,12 +69,16 @@ spatialProcessSetDefaults<- function( x, cov.function,
   # determine cardinal points if not included in
   # cov.args
     dimX<- ncol( x)
+    mMin<- max(c(2, ceiling(dimX/2 + 0.1)))
   if( is.null( mKrig.args$m)){
     # m should satisfy  2*m-dimX >0
-    mMin<- max(c(2, ceiling(dimX/2 + 0.1))) 
-   
     mKrig.args<- list( mKrig.args, m=mMin )
   }
+
+     if( mKrig.args$m < mMin){
+   stop("m component specified in the mKrig.args list 
+        needs to satisfy 2*m-dimX >0 for the spline to be valid")
+ }
     
 #  
   if( is.null(cov.args)){

@@ -323,6 +323,8 @@ summary( test1.des)
 plot( test1.des)
 
 #
+
+\dontrun{
 candidates<- make.surface.grid( list( seq( 0,5,,20), seq(0,5,,20)))
 out<- cover.design( candidates, 15)
 
@@ -410,6 +412,7 @@ points(  ozone2$lon.lat[out5$best.id,],pch="O", col=4)
 
 # reset panel
 set.panel(1,1)
+}
  
 }
 \keyword{spatial}

@@ -108,6 +108,9 @@ sim.spatialProcess<- function(object, xp,  M = 1,
     # is still estimated as part of the predict step below
     # create synthetic data
     for (k in 1:M) {
+       if( k%%10==1){
+         cat( k," ")
+       }
         # simulate full field
         h <- t(Schol) %*% rnorm(N.full)
         # value of simulated field at observations
