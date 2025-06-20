@@ -272,6 +272,10 @@ surface(out.p, type="C")
 
 ## a test of the fast prediction algorithm for use with 
 # mKrig/spatialProcess objects. 
+# for explanation of the fit see the MLEs from 
+# fitObject<- spatialProcess( x,y)
+#  fitObject$summary
+
 \dontrun{
 data(NorthAmericanRainfall)
 
@@ -279,7 +283,7 @@ x<- cbind(NorthAmericanRainfall$longitude,
           NorthAmericanRainfall$latitude)
 y<- log10(NorthAmericanRainfall$precip)
 
-mKrigObject<- mKrig( x,log10(y),
+mKrigObject<- mKrig( x,y,
                     lambda=.024,
                     cov.args= list(     aRange= 5.87,
                                     Covariance="Matern",

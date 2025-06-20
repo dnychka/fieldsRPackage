@@ -38,6 +38,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                      CILevel = .95,
                        iseed = 303, 
          collapseFixedEffect = TRUE,
+               simpleKriging = FALSE,
                            ...) {
  
 # Through out this code:  obj is the output list and will be added to throughout the computation
@@ -86,6 +87,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                                  parGrid = parGrid,
                                    gridN = gridN,
                      collapseFixedEffect =  collapseFixedEffect,
+                           simpleKriging = simpleKriging,
                                  verbose = verbose)
    #
    # obj$CASE 

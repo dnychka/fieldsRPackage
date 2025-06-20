@@ -19,12 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER\
-offGridWeights<-function(s, gridList, np=2,
+offGridWeights<-function(s, gridList, NNSize=4,
                          mKrigObject=NULL, 
-                         Covariance=NULL, covArgs=NULL,
+                         Covariance=NULL, 
+                         covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
                          giveWarnings=TRUE,
-                         debug=FALSE
+                         debug=FALSE,
+                         verbose=FALSE
                    )
   #
   #  This is a wrapper function to distinguish between the 
@@ -35,20 +37,22 @@ offGridWeights<-function(s, gridList, np=2,
   # observations
   # 
   {
-  callList<- list( s=s, gridList=gridList, np=np,
+  callList<- list( s=s, gridList=gridList, NNSize=NNSize,
                    mKrigObject=mKrigObject, 
                    Covariance=Covariance,
                    covArgs=covArgs,
                    aRange=aRange, 
                    sigma2=sigma2, 
                    giveWarnings=giveWarnings,
-                   debug=debug )
+                   debug=debug,
+                   verbose=verbose)
   
-  if( length( gridList)==1){
-    # always find prediction variances  for 1D.
-     return( do.call("offGridWeights1D", callList) )
-   }
-  
+  # do not implement 1 D case
+  # if( length( gridList)==1){
+  #   # always find prediction variances  for 1D.
+  #    return( do.call("offGridWeights1D", callList) )
+  #  }
+  # 
   if( length( gridList)==2){
     return( do.call("offGridWeights2D", callList) )
   }

@@ -27,6 +27,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
                                   extraArgs = NULL,
                                       gridN = 5,
                         collapseFixedEffect = TRUE,
+                            simpleKriging =FALSE,
                                       verbose=FALSE
                         )
 {
@@ -200,15 +201,14 @@ spatialProcessSetDefaults<- function( x, cov.function,
 ########################################### 
 # Messing with mKrig
 ########################################### 
-# Determine linear fixed model if not specified and add in how to find fixed part.
+# Determine linear fixed model if not specified and add
+# in how to find fixed part.
+# simpleKriging means there is not fixed regression part.
 # collapseFixedEffect is important enough where it is handled at this level.
 #
   
-  
   if( is.null(mKrig.args)){
-    
-    mKrig.args<- list( m=2, collapseFixedEffect=collapseFixedEffect)
-   
+    mKrig.args<- list(m=2,collapseFixedEffect=collapseFixedEffect)
   }
   else{
     if( all(names( mKrig.args)!= "collapseFixedEffect")){
@@ -216,6 +216,14 @@ spatialProcessSetDefaults<- function( x, cov.function,
       mKrig.args<- c( mKrig.args, 
                       list(collapseFixedEffect= collapseFixedEffect))
     }
+  }
+# adjust the fixed part is simple Kriging is specified
+# this is switched in mKrig by setting m for the fixed part
+#  polynomial to zero
+  
+  if( simpleKriging){
+    mKrig.args$simpleKriging <- TRUE
+    mKrig.args$m<- 0
   }
   
 # don't find effective df for optimization -- this would add extra computation that is not 

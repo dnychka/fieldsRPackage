@@ -1,6 +1,6 @@
 Package: fields
-Version: 16.2
-Date: 2024-06-27
+Version: 17.0
+Date: 2025-06-17
 Title: Tools for Spatial Data
 Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),
                email = "douglasnychka@gmail.com"),
@@ -15,7 +15,7 @@ Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),
 	     person("Matthew", "Iverson", role = "aut",
                email = "miverson@mines.edu"),
 	     person("Rider", "Johnson", role = "aut",
-               email = "riderjohnson.mines.edu")
+               email = "riderjohnson@mines.edu")
 	       ) 
 Maintainer: Douglas Nychka <douglasnychka@gmail.com>
 Description: For curve, surface and function fitting with an emphasis
@@ -32,7 +32,8 @@ Description: For curve, surface and function fitting with an emphasis
  and working with spatial data as images. This package also contains
  an implementation of sparse matrix methods for large spatial data
  sets and currently requires the sparse matrix (spam) package. Use
- help(fields) to get started and for an overview.  The fields source
+ help(fields) to get started and for an overview. All graphics functions
+ focus on using  base R grpahics.  The fields source
  code is deliberately commented and provides useful explanations of
  numerical details as a companion to the manual pages. The commented
  source code can be viewed by expanding the source code version
@@ -46,9 +47,10 @@ License: GPL (>= 2)
 URL: https://github.com/dnychka/fieldsRPackage
 Depends: R (>= 3.5.0), methods, spam, viridisLite
 Imports: maps
+Suggests: mapproj
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2024-06-03; nychka
+Packaged: 2025-06-10; nychka
 Author: Douglas Nychka [aut, cre],
   Reinhard Furrer [aut],
   John Paige [aut],

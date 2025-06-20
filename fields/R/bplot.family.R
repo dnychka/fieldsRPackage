@@ -38,9 +38,13 @@ bplot <- function(x, by, pos = NULL, at = pos, add = FALSE,
     
 }
 
-bplot.xy<- function (x, y, N = 10, breaks = pretty(x, N, eps.correct = 1), 
+bplot.xy<- function (x, y, N = 10, breaks = NULL, 
                         plot = TRUE,axes=TRUE,  ...) 
 {
+    if(is.null(breaks)){
+      breaks<- pretty(x, N, eps.correct = 1)
+    }
+    # N ignored if breaks are specified. 
     NBIN <- length(breaks) - 1
     centers <- (breaks[1:NBIN] + breaks[2:(NBIN + 1)])/2
     obj <- split(y, cut(x, breaks))

@@ -23,14 +23,14 @@
     predictionGridList = NULL,
     simulationGridList = NULL, 
         gridRefinement = 1, 
-                    np = 2, 
                      M = 1,
                     nx = 80,
                     ny = 80, 
-               verbose = FALSE,
                  delta = NULL, giveWarnings=TRUE,
                   fast = FALSE, 
-                NNSize = 5, 
+                NNSize = 4, 
+              truncate = NULL, 
+               verbose = FALSE,
                           ...)
 #
 # NOTE throughout $x is first dimension of the grid in a gridList but also 
@@ -53,13 +53,13 @@
    if (is.null(predictionGridList)) {
      # these adjustments insure there are enough grid
      # points beyond the range of the locations.
-     # Put xr[1] in the middle of the  npth grid box
-     # and xr[2] in to the  nx - np
+     # Put xr[1] in the middle of the   grid box
+     # and xr[2] in to the  nx - NNSize
      predictionGridList<- makePredictionGridList(
        mKrigObject=mKrigObject, 
        nx=nx, 
        ny=ny, 
-       np=np
+       NNSize=NNSize
      )
    }
    
@@ -69,7 +69,10 @@
 # 
 # check that predictionGrid is equally spaced
 # this is needed because of the fast simulation algorithm
-    checkPredictGrid( predictionGridList) 
+    checkPredictGrid(predictionGridList) 
+    if( verbose){
+      cat("passed checks on prediction grid", fill=TRUE)
+    }
 #
 #
    if (is.null(simulationGridList)) {
@@ -125,12 +128,13 @@
     CEObject<- circulantEmbeddingSetup(simulationGridList,
                                    cov.function = mKrigObject$cov.function,
                                        cov.args = mKrigObject$args,
-                                          delta = delta )
+                                          delta = delta,
+                                       truncate=truncate)
     )[3]
-    
-    #
-    if (verbose) {
-        cat("dim of full circulant matrix ", CEObject$M, 
+    if( verbose){
+      cat("info on circulant embedding", fill=TRUE)
+      cat( "ratioRMSE", CEObject$ratioRMSE, fill=TRUE)
+      cat("dim of full circulant matrix ", CEObject$M, 
             fill = TRUE)
     }
 #
@@ -141,11 +145,15 @@
           mKrigObject$x,
           simulationGridList,
           mKrigObject,
-          np = np,
-          giveWarnings = giveWarnings
+          NNSize = NNSize,
+          giveWarnings = giveWarnings,
+          verbose=verbose
         )
       )[3]
-   
+   if( verbose){
+     cat("dim B", dim(offGridObject$B ), fill=TRUE)
+     cat("length SE ", length(offGridObject$SE ), fill=TRUE)
+   }
     #
     # find conditional mean field from initial fit
       hHat <- predictSurface(mKrigObject,

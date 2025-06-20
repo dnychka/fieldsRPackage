@@ -84,7 +84,7 @@ circulant covariance function.  }
   \item{NNSize}{Degree of neighborhood use for fast prediction.
   ( See \code{ predictSurface.mKrig}  with \code{fast= TRUE} ) } 
   \item{nx}{ Number of grid points in prediction locations for x coordinate.}
-  \item{ny}{ Number of grid points in  prediction locations for x coordinate.}
+  \item{ny}{ Number of grid points in  prediction locations for y coordinate.}
 
   \item{object}{The spatial fit object.}
   

@@ -29,8 +29,9 @@
 
 \alias{color.scale}
 \alias{snow.colors}
+\alias{Mines.colors}
 \alias{fieldsPlotColors}
-\title{ Some useful color tables for images and tools to handle them. }
+\title{Some useful color tables for images and tools to handle them. }
 \description{
 Several color scales useful for image plots: a pleasing rainbow style
 color table patterned after that used in Matlab by Tim Hoar and also
@@ -44,6 +45,8 @@ tim.colors(n = 64, alpha=1.0)
 larry.colors()
 
 snow.colors(n=256, alpha=1)
+
+data(Mines.colors)
 
 two.colors(n=256, start="darkgreen", end="red", middle="white",
 alpha=1.0)
@@ -102,13 +105,16 @@ The color in R can be represented as three vectors in RGB coordinates
 and these coordinates are interpolated separately using a cubic spline
 to give color values that intermediate to the specified colors.
 
- Ask Tim Hoar about \code{tim.colors}! He is a Mattlab black belt and
-this is his favorite scale in that system.  \code{two.colors} is
+ Ask Tim Hoar about \code{tim.colors}! As a Mattlab black belt 
+this was his favorite scale  at NCAR in that system.  The viridis package has a similar version (turbo) that is a grey scale friendly alternative. 
+
+\code{two.colors} is
 really about three different colors. For other colors try
 \code{fields.color.picker} to view possible choices.
 \code{start="darkgreen", end="azure4"} are the options used to get a
 nice color scale for rendering aerial photos of ski trails.  (See
 \url{https://github.com/dnychka/MJProject}.)
+
 \code{larry.colors}
 is a 13 color palette used by Larry McDaniel (retired software engineer from NCAR) and is particularly
 useful for visualizing fields of climate variables.
@@ -117,10 +123,13 @@ useful for visualizing fields of climate variables.
 visualizing snow cover from remotely sensed data products. See the
 commented code for the script as to how how this was formed from an orignal raw 256 level scale. Note the that first color in this table is grey and is
 desigend to represent the minimum value of the range ( e.g. 0).
-If the image in in percent snow cover then \code{zlim=c(0,100)}
+If the image is in  percent snow cover then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
- \code{designer.color} is the master function for the other scales. 
+See \code{data(Mines.colors)} to define the data sets that are  web colors for Colorado School of Mines. Note that since these are defined as text strings do _not_ quote them when using in the R graphics functions -- they are already character data.
+E.g. \code{plot(x,y, col=blasterBlue)}
+
+\code{designer.color} is the master function for the other scales. 
  It can be useful if one wants to customize the color
 table to match quantiles of a distribution.  e.g. if the median of the
 data is at .3 with respect to the range then set \code{x} equal to
@@ -133,7 +142,7 @@ easy. For example
 \code{designer.color( 256, rainbow(4), x= c( 0,.2,.8,1.0))}
 
 leaves the choice of the colors to Dr. R after a thunderstorm.
-See also colorBrewer to choose sequences of colors that form a good palette. 
+See also \code{colorBrewer} to choose sequences of colors that form a good palette. 
 
 \code{color.scale} assigns colors to a numerical vector in the same way as 
 the \code{image} function. This is useful to kept the assigment of colors consistent
@@ -147,8 +156,10 @@ across several vectors by specifiying a common \code{zlim} range.
 A vector giving the colors in a hexadecimal format, two extra hex
 digits are added for the alpha channel.
 
+Or in the case of \code{Mines.colors} a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
 }
-\seealso{ topo.colors, terrain.colors, image.plot, quilt.plot, grey.scale,
+\seealso{ topo.colors, terrain.colors, image.plot, imagePlot,  quilt.plot,
+grey.scale,
 fields.color.picker }
 \examples{
 
@@ -206,7 +217,10 @@ image( obj$z, col= coltab )
 # see image.plot for adding all kinds of legends
 
 
+data(Mines.colors)
+plot( 1:10, 101:110, col=blasterBlue, pch=19)
+
 set.panel()
 
 }
-\keyword{ aplot}
+\keyword{aplot}

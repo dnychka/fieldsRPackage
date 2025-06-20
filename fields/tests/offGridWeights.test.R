@@ -22,7 +22,7 @@
 ##END HEADER
 
 #                  
- suppressMessages(library(fields))
+suppressMessages(library(fields))
 options(echo=FALSE)
 
 test.for.zero.flag<- 1
@@ -98,7 +98,7 @@ for(  k in 1:M){
 sparseObj0<-  offGridWeights( s, list( x= 1:m, y=1:n),
                               aRange=aRange, sigma2=sigma2, 
                               Covariance="Exponential", 
-                              np=np)
+                              NNSize = np)
 look5<- sparseObj0$B%*%yUnrolled
 
 test.for.zero( look2, look5 )
@@ -113,7 +113,7 @@ mKrigObj<- mKrig( s, rnorm( nrow(s)),
 
 
 sparseObj<-  offGridWeights( s, list( x= 1:m, y=1:n),
-                mKrigObject = mKrigObj, np=np
+                mKrigObject = mKrigObj, NNSize=np
                 )
 
 look3<- sparseObj$B%*%yUnrolled
@@ -134,7 +134,7 @@ sparseObj1<-  offGridWeights( s*2.5,
                               list( x = (1:m)*2.5,
                                     y = (1:n)*2.5 ),
                               mKrigObject = fakeObj,
-                                       np = np
+                                       NNSize = np
 )
 
 look4<- sparseObj1$B%*%yUnrolled

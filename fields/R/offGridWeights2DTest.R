@@ -19,14 +19,15 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER\
-offGridWeights2D<-function(s, gridList, NNSize=2,
+offGridWeights2DTest<-function(s, gridList, 
+                          NNSize=4,
                          mKrigObject=NULL, 
                          Covariance=NULL, covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
                          giveWarnings=TRUE,
                          debug=FALSE,
-                         findCov=TRUE,
-                         verbose=TRUE
+                         findCov=FALSE,
+                         verbose=FALSE
                    ){
   
   #
@@ -39,7 +40,6 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   # 2 and m-3 and 2 and n-3
   #
   # setup the grid info from which to interpolate
-  np<- NNSize
   m<- length( gridList$x)
   n<- length( gridList$y)
   
@@ -79,40 +79,41 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   
  
   M<- nrow( s)
-  # lower left corner of grid box containing the points
+  # lower left corner of grid box containing the observation locations
   s0<-  cbind( 
                trunc( (s[,1]- gridList$x[1] )/dx) + 1 ,
                trunc( (s[,2]- gridList$y[1] )/dy) + 1
                ) 
   
   # index  of locations when 2D array is unrolled
+  # for the grid point in the lower left of each observation
   s0Index<- as.integer( s0[,1] + (s0[,2]-1)*m)
   # check for more than one obs in a grid box
     tableLoc<- table( s0Index)
     allSingle<- all( tableLoc ==1 ) 
-  # np=2
+  # NNSize=2
   # specific to 2nd degree neighborhood
-  #   (2*np)^2 = 16  points total 
+  #   (2*NNSize)^2 = 16  points total 
   #xshift<- rep( c(0,1,2,3), 4)
   #yshift<- rep( c(0,1,2,3), each=4 )
   
-  theShift<- (0:(2*np-1)) - (np-1)
-  xshift<- rep( theShift, 2*np)
-  yshift<- rep( theShift, each=2*np )
+  theShift<- (0:(2*NNSize-1)) - (NNSize-1)
+  xshift<- rep( theShift, 2*NNSize)
+  yshift<- rep( theShift, each=2*NNSize )
   
   nnXY<- cbind( xshift, yshift)
   nnXYCoords<- cbind( xshift*dx, yshift*dy)
   
   #
-  #  sX and sY are M by (2*np)^2 matrices  where each row is
-  #  the unrolled row and column indices for  np=2
+  #  sX and sY are M by (2*NNSize)^2 matrices  where each row is
+  #  the unrolled row and column indices for  NNSize=2
   #  yield 16 nearest neighbors 
   
   sX<- s0[,1] + matrix( rep( xshift,M),
-                        nrow=M, ncol=(2*np)^2, byrow=TRUE)
+                        nrow=M, ncol=(2*NNSize)^2, byrow=TRUE)
   
   sY<- s0[,2] + matrix( rep( yshift,M),
-                        nrow=M, ncol=(2*np)^2, byrow=TRUE)
+                        nrow=M, ncol=(2*NNSize)^2, byrow=TRUE)
   
   if( any( (sX < 1)| (sX>m)) ) {
     stop( "sX outside range for grid")
@@ -121,11 +122,12 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
     stop( "sY outside range for grid")
   }
   # indices of all nearest neighbors for unrolled vector.
-  # this is an M by (2*np)^2 matrix where indices go from 1 to m*n
+  # this is an M by (2*NNSize)^2 matrix where indices go from 1 to m*n
   # these work for the unrolled 2D array 
   # 
   sIndex<-  sX + (sY-1)*m
-  # differences between nn and the off grid locations
+  # differences between nearest neighbor grid points 
+  # and the off grid locations
   # for both coordinates
   # convert from integer grid to actual units. 
   differenceX<- (sX-1)*dx + gridList$x[1] - s[,1]
@@ -133,23 +135,19 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   # print(  cbind( t( (sX-1)*dx + gridList$x[1])[,1],  
   #         t( (sY-1)*dy + gridList$y[1])[,1]))
   # all pairwise distances between each off grid and 
-  # (2*np)^2  ( np=2 has 16) nearest neighbors 
+  # (2*NNSize)^2  ( NNSize=2 has 16) nearest neighbors 
   dAll<- sqrt(differenceX^2 + differenceY^2)
-  # pairwise distance among nearest neighbors. 
-  dNN<- rdist(nnXYCoords, nnXYCoords )
   # cross covariances
-  #print( sigma2)
   Sigma21Star<- sigma2* do.call(Covariance,
                                 c(list(d = dAll/aRange), 
                                          covArgs)) 
+  # pairwise distance among nearest neighbors. 
+  dNN<- rdist(nnXYCoords, nnXYCoords )
   # covariance among nearest neighbors 
+  #
   Sigma11 <-  sigma2* do.call(Covariance,
                               c(list(d = dNN/aRange), 
                                 covArgs))
-  # OLD code
-  #  Sigma11Inv <- solve( Sigma11)
-  # replaced with reduced rank interpolation. 
-  
   eigenSigma<- eigen( Sigma11, symmetric=TRUE)
   U<- eigenSigma$vectors
   dV<- eigenSigma$values
@@ -159,26 +157,28 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   dVInv<- ifelse(dV/max(dV) >= 1e-10, 1/dV,0)  # note this will exclude negative values
   
   if( verbose){
-    if( any(dVInv==0 )){
-      cat(sum( dVInv==0), " eigenvalues set to zero out of ", 
-          length( dVInv), " Sigma11", fill=TRUE)
-    }
+  if( any(dVInv==0 )){
+    cat(sum( dVInv==0), " eigenvalues set to zero out of ", 
+        length( dVInv), " Sigma11", fill=TRUE)
+  }
   }
   
   Sigma11Inv <- U%*% diag( dVInv)%*%t(U)
-  
-  
   
   # each row of B are the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
   # create spind sparse matrix
   # note need to use unrolled indices to refer to grid points
-  ind<- cbind( rep(1:M, each= (2*np)^2 ), c( t( sIndex)))
+  ind<- cbind( rep(1:M, each= (2*NNSize)^2 ), c( t( sIndex)))
   ra<-  c( t( B))
   da<- c( M, m*n )
   spindBigB<-  list(ind=ind, ra=ra, da=da )
   # now convert to the more efficient spam format
   BigB<- spind2spam( spindBigB)
+  
+  predictionVariance<- NA
+  
+  if( findCov|debug){
   #
   # prediction variances  
   # use cholesky for more stable numerics
@@ -194,12 +194,11 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   predictionVariance <-  sigma2 - rowSums(w^2)
   # set to NA negative values -- due to colinearity/roundoff
   predictionVariance<- ifelse( predictionVariance <= 0, NA,predictionVariance )
-  if( findCov|debug){
+  
   # don't find covariances if findCov is FALSE
   # but debug=TRUE overrides that 
   # this saves computation for the cases with multiple 
   # obs in a single grid box.
-  
   # easiest case of just one obs in each grid box  
   #  sigma2 - diag(Sigma21Star%*%Sigma11Inv%*%t(Sigma21Star) )
   spindObjSE<- list(ind=cbind( 1:M, 1:M),

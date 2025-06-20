@@ -39,13 +39,13 @@ quilt.plot(x, y, z, nx = 64, ny = 64,  grid = NULL,
                  NULL, plot=TRUE, na.rm=FALSE, 
                  boundary.grid = FALSE, ...)
                  
-bubblePlot(
-x, y, z, col = viridisLite::viridis(256), zlim = NULL,
-                 horizontal = FALSE, legend.cex = 1, legend.lab = NULL,
-                 legend.line = 2, legend.shrink = 0.9, legend.width =
-                 1.2, legend.mar = ifelse(horizontal, 3.1, 5.1),
-                 axis.args = NULL, legend.args = NULL, size = 1, add =
-                 FALSE, legendLayout = NULL, highlight = FALSE,
+bubblePlot(x, y, z, col = viridisLite::viridis(256), zlim = NULL,
+                 noLegend = FALSE, horizontal = FALSE, legend.cex = 1,
+                 legend.lab = NULL, legend.line = 2, legend.shrink =
+                 0.9, legend.width = 1.2, legend.mar =
+                 ifelse(horizontal, 3.1, 5.1), axis.args = NULL,
+                 legend.args = NULL, size = 1, add = FALSE,
+                 legendLayout = NULL, highlight = FALSE,
                  highlight.color = "grey30", bubbleType = "circle",
                  ...)
 }
@@ -129,6 +129,7 @@ legend label, e.g. if you need to the rotate text or other details.  This is in 
 mtext function and you will need to give both the side and line arguments for positioning.  This usually will not be needed. 
 (See examples in \code{\link{image.plot}} .)}
 \item{legendLayout}{The list returned by \code{setupLegend} that has the legend information about positioning.}
+\item{noLegend}{If FALSE just the bubble plot is drawn without adding a legend strip for the color bar. Useful if multiple plots are drawn with a common legend.}
 
 }
 \details{

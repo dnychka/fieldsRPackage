@@ -174,10 +174,14 @@ plot(look, pch=19)
 
 brk<- seq( 0, 250,, (25 + 1) ) # will give 25 bins.
  
-## or some boxplot bin summaries
-
-boxplotVGram(look, breaks=brk, plot.args=list(type="o"))
-plot(look, add=TRUE, breaks=brk, col=4)
+## or some boxplot bin summaries using base R graphics
+look<-vgram( x,y, N=45, lon.lat=TRUE) 
+bplot.xy( look$d, look$vgram,
+          breaks=look$breaks, outline=FALSE,
+          xlim=c( 0,250), xlab="miles", 
+          ylim=c( 0, 2000), ylab="Variogram")
+lines( look$centers, look$stats[2,], type="b",
+col="magenta", pch=16)
 
 #
 # compute equivalent covariogram, but leave out the boxplots

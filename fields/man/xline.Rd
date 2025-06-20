@@ -41,7 +41,7 @@ Any ploting options for abline.
 }
 }
 \seealso{
- yline, abline 
+ \link{yline}, \link{abline} 
 }
 \examples{
 

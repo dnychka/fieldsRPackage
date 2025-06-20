@@ -40,7 +40,7 @@ spatial datasets asnd also for fast spatial prediction from irregular locations 
 
 }
 \usage{
-offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
+offGridWeights(s, gridList, NNSize = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE)
    
@@ -49,7 +49,7 @@ offGridWeights(s, gridList, np = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
    debug=FALSE )
    
-   offGridWeights2D(s, gridList, np = 2, mKrigObject = NULL,
+   offGridWeights2D(s, gridList, NNSize = 2, mKrigObject = NULL,
    Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE, 
   debug = FALSE,findCov = TRUE)
@@ -89,7 +89,7 @@ mKrigFastPredictSetup(mKrigObject,
  
   \item{gridList}{
   A list as the gridList format ( x and y components) that describes the
-  rectagular grid. The grid must have at least np extra grid points beyond
+  rectagular grid. The grid must have at least \code{NNSize} extra grid points beyond
   the range of the points in \code{s}. See
   \code{\link{grid.list}}. 
 }
@@ -99,17 +99,15 @@ mKrigFastPredictSetup(mKrigObject,
   The following items are coded in place of not supplying this object.  See the example below for more details.
 }
 
-\item{np}{
-  Number of nearest neighbor grid points to use for prediction.  \code{np = 1}
-  will use the 4 grid points that bound the off grid point.  \code{np = 2}
-  will be a 4X4 subgrid with the middle grid box containing the off grid point.
-  In general there will be  \code{(2*np)^2} neighboring points uses. 
+\item{NNSize}{
+  Number of nearest neighbor grid points to use for prediction.  \code{NNSize = 1}
+  will use the 4 grid points that bound the offgrid point.  \code{NNSize = 2}
+  will be a 4X4 subgrid that define a 3X3 set of boxes
+  and the middle grid box containing the offgrid point.
+  In general there will be  \code{(2*NNSize)^2} neighboring points used. 
 
 }
 
- \item{NNSize}{Same as \code{np}. }
- 
- 
   \item{s}{
   Off grid spatial locations
 }
@@ -224,19 +222,21 @@ xGrid<- seq( -1, 1, length.out=M)
 gridList<- list( x= xGrid,
                  y= xGrid
                  )
- np<- 3 
+NNSize<- 3 
  n<- 100
-# sample n locations but avoid margins 
+# sample n locations but avoid margins so that every point has a full set of nearest neighbors
+
 set.seed(123)
-s<- matrix(    runif(n*2, xGrid[(np+1)],xGrid[(M-np)]),
+s<- matrix(    runif(n*2, xGrid[(NNSize+1)],xGrid[(M-NNSize)]),
                n, 2 )
 
                   
-obj<- offGridWeights( s, gridList, np=3,
+obj<- offGridWeights( s, gridList, NNSize=3,
                    Covariance="Matern",
                    aRange = .1, sigma2= 1.0,
                    covArgs= list( smoothness=1.0)
                    )
+		   
 # make the predictions  by obj$B%*%c(y)
 # where y is the matrix of values on the grid
  

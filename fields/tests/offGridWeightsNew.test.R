@@ -50,7 +50,7 @@ M<- 15
 dx<- 1
 dy<- 1
 sigma2<-2.0 
-np<-3 
+NNSize<-3 
 
 
 # first a case where all obs in same grid box.
@@ -67,7 +67,7 @@ s0<- rbind(
 test0<-  offGridWeights( s0, list( x= (1:m)*dx, y=(1:n)*dx),
                                               aRange=10*dx, sigma2=sigma2, 
                                               Covariance="Exponential", 
-                                              np=2, 
+                                              NNSize=2, 
                                               debug=TRUE) 
 # explicit nearest neighbors in this case
 sTmp<- cbind( rep(4:7,4), rep(5:8,each=4) )
@@ -119,7 +119,7 @@ ind1<- c(1,3,5)
  sparseObj<-  offGridWeights( s, list( x= (1:m)*dx, y=(1:n)*dx),
                                  aRange=(10*dx), sigma2=sigma2, 
                                  Covariance="Exponential", 
-                                 np=2, 
+                                 NNSize=2, 
                                  debug=TRUE)
  
 test.for.zero( sparseObj$Sigma21Star[ind1,], S21 )
@@ -142,7 +142,7 @@ test.for.zero(SEtest, SEfull[ind1, ind1] )
 sparseObj1<-  offGridWeights( s, list( x= (1:m)*dx, y=(1:n)*dx),
                                 aRange=(10*dx), sigma2=sigma2, 
                                 Covariance="Exponential", 
-                                np=2, 
+                                NNSize=2, 
                                 debug=FALSE)
 
 test.for.zero( sparseObj$B, sparseObj1$B)

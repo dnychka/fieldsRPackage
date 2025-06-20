@@ -23,33 +23,38 @@
 mKrigFastPredictSetup <- function(mKrigObject,
                           gridList, 
                           NNSize=4,
-                          giveWarnings=TRUE
+                          giveWarnings=TRUE,
+                          verbose=FALSE
                                   ) {
   # the main reason to pass new args to the covariance is to increase
   # the temp space size for sparse multiplications
   # other optional arguments that typically describe the covariance function 
   # from mKrig are passed along in the list object$args
-   np<- NNSize
    xObs<- mKrigObject$x
+   if( offGridWeights!=2){
+     cat( " dim s",offGridWeights, fill=TRUE )
+     stop("fast predict only implemented for 2 D")
+   }
   
   # adjust grid if needed to include a margin of np+1 grid points beyond xObs
    
-    marginInfo<- addMarginsGridList(xObs, gridList, np)
+    marginInfo<- addMarginsGridList(xObs, gridList, NNSize)
 
   # these are the slightly larger grids by adding margins.
     gridListNew<-  marginInfo$gridListNew
-    offGridObject<- offGridWeights( xObs,
+    approxGridObject<- approximateCovariance2D( xObs,
                                     gridListNew,
-                                    mKrigObject = mKrigObject,
-                                    np=np,
-                                    giveWarnings = giveWarnings
-    )
+                                mKrigObject = mKrigObject,
+                                         np = NNSize,
+                               giveWarnings = giveWarnings,
+                               verbose=verbose)
+                                   
     cov.obj<- stationary.image.cov( setup=TRUE, 
                                     grid=gridListNew, 
                                     cov.function=mKrigObject$cov.function.name,
                                     cov.args= mKrigObject$args)
     return( 
-       list(offGridObject = offGridObject,
+       list(offGridObject =approxGridObject,
                   cov.obj = cov.obj,
                marginInfo = marginInfo
             )

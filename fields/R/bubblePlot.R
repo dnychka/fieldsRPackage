@@ -1,6 +1,6 @@
 # bubblePlot fix
 
-bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL, 
+bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL, noLegend=FALSE,
                             horizontal = FALSE, legend.cex = 1, legend.lab = NULL, legend.line = 2, 
                             legend.shrink = 0.9, legend.width = 1.2, legend.mar = ifelse(horizontal, 
                                                                                          3.1, 5.1), axis.args = NULL, legend.args = NULL, size = 1, 
@@ -15,7 +15,7 @@ bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL,
     x <- x[, 1]
   }
   ctab = color.scale(z, col, zlim = zlim)
-  if (!add & is.null(legendLayout)) {
+  if (!add & is.null(legendLayout)&!noLegend) {
     legendLayout <- setupLegend(legend.shrink = legend.shrink, 
                                 legend.width = legend.width, legend.mar = legend.mar, 
                                 horizontal = horizontal)
@@ -42,6 +42,8 @@ bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL,
     points(x, y, cex = size,
            pch = pchOutline, col = highlight.color)
   }
+  
+  if( !noLegend){
   # save the graphical parameter so they can be reset
   big.par <- par(no.readonly = TRUE)
   mfg.save <- par()$mfg
@@ -59,4 +61,5 @@ bubblePlot<- function (x, y, z, col = viridisLite::viridis(256), zlim = NULL,
   }
   par(plt = big.par$plt, xpd = FALSE)
   par(mfg = mfg.save, new = FALSE)
+  }
 }

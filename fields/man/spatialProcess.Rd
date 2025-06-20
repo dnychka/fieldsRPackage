@@ -60,6 +60,7 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
                      CILevel = .95,
                        iseed = 303,
 	 collapseFixedEffect = TRUE,
+	  simpleKriging = FALSE,
                            ...)
 \method{summary}{spatialProcess}(object,  ...)
 \method{print}{spatialProcess}(x, digits = 4, ...)
@@ -173,6 +174,8 @@ extra time and is not necessary so the default is FALSE. }
  \item{reltol}{ Relative tolerance used in optim for convergence.}
  
  \item{REML}{ If TRUE the parameters are found by restricted maximum likelihood.}
+ 
+ \item{simpleKriging}{ If TRUE then no fixed part of the spatial model is included. When FALSE, the default is to include a linear function in the spatial coordinates. A higher degree polynomial can be choosen using the \code{mKrig.args} argument }
  
  \item{verbose}{If TRUE print out intermediate information for debugging.}
  
@@ -415,6 +418,20 @@ objExponential <- spatialProcess( x, y,
               
 objExponential$summary
 
+####### simple Kriging
+# this is a approximate spatial analysis to show how the 
+# simpleKriging=TRUE might be used -- but not recommended! 
+# the exact estimator can be found through backfitting ...
+# 
+# first linear fit in spatial coordiantes 
+yFit<- lm( y~x)
+good<- !is.na(y)
+# spatial fit to residuals 
+objTest2<- spatialProcess( x[good,], yFit$residuals, simpleKriging=TRUE)
+# how close is it to the text book estimator?
+stats( objTest2$residuals-obj$residuals )
+plot(objTest2$residuals,obj$residuals )
+abline( 0,1, col="red")
 
 \dontrun{
 ##################################

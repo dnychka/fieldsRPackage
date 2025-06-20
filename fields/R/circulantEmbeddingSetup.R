@@ -23,7 +23,7 @@ circulantEmbeddingSetup <- function(
      grid, M = NULL, 
      mKrigObject=NULL, 
      cov.function="stationary.cov", cov.args=NULL,
-     delta=NULL, ...) {
+     delta=NULL, truncate=NULL, ignoreError=FALSE, ...) {
     #
     #
     if( !is.null(mKrigObject)){
@@ -89,23 +89,73 @@ circulantEmbeddingSetup <- function(
         out<- array( c(out),M)
         #
         # a simple way to normalize. This could be avoided by
-        # translating image from the center ...
-        # add to the middle point in the array -- matches the center from above
+        # translating image from the center  putting at the image corner and 
+        # using periodic wrapping to place the rest of the image in the other corners. 
+        #
+        # "delta function" that is  the middle point in the array
+        # -- matches the center from above
          temp <- array( 0, M)
          temp[rbind( MCenter)] <- 1
          wght <- fft(out)/(fft(temp) * prod(M))
-         if( any( Re(wght) < 0 ) ){
-           cat("summary of real part of weights", fill=TRUE)
-           print( t(stats( c(Re(wght))) ) )
-           stop(" 
-                Some weights are less than zero indicating
+        # 
+        # next part deals with possible negative  values due to
+        # circulant matrix not being
+        # positive definite
+        # 
+         if( !is.null(truncate)){
+           # truncate is relative size of weights to the maximum value
+           RW<- Re(wght)
+           if( truncate=="default"){
+             truncate<- abs( min(RW))/max(RW)
+           }
+           ind<- abs(RW)/max(RW)<= truncate
+           ratioMSE<- sum( RW[ind]^2)/ sum( RW^2)
+           wght[ind]<-0
+           fracWeights<- sum( ind)/length( RW)
+           # normalize back to same size 
+           wght<- mean(RW^2)/mean( wght^2)
+         }
+         else{
+        
+         if( any( Re(wght) < 0 )& (!ignoreError) ){
+           
+            
+           cat(" 
+                >>> Some weights are less than zero indicating
                 a circulant embedding that is not postive definite. 
                 This can be due to the correlation range being too 
-                large for the grid.
+                large for the grid or the grid is too fine. 
                 
                 Try increasing the spatial domain or decreasing 
                 the number of grid points.
-                ")
+                
+                Use the option truncate to set all negative values and positive weights
+                to zero below a threshold. See help(circulantEmbedding). "
+               )
+           
+           RW<- Re(wght)
+           cat( fill=TRUE)
+           cat("Summaries of real part of weights", fill=TRUE)
+           
+           mostNegative<- abs(min(RW))
+           ind<- abs(RW) <= mostNegative
+           ratioMSE<- sum( RW[ind]^2)/ sum( RW^2)
+           
+           fracWeights<- sum(ind)/ length( RW)
+           
+           cat(" fraction of weights of smaller magnitude than most negative one",fill=TRUE)
+           cat(fracWeights, fill=TRUE)
+           cat(" fraction of process RMSE contributed by these small weights:", fill=TRUE)
+           cat(sqrt(ratioMSE), fill=TRUE)
+           print( t(stats( c(RW)) ) )
+           stop()
+           
+         }
+         else{
+           fracWeights<- 0
+           ratioMSE<- 1.0
+         }
+           
          }
         
         #
@@ -113,7 +163,11 @@ circulantEmbeddingSetup <- function(
         # multiplication by convolution.
         #
         covObject <- list(m = m, grid = grid, dx=dx, M = M, delta=delta, 
-            wght = wght,  call = match.call())
+            wght = wght,  
+            call = match.call(),
+            fracWeights= fracWeights,
+            ratioRMSE= sqrt(ratioMSE)
+            )
         return( covObject)
        
 }

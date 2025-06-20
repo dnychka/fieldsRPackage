@@ -57,9 +57,11 @@ summary.spatialProcess <- function(object, ...) {
     c2 <- c(c2, object$nZ)
   }
   
-  if (!is.na(object$gamma[1]) ) {
+  if ( !object$simpleKriging ){
+    if (!is.na(object$gamma[1])) {
     c1 <- c(c1, "Number of common covariates (ZCommon)")
     c2 <- c(c2, length(object$gamma))
+    }
       }
   
    

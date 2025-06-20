@@ -24,14 +24,15 @@
     M<- obj$M
     prodM<- prod( M)
     Z <- fft( array(rnorm(prodM), M) )
-    #bigIndex<- as.matrix(expand.grid( 1:mDim[1], 1:mDim[2]))
+    
     if( any( Re(obj$wght) < 0)){
       stop("Weight function has negtive values")
     }
     out<-  Re(
                fft(sqrt(obj$wght) * Z, inverse = TRUE)
              )/sqrt(prodM)
-    
+    # this arcania 
+    # handles general fields with more than 2 dimensions
     out<- array( out[makeMultiIndex(m)], m)
   
     return( out)

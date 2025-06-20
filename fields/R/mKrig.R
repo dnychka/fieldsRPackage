@@ -25,7 +25,8 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
                   chol.args = NULL, find.trA = TRUE, NtrA = 20, 
                   iseed = NA, na.rm=FALSE, 
                   collapseFixedEffect = TRUE, 
-                  tau=NA, sigma2=NA, verbose=FALSE, ...) {
+                  tau=NA, sigma2=NA, verbose=FALSE, simpleKriging=FALSE, 
+                  ...) {
   # pull extra covariance arguments from ...  and overwrite
   # any arguments already named in cov.args
   ind<- match( names( cov.args), names(list(...) ) )
@@ -73,6 +74,9 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # create fixed part of model as m-1 order polynomial
   # NOTE: if m==0 then fields.mkpoly returns a NULL to 
   # indicate no polynomial part.
+  if( simpleKriging){
+    m<- 0
+  }
   Tmatrix <- cbind(fields.mkpoly(object$x, m), object$Z)
   # set some dimensions
     np <- nrow(object$x)
@@ -87,6 +91,10 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   }
   else{
     nZ<- ncol(object$Z)
+  }
+  if( simpleKriging & (nZ>0)){
+    stop("simpleKriging is TRUE but some covariates
+         have been passed to mKrig")
   }
   ind.drift <- c(rep(TRUE, (nt - nZ)), rep(FALSE, nZ)) 
   # as a place holder for reduced rank Kriging, distinguish between
@@ -404,7 +412,8 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
        nZ = nZ,
        fixedEffectsCov = Omega * sigma2.MLE.FULL,
        fixedEffectsCovCommon = OmegaZCommon * sigma2.MLE.FULL,
-       collapseFixedEffect = collapseFixedEffect
+       collapseFixedEffect = collapseFixedEffect,
+       simpleKriging=simpleKriging
      )
    
     object<- c( object, object2)
