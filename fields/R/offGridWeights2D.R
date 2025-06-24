@@ -167,8 +167,6 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   
   Sigma11Inv <- U%*% diag( dVInv)%*%t(U)
   
-  
-  
   # each row of B are the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
   # create spind sparse matrix

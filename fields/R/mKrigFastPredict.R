@@ -138,7 +138,7 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
     c.coefStar<-  colSums( diag.spam( c(object$c.coef) ) %*% 
                               setupObject$offGridObject$B )
     # reshape as an image. 
-    c.coefStar<- matrix( c.coefWghts, nxNew, nyNew )
+    c.coefStar<- matrix( c.coefStar, nxNew, nyNew )
     #
     # fast multiplication of covariances on the grid with
     # the coefficients, cStar, on the grid (via FFT)

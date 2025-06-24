@@ -31,8 +31,8 @@ mKrigFastPredictSetup <- function(mKrigObject,
   # other optional arguments that typically describe the covariance function 
   # from mKrig are passed along in the list object$args
    xObs<- mKrigObject$x
-   if( offGridWeights!=2){
-     cat( " dim s",offGridWeights, fill=TRUE )
+   if(ncol( xObs) !=2){
+     cat( " dim s", ncol( xObs), fill=TRUE )
      stop("fast predict only implemented for 2 D")
    }
   

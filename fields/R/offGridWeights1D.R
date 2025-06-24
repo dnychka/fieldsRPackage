@@ -19,12 +19,13 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER\
-offGridWeights1D<-function(s, gridList, np=2,
+offGridWeights1D<-function(s, gridList, NNSize=2,
                          mKrigObject=NULL, 
                          Covariance=NULL, covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
                          giveWarnings=TRUE,
-                         debug=FALSE
+                         debug=FALSE,
+                         verbose=FALSE
                    ){
   #
   # function assumes the grid is 
@@ -39,6 +40,7 @@ offGridWeights1D<-function(s, gridList, np=2,
   # extract all the covariance information from it. 
   # For the Matern family besides aRange and sigma2 is the 
   # smoothness
+  np<- NNSize
   if( !is.null( mKrigObject)){
     sigma2<- mKrigObject$summary["sigma2"]
     aRange<- mKrigObject$summary["aRange"]

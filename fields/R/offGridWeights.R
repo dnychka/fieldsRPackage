@@ -18,8 +18,8 @@
 # along with the R software environment if not, write to the Free Software
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
-##END HEADER\
-offGridWeights<-function(s, gridList, NNSize=4,
+##END HEADER
+offGridWeights<-function(s, gridList, NNSize=2,
                          mKrigObject=NULL, 
                          Covariance=NULL, 
                          covArgs=NULL,
@@ -47,11 +47,10 @@ offGridWeights<-function(s, gridList, NNSize=4,
                    debug=debug,
                    verbose=verbose)
   
-  # do not implement 1 D case
-  # if( length( gridList)==1){
-  #   # always find prediction variances  for 1D.
-  #    return( do.call("offGridWeights1D", callList) )
-  #  }
+  
+   if( length( gridList)==1){
+  return( do.call("offGridWeights1D", callList) )
+    }
   # 
   if( length( gridList)==2){
     return( do.call("offGridWeights2D", callList) )

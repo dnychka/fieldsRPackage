@@ -149,9 +149,10 @@ approximateCovariance2D<-function(s, gridList, np=4,
   eigenSigma<- eigen( Sigma11, symmetric=TRUE)
   U<- eigenSigma$vectors
   dV<- eigenSigma$values
-  
+  if( verbose){
   cat("conditional number of Sigma11", fill=TRUE)
   cat(max(dV)/ min(dV), fill=TRUE)
+  }
   dVInv<- ifelse(dV/max(dV) >= 1e-10, 1/dV,0)  # note this will exclude negative values
   
   if( verbose){
