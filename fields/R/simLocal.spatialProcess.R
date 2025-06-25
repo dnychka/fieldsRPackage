@@ -26,10 +26,12 @@
                      M = 1,
                     nx = 80,
                     ny = 80, 
-                 delta = NULL, giveWarnings=TRUE,
+                 delta = NULL, 
                   fast = FALSE, 
                 NNSize = 4, 
+         NNSizePredict = 4, 
               truncate = NULL, 
+         giveWarnings = FALSE, 
                verbose = FALSE,
                           ...)
 #
@@ -122,45 +124,69 @@
 # set up various arrays for reuse during the simulation
     nObs <- nrow(mKrigObject$x)
 #  
+####### NOTE there are two and possibly (if fast ==TRUE ) three SETUP steps  to 
+# make conditional  simulation loops efficients by reuse some objects. 
+#  
     
+#
+# SETUP weights for  fast, local  off grid simulation
+# grid is expanded to include nearest neighbors.
+#
+    timeOffGridSetup <- system.time(
+      offGridObject <- offGridWeights(
+        mKrigObject$x,
+        simulationGridList,
+        mKrigObject,
+        NNSize = NNSize,
+        giveWarnings = giveWarnings,
+        verbose=verbose ) 
+          )[3]
+# update with possibly expanded grid. 
+      simulationGridList<- offGridObject$gridList
+      if( verbose){
+        cat("dim B", dim(offGridObject$B ), fill=TRUE)
+        cat("length SE ", length(offGridObject$SE ), fill=TRUE)
+      }
+#
+# SETUP object for simulating on a grid using circulant embedding
+#
     timeCESetup<- system.time(
-    # set up object for simulating on a grid using circulant embedding
     CEObject<- circulantEmbeddingSetup(simulationGridList,
                                    cov.function = mKrigObject$cov.function,
                                        cov.args = mKrigObject$args,
                                           delta = delta,
-                                       truncate=truncate)
-    )[3]
+                                       truncate=truncate) )[3]
     if( verbose){
       cat("info on circulant embedding", fill=TRUE)
       cat( "ratioRMSE", CEObject$ratioRMSE, fill=TRUE)
       cat("dim of full circulant matrix ", CEObject$M, 
             fill = TRUE)
     }
+    
+ 
 #
-# weights crucial to fast off grid simulation
+# SETUP if fast==TRUE  for rapid prediction
 #
-      timeOffGridSetup <- system.time(
-        offGridObject <- offGridWeights(
-          mKrigObject$x,
-          simulationGridList,
-          mKrigObject,
-          NNSize = NNSize,
-          giveWarnings = giveWarnings,
-          verbose=verbose
-        )
-      )[3]
-   if( verbose){
-     cat("dim B", dim(offGridObject$B ), fill=TRUE)
-     cat("length SE ", length(offGridObject$SE ), fill=TRUE)
-   }
-    #
-    # find conditional mean field from initial fit
-      hHat <- predictSurface(mKrigObject,
+      if(fast){
+        timeOffGridSetupPredict<- system.time(
+        setupObjectPredict<- mKrigFastPredictSetup(mKrigObject, 
+                                                   gridList = predictionGridList, 
+                                                   NNSize = NNSizePredict,
+                                                   giveWarnings = giveWarnings,
+                                                   verbose = verbose)
+        )[3]
+      }
+      else{
+        timeOffGridSetupPredict<- NA
+      }
+#
+# find conditional mean field from initial fit
+      hHat <- predictSurface.mKrig(mKrigObject,
                            gridList = predictionGridList,
-                           fast=fast, 
-                           NNSize= NNSize,
-                            ...)$z
+                               fast = fast, 
+                        setupObject = setupObjectPredict,
+                             NNSize = NNSizePredict,
+                                  ...)$z
       
       sdNugget<- tau* sqrt(1/mKrigObject$weights)
 #      
@@ -202,7 +228,8 @@
                                  gridList = predictionGridList,
                                  ynew = ySynthetic,
                                  fast=fast, 
-                                 NNSize= NNSize,
+                                 NNSize= NNSizePredict,
+                                 setupObject= setupObjectPredict,
                                  giveWarnings = FALSE,
                                  ...)$z
          
@@ -224,11 +251,12 @@
                 y = predictionGridList$y,
                 z = out, 
                 hHat= hHat,
-                timing=c( CESetup=timeCESetup,
-                          OffSetup=timeOffGridSetup,
-                                  CE = median(t1), 
-                             OffGrid = median(t2),
-                                mKrig = median(t3)
+                timing=c(  CESetup = timeCESetup,
+                        SetupSim = timeOffGridSetup,
+                      SetupPredict = timeOffGridSetupPredict,
+                                medCE = median(t1), 
+                        medOffGridSim = median(t2),
+                       medPredict = median(t3)
                           ),
                 gridRefinement=gridRefinement,
                 M= CEObject$M,

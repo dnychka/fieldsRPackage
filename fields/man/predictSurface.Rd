@@ -53,16 +53,17 @@ surfaces such as image, imagePlot and contour.
 nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, ZGrid = NULL, 
     drop.Z = FALSE, just.fixed=FALSE,  ...)
     
-\method{predictSurface}{mKrig}(object, gridList = NULL, grid.list = NULL,
-                 ynew =
+\method{predictSurface}{mKrig}(
+object, gridList = NULL, grid.list = NULL, ynew =
                  NULL, extrap = FALSE, chull.mask = NA, nx = 80, ny =
                  80, xy = c(1, 2), verbose = FALSE, ZGrid = NULL,
                  drop.Z = FALSE, just.fixed = FALSE, fast = FALSE,
-                 NNSize = 4, giveWarnings = FALSE, derivative = 0, ...)
+                 NNSize = 4, setupObject = NULL, giveWarnings = FALSE,
+                 derivative = 0, ...)
 		 
 mKrigFastPredict(object, gridList, ynew = NULL, derivative = 0, Z =
-                 NULL, drop.Z = FALSE, NNSize = 5, setupObject = NULL,
-                 giveWarnings = TRUE)
+                 NULL, drop.Z = FALSE, NNSize = 4, setupObject = NULL,
+                 giveWarnings = TRUE, verbose = FALSE)
 			  
 \method{predictSurfaceSE}{default}(object, grid.list = NULL, extrap = FALSE, chull.mask =
                  NA, nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE,
@@ -130,7 +131,8 @@ passed. }
 \item{NNSize}{Order of nearest neighborhood used for fast prediction.  The default,\code{NSize = 5}, means an 11X11=121 set of grid points/covariance kernels are used to approximate the off-grid covariance kernel. }
 
 \item{setupObject}{The object created explicitly using
-\code{\link{mKrigFastPredictSetup}}. Useful for predicting multple surfaces with the same observation locations. }
+\code{\link{mKrigFastPredictSetup}}. Useful for predicting multple surfaces with the same observation locations.
+If NULL the setup is done each time the function is called. (See \code{\link{approximateCovariance2D}}.) }
 
 \item{derivative}{Predict the  estimated derivatives of order \code{derivative}.}
 

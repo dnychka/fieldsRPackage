@@ -32,7 +32,7 @@ representation
 of the conditional distrubtion of [Y|X] in terms of boxplots.  
 }
 \usage{
-bplot.xy(x, y, N = 10, breaks = pretty(x, N, eps.correct = 1),
+bplot.xy(x, y, N = 10, breaks = NULL,
                  plot = TRUE, axes = TRUE, ...)
 }
 \arguments{
@@ -46,7 +46,8 @@ Vector to use for constructing boxplot statistics.
 Number of bins on x. Default is 10.
 }
 \item{breaks}{
-Break points defining bin boundaries. These can be unequally spaced. 
+Break points defining bin boundaries. These can be unequally spaced. If NULL then 
+they are found by \code{pretty(x, N, eps.correct = 1)}.
 }
 
 \item{plot}{

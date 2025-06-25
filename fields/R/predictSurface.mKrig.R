@@ -26,7 +26,7 @@
        nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE,
        ZGrid=NULL, drop.Z= FALSE, just.fixed=FALSE, 
-       fast=FALSE, NNSize=4, giveWarnings=FALSE,
+       fast=FALSE, NNSize=4, setupObject=NULL, giveWarnings=FALSE,
        derivative=0, ...) {
 #
       if( is.null(ZGrid) & !drop.Z & (!is.null(object$Z)) ) {
@@ -97,29 +97,30 @@
                                just.fixed=just.fixed, ...)
   }
   else{
-  # fast approximate method 
-  # will always predict  to full grid.
-    
-  out<- mKrigFastPredict( object,
+  # rapid approximate method 
+  # will always predict  to full grid, note pass through of setup object to avoid redoing
+  #
+    out<- mKrigFastPredict( object,
                           gridList= gridList, 
                           ynew = ynew,
                           derivative = derivative,
                           Z = Z, drop.Z = drop.Z,
                           NNSize=NNSize, 
+                          setupObject= setupObject, 
                           giveWarnings=giveWarnings,
-                          
                           ...
-                           )
-  # wipe out predictions outside convex hull of observations. 
+                         )
+#
+# wipe out predictions outside convex hull of observations. 
+#
   if(!extrap){
     out[ !indexGood]<- NA
   }
     
   }
-# reshape as list with x, y and z components  
-   
-    out <-  as.surface( xg, out )
-    #
-    #
-    return(out)
+#    
+# reshape as list with x, y and z components 
+#
+  out <-  as.surface( xg, out )
+  return(out)
 }

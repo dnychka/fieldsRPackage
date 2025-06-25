@@ -497,7 +497,7 @@ set.panel( 1,3)
 # interpolation case in 2 d the taper should be large enough to 
 # about 20 non zero nearest neighbors for every location.
 
-  out2<- fastTps( RMprecip$x,RMprecip$y,m=2, aRange=3.0, 
+  out2<- fastTps( RMprecip$x,RMprecip$y,m=2, aRange=4, 
                       profileLambda=FALSE)
 
 # note that fastTps produces a object of classes  spatialProcess and mKrig
@@ -521,7 +521,7 @@ surface( out2)
 # Typically for data analysis it more convenient to think in degrees. A degree of
 # latitude is about 68 miles (111 km).
 #
-fastTps( RMprecip$x,RMprecip$y,m=2, lon.lat=TRUE, aRange= 210 ) -> out3
+out3<- fastTps( RMprecip$x,RMprecip$y,m=2, lon.lat=TRUE, aRange= 4*68 )
 print( out3)  # note the effective degrees of freedom is different.
 surface(out3)
 

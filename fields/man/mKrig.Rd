@@ -45,7 +45,7 @@ mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon =
                  NULL, lambda = NA, m = 2, chol.args = NULL, find.trA =
                  TRUE, NtrA = 20, iseed = NA, na.rm = FALSE,
                  collapseFixedEffect = TRUE, tau = NA, sigma2 = NA,
-                 verbose = FALSE, ...)
+                 verbose = FALSE, simpleKriging = FALSE, ...)
 \method{predict}{mKrig}( object, xnew=NULL,ynew=NULL, grid.list = NULL,
 derivative=0,
 Z=NULL,drop.Z=FALSE,just.fixed=FALSE,
@@ -124,7 +124,10 @@ as an quick logical switch, m=0 will result in no fixed part in the spatial mode
 \item{object}{Object returned by mKrig. (Same as "x"
   in the print function.)}
   
-\item{sigma2}{Value of the process variance.}  
+\item{sigma2}{Value of the process variance.} 
+
+\item{simpleKriging}{If TRUE there is no fixed linear part in the spatial model. 
+This is a more rational way than setting \code{m=0}. }
 
 \item{tau}{ Value of the measurment error (aka nugget)  standard deviation.}
 

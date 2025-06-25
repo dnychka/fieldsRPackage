@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER\
-approximateCovariance2D<-function(s, gridList, np=4,
+approximateCovariance2D<-function(s, gridList, NNSize=4,
                          mKrigObject=NULL, 
                          Covariance=NULL, covArgs=NULL,
                          aRange=NULL, sigma2=NULL, 
@@ -27,15 +27,15 @@ approximateCovariance2D<-function(s, gridList, np=4,
                          debug=FALSE,
                          verbose=FALSE
                    ){
-  
+  np<- NNSize
   #
-  # function assumes the grid is 
+  # function works with  the grid as 
   # integer locations and 1:m by 1:n
-  # grid and off grid locations need to be transformed to that scale
+  # thus the grid and off grid locations need to be transformed to that scale
   # 
-  # also assumes the grid extends two cells beyond any off
-  # e.g. s  coordinates should be between 
-  # 2 and m-3 and 2 and n-3
+  # also assumes the grid extends NNSize cells beyond any off grid (data) locations
+  # e.g.  the s  coordinates should be between 
+  # NNSize and m- NNSize -1  and NNSize and n- NNSize -1
   #
   # setup the grid info from which to interpolate
   m<- length( gridList$x)
@@ -104,8 +104,10 @@ approximateCovariance2D<-function(s, gridList, np=4,
   
   #
   #  sX and sY are M by (2*np)^2 matrices  where each row is
-  #  the unrolled row and column indices for  np=2
-  #  yield 16 nearest neighbors 
+  #  the unrolled row and column indices 
+  #  for  NNSize=2
+  #  yields 16 nearest neighbors and so they form 
+  #  nine  3X3 grid boxes with the observation location in the center one. 
   
   sX<- s0[,1] + matrix( rep( xshift,M),
                         nrow=M, ncol=(2*np)^2, byrow=TRUE)
@@ -113,11 +115,21 @@ approximateCovariance2D<-function(s, gridList, np=4,
   sY<- s0[,2] + matrix( rep( yshift,M),
                         nrow=M, ncol=(2*np)^2, byrow=TRUE)
   
+  
+  n<- length( gridList$y)
+  
+  
+  dy<- gridList$y[2]- gridList$y[1]
+  
   if( any( (sX < 1)| (sX>m)) ) {
-    stop( "sX outside range for grid")
+    cat( min( sX), max(sX), fill=TRUE)
+    stop("sX outside range of 1:m, 
+         increase the range of the x grid")
   }
   if( any( (sY < 1)| (sY>n)) ) {
-    stop( "sY outside range for grid")
+     cat( min( sY), max(sY), fill=TRUE)
+    stop("sY outside range for grid 1:n, 
+         increase the range of the y grid")
   }
   # indices of all nearest neighbors for unrolled vector.
   # this is an M by (2*np)^2 matrix where indices go from 1 to m*n
@@ -179,15 +191,14 @@ approximateCovariance2D<-function(s, gridList, np=4,
   
  if( debug){ 
     return(
-      list( B= BigB, SE= BigSE, 
+      list( B= BigB, SE= NA, 
             Sigma11Inv = Sigma11Inv,
             Sigma21Star= Sigma21Star,
             s0Index = s0Index,
             s0 = s0,
             gridX = t( (sX-1)*dx + gridList$x[1]),
             gridY = t((sY-1)*dy + gridList$y[1]),
-            gridList = gridList,
-            duplicateIndex= duplicateIndex
+            gridList = gridList
             )
           )
  }

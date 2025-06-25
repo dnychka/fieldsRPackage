@@ -45,7 +45,7 @@ mKrigFastPredictSetup <- function(mKrigObject,
     approxGridObject<- approximateCovariance2D( xObs,
                                     gridListNew,
                                 mKrigObject = mKrigObject,
-                                         np = NNSize,
+                                     NNSize = NNSize,
                                giveWarnings = giveWarnings,
                                verbose=verbose)
                                    
@@ -54,7 +54,7 @@ mKrigFastPredictSetup <- function(mKrigObject,
                                     cov.function=mKrigObject$cov.function.name,
                                     cov.args= mKrigObject$args)
     return( 
-       list(offGridObject =approxGridObject,
+       list(offGridObject = approxGridObject,
                   cov.obj = cov.obj,
                marginInfo = marginInfo
             )

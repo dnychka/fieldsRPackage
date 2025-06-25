@@ -26,7 +26,6 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
                           giveWarnings=TRUE,
                           verbose=FALSE) 
                            {
-  
   #NOTE: covariance model is specified by the arguments in object$args
   # cov.args <- c( object$args, list(...) )
   # For convenience the Z covariates are already assumed to be 

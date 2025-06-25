@@ -27,6 +27,7 @@
 \alias{offGridWeights1D}
 \alias{offGridWeights2D}
 \alias{findGridBox}
+\alias{approximateCovariance2D}
 
 \title{
 Utilities for fast spatial prediction. 
@@ -42,17 +43,22 @@ spatial datasets asnd also for fast spatial prediction from irregular locations 
 \usage{
 offGridWeights(s, gridList, NNSize = 2, mKrigObject = NULL, Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
-   debug=FALSE)
+   debug=FALSE,verbose = FALSE)
    
-   offGridWeights1D(s, gridList, np = 2, mKrigObject = NULL,
+   offGridWeights1D(s, gridList, NNSize = 2, mKrigObject = NULL,
    Covariance = NULL,
    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE,
-   debug=FALSE )
+   debug=FALSE, verbose = FALSE)
    
    offGridWeights2D(s, gridList, NNSize = 2, mKrigObject = NULL,
-   Covariance = NULL,
-   covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE, 
-  debug = FALSE,findCov = TRUE)
+                 Covariance = NULL, covArgs = NULL, aRange = NULL,
+                 sigma2 = NULL, giveWarnings = TRUE, debug = FALSE,
+                 findCov = TRUE, verbose = TRUE)
+                 
+  approximateCovariance2D(s, gridList, NNSize = 4, mKrigObject = NULL, Covariance = NULL, 
+    covArgs = NULL, aRange = NULL, sigma2 = NULL, giveWarnings = TRUE, 
+    debug = FALSE, verbose = FALSE) 
+
    
 addMarginsGridList( xObs, gridList, NNSize)
 
@@ -60,9 +66,10 @@ findGridBox(s, gridList)
 
 mKrigFastPredictSetup(mKrigObject,
                           gridList, 
-                          NNSize,
-			  giveWarnings = TRUE)
+                          NNSize=4,
+			  giveWarnings = TRUE, verbose = FALSE)
 }
+
 
 
 
@@ -82,7 +89,8 @@ mKrigFastPredictSetup(mKrigObject,
 \item{findCov}{If TRUE the prediction variances (via the Kriging
   model and assumed covariance function) for the offgrid locations are
   found. If FALSE just the prediction weights are returned. This option is a bit faster. 
- This switch only is implemented for the 2 D case since the extra  computational demands for 1 D are modest.}
+ This switch only is implemented for the 2 D case since the extra 
+ computational demands for 1 D are modest.}
  
  \item{giveWarnings}{If TRUE will warn if two or more observations
  are in the same grid box. See details below.}
@@ -115,6 +123,7 @@ mKrigFastPredictSetup(mKrigObject,
  \item{sigma2}{
   Marginal variance of the process. 
 }
+ \item{verbose}{If TRUE intermediate output is printed for debugging.}
  
   \item{xObs}{
     Off grid spatial locations}
@@ -175,6 +184,10 @@ matrix computation. This is helpful in defining exactly what
 is being computed. 
 
 Returned value below pertains to the offGridWeights function. 
+
+\strong{approximateCovariance2d} This is used to approximate a stationary covariance for fast prediction
+The weights reuired are the same as those used for the local simulation and so this function is
+included here. See \code{ \link{ predictSurface}} with the \code{fast} option for more details. 
 
 \strong{addMarginsGridList} This is a supporting function that adds 
 extra grid points for a gridList so that every irregular point has a

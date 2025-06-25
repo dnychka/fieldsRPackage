@@ -22,7 +22,7 @@
 addMarginsGridList<- function( xObs, gridList, NNSize){
 
   np<- NNSize
-# ranges and sizes for the inoput grid and the obs  
+# ranges and sizes for the input grid and the obs  
   xMin<- min(xObs[,1])
   xMax<- max(xObs[,1]) 
   yMin<- min(xObs[,2])
@@ -43,25 +43,38 @@ addMarginsGridList<- function( xObs, gridList, NNSize){
   if( (ind1 < 0)|  (ind2 > nx) ) {
     stop("locations outside of x grid" )
   }
-  indRangeX<- c( min( ind1 - np , 0), max( ind2 + np +1 ,nx ))
+  
+  
+  indRangeX<- c( min( ind1 - np , 0), max( ind2 + np  ,nx ))
+  #indRangeX<- c( min( ind1 - np , 0), max( ind2 + np +1 ,nx ))
   xGrid<- (indRangeX[1]:(indRangeX[2] - 1)) *dx + gridXMin
-
+  
+  
   ind1<-  floor(    (yMin -  gridYMin)/dy)
   ind2<-  ceiling(  (yMax -  gridYMin)/dy)
   if( (ind1 < 0)|  (ind2 > ny) ) {
     stop("locations outside of y grid" )
   }
   #### y grid block 
-  indRangeY<- c( min( ind1 - np  , 0), max( ind2 + np +1 , ny))
+  indRangeY<- c( min( ind1 - np  , 0), max( ind2 + np  , ny))
+  #indRangeY<- c( min( ind1 - np  , 0), max( ind2 + np +1 , ny))
   yGrid<- (indRangeY[1]:(indRangeY[2] - 1)) *dy + gridYMin
   
   # new gridList contains the orginal grid
   # up to round off based on  integer steps in dx and dy and extends
   # it so that
-  # there are np grid points beyond the min and max ranges for 
+  # there are NNsize grid points beyond the min and max ranges for 
   # the original ranges. 
   gridListNew<- list( x = xGrid,
                       y = yGrid)
+  
+  if( (length(xGrid)!= length( gridList$x)) | 
+      (length(yGrid)!= length( gridList$y)) ){
+    gridExpand<- TRUE
+  }
+  else{
+    gridExpand<- FALSE
+  }
   
   # these indices are used to locate the original grid as a subset of the larger
   # one
@@ -75,12 +88,15 @@ addMarginsGridList<- function( xObs, gridList, NNSize){
               which.min( abs(gridList$y[1]  - gridListNew$y)),
               which.min( abs(gridList$y[ny] - gridListNew$y))
   )
-              
+     
   return( 
-    list(gridListNew = gridListNew, gridList = gridList,
+    
+    list(gridListNew = gridListNew,
+         gridList = gridList,
           indX= indX,
           indY= indY,
-          np=np )
+          np=np,
+         gridExpand=gridExpand)
   )
 }
 

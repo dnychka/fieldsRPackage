@@ -45,15 +45,16 @@ simSpatialData(object,  M = 1, verbose = FALSE)
 sim.spatialProcess(object, xp,  M = 1, verbose = FALSE, ...)
 sim.Krig(object, xp, M = 1, verbose = FALSE, ...)
 
-simLocal.spatialProcess(mKrigObject, predictionGridList = NULL,
-                 simulationGridList = NULL, gridRefinement = 1, np = 2,
-                 M = 1, nx = 80, ny = 80, verbose = FALSE, delta =
-                 NULL, giveWarnings = TRUE, fast = FALSE, NNSize = 5,
-                 ...)
+simLocal.spatialProcess(
+mKrigObject, predictionGridList = NULL,
+                 simulationGridList = NULL, gridRefinement = 1, M = 1,
+                 nx = 80, ny = 80, delta = NULL, fast = FALSE, NNSize =
+                 4, NNSizePredict = 4, truncate = NULL, giveWarnings =
+                 FALSE, verbose = FALSE, ...)
              
 checkPredictGrid(predictionGridList) 
 
-makePredictionGridList(mKrigObject, nx, ny, np)
+makePredictionGridList(mKrigObject, nx, ny, NNSize)
 
 makeSimulationGrid(predictionGridList, gridRefinement)   
 } 
@@ -73,16 +74,25 @@ circulant covariance function.  }
   for the simulation grid.}
 
 
-\item{giveWarnings}{If true will warn when more than one observation is in a grid box. This is instead of giving an error and stopping.}
+ \item{giveWarnings}{If true will warn when more than one observation is in a grid box. 
+                      This is instead of giving an error and stopping.}
 
   \item{mKrigObject}{An mKrig Object (or spatialProcess object)}
 
  
   \item{M}{Number of draws from conditional distribution.}
-   \item{np}{Degree of nearest neighbors to use. In the 2D case, the default \code{np=2} uses 16
-   points in a 4X4 grid for prediction of the off grid point. }
-  \item{NNSize}{Degree of neighborhood use for fast prediction.
-  ( See \code{ predictSurface.mKrig}  with \code{fast= TRUE} ) } 
+  
+  \item{NNSize}{Degree of nearest neighbors to use. In the 2D case, the default
+   \code{NNSize=2} uses 16 
+    points in a 4X4 grid for prediction of the off grid point. 
+    This is for both the rapid prediction and the 
+   local simulation. 
+  ( See \code{\link{predictSurface.mKrig}}  with \code{fast= TRUE}. ) }
+   \item{NNSizePredict}{Same definition of nearest neighbor size but applied to
+   the rapid prediction approximation for the covariance.
+   (See \code{\link{approximateCovariance2D}}.)
+   }
+   
   \item{nx}{ Number of grid points in prediction locations for x coordinate.}
   \item{ny}{ Number of grid points in  prediction locations for y coordinate.}
 
@@ -97,16 +107,20 @@ simulation. If missing this is created from the range of the
 locations, \code{nx}, \code{ny}, \code{gridRefinement}, and
 \code{gridExpansion}
 or from the range and and \code{nxSimulation}, \code{nySimulation}.}
-
+  
+  \item{truncate}{Controls how negative elements of the FFT are set to zero in the
+  circulant embedding algorithm. See \link{circulantEmbedding} for details. }
  
   \item{xp}{Same as predictionPoints above.}
 
+ \item{verbose}{If true prints out intermediate information for debugging. }
+  
  \item{\dots}{Any other arguments to be passed to the predict function.
  	Usually this is the \code{Z} or \code{drop.Z} argument when there are 
  	additional covariates in the fixed part of the model.
  	(See example below.) }
 
-  \item{verbose}{If true prints out intermediate information. }
+  
 }
 
 \details{
@@ -252,8 +266,8 @@ data( "ozone2")
 fitObject<- spatialProcess( ozone2$lon.lat, ozone2$y[16,],
                               smoothness=.5)
 
-nx<- 65
-ny<- 55
+nx<- 35
+ny<- 25
 
 xGridList<- fields.x.to.grid( fitObject$x, nx=nx, ny=ny)
 
@@ -280,7 +294,7 @@ predictSE<- apply( look0, 1, sd)
 allTime1<- system.time(
   look<- simLocal.spatialProcess(fitObject, M=5,nx=nx, ny=ny,
                      gridRefinement = 3,
-                     np=3)
+                     NNSize=3)
 ) 
 print( allTime1)
 print( look$timing)
@@ -288,7 +302,7 @@ print( look$timing)
 allTime2<- system.time(
   look<- simLocal.spatialProcess(fitObject, M=5,nx=nx, ny=ny,
                      gridRefinement = 3,
-                     np=3, 
+                     NNSize=3, 
                      fast=TRUE)
 ) 
 print( allTime2)
@@ -366,7 +380,7 @@ cat( fill= TRUE)
 # get an elevation grid  ... NGRID<- 50 gives a nicer image but takes longer 
  NGRID <- 25  
  # get elevations on a grid  
-   COGrid<- list( x=seq( -109.5, -100.5, ,NGRID), y= seq(36, 41.75,,NGRID) )
+   COGrid<- list( x=seq( -109.75, -100.5, ,NGRID), y= seq(36, 41.75,,NGRID) )
    COGridPoints<- make.surface.grid( COGrid)
  # elevations are a bilinear interpolation from the 4km
  # Rocky Mountain elevation fields data set.   
@@ -389,28 +403,37 @@ cat( fill= TRUE)
 \dontrun{
  # create larger lon/lat grid  
    NGRID <- 200  
-   COGrid<- list( x=seq( -109.7, -100.5, ,NGRID),
+   COGrid<- list( x=seq( -109.75, -100.5, ,NGRID),
                     y= seq(36, 41.75,,NGRID) )
  # interpolation elevations to this grid. 
- # This took about 40 seconds
+ 
    COElevGrid<- interp.surface.grid( RMelevation, COGrid )
+   set.seed(222)
   system.time( 
     SEout0<- simLocal.spatialProcess( fit1E,COGrid , 
     ZGrid= COElevGrid$z,
     M= 10)
     )
+    
+# now with rapid approximate prediction
+    set.seed(222)
+    system.time( 
+    SEout1<- simLocal.spatialProcess( fit1E,COGrid , 
+    ZGrid= COElevGrid$z,
+    M= 10, fast = TRUE)
+    )
    
   
 }
 ### Approximate conditional simulation and with approximate prediction
-### increase  np and NNSize to improve approximations 
+### increase   NNSize to improve approximations 
 ### This takes about 8 seconds of course one would want more thatn 10 reps
 ### to estimate the SE. Use drop.Z=TRUE to just get the spatial surface without ### the fixed part 
 \dontrun{
 system.time(
    SEout2<- simLocal.spatialProcess( fit1E, COGrid , 
-                   ZGrid= COElevGrid$z, np = 2,
-   fast= TRUE, NNSize=5, M= 10)
+                   ZGrid= COElevGrid$z, NNSize = 2,
+   fast= TRUE, M= 10)
    )
    
   look <- apply( SEout2$z,c(1,2), sd)
@@ -441,6 +464,7 @@ set.seed( 399)
 
 \dontrun{
 ## testing the local method on a 1D case.
+# useful for illustrating method.
 
 set.seed(124) 
 # 10 observations -- massive dataset!
@@ -455,24 +479,25 @@ obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",
 # M should be much larger for an accurate check on code
 #
 
-gridList<- list( x= seq(0,50, length.out=15))
+gridList<- list( x= seq(0,50, length.out=30))
 
+# this seems slow because such a small problem.
 look<- simLocal.spatialProcess(obj,
-                               np=3,
+                               NNSize=5,
                                predictionGridList = gridList,
-                               gridRefinement = 3,
-                               M=50, extrap=TRUE) 
-                               
+                               M=200, extrap=TRUE) 
+# sample statistics for SE                               
 simSE<- apply(look$z, 1, sd )
 
-checkSE<- predictSE( obj, xnew= cbind(look$x ), drop.Z=TRUE )
+# exact computation -- because a small grid ...
+checkSE<- predictSE( obj, xnew= cbind(look$x), drop.Z=TRUE )
 # percentage error from true SE at each location.
 stats( 100*abs(1- simSE/checkSE) )
     
 # Maggie plot  
 plot( look$x, checkSE, type="b", col="blue",
 xlab="Location", ylab="Prediction SE")
-rug( look$x, col="blue", lwd=3)
+#rug( look$x, col="blue", lwd=3)
 points( look$x, simSE, col="orange3", pch=16)
 xline( s, col="grey", lwd=2)
 title("Exact (blue) and Monte Carlo (orange) 

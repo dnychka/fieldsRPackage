@@ -23,6 +23,7 @@
 
 \name{imagePlot}
 \alias{imagePlot}
+\alias{divMap}
 \alias{plotMatrix}
 \alias{colorBar}
 \alias{setupLegend}
@@ -47,6 +48,10 @@ imagePlot(..., add = FALSE, breaks = NULL, nlevel = 64, col =
                  midpoint = FALSE, border = NA, lwd = 1, lowerTriangle
                  = FALSE, upperTriangle = FALSE, asp = NA, verbose =
                  FALSE)
+                 
+divMap(x, y, z, zForce = NULL, zCap = NULL, col = NULL,
+                 worldCol = "magenta1", lty = 1, lwd = 1, brewerPal =
+                 "Spectral", rev = TRUE, wrapVal = c(0, 360), ...)
                  
 colorBar(breaks, smallplot, colorTable, horizontal = FALSE,
                  lab.breaks, axis.args, legend.lab, legend.line = 2,
@@ -108,12 +113,16 @@ the same as the interior color. Otherwise this specifies the color to use.}
 	the colors. Note that if there are nlevel colors there should be  (nlevel+1)
  breakpoints. If \code{breaks} is not specified (nlevel+1) equally spaced breaks are created where the first and last bin have their midpoints at the minimum and maximum values in \code{z} or at \code{zlim}.}
 
+\item{brewerPal}{Name of RColorBrewer palette used to create color scale. Default for
+\code{divMap} is \code{'spectral'}. }
+
 \item{col}{Color table to use for image (See help file on image for details.).
 Default is a pleasing range of 64 divisions suggested by Tim Hoar and
 is similar to 
 the MATLAB (TM) jet color scheme. Note that if \code{breaks} is
 specified there must be one less color specified than the number of
 breaks. Or use  \code{viridisLite::rocket}.
+For \code{divMap} the default scale is the reversed spectral from RColorBrewer.
 }
 
 \item{colorTable}{The colors for the color scale -- the same as col.}
@@ -184,6 +193,9 @@ that the width of a character. }
 \item{lwd}{Line width of bordering lines around pixels.
  This might need to be set less than 1.0 to avoid visible rounding of the pixel corners.}
 
+\item{lty}{Line type for the world map in 
+\code{divMap} following the usually base R graphics styles.}
+
 \item{M}{Number of rows to label in \code{plotMatrix}}
 \item{midpoint}{ 
 This option is for the case of unequally spaced grids with x and y
@@ -219,13 +231,32 @@ plot with the legend that is the same size as the plots without
 legends.
 }
 
+\item{rev}{Reverse the order of the color scale.}
+
+\item{worldCol}{Color of world map outline in \code{divMap}. }
+
+\item{wrapVal}{ How is image oriented. Typically \code{c(-180,180)} for a centering around the
+prime meridian or \code{c( 0,360)}, the default centered on the Pacific Ocean.}
+
 \item{upperColor}{The color for the triangle added to the
   upper end of the color bar.}
 
  \item{upperTriangle}{If TRUE  a triangle added to the
   upper end of the color bar using the  last color in the color table. ( i.e. the \code{col} argument). If FALSE a normal color strip will be drawn. }
  
+\item{x}{Horizontal grid values.}
+
+\item{y}{Vertical  grid values.}
+  
 \item{verbose}{If TRUE prints intermediate information about setting up plots (for debugging). }
+
+\item{z}{A matrix of image values.}
+
+\item{zCap}{ Maximum range for color scale. All image values in absolute values greate than this 
+are reset to this maximum times their sign.}
+
+\item{zForce}{z limit in addition to the image and \code{zCap} value. The image color 
+scale range is found as  +/-  \code{max(abs(z),zForce,zCap)}. }
 
 \item{zlim}{For \code{addLegend}, the range of color scale. Default is to use range set by most recent call to \code{color.scale}}
 }
@@ -676,15 +707,28 @@ imagePlot( zlim=c(0,25), nlevel=64,legend.only=TRUE,
 #
 
 #######################################################
+##### Nathan's div plot
+#######################################################
+
+data(LENSExample)
+# default RBrewer spectral color scale. 
+divMap(LENSExample$x, LENSExample$y,
+LENSExample$z,worldCol="white", lwd=.5,
+zCap=2, wrapVal=c(-180, 180))
+
+
+#######################################################
 ##### Comparison to ggplot
 #######################################################
 # The following example was created as way avoid doing more important
 # things 
 # Note how close base graphics can get to reproducing the ggplot style.
 # and how a first cut imagePlot(x,y,z, col = viridis(128) ) is probably 
-# acceptable in most cases for fast EDA
-# Surprisingly the hardest feature is to add the grey gird lines behind 
-# the image. I (DWN) don't know how to do it! 
+# acceptable in most cases for fast EDA!
+
+# Surprisingly the hardest feature is to add the grey grid lines behind 
+# the image. This can be done but adds more complexity to the imagePlot code. 
+#
 
 \dontrun{
 library( viridis)

@@ -114,11 +114,9 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   sY<- s0[,2] + matrix( rep( yshift,M),
                         nrow=M, ncol=(2*np)^2, byrow=TRUE)
   
-  if( any( (sX < 1)| (sX>m)) ) {
-    stop( "sX outside range for grid")
-  }
-  if( any( (sY < 1)| (sY>n)) ) {
-    stop( "sY outside range for grid")
+  if( (min(sX) < 1)| (max(sX)>m) | (min(sY) < 1)| (max(sY)>n)  ) {
+    cat(" grid must extend at least", NNSize + 1,
+        "grid points beyond the observation locations", fill=TRUE)
   }
   # indices of all nearest neighbors for unrolled vector.
   # this is an M by (2*np)^2 matrix where indices go from 1 to m*n
@@ -154,11 +152,12 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
   U<- eigenSigma$vectors
   dV<- eigenSigma$values
   
-  cat("conditional number of Sigma11", fill=TRUE)
-  cat(max(dV)/ min(dV), fill=TRUE)
+ 
   dVInv<- ifelse(dV/max(dV) >= 1e-10, 1/dV,0)  # note this will exclude negative values
   
   if( verbose){
+    cat("conditional number of Sigma11", fill=TRUE)
+    cat(max(dV)/ min(dV), fill=TRUE)
     if( any(dVInv==0 )){
       cat(sum( dVInv==0), " eigenvalues set to zero out of ", 
           length( dVInv), " Sigma11", fill=TRUE)
@@ -272,7 +271,9 @@ offGridWeights2D<-function(s, gridList, NNSize=2,
     return(
       list( B = BigB, 
             SE = BigSE,
-            predictionVariance = predictionVariance )
+            predictionVariance = predictionVariance,
+            gridList= gridList
+            )
     )
   }
   }

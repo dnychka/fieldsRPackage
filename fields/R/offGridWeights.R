@@ -37,23 +37,55 @@ offGridWeights<-function(s, gridList, NNSize=2,
   # observations
   # 
   {
-  callList<- list( s=s, gridList=gridList, NNSize=NNSize,
-                   mKrigObject=mKrigObject, 
-                   Covariance=Covariance,
-                   covArgs=covArgs,
-                   aRange=aRange, 
-                   sigma2=sigma2, 
-                   giveWarnings=giveWarnings,
-                   debug=debug,
-                   verbose=verbose)
   
-  
+
    if( length( gridList)==1){
-  return( do.call("offGridWeights1D", callList) )
+     out<- offGridWeights1D( s=s, gridList=gridList, NNSize=NNSize,
+                      mKrigObject=mKrigObject, 
+                      Covariance=Covariance,
+                      covArgs=covArgs,
+                      aRange=aRange, 
+                      sigma2=sigma2, 
+                      giveWarnings=giveWarnings,
+                      debug=debug,
+                      verbose=verbose)
+     out$gridList<- gridList
+  return( out)
     }
   # 
   if( length( gridList)==2){
-    return( do.call("offGridWeights2D", callList) )
+     marginInfo<- addMarginsGridList(s, gridList, NNSize)
+    
+    if(marginInfo$gridExpand){
+     
+    warning("gridList expanded to include enough 
+            nearest neighbors")
+     if( verbose){
+       cat("NNSize", NNSize, fill=TRUE)
+       cat(  "x min/max",
+             min(s[,1]), max( s[,2]), fill=TRUE)
+       cat("Old grid", gridList$x,fill=TRUE)
+       cat("New grid", marginInfo$gridListNew$x,fill=TRUE)
+       cat(  "y min/max",
+             min(s[,2]), max( s[,2]), fill=TRUE)
+       cat("Old grid", gridList$y,fill=TRUE)
+       cat("New grid", marginInfo$gridListNew$y,fill=TRUE)
+     }
+      
+      gridList<- marginInfo$gridListNew
+      }
+  
+    out<- offGridWeights2D( s=s, gridList=gridList, NNSize=NNSize,
+                     mKrigObject=mKrigObject, 
+                     Covariance=Covariance,
+                     covArgs=covArgs,
+                     aRange=aRange, 
+                     sigma2=sigma2, 
+                     giveWarnings=giveWarnings,
+                     debug=debug,
+                     verbose=verbose)
+    
+    return( out )
   }
   
    stop("GridList should be either 1 or 2 components")

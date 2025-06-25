@@ -36,9 +36,12 @@ circulant embedding.
 \usage{
 sim.rf(obj)
 circulantEmbedding(obj)
-circulantEmbeddingSetup(grid, M = NULL, mKrigObject = NULL,
-cov.function = "stationary.cov", cov.args = NULL, delta = NULL, ...)
 
+circulantEmbeddingSetup(
+grid, M = NULL, mKrigObject = NULL, cov.function =
+                 "stationary.cov", cov.args = NULL, delta = NULL,
+                 truncate = NULL, ignoreError = FALSE, ...)
+               
 }
 \arguments{
 
@@ -55,6 +58,8 @@ or to \code{circulantEmbeddingSetup} for \code{circulantEmbedding} }
 larger than \code{2*length(grid)}. The default is to choose a power of 2 larger than this
 minima bound.}
 
+\item{mKrigObject}{Object from fitting surface using the mKrig or spatialProcess functions.}
+
 \item{cov.function}{A text string with the name of the stationary covariance function to use.
 Default is \code{stationary.cov} and general function that takes advantage of some efficiency
 in finding distances.}
@@ -64,7 +69,15 @@ smoothness for the Matern.}
 
 \item{delta}{If NULL the spatial domain is artifically doubled in size in all dimensions to account for the periodic wrapping of the fft. If  passed this is the amount to extend the domain and can be less than double if a compact covariance function is used. }
 
-\item{mKrigObject}{Object from fitting surface using the mKrig or spatialProcess functions.}
+\item{truncate}{If the real part of the circulate matrix is negative set these values to zero.
+if \code{truncate = "default"} then all values are set zero to zero if their absolute value 
+is less than  
+or equal to the absolute value of the most negative value. If \code{truncate} is numeric then all values are set to zero 
+where the ratio of the  absolute value of the real part divided by the maximu value is less than or equal to
+\code{truncate}.See Details  
+}
+\item{ignoreError}{ If TRUE then the wght function is returned even if it has some negative value. 
+This is mainly used to examine the weight function when the embedding fails.}
 
 \item{\dots}{For convenience any other arguments to pass to the covariance function. }
 
@@ -105,20 +118,42 @@ take an object that includes some preliminary
 calculations and so is more efficient for simulating more than one
 field from the same covariance. 
 
+\strong{Adjusting for negative weights}
+
 The algorithm using an FFT
 known as circulant embedding, may not always work if the correlation
-range is large. Specifically the weight function obtained from the FFT of the covariance field will have some negative values. 
+range is large. Specifically the weight function obtained from the FFT of 
+the covariance field will have some negative values. Currently a lengthy error message 
+is printed if this is the case.
 A simple fix is to increase the size of the domain 
 so that the correlation scale becomes smaller relative to the extent
 of the domain. Increasing the size can be computationally expensive,
 however, and so this method has some limitations. But when it works it is
-an exact simulation of the random field. 
+an exact simulation of the random field.
+
+An alternative is to truncate the weihgts that are negative to zero. In this code we set
+all weights below a threshold to zero. Specifically if  \code{wght} are the weights we have the rule
+\preformatted{
+ RW <- Re(wght)
+ ind <- abs(RW)/max(RW) <= truncate
+ wght[ind] <- 0
+}
+When truncate is set to \code{"default"} it is chosen as the absolute values of the most negtive wght. 
+The rationale behing this choice is that negative weights are usually associated with oscillations in the wght function
+around zero and so removing just the negative values may be biasing the approximation. 
+
+Once the wghts are set to zero the wght vector is renormalized to have the same mean square as the original weight function. 
+
+
+
+
+
 
 For a stationary model the covariance object ( or list) for \code{circulantEmbedding} should have minmally, the components:
 That is 
 \code{names( obj)}
 should give
-\code{ "m" "grid"    "M"    "wght" }
+\code{ "m", "grid", "M", "wght" }
 
 where \code{m} is the number of grid points in each dimension, \code{grid} is a list
 with components giving the grid points in each coordinate.  
@@ -150,7 +185,8 @@ algortihms and theory.
 
 }
 \seealso{
- \link{stationary.cov},  \link{stationary.image.cov}
+ \link{stationary.cov},  \link{stationary.image.cov},
+ \link{simLocal.spatialProcess} 
 }
 \examples{
 

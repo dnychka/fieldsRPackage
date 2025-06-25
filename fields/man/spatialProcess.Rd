@@ -70,7 +70,10 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
                            
 spatialProcessSetDefaults(x, cov.function, cov.args, cov.params.start, parGrid,
                  mKrig.args, extraArgs = NULL, gridN = 5,
-                 collapseFixedEffect = TRUE, verbose = FALSE)
+                 collapseFixedEffect = TRUE, simpleKriging = FALSE,
+                 verbose = FALSE)
+
+
     
 confidenceIntervalMLE( obj, CILevel, verbose=FALSE)
 
@@ -175,7 +178,10 @@ extra time and is not necessary so the default is FALSE. }
  
  \item{REML}{ If TRUE the parameters are found by restricted maximum likelihood.}
  
- \item{simpleKriging}{ If TRUE then no fixed part of the spatial model is included. When FALSE, the default is to include a linear function in the spatial coordinates. A higher degree polynomial can be choosen using the \code{mKrig.args} argument }
+ \item{simpleKriging}{ If TRUE then no fixed part of 
+ the spatial model is included. When FALSE, the default is to 
+ include a linear function in the spatial coordinates. A higher 
+ degree polynomial can be choosen using the \code{mKrig.args} argument }
  
  \item{verbose}{If TRUE print out intermediate information for debugging.}
  
