@@ -1,0 +1,342 @@
+library( fields)
+args( simLocal.SpatialProcess)
+args( simLocal.spatialProcess)
+source("/Users/nychka/Dropbox/Home/Repositories/fieldsRPackage/fields/R/simLocal.spatialProcess.R")
+library( fields)
+data( ozone2)#
+set.seed( 399)#
+# fit to day 16 from Midwest ozone data set.#
+  out<- Krig( ozone2$lon.lat, ozone2$y[16,], Covariance="Matern", #
+            aRange=1.0,smoothness=1.0, na.rm=TRUE)#
+#
+# NOTE aRange =1.0 is not the best choice but #
+#
+# the six missing data locations#
+ xp<-  ozone2$lon.lat[ is.na(ozone2$y[16,]),]#
+#
+# 30 draws from process at xp given the data #
+#
+ sim.out<- sim.Krig( out,xp, M=30)#
+#
+}
+set.seed(124) #
+# 10 observations -- massive dataset!#
+s<-  cbind(runif(  10, 5,45)) #
+y<-  cbind(runif(  10))#
+aRange<- 10 #
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",#
+             smoothness=1.0,#
+             lambda=.01,tau=sqrt(.01),#
+                      m=0)#
+#                    #
+# M should be much larger for an accurate check on code#
+##
+#
+gridList<- list( x= seq(0,50, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE) #
+simSE<- apply(look$z, 1, sd )#
+#
+checkSE<- predictSE( obj, xnew= cbind(look$x ), drop.Z=TRUE )#
+# percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )#
+# Maggie plot  #
+plot( look$x, checkSE, type="b", col="blue",#
+xlab="Location", ylab="Prediction SE")#
+rug( look$x, col="blue", lwd=3)#
+points( look$x, simSE, col="orange3", pch=16)#
+xline( s, col="grey", lwd=2)#
+title("Exact (blue) and Monte Carlo (orange) #
+for the prediction SE based on observations (grey) ")
+set.seed(124) #
+# 10 observations -- massive dataset!#
+s<- matrix( (runif(  10*2) 10,2) #
+y<-  cbind(runif(  10))#
+aRange<- 10 #
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",#
+             smoothness=1.0,#
+             lambda=.01,tau=sqrt(.01),#
+                      m=0)
+gridList<- list( x= seq(.1,.9, length.out=15),#
+                 y= seq(.1,.9, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE)
+set.seed(124) #
+# 10 observations -- massive dataset!#
+s<- matrix( (runif(  10*2) 10,2) #
+y<-  cbind(runif(  10))#
+aRange<- .05 #
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",#
+             smoothness=1.0,#
+             lambda=.01,tau=sqrt(.01),#
+                      m=0)#
+#                    #
+# M should be much larger for an accurate check on code#
+##
+#
+gridList<- list( x= seq(.1,.9, length.out=15),#
+                 y= seq(.1,.9, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE) #
+simSE<- apply(look$z, 1, sd )
+set.seed(124) #
+# 10 observations -- massive dataset!#
+s<- matrix( (runif(  10*2), 10,2) #
+y<-  cbind(runif(  10))#
+aRange<- .05 #
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",#
+             smoothness=1.0,#
+             lambda=.01,tau=sqrt(.01),#
+                      m=0)#
+#                    #
+# M should be much larger for an accurate check on code#
+##
+#
+gridList<- list( x= seq(.1,.9, length.out=15),#
+                 y= seq(.1,.9, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE)
+set.seed(124) #
+# 10 observations -- massive dataset!#
+s<- matrix( runif(  10*2), 10,2) #
+y<-  cbind(runif(  10))#
+aRange<- .05 #
+obj<- mKrig( s, y, aRange=aRange,Covariance="Matern",#
+             smoothness=1.0,#
+             lambda=.01,tau=sqrt(.01),#
+                      m=0)#
+#                    #
+# M should be much larger for an accurate check on code#
+##
+#
+gridList<- list( x= seq(.1,.9, length.out=15),#
+                 y= seq(.1,.9, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE)
+gridList<- list( x= seq(-.1,1.1, length.out=15),#
+                 y= seq(-.1,1.1, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=3,#
+                               predictionGridList = gridList,#
+                               gridRefinement = 3,#
+                               M=50, extrap=TRUE)
+simSE<- apply(look$z, 1, sd )#
+#
+checkSE<- predictSE( obj, xnew= cbind(look$x ), drop.Z=TRUE )#
+# percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )
+xyGrid<- make.surface.grid( gridList)#
+checkSE<- predictSE( obj, xnew= xyGrid, drop.Z=TRUE )
+percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=5,#
+                               predictionGridList = gridList,#
+                               M=50, extrap=TRUE) #
+simSE<- apply(look$z, 1, sd )#
+xyGrid<- make.surface.grid( gridList)#
+checkSE<- predictSE( obj, xnew= xyGrid, drop.Z=TRUE )#
+# percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )
+# Maggie plot  #
+plot( look$x, checkSE, type="b", col="blue",#
+xlab="Location", ylab="Prediction SE")#
+rug( look$x, col="blue", lwd=3)#
+points( look$x, simSE, col="orange3", pch=16)#
+xline( s, col="grey", lwd=2)#
+title("Exact (blue) and Monte Carlo (orange) #
+for the prediction SE based on observations (grey) ")
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=5,#
+                               predictionGridList = gridList,#
+                               M=I 250, extrap=TRUE) #
+simSE<- apply(look$z, 1, sd )#
+xyGrid<- make.surface.grid( gridList)#
+checkSE<- predictSE( obj, xnew= xyGrid, drop.Z=TRUE )#
+# percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )
+gridList<- list( x= seq(-.1,1.1, length.out=15),#
+                 y= seq(-.1,1.1, length.out=15))#
+#
+look<- simLocal.spatialProcess(obj,#
+                               NNSize=5,#
+                               predictionGridList = gridList,#
+                               M=250, extrap=TRUE) #
+simSE<- apply(look$z, 1, sd )#
+xyGrid<- make.surface.grid( gridList)#
+checkSE<- predictSE( obj, xnew= xyGrid, drop.Z=TRUE )#
+# percentage error from true SE at each location.#
+stats( 100*abs(1- simSE/checkSE) )
+sim.spatialProcess
+data( "ozone2")#
+fitObject<- spatialProcess( ozone2$lon.lat, ozone2$y[16,],#
+                              smoothness=.5)#
+#
+nx<- 35#
+ny<- 25#
+#
+xGridList<- fields.x.to.grid( fitObject$x, nx=nx, ny=ny)#
+#
+xGrid<- make.surface.grid( xGridList)#
+#
+allTime0<- system.time(#
+ look0<- sim.spatialProcess(fitObject, xp=xGrid, M=5)#
+)#
+print( allTime0)
+predictSE<- apply( look0, 1, sd)
+predictSE
+allTime1<- system.time(#
+  look<- simLocal.spatialProcess(fitObject, M=5,nx=nx, ny=ny,#
+                     gridRefinement = 3,#
+                     NNSize=3)#
+) #
+print( allTime1)#
+print( look$timing)
+allTime2<- system.time(#
+  look<- simLocal.spatialProcess(fitObject, M=5,nx=nx, ny=ny,#
+                     gridRefinement = 3,#
+                     NNSize=3, #
+                     fast=TRUE)#
+)
+## A simple example for setting up a bootstrap #
+## M below should be#
+## set to a much larger sample size, however, ( e.g. M <- 200) for better#
+## statistics#
+#
+data( ozone2)#
+obj<- spatialProcess( ozone2$lon.lat,ozone2$y[16,] )#
+aHat<- obj$summary["aRange"]#
+lambdaHat<- obj$summary["lambda"]#
+#
+######### boot strap #
+# create M independent copies of the observation vector#
+# here we just grab the model information from the #
+# spatialProcess object above.#
+#  #
+# However, one could just create the list #
+#  obj<- list( x= ozone2$lon.lat,#
+#       cov.function.name="stationary.cov",#
+#     summary= c( tau= 9.47, sigma2= 499.79, aRange= .700),#
+#    cov.args= list( Covariance="Matern", smoothness=1.0),#
+#     weights= rep( 1, nrow(ozone2$lon.lat) )#
+# )#
+# Here summary component  has the parameters#
+# tau, sigma2 and aRange#
+# and cov.args component has the remaining ones.#
+#
+set.seed(223)#
+M<- 25#
+ySynthetic<- simSpatialData( obj, M)#
+#
+bootSummary<- NULL#
+#
+for(  k in 1:M){#
+cat( k, " ")#
+# here the MLEs are found using the easy top level level wrapper#
+# see mKrigMLEJoint for a more efficient strategy#
+  newSummary<- spatialProcess(obj$x,ySynthetic[,k],#
+                    cov.params.start= list(#
+			                   aRange = aHat,#
+			                  lambda = lambdaHat)#
+                               )$summary#
+  bootSummary<- rbind( bootSummary, newSummary)#
+  }#
+cat( fill= TRUE)#
+# the results and 95% confidence interval  #
+  stats( bootSummary )#
+#
+  obj$summary#
+  tmpBoot<- bootSummary[,c("lambda", "aRange") ]#
+  confidenceInterval <- apply(tmpBoot, 2,#
+                               quantile, probs=c(0.025,0.975) )#
+# compare to estimates used as the "true" parameters			       #
+  obj$summary[2:5] #
+  print( t(confidenceInterval) )#
+# compare to confidence interval using large sample theory  #
+  print( obj$CITable)#
+}
+# conditional simulation with covariates#
+# colorado climate example#
+  data(COmonthlyMet)#
+  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, Z=CO.elev   )#
+# conditional simulation at missing data#
+  good<- !is.na(CO.tmin.MAM.climate ) #
+  infill<- sim.spatialProcess( fit1E, xp=CO.loc[!good,], #
+                Z= CO.elev[!good], M= 10)#
+# get an elevation grid  ... NGRID<- 50 gives a nicer image but takes longer #
+ NGRID <- 25  #
+ # get elevations on a grid  #
+   COGrid<- list( x=seq( -109.5, -100.5, ,NGRID), y= seq(36, 41.75,,NGRID) )#
+   COGridPoints<- make.surface.grid( COGrid)#
+ # elevations are a bilinear interpolation from the 4km#
+ # Rocky Mountain elevation fields data set.   #
+   data( RMelevation)#
+   COElevGrid<- interp.surface( RMelevation, COGridPoints )#
+# NOTE call to sim.spatialProcess treats the grid points as just a matrix#
+# of locations the plot has to "reshape" these into a grid #
+# to use with image.plot #
+   SEout<- sim.spatialProcess( fit1E, xp=COGridPoints,  Z= COElevGrid, M= 30)#
+# for just the smooth surface in lon/lat#
+#  SEout<- sim.spatialProcess( fit1E, xp=COGridPoints,  drop.Z=TRUE, M= 30)#
+# in practice M should be larger to reduce Monte Carlo error.      #
+   surSE<- apply( SEout, 1, sd )#
+   image.plot( as.surface( COGridPoints, surSE)) #
+   points( fit1E$x, col="magenta", pch=16)
+# create larger lon/lat grid  #
+   NGRID <- 200  #
+   COGrid<- list( x=seq( -109.7, -100.5, ,NGRID),#
+                    y= seq(36, 41.75,,NGRID) )#
+ # interpolation elevations to this grid. #
+ # This took about 40 seconds#
+   COElevGrid<- interp.surface.grid( RMelevation, COGrid )#
+  system.time( #
+    SEout0<- simLocal.spatialProcess( fit1E,COGrid , #
+    ZGrid= COElevGrid$z,#
+    M= 10)#
+    )
+SEout2<- simLocal.spatialProcess( fit1E, COGrid , #
+                   ZGrid= COElevGrid$z, NNSize = 2,#
+   fast= TRUE, M= 10)#
+   )
+look <- apply( SEout2$z,c(1,2), sd)#
+  imagePlot(SEout2$x, SEout2$y, look, col=viridis(256) )#
+  points( fit1E$x, pch=16, cex=.5, col="magenta")#
+  title("Monte Carlo prediction SE")
+data( ozone2)#
+set.seed( 399)#
+# fit to day 16 from Midwest ozone data set.#
+  out<- Krig( ozone2$lon.lat, ozone2$y[16,], Covariance="Matern", #
+            aRange=1.0,smoothness=1.0, na.rm=TRUE)#
+#
+# NOTE aRange =1.0 is not the best choice but #
+#
+# the six missing data locations#
+ xp<-  ozone2$lon.lat[ is.na(ozone2$y[16,]),]#
+#
+# 30 draws from process at xp given the data #
+#
+ sim.out<- sim.Krig( out,xp, M=30)
+offGridWeights
+offGridWeights1D
+help( sim.Krig)

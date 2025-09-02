@@ -1,0 +1,76 @@
+
+R version 4.5.1 (2025-06-13) -- "Great Square Root"
+Copyright (C) 2025 The R Foundation for Statistical Computing
+Platform: aarch64-apple-darwin20
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #
+> # fields  is a package for analysis of spatial data written for
+> # the R software environment.
+> # Copyright (C) 2022 Colorado School of Mines
+> # 1500 Illinois St., Golden, CO 80401
+> # Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+> #
+> # This program is free software; you can redistribute it and/or modify
+> # it under the terms of the GNU General Public License as published by
+> # the Free Software Foundation; either version 2 of the License, or
+> # (at your option) any later version.
+> # This program is distributed in the hope that it will be useful,
+> # but WITHOUT ANY WARRANTY; without even the implied warranty of
+> # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> # GNU General Public License for more details.
+> #
+> # You should have received a copy of the GNU General Public License
+> # along with the R software environment if not, write to the Free Software
+> # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+> # or see http://www.r-project.org/Licenses/GPL-2
+> ##END HEADER
+> ##END HEADER
+> 
+> 
+> suppressMessages(library(fields))
+> options( echo=FALSE)
+   user  system elapsed 
+  0.085   0.015   0.099 
+[1] 2250    2
+[1] 2250
+[1] FALSE
+summary of ZGrid
+Length  Class   Mode 
+     0   NULL   NULL 
+Testing:  First a sanity check for fast predict!
+PASSED test at tolerance  1e-07
+ 
+ 
+Testing:  hHat fast/exact
+PASSED test at tolerance  0.005
+Testing:  SEs local, fast/local, exact
+PASSED test at tolerance  0.01
+Testing:  z on fast/exact 5 reps
+PASSED test at tolerance  0.025
+Testing:  RMSE z
+PASSED test at tolerance  2e-04
+ 
+ 
+Testing:  syn h  on fast/exact 5 reps
+PASSED test at tolerance  0.001
+10  20  30  40  50  60  70  80  90  100  110  120  130  140  150  160  170  180  190  200   
+1  11  21  31  41  51  61  71  81  91  101  111  121  131  141  151  161  171  181  191  201  211  221  231  241  251  261  271  281  291  301  311  321  331  341  351  361  371  381  391  401  411  421  431  441  451  461  471  481  491  501  511  521  531  541  551  561  571  581  591  601  611  621  631  641  651  661  671  681  691  701  711  721  731  741  751  761  771  781  791  801  811  821  831  841  851  861  871  881  891  901  911  921  931  941  951  961  971  981  991  Testing:  RRMSE Monte vs. exact
+PASSED test at tolerance  0.03
+Testing:  RRMSE local/fast vs. exact
+PASSED test at tolerance  0.05
+all done!
+> proc.time()
+   user  system elapsed 
+ 58.555   5.526  51.790 

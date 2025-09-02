@@ -32,6 +32,8 @@
  \alias{multrb}
  \alias{radbas}
  \alias{rcss}
+ \alias{dsetup}
+ \alias{dchold}
 \title{
 FORTRAN subroutines used in fields functions
 }
@@ -42,7 +44,9 @@ interface.
 }
 \details{
 For these low level FORTRAN subroutines refer to the R functions for the calling
-sequence and to the src subdirectory of the fields package for the source code. 
+sequence and to the src subdirectory of the fields package for the source code.
+These will eventually be depreciated in factor of using the linpack library 
+and higher level R code.
 \describe{
 \item{css}{Computes a cubic smoothing spline see \code{sreg} and \code{splint}}
 \item{ddfind}{Finds nearest neighbor points within a fixed distance. See \code{fields.rdist.near}}
@@ -55,6 +59,8 @@ sequence and to the src subdirectory of the fields package for the source code.
   \item{multrb}{Multiply an radial basis function matrix by another matrix. See \code{rad.cov}}
  \item{radbas}{Evaluates radial basis functions. See \code{rdist.R}}
  \item{rcss}{Robust cubic smoothing spline. See \code{qsreg}}
+ \item{dsetup}{Sets up banded matrices for cubic spline}
+ \item{dchold}{Cholesky factor for cubic spline computation.}
 }
 }
 \keyword{internal}

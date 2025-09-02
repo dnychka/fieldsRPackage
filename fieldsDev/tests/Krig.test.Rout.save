@@ -1,0 +1,111 @@
+
+R version 4.2.1 (2022-06-23) -- "Funny-Looking Kid"
+Copyright (C) 2022 The R Foundation for Statistical Computing
+Platform: x86_64-apple-darwin17.0 (64-bit)
+
+R is free software and comes with ABSOLUTELY NO WARRANTY.
+You are welcome to redistribute it under certain conditions.
+Type 'license()' or 'licence()' for distribution details.
+
+R is a collaborative project with many contributors.
+Type 'contributors()' for more information and
+'citation()' on how to cite R or R packages in publications.
+
+Type 'demo()' for some demos, 'help()' for on-line help, or
+'help.start()' for an HTML browser interface to help.
+Type 'q()' to quit R.
+
+> #
+> # fields  is a package for analysis of spatial data written for
+> # the R software environment.
+> # Copyright (C) 2022 Colorado School of Mines
+> # 1500 Illinois St., Golden, CO 80401
+> # Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+> #
+> # This program is free software; you can redistribute it and/or modify
+> # it under the terms of the GNU General Public License as published by
+> # the Free Software Foundation; either version 2 of the License, or
+> # (at your option) any later version.
+> # This program is distributed in the hope that it will be useful,
+> # but WITHOUT ANY WARRANTY; without even the implied warranty of
+> # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+> # GNU General Public License for more details.
+> #
+> # You should have received a copy of the GNU General Public License
+> # along with the R software environment if not, write to the Free Software
+> # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
+> # or see http://www.r-project.org/Licenses/GPL-2
+> ##END HEADER
+> ##END HEADER
+> 
+> suppressMessages(library(fields))
+> #
+> #
+> #  test of fixed lambda case
+> #  Check against linear algebra
+> #
+> 
+> options( echo=FALSE)
+Testing:  Compare d coef
+PASSED test at tolerance  1e-08
+Testing:  Compare c coef
+PASSED test at tolerance  1e-08
+Testing:  Compare d coef fixed lambda
+PASSED test at tolerance  1e-08
+Testing:  Compare c coef fixed lambda
+PASSED test at tolerance  1e-08
+Testing:  d coef Krig.coef
+PASSED test at tolerance  1e-08
+Testing:  c coef Krig.coef
+PASSED test at tolerance  1e-08
+Testing:  d coef Krig.coef fixed
+PASSED test at tolerance  1e-08
+Testing:  c coef Krig.coef fixed
+PASSED test at tolerance  1e-08
+Testing:  Amatrix no reps
+PASSED test at tolerance  5e-08
+Testing:  d coef new y
+PASSED test at tolerance  1e-08
+Testing:  c coef new y
+PASSED test at tolerance  1e-08
+Testing:  d coef new y fixed
+PASSED test at tolerance  1e-08
+Testing:   c coef new y fixed
+PASSED test at tolerance  1e-08
+Testing:  d coef several new y fixed
+PASSED test at tolerance  1e-08
+Testing:   c coef several new y fixed
+PASSED test at tolerance  1e-08
+Testing:  Tps with fixed lam
+PASSED test at tolerance  1e-08
+Testing:  Tps with fixed df
+PASSED test at tolerance  1e-08
+Testing:  Krig with fixed lam argument
+PASSED test at tolerance  1e-08
+Warning: 
+Grid searches over lambda (nugget and sill variances) with  minima at the endpoints: 
+  (REML) Restricted maximum likelihood 
+   minimum at  right endpoint  lambda  =  0.003053154 (eff. df= 14.25 )
+Testing:   d coef
+PASSED test at tolerance  1e-08
+Testing:  c coef
+PASSED test at tolerance  1e-08
+Testing:  d fixed case
+PASSED test at tolerance  1e-08
+Testing:   c fixed case
+PASSED test at tolerance  1e-08
+Testing:   d new y
+PASSED test at tolerance  1e-08
+Testing:  c new y
+PASSED test at tolerance  1e-08
+Testing:  testing A matrix
+PASSED test at tolerance  1e-08
+Testing:  testing A matrix new y
+PASSED test at tolerance  1e-08
+Testing:  checking trace
+PASSED test at tolerance  1e-08
+Testing:  GCV
+PASSED test at tolerance  1e-08
+> proc.time()
+   user  system elapsed 
+  1.043   0.079   1.108 

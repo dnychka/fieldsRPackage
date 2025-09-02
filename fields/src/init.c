@@ -36,9 +36,7 @@ extern SEXP distMatHaversin2(SEXP, SEXP, SEXP, SEXP);
 
 /* .Fortran calls */
 extern void F77_NAME(css)(void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *, void *);
-extern void F77_NAME(bandchol)(void *, void *, void *, void *, void *);
-extern void F77_NAME(bandsolve)(void *, void *, void *, void *, void *,
-                                void *, void *, void *);
+
 extern void F77_NAME(dsetup)(void *, void *, void *, void *,
 			                       void *, void *, void *, void *, void * );
 extern void F77_NAME(dchold)(void *, void *, void *, void *,
@@ -71,8 +69,6 @@ static const R_CallMethodDef CallEntries[] = {
 
 static const R_FortranMethodDef FortranEntries[] = {
     {"css",           (DL_FUNC) &F77_NAME(css),           15},
-    {"bandchol",      (DL_FUNC) &F77_NAME(bandchol),       5},
-    {"bandsolve",     (DL_FUNC) &F77_NAME(bandsolve),      8},
     {"dsetup",        (DL_FUNC) &F77_NAME(dsetup),         9},
     {"dchold",        (DL_FUNC) &F77_NAME(dchold),         7},
     {"ddfind",        (DL_FUNC) &F77_NAME(ddfind),        10},
