@@ -1,4 +1,16 @@
-# `fields` in action
+
+---
+title: "A Vignette: 'fields' in action"
+output: 
+  html_document:
+    toc: true
+---
+
+```{r , include=FALSE}
+suppressMessages(library(fields))
+```
+
+# fields in action
 
 ```{r, include=FALSE, results='hide'}
 knitr::opts_chunk$set(echo = TRUE, cache=TRUE)
@@ -31,7 +43,8 @@ title("Average summer rainfall (cm)  ")
 The `fields` commands `world(add=TRUE)` and `US(add=TRUE)` can quickly add outlines to our maps.
 
 
- A slightly different way to veiw these data is a as a bubble plot where each spatial location is color coded by its value. For larger data sets this kind of plot is not as useful as spatial locations may be plotted on top of each.  Below is the same data set and using a transparency level to help with overlapping points, adjusting the size, and also omitting an outline of each colored dot. The default color scale here is *viridis*.  See the help file for more about these features. 
+ A slightly different way to view these data is a as a bubble plot where each spatial location is color coded by its value. For larger data sets this kind of plot is not as useful as spatial locations may be plotted on top of each.  Below is the same data set and using a transparency level to help with overlapping points, adjusting the size, and also omitting an outline of each colored dot. The default color scale here is *viridis* but we also like to use *turbo*.
+ See the help file for more about these features. 
  
 
 ```{r}

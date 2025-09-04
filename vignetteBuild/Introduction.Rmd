@@ -1,15 +1,16 @@
----
+<!-- ---
 title: "Introduction"
 output: 
   html_document:
     toc: true
 ---
+-->
 
 ```{r , include=FALSE}
-library(fields)
+suppressMessages(library(fields))
 ```
 
-#Introduction
+# Introduction
 
 
 `fields` is an R package for curve and function fitting with an emphasis on spatial data. The major methods include:  

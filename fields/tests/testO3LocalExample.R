@@ -34,9 +34,8 @@ good<- !is.na(z)
 s<- s[good,]
 z<- z[good]
 
-system.time( 
-  obj0<- spatialProcess(s,z, smoothness = 1.5)
-)
+obj0<- spatialProcess(s,z, smoothness = 1.5)
+
 sGrid2<- list( x= seq( min(s[,1]), max(s[,1]),length.out=45),
                y= seq( min(s[,2]), max(s[,2]),length.out=50)
 )

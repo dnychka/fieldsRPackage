@@ -41,8 +41,6 @@ Type 'q()' to quit R.
 > 
 > suppressMessages(library(fields))
 > options( echo=FALSE)
-   user  system elapsed 
-  0.085   0.015   0.099 
 [1] 2250    2
 [1] 2250
 [1] FALSE
@@ -72,5 +70,5 @@ Testing:  RRMSE local/fast vs. exact
 PASSED test at tolerance  0.05
 all done!
 > proc.time()
-   user  system elapsed 
- 58.555   5.526  51.790 
+     user    system   elapsed 
+   59.364     5.248 21451.842 

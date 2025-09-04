@@ -181,9 +181,9 @@ US( add=TRUE, col="grey")
 
 ##`sim.fastTps.approx` and `ozone2`
 
-In this final example, we show how to use `sim.fastTps.approx`. We produce a local conditional simulation using the covariance from `fastTps`. The `sim.approx` methods evaluate the conditional surface on a grid and simulate the values of $h(x)$ off the grid using bilinear interpolation of the four nearest grid points. Because of this approximation it is important to choose the grid to be fine relative to the spacing of the observations. The advantage of this approximation is that one can consider conditional simulation for large grids beyond the size possible with exact methods. Here, the method for simulation is circulant embedding and so is restricted to stationary fields. The circulant embedding method is known to fail if the domain is small relative to the correlation range. The argument `gridExpansion` can be used to increase the size of the domain to make the algorithm work. `simLocal.spatialProcess` works for any surface fit that is an mKrig object.  That is the output from **mKrig**, **fastTps**, and **spatialProcess**. The algorithm exploits the fact that the conditional simulation surface will be evaluated on a regular grid but in many cases this is what is needed. 
+In this final example, we show how to produce a local conditional simulation using the covariance from `fastTps`, a Wendland covariance that has limited support but  approximates a Matern at close distances. The `sim.approx` methods evaluate the conditional surface on a grid and simulate the values of $h(x)$ off the grid using bilinear interpolation of the four nearest grid points. Because of this approximation it is important to choose the grid to be fine relative to the spacing of the observations. The advantage of this approximation is that one can consider conditional simulation for large grids beyond the size possible with exact methods. Here, the method for simulation is circulant embedding and so is restricted to stationary fields. The circulant embedding method is known to fail if the domain is small relative to the correlation range. The argument `gridExpansion` can be used to increase the size of the domain to make the algorithm work. `simLocal.spatialProcess` works for any surface fit that is an mKrig object.  That is the output from **mKrig**, **fastTps**, and **spatialProcess**. The algorithm exploits the fact that the conditional simulation surface will be evaluated on a regular grid but in many cases this is what is needed. 
 
-In the example below we simulate a conditional field on  150X150 grid -- 22500 points. Without our approximation this would be large computation invovling a covariance matrix of this dimension. Besides being fast the approximation is also accurate for making inferences.  
+In the example below we simulate a conditional field on  150X150 grid -- 22500 points. Without our approximation this would be large computation involving a covariance matrix of this dimension. Besides being fast the approximation is also accurate for making inferences.  
 
 
 
@@ -192,13 +192,19 @@ data(ozone2)
 y<- ozone2$y[16,]
 good<- !is.na( y)
 y<-y[good]
-x<- ozone2$lon.lat[good,]
-O3Obj<- fastTps( x,y, aRange=1.5 )
-set.seed(122) # set the random seed so we get the same results 
+s<- ozone2$lon.lat[good,]
+O3Obj<- fastTps( s,y, aRange=1.5 )
+set.seed(122) # set the random seed so we get the same results
+lonR<- range(s[,1])
+latR<- range(s[,2])
+gridList<- list( x= seq(lonR[1], lonR[2],length.out=150 ),
+                 y= seq(latR[1], latR[2],length.out=150 )
+)
 O3Sim<- simLocal.spatialProcess( 
-   O3Obj,nx=150, ny=150, M=5)
+   O3Obj,gridList, M=5, verbose=TRUE)
 imagePlot( O3Sim$x, O3Sim$y, O3Sim$z[,,2],
-           zlim=c(15,150), col=viridis(256))
+           zlim=c(15,150), col=turbo(256)
+           )
 points( O3Obj$x, pch=16, col="magenta")
 US( add=TRUE, col="white")
 title("Second realization")
