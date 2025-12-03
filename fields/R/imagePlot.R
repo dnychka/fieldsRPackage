@@ -34,6 +34,7 @@
     lwd = 1,
     lowerTriangle= FALSE, upperTriangle=FALSE, asp = NA, 
     verbose=FALSE) {
+  print( par()$cex)
     # save current graphics settings
     old.par <- par(no.readonly = TRUE)
     # set defaults for color scale 
@@ -112,6 +113,7 @@
                  lowerTriangle = lowerTriangle,
                  upperTriangle =  upperTriangle
              )
+    
     # clean up graphics device settings
     # reset to larger plot region with right user coordinates.
     mfg.save <- par()$mfg
@@ -121,8 +123,12 @@
         invisible()
     }
     else {
+        
         par(big.par)
+        cat("here", fill=TRUE)
+        print( par()$cex)
         par(plt = big.par$plt, xpd = FALSE)
+        par(cex = big.par$cex, xpd = FALSE)
         par(mfg = mfg.save, new = FALSE)
         # A suggestion from Karline Soetaert <Karline.Soetaert@nioz.nl>
         # this is to reset margins to be based on the mar arguments
@@ -132,4 +138,6 @@
         # original plot region.
         invisible()
     }
+    cat("here 2", fill=TRUE)
+    print( par()$cex)
 }
