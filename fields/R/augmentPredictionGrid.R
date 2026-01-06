@@ -13,7 +13,14 @@ augmentPredictionGrid <- function(gridList=NULL, s, nx=NULL, ny=NULL, NNSize,
   # check if data is outside range of the grid  and if augmentation is  even needed !
   # 
   gridListOld<- gridList
+  
+  
   if( !is.null(gridList)){
+    testforxyNames<- all( names(gridList )%in% c( "x","y"))
+    if( !testforxyNames){
+      print(names(gridList ) )
+      stop("gridList has to have component names x and y ")
+    }
     xr<- range( gridList$x)
     dx<- (gridList$x[2] - gridList$x[1] )
     yr<- range( gridList$y)
@@ -22,9 +29,9 @@ augmentPredictionGrid <- function(gridList=NULL, s, nx=NULL, ny=NULL, NNSize,
     if( (min(s[,1])< xr[1])|(max(s[,1])>xr[2])|
         (min(s[,2])< yr[1])|(max(s[,2])>yr[2])) {
       cat("range s[,1]", range(s[,1]),fill=TRUE )
-      cat("range grid$x", xr,fill=TRUE )
+      cat("range gridList$x", xr,fill=TRUE )
       cat("range s[,2]", range(s[,1]),fill=TRUE )
-      cat("range grid$y", yr,fill=TRUE )
+      cat("range gridList$y", yr,fill=TRUE )
       stop(" some observations outside grid")
     }
 # gridList OK as is ?    

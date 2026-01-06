@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 sim.spatialProcess<- function(object, xp,  M = 1, 
-    verbose = FALSE, ...) {
+    verbose = FALSE, giveWarnings=TRUE,  ...) {
     # important variance parameters estimated from the data  
         tau2 <- (object$summary["tau"])^2
         sigma2 <- (object$summary["sigma2"])
@@ -60,7 +60,7 @@ sim.spatialProcess<- function(object, xp,  M = 1,
     if (verbose) {
         cat("N.full", N.full, fill = TRUE)
     }
-    if( N.full > 5000){
+    if( (N.full > 5000) & giveWarnings){
       cat("WARNING: Number of locations for conditional simulation is large ( >5000)
               this may take some time to compute or exhaust the memory.",
           fill=FALSE)

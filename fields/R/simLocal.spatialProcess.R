@@ -61,6 +61,7 @@
            nx = nx, 
            ny = ny,
        NNSize = NNSize,
+       verbose=verbose
      )
   # this will fill in gridList from nx, ny if not passed. 
      gridList<- gridInfo$gridList

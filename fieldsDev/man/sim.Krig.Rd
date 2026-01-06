@@ -103,7 +103,7 @@ location ranges and \code{nx} and \code{ny}.}
  \item{verbose}{If true prints out intermediate information for debugging. }
   
  \item{\dots}{Any other arguments to be passed to the predict function.
- 	Usually this is the \code{Z} or \code{drop.Z} argument when there are 
+ 	Usually this is the \code{XMat} or \code{drop.XMat} argument when there are 
  	additional covariates in the fixed part of the model.
  	(See example below.) }
 
@@ -129,20 +129,23 @@ versions have the advantage that they take the \code{mKrig}, \code{spatialProces
 \code{Krig} objects as a way to specify the
 model in an unambiguous way. 
 
-Given a spatial process  h(x)= P(x) + g(x) observed at 
+Given a spatial process  h(x)= P(x) + z(x) observed at 
 
-Y.k =  Z(x.k)d + P(x.k) + g(x.k) + e.k
+Y.k =  X.k d + P(x.k) + z(x.k) + e.k
 
 where P(x) is a low order, fixed polynomial and g(x) a Gaussian spatial 
-process and Z(x.k) is a vector of covariates that are also indexed by space (such as elevation).
-Z(x.k)d is a linear combination of the covariates with the parameter vector d being a
-component of the fixed part of the 
-model and estimated in the usual way by generalized least squares.
+process and X.k is a vector of covariates that are also indexed by space 
+(such as elevation)
+for universal Kriging  d is found by generalized least squares.
+Note that the high level spatial functions default to adding a linear model in
+the coordinates and so X will be by default a 3 column matrix in 2 dimensions. 
+The \code{XMat} argument in these functions are additional covariates 
+beyond just the coordinates. 
 
 With Y= Y.1, ..., Y.N,
 the goal is to sample the conditional distribution of the process. 
  
-[h(x) | Y ]  or the full prediction Z(x)d + h(x)
+[h(x) | Y ]  or the full prediction XMat(x)d + h(x)
 
 For fixed a covariance this is just a multivariate normal sampling
 problem.  \code{sim.spatialProcess} samples this conditional process at
@@ -188,7 +191,7 @@ a fixed part.
 
 \code{sim.spatialProcess} Follows this algorithm exactly. For the case of an
 addtional covariate  this of course needs to be included. For a model
-with covariates use \code{drop.Z=TRUE} for the function to ignore prediction
+with covariates use \code{drop.XMat=TRUE} for the function to ignore prediction
 using the covariate and generate conditional samples for just the spatial
 process and any low order polynomial. Finally, it should be noted that this
 function will also work with an \code{mKrig} object because the essential
@@ -196,8 +199,8 @@ prediction information in the mKrig and spatialProcess objects are the same.
 The naming is through convenience. 
 
 \code{sim.Krig}  Also follows this algorithm exactly but for the older \code{Krig} object.  Note that  the inclusion of
-drop.Z=TRUE or FALSE will determine whether the conditional simulation 
-includes the covariates Z or not. (See example below.) 
+drop.XMat=TRUE or FALSE will determine whether the conditional simulation 
+includes the covariates XMat or not. (See example below.) 
 
 \code{simLocal.spatialProcess} This function is
 designed for conditional simulation for a large
@@ -357,11 +360,11 @@ cat( fill= TRUE)
 # note how elevation enters either as a vector or image/grid
 
   data(COmonthlyMet)
-  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, Z=CO.elev   )
+  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, XMat=CO.elev   )
 # conditional simulation application for filling missing data
   good<- !is.na(CO.tmin.MAM.climate ) 
   infill<- sim.spatialProcess( fit1E, xp=CO.loc[!good,], 
-                Z= CO.elev[!good], M= 10)
+                XMat= CO.elev[!good], M= 10)
 # conditional simulation on a grid  with covariates.                
 # get an elevation grid  ... NGRID<- 50 gives a nicer image but takes longer 
  NGRID <- 25  
@@ -373,16 +376,16 @@ cat( fill= TRUE)
    data( RMelevation)
    # COElevTmp<- interp.surface.grid(RMelevation,COGrid )
    #  check that predicted surface is OK
-   #look<- predictSurface( fit1E, gridList=COGrid, Z=COElevTmp )
+   #look<- predictSurface( fit1E, gridList=COGrid, XMat=COElevTmp )
 # elevations as a vector 
   COElevGrid<- interp.surface( RMelevation, COGridPoints )
 # NOTE call to sim.spatialProcess treats the grid points as just a matrix
 # of locations the plot has to "reshape" these into a grid 
 # to use with image.plot 
-   SEout<- sim.spatialProcess( fit1E, xp=COGridPoints,  Z= COElevGrid, M= 30)
+   SEout<- sim.spatialProcess( fit1E, xp=COGridPoints,  XMat= COElevGrid, M= 30)
 # for just the smooth surface in lon/lat
 #  SEout<- sim.spatialProcess( fit1E, xp=COGridPoints, 
-#                            drop.Z=TRUE, M= 30)
+#                            drop.XMat=TRUE, M= 30)
 # of course,  M should be larger to reduce Monte Carlo error.      
    surSE<- apply( SEout, 1, sd )
    image.plot( as.surface( COGridPoints, surSE)) 
@@ -405,12 +408,12 @@ cat( fill= TRUE)
    COElevGrid2<- interp.surface.grid( RMelevation, COGrid2 )
    
    #  check that predicted surface is OK
-   # look<- predictSurface.mKrig( fit1E, gridList=COGrid2, ZGrid=COElevGrid2, fast=TRUE )
+   # look<- predictSurface.mKrig( fit1E, gridList=COGrid2, XMatGrid=COElevGrid2, fast=TRUE )
    
    set.seed(222)
   system.time( 
     SEout0<- simLocal.spatialProcess( fit1E,COGrid2, 
-    ZGrid= COElevGrid2$z,
+    XMatGrid= COElevGrid2$z,
     M= 10)
     )
     
@@ -418,7 +421,7 @@ cat( fill= TRUE)
     set.seed(222)
     system.time( 
     SEout1<- simLocal.spatialProcess( fit1E,COGrid2 , 
-    ZGrid= COElevGrid2$z,
+    XMatGrid= COElevGrid2$z,
     M= 50, fast = TRUE)
     )
     

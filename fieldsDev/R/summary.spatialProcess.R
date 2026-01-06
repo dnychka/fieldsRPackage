@@ -174,6 +174,10 @@ summary.spatialProcess <- function(object, ...) {
   outObject$args <- object$args
   outObject$nonzero.entries <- object$nonzero.entries
   outObject$MLEInfo <- object$MLEInfo
+  outObject$fixedParameters<- object$fixedParameters
+  outObject$summary<- object$summary
+  
+  ######################
   
   class(outObject) <- "spatialProcessSummary"
   

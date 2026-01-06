@@ -1,4 +1,4 @@
-#
+ #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
 # Copyright (C) 2024 Colorado School of Mines
@@ -125,7 +125,7 @@ colorBar<- function(breaks=NULL,
   # using the mtext function. The arguments to mtext are
   # passed as a list like the drill for axis (see above)
   #
-  if (!is.null(legend.lab)) {
+  if (!is.null(legend.lab)) { 
     legend.args <- list(text = legend.lab,
                         side = ifelse(horizontal, 1, 4), 
                         line = legend.line, # this may need to be tuned

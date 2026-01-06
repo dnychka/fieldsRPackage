@@ -583,7 +583,7 @@ col=topo.colors(64))
 # Note how close base graphics can get to reproducing the ggplot style.
 
 \dontrun{
-library( viridis)
+library( viridislite)
 library(ggplot2)
 
 x<- 1:20
