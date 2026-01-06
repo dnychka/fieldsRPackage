@@ -29,8 +29,24 @@
 
 \alias{color.scale}
 \alias{snow.colors}
+
 \alias{Mines.colors}
+\alias{blasterBlue}   
+\alias{coloradoRed}   
+\alias{darkBlue} 
+\alias{darkGray}      
+\alias{earthBlue}   
+\alias{energyYellow}  
+\alias{envrGreen}     
+\alias{goldenTech}
+\alias{lightBlue}     
+\alias{lightGray}   
+\alias{mutedBlue}     
+\alias{paleBlue}      
+\alias{redFlannel}
+\alias{silver}  
 \alias{fieldsPlotColors}
+
 \title{Some useful color tables for images and tools to handle them. }
 \description{
 Several color scales useful for image plots: a pleasing rainbow style
@@ -126,7 +142,10 @@ desigend to represent the minimum value of the range ( e.g. 0).
 If the image is in  percent snow cover then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
-See \code{data(Mines.colors)} to define the data sets that are  web colors for Colorado School of Mines. Note that since these are defined as text strings do _not_ quote them when using in the R graphics functions -- they are already character data.
+See \code{data(Mines.colors)} to define the data sets that are 
+web colors for Colorado School of Mines. Note that since these are defined 
+as text strings do _not_ quote them when using in the R graphics functions 
+-- they are already character data.
 E.g. \code{plot(x,y, col=blasterBlue)}
 
 \code{designer.color} is the master function for the other scales. 
@@ -156,7 +175,8 @@ across several vectors by specifiying a common \code{zlim} range.
 A vector giving the colors in a hexadecimal format, two extra hex
 digits are added for the alpha channel.
 
-Or in the case of \code{Mines.colors} a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
+Or in the case of \code{Mines.colors}
+a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
 }
 \seealso{ topo.colors, terrain.colors, image.plot, imagePlot,  quilt.plot,
 grey.scale,

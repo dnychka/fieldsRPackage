@@ -17,39 +17,39 @@ R --save < all-ex.R > all-ex.Rout
 rm  all-ex.Rout  temp.R fields-Ex.pdf
 
 # then
-cp  fields.Rcheck/tests/Krig.Z.test.Rout  fields/tests/Krig.Z.test.Rout.save
-cp  fields.Rcheck/tests/Krig.se.W.Rout  fields/tests/Krig.se.W.Rout.save
-cp  fields.Rcheck/tests/Krig.se.grid.test.Rout  fields/tests/Krig.se.grid.test.Rout.save
-cp  fields.Rcheck/tests/Krig.se.test.Rout  fields/tests/Krig.se.test.Rout.save
-cp  fields.Rcheck/tests/Krig.test.Rout  fields/tests/Krig.test.Rout.save
-cp  fields.Rcheck/tests/Krig.test.W.Rout  fields/tests/Krig.test.W.Rout.save
-cp  fields.Rcheck/tests/KrigGCVREML.test.Rout fields/tests/KrigGCVREML.test.Rout.save
-cp  fields.Rcheck/tests/Likelihood.test.Rout  fields/tests/Likelihood.test.Rout.save
-cp  fields.Rcheck/tests/REMLest.test.Rout  fields/tests/REMLest.test.Rout.save
-cp  fields.Rcheck/tests/Tps.test.Rout  fields/tests/Tps.test.Rout.save
-cp  fields.Rcheck/tests/fastTpsPredict.test.Rout  fields/tests/fastTpsPredict.test.Rout.save
-cp  fields.Rcheck/tests/Wend.test.Rout  fields/tests/Wend.test.Rout.save
-cp  fields.Rcheck/tests/cov.test.Rout  fields/tests/cov.test.Rout.save
-cp  fields.Rcheck/tests/derivative.test.Rout  fields/tests/derivative.test.Rout.save
-cp  fields.Rcheck/tests/diag.multiply.test.Rout fields/tests/diag.multiply.test.Rout.save
-cp  fields.Rcheck/tests/diagonal2.test.Rout  fields/tests/diagonal2.test.Rout.save
-cp  fields.Rcheck/tests/evlpoly.test.Rout  fields/tests/evlpoly.test.Rout.save
-cp  fields.Rcheck/tests/mKrig.Z.Rout  fields/tests/mKrig.Z.Rout.save
-cp  fields.Rcheck/tests/mKrig.parameters.test.Rout  fields/tests/mKrig.parameters.test.Rout.save
-cp  fields.Rcheck/tests/mKrig.se.test.Rout  fields/tests/mKrig.se.test.Rout.save
-cp  fields.Rcheck/tests/mKrig.test.Rout  fields/tests/mKrig.test.Rout.save
-cp  fields.Rcheck/tests/misc.test.Rout  fields/tests/misc.test.Rout.save
-cp  fields.Rcheck/tests/spam.test.Rout  fields/tests/spam.test.Rout.save
-cp  fields.Rcheck/tests/sreg.test.Rout  fields/tests/sreg.test.Rout.save
-cp  fields.Rcheck/tests/vgram.test.Rout  fields/tests/vgram.test.Rout.save
-cp  fields.Rcheck/tests/cov.test2.Rout  fields/tests/cov.test2.Rout.save
-cp  fields.Rcheck/tests/mKrigMLETest.Rout  fields/tests/mKrigMLETest.Rout.save
-cp  fields.Rcheck/tests/mKrigREMLTest.Rout  fields/tests/mKrigREMLTest.Rout.save
-cp  fields.Rcheck/tests/SEFixedParameters.Rout  fields/tests/SEFixedParameters.Rout.save
-cp  fields.Rcheck/tests/testZCommon.Rout  fields/tests/testZCommon.Rout.save
-
-cp  fields.Rcheck/tests/offGridWeights.test.Rout  fields/tests/offGridWeights.test.Rout.save
-cp  fields.Rcheck/tests/offGridWeightsNEW.test.Rout  fields/tests/offGridWeightsNEW.test.Rout.save
+cp  fields.Rcheck/tests/Krig.Z.test.Rout  fieldsDev/tests/Krig.Z.test.Rout.save
+cp  fields.Rcheck/tests/Krig.se.W.Rout  fieldsDev/tests/Krig.se.W.Rout.save
+cp  fields.Rcheck/tests/Krig.se.grid.test.Rout  fieldsDev/tests/Krig.se.grid.test.Rout.save
+cp  fields.Rcheck/tests/Krig.se.test.Rout  fieldsDev/tests/Krig.se.test.Rout.save
+cp  fields.Rcheck/tests/Krig.test.Rout  fieldsDev/tests/Krig.test.Rout.save
+cp  fields.Rcheck/tests/Krig.test.W.Rout  fieldsDev/tests/Krig.test.W.Rout.save
+cp  fields.Rcheck/tests/KrigGCVREML.test.Rout fieldsDev/tests/KrigGCVREML.test.Rout.save
+cp  fields.Rcheck/tests/Likelihood.test.Rout  fieldsDev/tests/Likelihood.test.Rout.save
+cp  fields.Rcheck/tests/REMLest.test.Rout  fieldsDev/tests/REMLest.test.Rout.save
+cp  fields.Rcheck/tests/Tps.test.Rout  fieldsDev/tests/Tps.test.Rout.save
+cp  fields.Rcheck/tests/fastTpsPredict.test.Rout  fieldsDev/tests/fastTpsPredict.test.Rout.save
+cp  fields.Rcheck/tests/Wend.test.Rout  fieldsDev/tests/Wend.test.Rout.save
+cp  fields.Rcheck/tests/cov.test.Rout  fieldsDev/tests/cov.test.Rout.save
+cp  fields.Rcheck/tests/derivative.test.Rout  fieldsDev/tests/derivative.test.Rout.save
+cp  fields.Rcheck/tests/diag.multiply.test.Rout fieldsDev/tests/diag.multiply.test.Rout.save
+cp  fields.Rcheck/tests/diagonal2.test.Rout  fieldsDev/tests/diagonal2.test.Rout.save
+cp  fields.Rcheck/tests/evlpoly.test.Rout  fieldsDev/tests/evlpoly.test.Rout.save
+cp  fields.Rcheck/tests/mKrig.Z.Rout  fieldsDev/tests/mKrig.Z.Rout.save
+cp  fields.Rcheck/tests/mKrig.parameters.test.Rout  fieldsDev/tests/mKrig.parameters.test.Rout.save
+cp  fields.Rcheck/tests/mKrig.se.test.Rout  fieldsDev/tests/mKrig.se.test.Rout.save
+cp  fields.Rcheck/tests/mKrig.test.Rout  fieldsDev/tests/mKrig.test.Rout.save
+cp  fields.Rcheck/tests/misc.test.Rout  fieldsDev/tests/misc.test.Rout.save
+cp  fields.Rcheck/tests/spam.test.Rout  fieldsDev/tests/spam.test.Rout.save
+cp  fields.Rcheck/tests/sreg.test.Rout  fieldsDev/tests/sreg.test.Rout.save
+cp  fields.Rcheck/tests/vgram.test.Rout  fieldsDev/tests/vgram.test.Rout.save
+cp  fields.Rcheck/tests/cov.test2.Rout  fieldsDev/tests/cov.test2.Rout.save
+cp  fields.Rcheck/tests/mKrigMLETest.Rout  fieldsDev/tests/mKrigMLETest.Rout.save
+cp  fields.Rcheck/tests/mKrigREMLTest.Rout  fieldsDev/tests/mKrigREMLTest.Rout.save
+cp  fields.Rcheck/tests/SEFixedParameters.Rout  fieldsDev/tests/SEFixedParameters.Rout.save
+cp  fields.Rcheck/tests/testZCommon.Rout  fieldsDev/tests/testZCommon.Rout.save
+cp  fields.Rcheck/tests/offGridWeights.test.Rout  fieldsDev/tests/offGridWeights.test.Rout.save
+cp  fields.Rcheck/tests/offGridWeightsNEW.test.Rout  fieldsDev/tests/offGridWeightsNEW.test.Rout.save
+cp  fields.Rcheck/tests/testO3LocalExample.Rout   fieldsDev/tests/testO3LocalExample.Rout.save
 
 
 #Adding help files

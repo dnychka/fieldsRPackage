@@ -29,25 +29,25 @@ test.for.zero.flag<- 1
 data( "ozone2")
 
 s<- ozone2$lon.lat
-z<- ozone2$y[16,]
-good<- !is.na(z)
+y<- ozone2$y[16,]
+good<- !is.na(y)
 s<- s[good,]
-z<- z[good]
+y<- y[good]
 
-system.time( 
-  obj0<- spatialProcess(s,z, smoothness = 1.5)
-)
+
+obj0<- spatialProcess(s,y, smoothness = 1.5)
+
 sGrid2<- list( x= seq( min(s[,1]), max(s[,1]),length.out=45),
-               y= seq( min(s[,2]), max(s[,2]),length.out=50)
-)
+               y= seq( min(s[,2]), max(s[,2]),length.out=50))
 
 
 # sanity check as to accuracy
 #
 fHat<-  predictSurface( obj0, gridList=sGrid2, extrap=TRUE)
 fHat1<- predictSurface( obj0, gridList=sGrid2, fast =TRUE, NNSize=20, extrap=TRUE,
-                        verbose=TRUE)
-test.for.zero( fHat$z, fHat1$z, tol=1e-7, tag="First a sanity check for fast predict!")
+                        verbose=FALSE)
+test.for.zero( fHat$z, fHat1$z, tol=1e-7,
+               tag="First a sanity check for fast predict!")
 
 look<- mKrigFastPredictSetup(obj0,
                                   sGrid2, 

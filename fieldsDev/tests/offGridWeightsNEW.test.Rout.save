@@ -43,7 +43,6 @@ Type 'q()' to quit R.
 > 
 > suppressMessages(library(fields))
 > options(echo=FALSE)
-Found 1 grid box(es) containing more than 1 obs location
 Warning message:
 In offGridWeights(s0, list(x = (1:m) * dx, y = (1:n) * dx), aRange = 10 *  :
   gridList expanded to include enough 
@@ -54,7 +53,6 @@ Testing:   dense B matrix
 PASSED test at tolerance  1e-08
 Testing:  SEs
 PASSED test at tolerance  1e-08
-Found 2 grid box(es) containing more than 1 obs location
 Warning message:
 In offGridWeights(s, gridList, aRange = (10 * dx), sigma2 = sigma2,  :
   gridList expanded to include enough 
@@ -68,7 +66,6 @@ PASSED test at tolerance  1e-08
 Testing:  prediction Variances
 PASSED test at tolerance  1e-08
 PASSED test at tolerance  SE by hand
-Found 2 grid box(es) containing more than 1 obs location
 Warning message:
 In offGridWeights(s, list(x = (1:m) * dx, y = (1:n) * dx), aRange = (10 *  :
   gridList expanded to include enough 
@@ -80,4 +77,4 @@ PASSED test at tolerance  1e-08
 all done with off grid weight tests part 2
 > proc.time()
    user  system elapsed 
-  0.422   0.035   0.453 
+  0.188   0.018   0.208 

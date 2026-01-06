@@ -64,4 +64,4 @@ PASSED test at tolerance  1e-08
 all done with off grid weight tests part 1
 > proc.time()
    user  system elapsed 
-  0.450   0.036   0.482 
+  0.204   0.019   0.225 

@@ -58,7 +58,7 @@ plotCode<- list(
   expression(image( 1:5*2, 104:108, 
                     outer(1:5, 106:110,"+"),
                     add=TRUE, 
-                    col=turbo(256), 
+                    col=tim.colors(), 
                     zlim=c( 105, 120))
              ,
              points(5, 107,pch=16, col="grey20"),
@@ -212,7 +212,7 @@ for( I in 1:m ){
  # see the imagePlot help file for more details
  # 
  
- imagePlot( legend.only=TRUE, col=turbo(256), 
+ imagePlot( legend.only=TRUE, col=tim.colors(),
             zlim=c( 105, 120),
             smallplot= c( .81,.81+.03,.2,.5),
             legend.lab="ColorBar Label",

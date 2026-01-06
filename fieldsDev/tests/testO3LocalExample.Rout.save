@@ -41,14 +41,6 @@ Type 'q()' to quit R.
 > 
 > suppressMessages(library(fields))
 > options( echo=FALSE)
-   user  system elapsed 
-  0.085   0.013   0.098 
-[1] 2250    2
-[1] 2250
-[1] FALSE
-summary of ZGrid
-Length  Class   Mode 
-     0   NULL   NULL 
 Testing:  First a sanity check for fast predict!
 PASSED test at tolerance  1e-07
  
@@ -73,4 +65,4 @@ PASSED test at tolerance  0.05
 all done!
 > proc.time()
    user  system elapsed 
- 60.278   5.752  54.410 
+ 22.689   2.872  25.555 
