@@ -40,12 +40,12 @@ covariance function is known.
 \usage{
 predictSE(object, ...) 
 \method{predictSE}{Krig}(object, x = NULL, cov = FALSE, verbose = FALSE,...)
-\method{predictSE}{mKrig}(object, xnew = NULL, Z = NULL, verbose = FALSE, drop.Z
+\method{predictSE}{mKrig}(object, xnew = NULL, XMat = NULL, verbose = FALSE, drop.XMat
                  = FALSE, ...)
  }
 \arguments{
-\item{drop.Z}{If FALSE find standard error without including the additional spatial covariates
-described by \code{Z}. If TRUE find full standard error with spatial covariates if they are part of the model.}
+\item{drop.XMat}{If FALSE find standard error without including the additional spatial covariates
+described by \code{XMat}. If TRUE find full standard error with spatial covariates if they are part of the model.}
 \item{object}{ A fitted object that can be used to find prediction standard errors. This is usually from fitting a spatial model to data. e.g. a Krig or mKrig object.  
 }
 \item{xnew}{
@@ -69,7 +69,7 @@ FALSE -- of course.
 \item{\dots}{
 These additional arguments passed to the predictSE function.
 }
-\item{Z}{Additional matrix of spatial covariates used for prediction. These are used to 
+\item{XMat}{Additional matrix of spatial covariates used for prediction. These are used to 
 determine the additional covariance contributed in teh fixed part of the model.}
 
 }
@@ -80,12 +80,12 @@ A vector of standard errors for the predicted values of the Kriging fit.
 \details{
 The predictions are represented as a linear combination of the dependent 
 variable, Y. Call this LY.  Based on this representation the conditional 
-variance is the same as the expected value of (P(x) + Z(X) - LY)**2.
+variance is the same as the expected value of (P(x) + XMat(X) - LY)**2.
 where 
-P(x)+Z(x) is the value of the surface at x and LY is the linear 
+P(x)+XMat(x) is the value of the surface at x and LY is the linear 
 combination that estimates this point. Finding this expected value is 
 straight forward given the unbiasedness of LY for P(x) and the covariance 
-for Z and Y. 
+for XMat and Y. 
 
 In these calculations it is assumed that the covariance parameters are fixed.
 This is an approximation since in most cases they have been estimated from the 
@@ -107,32 +107,49 @@ predictor. Currently this is also the calculation in
 
 }
 \seealso{
-Krig, predict.Krig, predictSurfaceSE
+spatialProcess, mKrig, Krig, predict.Krig, predictSurfaceSE, 
 }
 \examples{
 # 
-# Note: in these examples predictSE will default to predictSE.Krig using 
-# a Krig object  
+ data(ozone2)
+ sOzone<- ozone2$lon.lat
+ yOzone<- ozone2$y[16,]
+# Matern smoothness =1.0 sigma2 and tau found by ML
+  fit0<- spatialProcess( sOzone,yOzone, aRange=10)
+# prediction SEs at  miss data locations
+  missingObs<- is.na(yOzone)
+  missingSE<- predictSE(fit0, sOzone[missingObs,]) 
+# NOTE based on dispatching predictSE.mKrig is called. 
+# 95% CI for  ozone surface
+   fHat<- predict(fit0, sOzone[missingObs,]) 
+   cbind(fHat - 1.96*missingSE, fHat + 1.96*missingSE )
+# 95% CI for  ozone _observation_ 
+   fHat<- predict(fit0, sOzone[missingObs,])
+   tau2<- fit0$summary["tau"]^2
+   cbind(fHat - 1.96*sqrt(missingSE + tau2) ,
+         fHat + 1.96*sqrt(missingSE + tau2) )
 
-  fit<- Krig(ChicagoO3$x,ChicagoO3$y,cov.function="Exp.cov", aRange=10)    # Krig fit 
-  predictSE.Krig(fit)      # std errors of predictions at obs.
-
-# make a  grid of X's  
+# SE on  a  grid of locations  
   xg<-make.surface.grid( 
-  list(East.West=seq(-27,34,,20),North.South=seq(-20,35,,20)))     
-  out<- predictSE(fit,xg)   # std errors of predictions 
+  list(x=seq(-91,-83,,30), 
+       y=seq( 37, 45,,30))
+  )     
+  gridSE<- predictSE(fit0,xg)   # std errors of predictions 
+  
+#at the grid points out is a vector of length 900 
+#reshape the grid points into a 30X30 matrix etc.  
 
-#at the grid points out is a vector of length 400 
-#reshape the grid points into a 20X20 matrix etc.  
-
-   out.p<-as.surface( xg, out) 
+   out.p<-as.surface( xg, gridSE) 
    surface( out.p, type="C") 
+   points( sOzone[!missingObs,], col="magenta", pch=16)
 
-# this is equivalent to  the single step function  
-# (but default is not to extrapolation beyond data
-# out<- predictSurfaceSE( fit) 
-# image.plot( out) 
-
+# this is equivalent to the higher level functions
+# (We are lazy and the grid will be a bit different here. See the 
+# help file!)
+ out<- predictSurfaceSE( fit0, nx=30, ny=30, extra=TRUE) 
+ imagePlot( out, col=viridis(256))
+ contour( out, add=TRUE, levels=c( 10,20, 20))
+ points( sOzone[!missingObs,], col="magenta", pch=16)
 
 
 }

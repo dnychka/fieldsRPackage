@@ -50,24 +50,24 @@ surfaces such as image, imagePlot and contour.
        xy = c(1,2),  verbose = FALSE, ...)
        
 \method{predictSurface}{Krig}(object, grid.list = NULL, extrap = FALSE, chull.mask = NA, 
-nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, ZGrid = NULL, 
-    drop.Z = FALSE, just.fixed=FALSE,  ...)
+nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, XMatGrid = NULL, 
+    drop.XMat = FALSE, just.fixed=FALSE,  ...)
     
 \method{predictSurface}{mKrig}(
 object, gridList = NULL, grid.list = NULL, ynew =
                  NULL, extrap = FALSE, chull.mask = NA, nx = 80, ny =
-                 80, xy = c(1, 2), verbose = FALSE, ZGrid = NULL,
-                 drop.Z = FALSE, just.fixed = FALSE, fast = FALSE,
+                 80, xy = c(1, 2), verbose = FALSE, XMatGrid = NULL,
+                 drop.XMat = FALSE, just.fixed = FALSE, fast = FALSE,
                  NNSize = 4, setupObject = NULL, giveWarnings = FALSE,
                  derivative = 0, ...)
 		 
-mKrigFastPredict(object, gridList, ynew = NULL, derivative = 0, ZGrid =
-                 NULL, drop.Z = FALSE, NNSize = 4, setupObject = NULL,
+mKrigFastPredict(object, gridList, ynew = NULL, derivative = 0, XMatGrid =
+                 NULL, drop.XMat = FALSE, NNSize = 4, setupObject = NULL,
                  giveWarnings = TRUE, verbose = FALSE)
 			  
 \method{predictSurfaceSE}{default}(object, grid.list = NULL, extrap = FALSE, chull.mask =
                  NA, nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE,
-                 ZGrid = NULL, just.fixed = FALSE, ...)
+                 XMatGrid = NULL, just.fixed = FALSE, ...)
 }
 
 \arguments{
@@ -122,7 +122,7 @@ second and fourth variables with  variables 1 and 3 fixed at their median
 values. NOTE: this argument is ignored if a grid.list argument is 
 passed. }
 
-\item{drop.Z}{If TRUE the fixed part of model depending on covariates is omitted.}
+\item{drop.XMat}{If TRUE the fixed part of model depending on covariates is omitted.}
 
 \item{just.fixed}{If TRUE the nonparametric surface is omitted.}
 
@@ -148,28 +148,28 @@ Some of the usual arguments for several of the fields fitted objects include:
 
 \item{ynew}{ New values of y used to reestimate the surface.}
 
-\item{Z}{A matrix of covariates for the fixed part of model.}
+\item{XMat}{A matrix of covariates for the fixed part of model.}
 }
 }
 
-\item{ZGrid}{An array  or list form of covariates to use for
+\item{XMatGrid}{An array  or list form of covariates to use for
 	 prediction. This must match the same dimensions from the 
 \code{grid.list} / \code{gridList} argument.  
 
-If ZGrid is an array then the first two indices are the x and y
+If XMatGrid is an array then the first two indices are the x and y
  locations in the 
 grid. The third index, if present, indexes the covariates. e.g. For
  evaluation on 
-a 10X15 grid and with 2 covariates. \code{ dim( ZGrid) == c(10,15, 2)}.
-If ZGrid is a list then the components x and y shold match those of grid list and
+a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.
+If XMatGrid is a list then the components x and y shold match those of grid list and
 the z component follows the shape described above for the no list 
 case. 
 }
 
-\item{Z}{The covariates for the grid unrolled as a matrix. Columns index
+\item{XMat}{The covariates for the grid unrolled as a matrix. Columns index
 the variables and rows index the grid locations. E.g. For
- evaluation on  a 10X15 grid and with 2 covariates. \code{ dim( ZGrid) == c(10,15, 2)}.  and so \code{  dim( Z) = c(150, 2)} and  
- \code{ Z[,1] <- c( ZGrid[,,1])}
+ evaluation on  a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.  and so \code{  dim( XMat) = c(150, 2)} and  
+ \code{ XMat[,1] <- c( XMatGrid[,,1])}
  }
 
  \item{verbose}{If TRUE prints out some imtermediate results for debugging.}

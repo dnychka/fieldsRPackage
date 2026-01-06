@@ -18,8 +18,8 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
-                     ZCommon = NULL,
+spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   XMat = NULL,
+                     XMatCommon = NULL,
                   mKrig.args = NULL,
                          tau = NA,
                 cov.function = NULL, 
@@ -143,8 +143,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     
     InitialGridSearch<- mKrigMLEGrid(x, y,  
                              weights = weights,
-                                   Z = Z, 
-                             ZCommon = ZCommon,
+                                   XMat = XMat, 
+                             XMatCommon = XMatCommon,
                           mKrig.args = mKrig.args,
                         cov.function = obj$cov.function, 
                            cov.args  = obj$cov.args,
@@ -188,8 +188,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
      # where starting values are given or if
      # values in cov.args are omitted. 
      obj$cov.params.start<- cov.params.start
-     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, Z = Z, 
-                             ZCommon = ZCommon,
+     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, XMat = XMat, 
+                             XMatCommon = XMatCommon,
                              mKrig.args = obj$mKrig.args,
                              cov.function = obj$cov.function, 
                              cov.args  = obj$cov.args,
@@ -252,8 +252,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 	                c( list(x=x,
 	                        y=y,
 	                  weights=weights,
-	                        Z=Z,
-	                  ZCommon=ZCommon),
+	                        XMat=XMat,
+	                  XMatCommon=XMatCommon),
 	                  obj$mKrig.args,
 	             list( na.rm=na.rm),
 	             list(cov.function = obj$cov.function),

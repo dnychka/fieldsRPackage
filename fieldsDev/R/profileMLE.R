@@ -57,7 +57,7 @@ profileMLE<- function (obj, parName, parGrid=NULL, gridN=15,
   
   profileInfo<-  mKrigMLEGrid(obj$x, obj$y,  
                weights = obj$weights,
-               Z = obj$Z, 
+               XMat = obj$XMat, 
                mKrig.args = obj$mKrig.args,
                cov.function = obj$cov.function, 
                cov.args  = obj$cov.args,

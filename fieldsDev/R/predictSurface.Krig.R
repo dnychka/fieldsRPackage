@@ -23,10 +23,10 @@
 "predictSurface.Krig" <- function(object, grid.list = NULL, 
        extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE,
-       ZGrid=NULL, drop.Z= FALSE, just.fixed=FALSE,  ...) {
+       XMatGrid=NULL, drop.XMat= FALSE, just.fixed=FALSE,  ...) {
   
-      if( is.null(ZGrid) & !drop.Z & (!is.null(object$Z)) ) {
-      stop("Need to specify covariate (Z) values or set drop.Z==TRUE")
+      if( is.null(XMatGrid) & !drop.XMat & (!is.null(object$XMat)) ) {
+      stop("Need to specify covariate (XMat) values or set drop.XMat==TRUE")
     }
 # create a default grid if it is not passed    
     if (is.null(grid.list)) {
@@ -36,19 +36,19 @@
         grid.list <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
             xy = xy)
     }
-# do some checks on Zgrid and also reshape as a matrix
+# do some checks on XMatgrid and also reshape as a matrix
 # rows index grid locations and columns  are the covariates
-# (as Z in predict).
-# if ZGrid is NULL just returns that back 
-    Z<- unrollZGrid( grid.list, ZGrid) 
+# (as XMat in predict).
+# if XMatGrid is NULL just returns that back 
+    XMat<- unrollXMatGrid( grid.list, XMatGrid) 
     xg <- make.surface.grid(grid.list)
 # NOTE: the predict function called will need to do some internal  the checks
 # whether the evaluation of a large number of grid points (xg)  makes sense.
   if( verbose){
     print( dim( xg))
     print( nrow( xg))
-    print( drop.Z)
-    print( dim( Z))
+    print( drop.XMat)
+    print( dim( XMat))
   }
 # if extrapolate is FALSE set all values outside convex hull to NA
   if (!extrap) {
@@ -69,9 +69,9 @@
     
   out<- rep( NA, nrow(xg))
 # here is the heavy lifting    
-    out[indexGood] <-  predict(object, x=xg[indexGood,], Z=Z[indexGood,], drop.Z= drop.Z,   
+    out[indexGood] <-  predict(object, x=xg[indexGood,], XMat=XMat[indexGood,], drop.XMat= drop.XMat,   
                      just.fixed=just.fixed, ...)
-# reshape as list with x, y and z components    
+# reshape as list with x, y and XMat components    
     out <-  as.surface( xg, out )
     #
     #

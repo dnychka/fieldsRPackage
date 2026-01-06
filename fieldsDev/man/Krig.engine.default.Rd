@@ -46,7 +46,7 @@ Krig.engine.fixed( out, verbose=FALSE, lambda=NA)
 
 Krig.coef(out, lambda = out$lambda, y = NULL, yM = NULL, verbose = FALSE) 
 Krig.make.u(out, y = NULL, yM = NULL, verbose = FALSE) 
-Krig.check.xY(x, Y,Z, weights, na.rm, verbose = FALSE) 
+Krig.check.xY(x, Y,XMat, weights, na.rm, verbose = FALSE) 
 Krig.transform.xY(obj, knots, verbose = FALSE)
 
 Krig.make.W( out, verbose=FALSE)
@@ -83,7 +83,7 @@ interpreted to be the elements of a digaonal matrix.
 }
 
 \item{weights}{ Raw \code{weights} vector passed to Krig}
-\item{Z}{ Raw vector or matrix of additional covariates.}
+\item{XMat}{ Raw vector or matrix of additional covariates.}
 
 \item{na.rm}{ NA action logical values passed to Krig}
 

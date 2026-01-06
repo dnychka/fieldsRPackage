@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 
-Krig.check.xY <- function(x, Y, Z, weights, na.rm, 
+Krig.check.xY <- function(x, Y, XMat, weights, na.rm, 
     verbose = FALSE) {
     #
     # check for missing values in Y or X.
@@ -56,17 +56,17 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
     if (length(Y) != length(weights)) {
         stop(" length of y and weights differ")
     }
-    #  if Z is not NULL coerce to be  a matrix
+    #  if XMat is not NULL coerce to be  a matrix
     # and check  # of rows
     if (verbose) {
-        print(Z)
+        print(XMat)
     }
-    if (!is.null(Z)) {
-        if (!is.matrix(Z)) {
-            Z <- matrix(c(Z), ncol = 1)
+    if (!is.null(XMat)) {
+        if (!is.matrix(XMat)) {
+            XMat <- matrix(c(XMat), ncol = 1)
         }
-        if (length(Y) != nrow(Z)) {
-            stop(" length of y and number of rows of Z differ")
+        if (length(Y) != nrow(XMat)) {
+            stop(" length of y and number of rows of XMat differ")
         }
     }
     # if NAs can be removed then remove them and warn the user
@@ -78,8 +78,8 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
         if (any(ind)) {
             Y <- Y[!ind]
             x <- as.matrix(x[!ind, ])
-            if (!is.null(Z)) {
-                Z <- Z[!ind, ]
+            if (!is.null(XMat)) {
+                XMat <- XMat[!ind, ]
             }
             weights <- weights[!ind]
         }
@@ -90,10 +90,10 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
         stop(" NA's in x matrix")
     }
     #
-    # check for NA's in Z matrix
-    if (!is.null(Z)) {
-        if (any(c(is.na(Z)))) {
-            stop(" NA's in Z matrix")
+    # check for NA's in XMat matrix
+    if (!is.null(XMat)) {
+        if (any(c(is.na(XMat)))) {
+            stop(" NA's in XMat matrix")
         }
     }
     #
@@ -109,7 +109,7 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
     #
     # save x, weights  and Y w/o NAs
     N <- length(Y)
-    return(list(N = N, y = Y, x = x, weights = weights, Z = Z, 
+    return(list(N = N, y = Y, x = x, weights = weights, XMat = XMat, 
         NA.ind = ind))
 }
 
@@ -168,7 +168,7 @@ Krig.check.xY <- function(x, Y, Z, weights, na.rm,
             stop("New lambda can not be used with cholesky decomposition")
         }
         Tmatrix <- do.call(out$null.function.name, c(out$null.args, 
-            list(x = out$knots, Z = out$ZM)))
+            list(x = out$knots, XMat = out$XMatM)))
         temp.d <- qr.coef(out$matrices$qr.VT, forwardsolve(out$matrices$Mc, 
             transpose = TRUE, temp.yM, upper.tri = TRUE))
         temp.c <- forwardsolve(out$matrices$Mc, transpose = TRUE, 
@@ -245,9 +245,9 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
 "Krig.engine.default" <- function(out, verbose = FALSE) {
     
     Tmatrix <- do.call(out$null.function.name, c(out$null.args, 
-        list(x = out$xM, Z = out$ZM)))
+        list(x = out$xM, XMat = out$XMatM)))
     if (verbose) {
-        cat(" Model Matrix: spatial drift and Z", fill = TRUE)
+        cat(" Model Matrix: spatial drift and XMat", fill = TRUE)
         print(Tmatrix)
     }
     # Tmatrix premultiplied by sqrt of weights
@@ -309,7 +309,7 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
     call.name <- out$cov.function.name
    
         Tmatrix <- do.call(out$null.function.name, c(out$null.args, 
-            list(x = out$knots, Z = out$ZM)))
+            list(x = out$knots, XMat = out$XMatM)))
         if (verbose) {
             cat("Tmatrix:", fill = TRUE)
             print(Tmatrix)
@@ -527,18 +527,18 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
         pure.ss = out2$pure.ss))
 }
 
-Krig.null.function <- function(x, Z = NULL, drop.Z = FALSE, 
+Krig.null.function <- function(x, XMat = NULL, drop.XMat = FALSE, 
     m) {
     # default function to create matrix for fixed part of model
-    #  x, Z, and drop.Z are required
+    #  x, XMat, and drop.XMat are required
     #  Note that the degree of the polynomial is by convention (m-1)
-    # returned matrix must have the columns from Z last!
+    # returned matrix must have the columns from XMat last!
     #
-    if (is.null(Z) | drop.Z) {
+    if (is.null(XMat) | drop.XMat) {
         return(fields.mkpoly(x, m = m))
     }
     else {
-        return(cbind(fields.mkpoly(x, m = m), Z))
+        return(cbind(fields.mkpoly(x, m = m), XMat))
     }
 }
 
@@ -579,11 +579,11 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
         sigmahat = sigmahat)
 }
 
-"Krig.replicates" <- function(out=NULL, x,y, Z=NULL, weights=rep( 1, length(y)),
+"Krig.replicates" <- function(out=NULL, x,y, XMat=NULL, weights=rep( 1, length(y)),
                                digits=8,
                                verbose = FALSE) {
     if( is.null(out)){
-      out<- list( x=x, y=y, N= length(y), Z=Z, weights=weights)
+      out<- list( x=x, y=y, N= length(y), XMat=XMat, weights=weights)
     }
     rep.info <- cat.matrix(out$x, digits=digits)
     if (verbose) {
@@ -600,12 +600,12 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
         yM <- as.matrix(out$y)
         weightsM <- out$weights
         xM <- as.matrix(out$x[uniquerows, ])
-        # coerce ZM to matrix
-        if (!is.null(out$Z)) {
-            ZM <- as.matrix(out$Z)
+        # coerce XMatM to matrix
+        if (!is.null(out$XMat)) {
+            XMatM <- as.matrix(out$XMat)
         }
         else {
-            ZM <- NULL
+            XMatM <- NULL
         }
     }
     # collapse over spatial replicates
@@ -617,18 +617,18 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
         yM <- as.matrix(rep.info.aov$means)
         weightsM <- rep.info.aov$w.means
         xM <- as.matrix(out$x[uniquerows, ])
-        # choose some Z's for replicate group means
-        if (!is.null(out$Z)) {
-            ZM <- as.matrix(out$Z[uniquerows, ])
+        # choose some XMat's for replicate group means
+        if (!is.null(out$XMat)) {
+            XMatM <- as.matrix(out$XMat[uniquerows, ])
         }
         else {
-            ZM <- NULL
+            XMatM <- NULL
         }
         pure.ss <- rep.info.aov$SSE
         if (verbose) 
             print(rep.info.aov)
     }
-    return(list(yM = yM, xM = xM, ZM = ZM, weightsM = weightsM, 
+    return(list(yM = yM, xM = xM, XMatM = XMatM, weightsM = weightsM, 
         uniquerows = uniquerows, tauHat.rep = tauHat.rep, tauHat.pure.error = tauHat.pure.error, 
         pure.ss = pure.ss, rep.info = rep.info))
 }

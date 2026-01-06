@@ -87,9 +87,9 @@ If TRUE intermediate results are printed out.
 \details{
 These are experimental functions that use the psuedo-value algorithm to compute a class of robust and quantile problems.  \code{QTps} use the \code{Tps} function as its least squares base smoother while \code{QSreg} uses the efficient \code{sreg} for 1-D cubic smoothing spline models. Currently for the 1-d spline problem we recommend using the (or at least comparing to ) the old \code{qsreg} function. \code{QSreg} was created to produce a more readable version of the 1-d method that follows the thin plate spline format. 
 
-The Thin Plate Spline/ Kriging model through fields is: Y.k= f(x.k) = P(x.k) + Z(x.k) + e.k
+The Thin Plate Spline/ Kriging model through fields is: Y.k= f(x.k) = P(x.k) + XMat(x.k) + e.k
 
- with the goal of estimating the smooth function: f(x)= P(x) + Z(x)
+ with the goal of estimating the smooth function: f(x)= P(x) + XMat(x)
 
 The extension in this function is that e.k can be heavy tailed or have outliers and one would still like a 
 robust estimate of f(x). In the quantile approximation (very small scale parameter) f(x) is an estimate of the 

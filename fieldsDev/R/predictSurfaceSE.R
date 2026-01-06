@@ -28,7 +28,7 @@
   function(object, grid.list = NULL, 
            extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
            xy = c(1,2),  verbose = FALSE,
-           ZGrid=NULL, just.fixed=FALSE,  ...) {
+           XMatGrid=NULL, just.fixed=FALSE,  ...) {
     
     # create a default grid if it is not passed    
     if (is.null(grid.list)) {
@@ -39,12 +39,12 @@
       grid.list <- fields.x.to.grid(object$x, nx = nx, ny = ny, 
                                     xy = xy)
     }
-    # do some checks on Zgrid if passed and also reshape as a matrix
+    # do some checks on XMatgrid if passed and also reshape as a matrix
     # rows index grid locations and columns  are the covariates
-    # (as Z in predict).
-    # if ZGrid is NULL just returns that back
+    # (as XMat in predict).
+    # if XMatGrid is NULL just returns that back
     
-    Z<- unrollZGrid( grid.list, ZGrid) 
+    XMat<- unrollXMatGrid( grid.list, XMatGrid) 
     
     # Convert grid.list to the full set of locations
     xg <- make.surface.grid(grid.list)
@@ -52,12 +52,12 @@
     # whether the evaluation of a large number of grid points (xg)  makes sense.
     if( verbose){
       print( dim( xg))
-      print( dim( Z))
+      print( dim( XMat))
     }
 #    
 # Next call is fragile as it assumes the predictSE method includes
-# a  Z argument  (even if it will often just be NULL )
-      out0<- predictSE(object, xg, Z=Z, ...)
+# a  XMat argument  (even if it will often just be NULL )
+      out0<- predictSE(object, xg, XMat=XMat, ...)
 # coerce back into image format      
       out <-  as.surface( xg, out0)
     #

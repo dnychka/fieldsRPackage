@@ -52,9 +52,9 @@ summary.mKrig <- function(object, ...) {
   }
   c1 <- c(c1, "Total number of parameters in base model")
   c2 <- c(c2, object$nt)
-  if (object$nZ > 0) {
-    c1 <- c(c1, "Number of additional covariates (Z)")
-    c2 <- c(c2, object$nZ)
+  if (object$nXMat > 0) {
+    c1 <- c(c1, "Number of additional covariates (XMat)")
+    c2 <- c(c2, object$nXMat)
   }
   if (!is.na(object$eff.df)) {
     c1 <- c(c1, " Estimate Eff. degrees of freedom")

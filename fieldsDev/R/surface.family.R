@@ -26,7 +26,7 @@
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object,  grid.list, extrap = extrap, 
-        nx = nx, ny = ny, drop.Z = TRUE)
+        nx = nx, ny = ny, drop.XMat = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab
     if (!is.null(xlab)) 
@@ -57,7 +57,7 @@
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object, grid.list, extrap = extrap, 
-        nx = nx, ny = ny, drop.Z = TRUE)
+        nx = nx, ny = ny, drop.XMat = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab
     if (!is.null(xlab)) 

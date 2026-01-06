@@ -40,12 +40,12 @@ nreps<- 1e5
 
 set.seed( 111)
 # extra random covariate
-Z<- matrix( rnorm(n),n)
+XMat<- matrix( rnorm(n),n)
 # the stochastic part 
 E<- matrix( rnorm(n*nreps),n,nreps)
 # NOTE: all fixed effects set to zero
 Y<- t( cholCov)%*%E 
-out<- mKrig( X,Y, aRange=50, Z=Z,
+out<- mKrig( X,Y, aRange=50, XMat=XMat,
              collapseFixedEffect = FALSE,
               lambda=.1/2.0)
 testCov<- var( t(out$beta) )

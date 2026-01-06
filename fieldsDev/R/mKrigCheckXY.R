@@ -19,7 +19,7 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-mKrigCheckXY <- function(x, y,  weights, Z, ZCommon, na.rm) 
+mKrigCheckXY <- function(x, y,  weights, XMat, XMatCommon, na.rm) 
     {
   #
   # check for missing values in y or X.
@@ -52,22 +52,22 @@ mKrigCheckXY <- function(x, y,  weights, Z, ZCommon, na.rm)
   if (nrow(y) != length(weights)) {
     stop(" length of y and weights differ")
   }
-  #  if Z is not NULL coerce to be  a matrix
+  #  if XMat is not NULL coerce to be  a matrix
   # and check  # of rows
-  if (!is.null(Z)) {
-    if (!is.matrix(Z)) {
-      Z <- as.matrix(Z)
+  if (!is.null(XMat)) {
+    if (!is.matrix(XMat)) {
+      XMat <- as.matrix(XMat)
     }
-    if (nrow(y) != nrow(Z)) {
-      stop(" number of rows of y and number of rows of Z differ")
+    if (nrow(y) != nrow(XMat)) {
+      stop(" number of rows of y and number of rows of XMat differ")
     }
   }
-  if (!is.null(ZCommon)) {
-    if (!is.matrix(ZCommon)) {
-      ZCommon <- as.matrix(ZCommon)
+  if (!is.null(XMatCommon)) {
+    if (!is.matrix(XMatCommon)) {
+      XMatCommon <- as.matrix(XMatCommon)
     }
-    if ( nrow(y)*ncol(y) != nrow(ZCommon) ) {
-      stop(" nrow(y)*ncol(y)   and number of rows of ZCommon differ")
+    if ( nrow(y)*ncol(y) != nrow(XMatCommon) ) {
+      stop(" nrow(y)*ncol(y)   and number of rows of XMatCommon differ")
     }
   }
   # if NAs can be removed then remove them and warn the user
@@ -80,12 +80,12 @@ mKrigCheckXY <- function(x, y,  weights, Z, ZCommon, na.rm)
       y <- y[!ind]
       x <- as.matrix(x[!ind, ])
       
-      if (!is.null(Z)) {
-        Z <- as.matrix(Z[!ind, ])
+      if (!is.null(XMat)) {
+        XMat <- as.matrix(XMat[!ind, ])
       }
       
-      if (!is.null(ZCommon)) {
-        stop("can not reshape ZCommon with missing values")
+      if (!is.null(XMatCommon)) {
+        stop("can not reshape XMatCommon with missing values")
       }
       
       weights <- weights[!ind]
@@ -97,16 +97,16 @@ mKrigCheckXY <- function(x, y,  weights, Z, ZCommon, na.rm)
     stop(" NA's in x matrix")
   }
   #
-  # check for NA's in Z matrix
-  if (!is.null(Z)) {
-    if (any(c(is.na(Z)))) {
-      stop(" NA's in Z matrix")
+  # check for NA's in XMat matrix
+  if (!is.null(XMat)) {
+    if (any(c(is.na(XMat)))) {
+      stop(" NA's in XMat matrix")
     }
   }
  
   # save x, weights  and y w/o NAs
   N <- length(y)
-  return(list(N = N, y = y, x = x, weights = weights, Z = Z, 
+  return(list(N = N, y = y, x = x, weights = weights, XMat = XMat, 
               NA.ind = ind, nreps = ncol( y) )
          )
 }

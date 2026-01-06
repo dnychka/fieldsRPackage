@@ -31,7 +31,7 @@ set.seed(122)
 n<-6
 M<- 3
 N<- n*M
-ZCommon<- matrix( round(100*runif( N*3)), N,3)
+XMatCommon<- matrix( round(100*runif( N*3)), N,3)
 
 # data locs
 #s<- cbind( 1:n)
@@ -46,7 +46,7 @@ f<- t(chol(Sigma))%*% matrix(rnorm( n*M),n,M)
 E<- matrix( .05*rnorm(n*M), n,M)
 # the data obs
 y0<- matrix( rep(T%*%beta, M),  n,M) + f +  E
-y<- matrix( rep( T%*%beta, M) + ZCommon%*%gamma, n,M) + f +  E
+y<- matrix( rep( T%*%beta, M) + XMatCommon%*%gamma, n,M) + f +  E
 
 # NOTE for fixed covariance parameters spatailProcess is a wrapper for a call to mKrig
 
@@ -65,20 +65,20 @@ test.for.zero( look1B$beta, look1$beta)
 
 
 look2<- spatialProcess(s,y, aRange=2, lambda=.05^2, smoothness=.5,
-                      ZCommon = ZCommon)
+                      XMatCommon = XMatCommon)
 look2B<- mKrig(s,y, aRange=2, lambda=.05^2,
-               ZCommon = ZCommon )
+               XMatCommon = XMatCommon )
 
 test.for.zero( look2B$beta, look2$beta)
 test.for.zero( look2B$gamma, look2$gamma)
 
 look3<- spatialProcess(s,y, aRange=2, lambda=.05^2,smoothness=.5,
                      collapseFixedEffect = FALSE,
-                          ZCommon = ZCommon)
+                          XMatCommon = XMatCommon)
 
 look3B<- mKrig(s,y, aRange=2, lambda=.05^2,
                collapseFixedEffect = FALSE,
-               ZCommon = ZCommon )
+               XMatCommon = XMatCommon )
 
 # hand computations 
 
@@ -106,25 +106,25 @@ test.for.zero(  look1$beta , coefTestA )
 
 
 
-# collapseFixedEffects =TRUE ZCommon
+# collapseFixedEffects =TRUE XMatCommon
 bigT<- rep(1,M)%x%T
-U<- cbind(bigT,ZCommon )
+U<- cbind(bigT,XMatCommon )
 
 UStar<- t( bigGamma)%*%U
 coefTest<- lm( YStar ~ UStar -1)$coefficients
 
 test.for.zero( c( look2$beta[,1], look2$gamma), coefTest,
-               tag= "spatialProcess ZCommon collapse" )
+               tag= "spatialProcess XMatCommon collapse" )
 
 
-# collapseFixedEffects = FALSE ZCommon
+# collapseFixedEffects = FALSE XMatCommon
 bigT<- diag(1,M)%x%T
-U<- cbind(bigT,ZCommon )
+U<- cbind(bigT,XMatCommon )
 UStar<- t( bigGamma)%*%U
 coefTest<- lm( YStar ~ UStar -1)$coefficients
 
-test.for.zero( c( look3$beta, look3$gamma), coefTest, tag= "spatialProcess ZCommon" )
-test.for.zero( c( look3B$beta, look3B$gamma), coefTest,tag= "mKrig ZCommon"  )
+test.for.zero( c( look3$beta, look3$gamma), coefTest, tag= "spatialProcess XMatCommon" )
+test.for.zero( c( look3B$beta, look3B$gamma), coefTest,tag= "mKrig XMatCommon"  )
 
 ####################################################
 # generate a large set of  2D realizations
@@ -134,7 +134,7 @@ options(echo=FALSE)
 n<-100
 M<- 1000
 N<- n*M
-ZCommon<- matrix( round(100*runif( N*3)), N,3)
+XMatCommon<- matrix( round(100*runif( N*3)), N,3)
 
 # data locs
 #s<- cbind( 1:n)
@@ -149,24 +149,24 @@ f<- t(chol(Sigma))%*% matrix(rnorm( n*M),n,M)
 E<- matrix( .05*rnorm(n*M), n,M)
 # the data obs
 y0<- matrix( rep(T%*%beta, M),  n,M) + f +  E
-y<- matrix( rep( T%*%beta, M) + ZCommon%*%gamma, n,M) + f +  E
+y<- matrix( rep( T%*%beta, M) + XMatCommon%*%gamma, n,M) + f +  E
 
 look<- spatialProcess(s,y0, aRange=2, lambda=.05^2, smoothness=.5,
-                       ZCommon = ZCommon)
+                       XMatCommon = XMatCommon)
 test.for.zero( look$beta[,1], beta, tol=2e-2,tag= "big data beta")
 test.for.zero( look$summary["tau"], .05, tol=1e-2, tag="big data tau")
 test.for.zero( look$summary["sigma2"],1, tol=1e-2, tag="big data sigma2")
 
 look<- spatialProcess(s,y, aRange=2, lambda=.05^2, smoothness=.5,
-                       ZCommon = ZCommon)
+                       XMatCommon = XMatCommon)
 test.for.zero( look$beta[,1], beta, tol=2e-2,
-               tag= "big data beta ZCommon")
+               tag= "big data beta XMatCommon")
 test.for.zero( look$gamma, gamma, tol=1e-3,
-               tag= "big data gamma ZCommon")
+               tag= "big data gamma XMatCommon")
 test.for.zero( look$summary["tau"], .05, tol=1e-2,
-               tag="big data tau ZCommon")
+               tag="big data tau XMatCommon")
 test.for.zero( look$summary["sigma2"],1, tol=1e-2,
-               tag="big data sigma2 ZCommon")
+               tag="big data sigma2 XMatCommon")
 
 
 

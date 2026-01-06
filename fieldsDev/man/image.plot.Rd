@@ -296,7 +296,7 @@ needs is the \code{zlim} argument and the color table! See examples for tricks i
 We like \code{tim.colors} 
 as a default color scale and so if this what you use this can be omitted.
 Unfortunately this is not the default for the \code{image} function. Another
-important color scale is \code{ viridis() } from the viridis package.
+important color scale is \code{viridis() } from the viridis package.
 It seems that by
 and large everyone seems to react postively to viridis -- guess that is the
 point!
@@ -583,7 +583,7 @@ col=topo.colors(64))
 # Note how close base graphics can get to reproducing the ggplot style.
 
 \dontrun{
-library( viridislite)
+library( viridisLite)
 library(ggplot2)
 
 x<- 1:20

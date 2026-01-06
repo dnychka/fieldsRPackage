@@ -36,7 +36,7 @@ including a GCV estimate.
 }
 \usage{
 \method{predict}{Krig}(
-object, x = NULL, Z = NULL, drop.Z = FALSE, just.fixed
+object, x = NULL, XMat = NULL, drop.XMat = FALSE, just.fixed
                  = FALSE, lambda = NA, df = NA, model = NA,
                  eval.correlation.model = TRUE, y = NULL, yM = NULL,
                  verbose = FALSE, ...)
@@ -45,7 +45,7 @@ predictDerivative.Krig(object, x = NULL,  verbose = FALSE,...)
 \method{predict}{Tps}(object, ... )
 
 \method{predict}{fastTps}(object, xnew = NULL, grid.list = NULL, ynew = NULL,
-                 derivative = 0, Z = NULL, drop.Z = FALSE, just.fixed =
+                 derivative = 0, XMat = NULL, drop.XMat = FALSE, just.fixed =
                  FALSE, xy = c(1, 2), ...)
 
 }
@@ -106,9 +106,9 @@ order as xM. The replicate weights are assumed to be the same as the
 original data. (weightsM) }
 
 
-\item{Z}{ Vector/Matrix of additional covariates to be included in
-fixed part of spatial model} \item{drop.Z}{ If TRUE only spatial fixed
-part of model is evaluated.  i.e. Z covariates are not used.  }
+\item{XMat}{ Vector/Matrix of additional covariates to be included in
+fixed part of spatial model} \item{drop.XMat}{ If TRUE only spatial fixed
+part of model is evaluated.  i.e. XMat covariates are not used.  }
 
 \item{\dots}{Other arguments passed to covariance function. In the case of
 \code{fastTps} these are the same arguments as \code{predict.mKrig}.

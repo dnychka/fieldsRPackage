@@ -129,18 +129,15 @@ versions have the advantage that they take the \code{mKrig}, \code{spatialProces
 \code{Krig} objects as a way to specify the
 model in an unambiguous way. 
 
-Given a spatial process  h(x)= P(x) + z(x) observed at 
+Given a spatial process  h(x)= P(x) + g(x) observed at 
 
-Y.k =  X.k d + P(x.k) + z(x.k) + e.k
+Y.k =  XMat(x.k)d + P(x.k) + g(x.k) + e.k
 
 where P(x) is a low order, fixed polynomial and g(x) a Gaussian spatial 
-process and X.k is a vector of covariates that are also indexed by space 
-(such as elevation)
-for universal Kriging  d is found by generalized least squares.
-Note that the high level spatial functions default to adding a linear model in
-the coordinates and so X will be by default a 3 column matrix in 2 dimensions. 
-The \code{XMat} argument in these functions are additional covariates 
-beyond just the coordinates. 
+process and XMat(x.k) is a vector of covariates that are also indexed by space (such as elevation).
+XMat(x.k)d is a linear combination of the covariates with the parameter vector d being a
+component of the fixed part of the 
+model and estimated in the usual way by generalized least squares.
 
 With Y= Y.1, ..., Y.N,
 the goal is to sample the conditional distribution of the process. 

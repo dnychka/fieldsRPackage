@@ -20,8 +20,8 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 
-mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
-                          ZCommon = NULL,
+mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), XMat = NULL,
+                          XMatCommon = NULL,
                        mKrig.args = NULL,
                           cov.function = "stationary.cov", 
                          cov.args = NULL,
@@ -35,12 +35,12 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
                           verbose = FALSE,
                             iseed = NA) {
   if( na.rm){
-    obj<- mKrigCheckXY(x, y, weights, Z, ZCommon, na.rm)
+    obj<- mKrigCheckXY(x, y, weights, XMat, XMatCommon, na.rm)
     x<- obj$x
     y<- obj$y
     weights<- obj$weights
-    Z<- obj$Z
-    ZCommon<- obj$ZCommon 
+    XMat<- obj$XMat
+    XMatCommon<- obj$XMatCommon 
   }
   # check which optimization options the covariance function supports
   # precompute distance matrix if possible so it only needs to be computed once
@@ -92,8 +92,8 @@ mKrigMLEGrid <- function(x, y, weights = rep(1, nrow(x)), Z = NULL,
   
     MLEfit0 <- mKrigMLEJoint(x, y, 
                                   weights = weights, 
-                                        Z = Z, 
-                                  ZCommon = ZCommon,
+                                        XMat = XMat, 
+                                  XMatCommon = XMatCommon,
                              cov.function = cov.function,
                                optim.args = optim.args,
                                  cov.args = currentCov.args,

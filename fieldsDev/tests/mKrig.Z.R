@@ -30,31 +30,31 @@ y<- CO.tmin.MAM.climate
 good<- !is.na( y)
 y<-y[good]
 x<- CO.loc[good,]
-Z<- CO.elev[good]
-out<- mKrig( x,y, Z=Z,  cov.function="stationary.cov", Covariance="Matern",
+XMat<- CO.elev[good]
+out<- mKrig( x,y, XMat=XMat,  cov.function="stationary.cov", Covariance="Matern",
                     aRange=4.0, smoothness=1.0, lambda=.1)
 
-out2<- Krig( x,y, Z=Z,  cov.function="stationary.cov", Covariance="Matern",
+out2<- Krig( x,y, XMat=XMat,  cov.function="stationary.cov", Covariance="Matern",
                     aRange=4.0, smoothness=1.0, lambda=.1, GCV=TRUE)
 
 test.for.zero( predict( out), predict(out2), tag="Full prediction")
-test.for.zero( predict( out, drop.Z=TRUE), predict(out2, drop.Z=TRUE), tag=" prediction dropping Z")
+test.for.zero( predict( out, drop.XMat=TRUE), predict(out2, drop.XMat=TRUE), tag=" prediction dropping XMat")
 
 xnew<- CO.loc[!good,]
-Znew<-  CO.elev[!good]
-temp1<- predict( out, xnew=xnew, drop.Z=TRUE)
-temp2<- predict( out2, x=xnew, drop.Z=TRUE)
-test.for.zero( temp1,temp2, tag="new x's dropping Z")
+XMatnew<-  CO.elev[!good]
+temp1<- predict( out, xnew=xnew, drop.XMat=TRUE)
+temp2<- predict( out2, x=xnew, drop.XMat=TRUE)
+test.for.zero( temp1,temp2, tag="new x's dropping XMat")
 
-temp1<- predict( out, xnew=xnew, Z=Znew)
-temp2<- predict( out2, x=xnew, Z=Znew)
-test.for.zero( temp1,temp2, tag="new x's new Z's")
+temp1<- predict( out, xnew=xnew, XMat=XMatnew)
+temp2<- predict( out2, x=xnew, XMat=XMatnew)
+test.for.zero( temp1,temp2, tag="new x's new XMat's")
 
-temp1<- predictSurface( out, nx=20, ny=20, drop.Z=TRUE, extrap=TRUE)
-temp2<- predictSurface( out2, nx=20, ny=20, drop.Z=TRUE, extrap=TRUE)
-test.for.zero( temp1$z,temp2$z, tag="predicting on surface with drop.Z")
+temp1<- predictSurface( out, nx=20, ny=20, drop.XMat=TRUE, extrap=TRUE)
+temp2<- predictSurface( out2, nx=20, ny=20, drop.XMat=TRUE, extrap=TRUE)
+test.for.zero( temp1$z,temp2$z, tag="predicting on surface with drop.XMat")
 
 
-cat("all done with mKrig Z tests", fill=TRUE)
+cat("all done with mKrig XMat tests", fill=TRUE)
 options( echo=TRUE)
 

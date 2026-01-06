@@ -122,8 +122,6 @@ sim.spatialProcess<- function(object, xp,  M = 1,
         # note that true values of field have to be expanded in the
         # case of common locations between object$x and xp.
         h.true <- (h[xp.ind])
-#        temp.error <- predict(object, xnew=xp, ynew = y.synthetic, 
-#                              Z=Zp, ...) - h.true
         temp.error <- predict(object, xnew=xp, ynew = y.synthetic, 
                                          ...) - h.true
         # add the error to the actual estimate  (conditional mean)

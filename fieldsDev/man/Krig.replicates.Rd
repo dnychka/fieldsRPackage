@@ -31,16 +31,16 @@ In case that several observations are available for a single spatial location fi
 group means and replicate variability
 }
 \usage{
-Krig.replicates(out = NULL, x, y, Z = NULL, weights = rep(1,
+Krig.replicates(out = NULL, x, y, XMat = NULL, weights = rep(1,
                  length(y)), digits = 8, verbose = FALSE)
 }
 
 \arguments{
   \item{out}{ A list with components  \code{x}, \code{y}, \code{weights},  and  possibily 
-\code{Z}.}
+\code{XMat}.}
 \item{x}{Spatial locations.}
 \item{y}{Spatial observations}
-\item{Z}{Spatial covariates.}
+\item{XMat}{Spatial covariates.}
 \item{weights}{Weights proportional to reciprocal varainces of observations.}
 \item{digits}{Number of significant digits to consider in determing a replicate location.}
 \item{verbose}{If TRUE print out details for debugging. }
@@ -48,8 +48,8 @@ Krig.replicates(out = NULL, x, y, Z = NULL, weights = rep(1,
 \details{
 This function figures out which locations are the same and within the function fast.1way 
 use \code{tapply} to find replicate group means and standard deviations. 
-NOTE: it is assumed the Z covariates are unique at the locations. Currently these functions
-can not handle a model with common spatial locations but different values for the Z covariates.
+NOTE: it is assumed the XMat covariates are unique at the locations. Currently these functions
+can not handle a model with common spatial locations but different values for the XMat covariates.
 
 }
 \value{
@@ -60,7 +60,7 @@ A list with components:
   \item{xM }{Unique spatial locations.}
 \item{weightsM}{Weights matching the unique lcoations proportional to reciprocal variances 
 This is found as a combination of the original weights at each location.}
-\item{ZM}{Values of the covariates at the unique lcoations.}
+\item{XMatM}{Values of the covariates at the unique lcoations.}
 \item{uniquerows}{Index for unique rows of \code{x}.}
 \item{tauHat.rep, tauHat.pure.error}{Standard deviation of pure error estimate based on replicate groups
  (and adjusting for possibly different weights.)}

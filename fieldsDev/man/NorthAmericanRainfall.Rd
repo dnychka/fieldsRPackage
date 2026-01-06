@@ -63,7 +63,7 @@ inflation of North Canada due to the usual lon/lat coordinates. Specifically it 
 \source{
 
 The monthly data used to construct 
-\code{NorthAmericanRainfall} this summary was generously provided by Xuebin Zhang, however,
+\code{NorthAmericanRainfall} this summary was generously provided by Xuebin XMathang, however,
 the orignal source is freely available as the Global Historical Climate Network Version 2 Precipitation
 quality controlled, curated and served by the US National Center for Environmental Information. 
 The adjusted data from this archive has been modified from its raw form to make the record more homogenous. Heterogenities can come from a variety of sources such as a moving the station a short distance or changes in instruments. See the  National Centers for Envrionmental Information then Access Data  and then GHCN. 
@@ -81,8 +81,8 @@ y<- NorthAmericanRainfall$precip
 quilt.plot( x,y)
 world( add=TRUE)
 
-Zstat<- NorthAmericanRainfall$trend / NorthAmericanRainfall$trendSE
-quilt.plot( x, Zstat)
+XMatstat<- NorthAmericanRainfall$trend / NorthAmericanRainfall$trendSE
+quilt.plot( x, XMatstat)
 
 \dontrun{
 # with a better projection

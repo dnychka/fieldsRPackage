@@ -52,14 +52,14 @@ summary.spatialProcess <- function(object, ...) {
   c1 <- c(c1, "Total number of parameters in fixed part: ")
   c2 <- c(c2, object$nt)
   
-  if (object$nZ > 0) {
-    c1 <- c(c1, "Number of additional covariates (Z)")
-    c2 <- c(c2, object$nZ)
+  if (object$nXMat > 0) {
+    c1 <- c(c1, "Number of additional covariates (XMat)")
+    c2 <- c(c2, object$nXMat)
   }
   
   if ( !object$simpleKriging ){
     if (!is.na(object$gamma[1])) {
-    c1 <- c(c1, "Number of common covariates (ZCommon)")
+    c1 <- c(c1, "Number of common covariates (XMatCommon)")
     c2 <- c(c2, length(object$gamma))
     }
       }

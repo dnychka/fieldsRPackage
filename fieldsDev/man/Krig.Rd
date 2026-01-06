@@ -34,7 +34,7 @@
 Fits a surface to irregularly spaced data. The Kriging model assumes  
 that the unknown  function is a realization  of a Gaussian 
 random spatial processes. The assumed model is additive 
-Y = P(x) +  Z(X) + e, where P is a low order polynomial and Z is a 
+Y = P(x) +  XMat(X) + e, where P is a low order polynomial and XMat is a 
 mean zero, 
 Gaussian stochastic process with a  
 covariance that is unknown up to a scale constant. The main advantages of
@@ -46,7 +46,7 @@ and marginal variances are supplied.
 }
 \usage{
  Krig(x, Y, cov.function = "stationary.cov", lambda = NA, df
-                 = NA, GCV = FALSE, Z = NULL, cost = 1, weights = NULL,
+                 = NA, GCV = FALSE, XMat = NULL, cost = 1, weights = NULL,
                  m = 2, nstep.cv = 200, scale.type = "user", x.center =
                  rep(0, ncol(x)), x.scale = rep(1, ncol(x)), sigma =
                  NA, tau2 = NA, method = "REML", verbose = FALSE,
@@ -245,7 +245,7 @@ Vector of dependent variables. These are the values of the surface
 (perhaps with measurement error) at the locations or the dependent
 response in a regression.
 }
-\item{Z}{
+\item{XMat}{
 A vector of matrix of covariates to be include in the fixed part of the 
 model. If NULL (default) no addtional covariates are included.}
 
@@ -383,13 +383,13 @@ This function produces a object of class Krig. With this object it is
 easy to subsequently predict with this fitted surface, find standard
 errors, alter the y data ( but not x), etc. 
 
-The Kriging model is: Y.k= f(x.k) = P(x.k) + Z(x.k) + e.k
+The Kriging model is: Y.k= f(x.k) = P(x.k) + XMat(x.k) + e.k
 
 where ".k" means subscripted by k, Y is the dependent variable observed 
-at location x.k, P is a low order polynomial, Z is a mean zero, Gaussian 
+at location x.k, P is a low order polynomial, XMat is a mean zero, Gaussian 
 field with covariance function K and e is assumed to be independent 
 normal errors. The estimated surface is the best linear unbiased 
-estimate (BLUE) of f(x)= P(x) + Z(x) given the observed data. For this 
+estimate (BLUE) of f(x)= P(x) + XMat(x) given the observed data. For this 
 estimate K, is taken to be sigma*cov.function and the errors have variance 
 tau**2. In more conventional geostatistical terms sigma is the "sill" if 
 the covariance function is actually a correlation function and tau**2 
@@ -407,9 +407,9 @@ parameter.
 
 This function also supports a modest extension of the Generalized 
 Kriging model to include other covariates as fixed regression type 
-components. In matrix form Y = Zb + F + E where Z is a matrix of 
+components. In matrix form Y = XMatb + F + E where XMat is a matrix of 
 covariates and b a fixed parameter vector, F the vector of function values at 
-the observations and E a vector of errors. The The \code{Z} argument in 
+the observations and E a vector of errors. The The \code{XMat} argument in 
 the function is the way to specify this additional component.
 
 If the parameters sigma and tau2 are omitted in the call, then they are

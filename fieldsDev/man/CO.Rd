@@ -117,10 +117,10 @@ matplot( CO.elev, cbind( CO.tmax.MAM[103,], CO.tmin.MAM[103,]),
 title("Recorded MAM max (red) and min (blue) temperatures 1997")
 
 #Fitting a spatial model:
-obj<- Tps(CO.loc,CO.tmax.MAM.climate,  Z= CO.elev )
+obj<- Tps(CO.loc,CO.tmax.MAM.climate,  XMat= CO.elev )
 \dontrun{
 out<- spatialProcess(CO.loc,CO.tmax.MAM.climate, 
-          smoothness=1.0, Z= CO.elev)
+          smoothness=1.0, XMat= CO.elev)
 surface( out)
 	  }
 	  

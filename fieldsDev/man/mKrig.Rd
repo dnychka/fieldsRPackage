@@ -33,14 +33,15 @@
 \title{"micro Krig"  Spatial process estimate of a curve or surface, 
 "kriging" with a known covariance function. }
 \description{
-This is a simple version of the Krig function that is 
+This is an implementation of the  frequentist spatial process  estimate known 
+as "Kriging" that is 
 optimized for large data sets, sparse linear algebra, and a clear exposition of the
 computations. Lambda, the smoothing parameter must be fixed. 
-This function is called higher level functions for maximum likelihood estimates of 
-covariance paramters. 
+This function is called by higher level functions for maximum likelihood estimates of 
+covariance paramters and so often serves to compute the objective function. 
 }
 \usage{
-mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon =
+mKrig(x, y, weights = rep(1, nrow(x)), XMat = NULL, XMatCommon =
                  NULL, cov.function = "stationary.cov", cov.args =
                  NULL, lambda = NA, m = 2, chol.args = NULL, find.trA =
                  TRUE, NtrA = 20, iseed = NA, na.rm = FALSE,
@@ -48,7 +49,7 @@ mKrig(x, y, weights = rep(1, nrow(x)), Z = NULL, ZCommon =
                  verbose = FALSE, simpleKriging = FALSE, ...)
 \method{predict}{mKrig}( object, xnew=NULL,ynew=NULL, grid.list = NULL,
 derivative=0,
-Z=NULL,drop.Z=FALSE,just.fixed=FALSE,
+XMat=NULL,drop.XMat=FALSE,just.fixed=FALSE,
 collapseFixedEffect = object$collapseFixedEffect, ...)
 
 \method{summary}{mKrig}(object, ...)
@@ -60,7 +61,7 @@ mKrig.coef(object, y, collapseFixedEffect=TRUE)
 
 mKrig.trace( object, iseed, NtrA)
 
-mKrigCheckXY(x, y, weights, Z, ZCommon, na.rm) 
+mKrigCheckXY(x, y, weights, XMat, XMatCommon, na.rm) 
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
@@ -87,7 +88,7 @@ functions to reset the memory parameter nnzR.  (See example below.)}
 
 \item{digits}{Number of significant digits used in printed output.}
 
-\item{drop.Z}{If true the fixed part will only be evaluated at the
+\item{drop.XMat}{If true the fixed part will only be evaluated at the
 polynomial part of the fixed model. The contribution from the other
 covariates will be omitted.}
 
@@ -152,14 +153,14 @@ the returned mKrig object.)}
 \item{ynew}{New observation vector. \code{mKrig} will reuse matrix
   decompositions and find the new fit to these data.}
 
-\item{Z}{ Linear covariates to be included in fixed part of the 
+\item{XMat}{ Linear covariates to be included in fixed part of the 
   model that are distinct from the default low order 
   polynomial in \code{x}. (NOTE the order of the polynomial
   determined by \code{m})}
   
-\item{ZCommon}{  Linear covariates to be included in fixed part of the 
+\item{XMatCommon}{  Linear covariates to be included in fixed part of the 
   model. This option is only relevant for independent realizations of the fields
-  (i.e. y is a matrix). The number of rows of \code{ZCommon} should be equal to
+  (i.e. y is a matrix). The number of rows of \code{XMatCommon} should be equal to
   the
   number of observations times the number of realizations. } 
 
@@ -276,7 +277,7 @@ vectors.
  and log likelihoods.}
 
   \item{beta}{Coefficients of the polynomial fixed part and if present
-  the covariates (Z).To determine which is which the logical vector
+  the covariates (XMat).To determine which is which the logical vector
   ind.drift also part of this object is TRUE for the polynomial
   part. }
 
@@ -286,12 +287,12 @@ vectors.
 
   \item{np}{ Dimension of c.coef.}
 
-  \item{nZ}{Number of columns of Z covariate matrix (can be zero).}
+  \item{nXMat}{Number of columns of XMat covariate matrix (can be zero).}
 
    \item{ind.drift}{Logical vector that indicates polynomial
    coefficients in the \code{d} coefficients vector. This is helpful
    to distguish between polynomial part and the extra covariates
-   coefficients associated with Z. }
+   coefficients associated with XMat. }
  
  \item{lambda.fixed}{The fixed lambda value}
 
@@ -360,15 +361,15 @@ to \code{np} then these are the diagonal elements of A(lamdba).}
 # Krig( x,y, aRange=2.0, lambda=.01) 
 
 ##############################################################################
-# an example using a "Z" covariate and the Matern family
+# an example using a "XMat" covariate and the Matern family
 #  again see mKrigMLEGrid to choose parameters by MLE.
 data(COmonthlyMet)
 yCO<- CO.tmin.MAM.climate
 good<- !is.na( yCO)
 yCO<-yCO[good]
 xCO<- CO.loc[good,]
-Z<- CO.elev[good]
-out<- mKrig( xCO,yCO, Z=Z, cov.function="stationary.cov", Covariance="Matern",
+XMat<- CO.elev[good]
+out<- mKrig( xCO,yCO, XMat=XMat, cov.function="stationary.cov", Covariance="Matern",
                     aRange=4.0, smoothness=1.0, lambda=.1)
 set.panel(2,1)
 # quilt.plot with elevations

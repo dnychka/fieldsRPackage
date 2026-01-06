@@ -29,7 +29,7 @@
 \alias{fields.convert.grid}
 \alias{discretize.image}
 \alias{make.surface.grid}
-\alias{unrollZGrid}
+\alias{unrollXMatGrid}
 \alias{makeMultiIndex}
 
 \title{
@@ -60,7 +60,7 @@ discretize.image(x, m = 64, n = 64, grid = NULL,
                  expand = c(1 + 1e-08, 1 + 1e-08),
                  boundary.grid = FALSE, na.rm = TRUE)
 make.surface.grid( grid.list)
-unrollZGrid( grid.list, ZGrid)
+unrollXMatGrid( grid.list, XMatGrid)
 }
 \arguments{
 \item{M}{An vector of integers.}
@@ -88,16 +88,16 @@ grid beyond the range of the observations.}
 \item{boundary.grid}{ If TRUE interpret grid points as boundaries  of 
 grid boxes. If FALSE interpret as the midpoints of the boxes. }
 
-\item{ZGrid}{An array  or list form of covariates to use for
+\item{XMatGrid}{An array  or list form of covariates to use for
 	 prediction. This must match the
-\code{grid.list} argument. e.g. ZGrid and grid.list describe the same
+\code{grid.list} argument. e.g. XMatGrid and grid.list describe the same
  grid. 
-If ZGrid is an array then the first two indices are the x and y
+If XMatGrid is an array then the first two indices are the x and y
  locations in the 
 grid. The third index, if present, indexes the covariates. e.g. For
  evaluation on 
-a 10X15 grid and with 2 covariates. \code{ dim( ZGrid) == c(10,15, 2)}.
-If ZGrid is a list then the components x and y shold match those of
+a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.
+If XMatGrid is a list then the components x and y shold match those of
  grid.list and
 the z component follows the shape described above for the no list 
 case. 
@@ -198,7 +198,7 @@ has the midpoint in its center. (See the code in fields.convert.grid for
 details.) If grid is NULL then midpoints are found from m and n and the
 range of the x matrix. 
 
-\code{unrollZGrid} Checks that the ZGrid object is compatible with th e grid.list and concatenates the grid arrays into vectors. This version of the covariates are used the usual predict function. 
+\code{unrollXMatGrid} Checks that the XMatGrid object is compatible with th e grid.list and concatenates the grid arrays into vectors. This version of the covariates are used the usual predict function. 
 
 }
 

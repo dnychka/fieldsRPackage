@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
-                          derivative = 0, Z = NULL, drop.Z = FALSE, just.fixed = FALSE,
+                          derivative = 0, XMat = NULL, drop.XMat = FALSE, just.fixed = FALSE,
                           collapseFixedEffect = object$collapseFixedEffect, 
                           ...) {
   # the main reason to pass new args to the covariance is to increase
@@ -35,8 +35,8 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   if (is.null(xnew)) {
     xnew <- object$x
   }
-  if (is.null(Z) & (length(object$ind.drift) >0 )) {
-    Z <- object$Tmatrix[, !object$ind.drift]
+  if (is.null(XMat) & (length(object$ind.drift) >0 )) {
+    XMat <- object$Tmatrix[, !object$ind.drift]
   }
   if (!is.null(ynew)) {
     coef.hold <- mKrig.coef(object, ynew,
@@ -55,26 +55,26 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   
   if( object$nt>0){
     if (derivative == 0) {
-      if (drop.Z | object$nZ == 0) {
-        # just evaluate polynomial and not the Z covariate
+      if (drop.XMat | object$nXMat == 0) {
+        # just evaluate polynomial and not the XMat covariate
         temp1 <- fields.mkpoly(xnew, m = object$m) %*% 
           beta[object$ind.drift, ]
       }
       else {
-        if( nrow( xnew) != nrow(as.matrix(Z)) ){
-          stop(paste("number of rows of covariate Z",
-                     nrow(as.matrix(Z)), 
+        if( nrow( xnew) != nrow(as.matrix(XMat)) ){
+          stop(paste("number of rows of covariate XMat",
+                     nrow(as.matrix(XMat)), 
                      " is not the same as the number of locations",
                      nrow( xnew) )
           )
         }
-        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(Z)) 
+        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(XMat)) 
         temp1 <- temp0 %*% beta
       }
     }
     else {
-      if (!drop.Z & object$nZ > 0) {
-        stop("derivative not supported with Z covariate included")
+      if (!drop.XMat & object$nXMat > 0) {
+        stop("derivative not supported with XMat covariate included")
       }
       temp1 <- fields.derivative.poly(xnew, m = object$m, beta[object$ind.drift, 
       ])

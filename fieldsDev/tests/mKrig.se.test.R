@@ -67,7 +67,7 @@ Sigma<-  Exp.cov( ChicagoO3$x, ChicagoO3$x, aRange=50) +
 #Sigma<-  ( Sigma0 + diag(out$tauHat.MLE**2/out$weightsM))
 
 Tmatrix <- do.call(out$null.function.name, c(out$null.args, 
-        list(x = out$xM, Z = out$ZM)))
+        list(x = out$xM, XMat = out$XMatM)))
 
 Omega<-  solve( t(Tmatrix)%*% solve( Sigma)%*% Tmatrix)
 Id<- diag( 1, nrow( Tmatrix))

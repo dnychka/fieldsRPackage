@@ -41,7 +41,7 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
+spatialProcess(x, y,  weights = rep(1, nrow(x)),   XMat = NULL, XMatCommon=NULL,
                   mKrig.args = NULL,
                          tau = NA,
                 cov.function = NULL, 
@@ -94,11 +94,11 @@ profileMLE (obj, parName, parGrid=NULL, gridN=15,
 \item{weights}{Weights for the error term (nugget) in units of
 reciprocal variance.}
 
-\item{Z}{A matrix of extra covariates for the fixed part of spatial
+\item{XMat}{A matrix of extra covariates for the fixed part of spatial
 model.
 E.g. elevation for fitting climate data over space. }
 
-\item{ZCommon}{
+\item{XMatCommon}{
 A matrix of extra covariates for the fixed part of spatial
 model that pertain to parameters that hold across all realizations.
 This covariates only makes sense for multiple realizations (i.e. y is a matrix with more than one column). }
@@ -208,11 +208,11 @@ extra time and is not necessary so the default is FALSE. }
 	important to be aware of these. 
 \strong{Spatial Model}	The spatial model is 
 	
-	Y.k= P(x.k) + Z(x.k)\%*\%beta2 + g(x.k) + e.k
+	Y.k= P(x.k) + XMat(x.k)\%*\%beta2 + g(x.k) + e.k
 
 where ".k" means subscripted by k, Y.k is the dependent variable
 observed at location x.k. P is a low degree polynomial (default is a
-linear function in the spatial coordinates, m=2 ) and Z is a
+linear function in the spatial coordinates, m=2 ) and XMat is a
 matrix of covariates (optional) that
 enter as a linear model the fixed part. g is a mean zero,
 Gaussian stochastic process with a marginal variance of sigma2 and a
@@ -514,7 +514,7 @@ abline( 0,1, col="red")
 # handle a conditional simulation on a grid of predictions with 
 # covariates. 
 data(COmonthlyMet)
-  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, Z=CO.elev, 
+  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, XMat=CO.elev, 
                   profileLambda=TRUE, profileARange=TRUE
 			       )
   set.panel( 2,2)                             
@@ -524,7 +524,7 @@ data(COmonthlyMet)
   
 # plots of the fitted surface and surface of prediction standard errors   
   out.p<-predictSurface( fit1E,CO.Grid,
-                             ZGrid= CO.elevGrid, extrap=TRUE)
+                             XMatGrid= CO.elevGrid, extrap=TRUE)
 
   imagePlot( out.p, col=larry.colors())
   US(add=TRUE, col="grey")
@@ -532,7 +532,7 @@ data(COmonthlyMet)
   title("Average Spring daily min. temp in CO")
 
   out.p2<-predictSurfaceSE( fit1E,CO.Grid,
-                         ZGrid= CO.elevGrid,
+                         XMatGrid= CO.elevGrid,
                          extrap=TRUE, verbose=FALSE) 
 
   imagePlot( out.p2, col=larry.colors())
@@ -549,9 +549,9 @@ data(COmonthlyMet)
 #  first a small application  for fill in  missing data
   notThere<- is.na(CO.tmin.MAM.climate )
   xp <- CO.loc[notThere,]
-  Zp <- CO.elev[notThere]
+  XMatp <- CO.elev[notThere]
   infill<- sim.spatialProcess( fit1E, xp=xp,
-                      Z= Zp, M= 10)
+                      XMat= XMatp, M= 10)
   dim( infill)
 #  
 # interpretation is that these infilled values are all equally plausible 
@@ -559,8 +559,8 @@ data(COmonthlyMet)
 #  
 # EXTRA CREDIT:  standardize the infilled values to have
 # conditional mean and variance from the exact computations
-#  e.g. predict( fit1E, xp=CO.loc[!good,],  Z= CO.elev[!good])
-#  and  predictSE(fit1E, xp=CO.loc[!good,],  Z= CO.elev[!good])  
+#  e.g. predict( fit1E, xp=CO.loc[!good,],  XMat= CO.elev[!good])
+#  and  predictSE(fit1E, xp=CO.loc[!good,],  XMat= CO.elev[!good])  
 # with these standardization one would still preserve the correlations
 # among the infilled values that is also important for considering them as a
 # multivariate prediction.
