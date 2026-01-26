@@ -20,13 +20,25 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
+                  
                   cov.function="stationary.cov", 
                   cov.args = NULL, lambda = NA, m = 2, 
                   chol.args = NULL, find.trA = TRUE, NtrA = 20, 
                   iseed = NA, na.rm=FALSE, 
                   collapseFixedEffect = TRUE, 
                   tau=NA, sigma2=NA, verbose=FALSE, simpleKriging=FALSE, 
+                  Z = NULL, ZCommon=NULL, # depreciated arguments 
                   ...) {
+  #
+  # use of "Z"  for fixed part of model has been switched to XMat 
+  #
+  if( !is.null( Z)| !is.null(ZCommon)){
+    stop(" Z,  drop.Z and ZCommon as arguments 
+          have been changed to XMat, drop.XMat and XMatCommon.
+         to be more consistent with a spatial model notation. 
+         Please use these instead. ")
+  }
+  #
   # pull extra covariance arguments from ...  and overwrite
   # any arguments already named in cov.args
   ind<- match( names( cov.args), names(list(...) ) )

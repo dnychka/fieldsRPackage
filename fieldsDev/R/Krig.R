@@ -20,7 +20,9 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "Krig" <- function(x, Y, cov.function = "stationary.cov", 
-                   lambda = NA, df = NA, GCV = FALSE, XMat = NULL, cost = 1,
+                   lambda = NA, df = NA, GCV = FALSE, XMat = NULL,
+                   Z=NULL, 
+                   cost = 1,
                    weights = NULL, m = 2, nstep.cv = 200, scale.type = "user", 
                    x.center = rep(0, ncol(x)), x.scale = rep(1, ncol(x)), sigma = NA, 
                    tau2 = NA, method = "REML", verbose = FALSE,
@@ -34,6 +36,15 @@
   # the verbose switch prints many intermediate steps as an aid in debugging.
   #
 { 
+  #
+  # use of "Z"  for fixed part of model has been switched to XMat  
+  if( !is.null( Z)){
+    stop(" Z,  drop.Z and ZCommon as arguments 
+          have been changed to XMat, drop.XMat and XMatCommon.
+         to be more consistent with a spatial model notation. 
+         Please use these instead. ")
+  }
+  #
   #
   # create output list
   out <- list()

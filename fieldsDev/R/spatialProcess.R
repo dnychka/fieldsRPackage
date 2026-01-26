@@ -18,8 +18,11 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   XMat = NULL,
-                     XMatCommon = NULL,
+spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
+                        XMat = NULL,
+                  XMatCommon = NULL,
+                           Z = NULL, # depreciated argument
+                     ZCommon = NULL, # depreciated argument
                   mKrig.args = NULL,
                          tau = NA,
                 cov.function = NULL, 
@@ -66,7 +69,14 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   XMat = NULL,
 # this list collects those.  E.g. spatialProcess( x, y, Covariance="Exponential" )
 # will pass this choice along to the default covariance function, stationary.cov
 #
-  
+# use of Z for fixed part of model has been switched to XMat  
+  if( !is.null( Z)| !is.null(ZCommon)){
+    stop(" Z,  drop.Z and ZCommon as arguments 
+          have been changed to XMat, drop.XMat and XMatCommon.
+         to be more consistent with a spatial model notation. 
+         Please use these instead. ")
+  }
+#
   extraArgs<- list(...)
   if( verbose){
     cat("extra arguments passed", fill=TRUE)
@@ -248,19 +258,22 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   XMat = NULL,
     cat("Final call to mKrig for output object", fill=TRUE)
   }
   
-  mKrigObj <- do.call( "mKrig", 
-	                c( list(x=x,
-	                        y=y,
-	                  weights=weights,
-	                        XMat=XMat,
-	                  XMatCommon=XMatCommon),
-	                  obj$mKrig.args,
-	             list( na.rm=na.rm),
-	             list(cov.function = obj$cov.function),
-	                  obj$cov.argsFull,
-	             verbose=verbose
-	            	)
-             	)
+  callList<- c( list(x = x,
+                    y = y,
+                    weights = weights,
+                    XMat = XMat,
+                    XMatCommon = XMatCommon,
+                    na.rm = na.rm,
+                    cov.function = obj$cov.function,
+                    verbose = verbose),
+                    obj$cov.argsFull,
+                    obj$mKrig.args)
+  
+
+# print(names( callList))
+  
+  mKrigObj <- do.call( "mKrig", callList)
+	                
 
 ####################################################################
 # sort out output object based on the different cases

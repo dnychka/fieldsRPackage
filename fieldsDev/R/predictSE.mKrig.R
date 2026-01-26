@@ -74,7 +74,9 @@ predictSE.mKrig<- function(object, xnew = NULL,
                               list(x1 = xnew, marginal = TRUE))) 
   temp <- temp0 - sigma2 *colSums((k0) * hold$c.coef)
   # add contribution from fixed effect covariates 
-  if( !drop.XMat){
+  # if this is not "simple Kriging
+  addFixedPart<- (!drop.XMat) & (!object$simpleKriging)
+  if( addFixedPart ){
     # fixed effects matrix includes both spatial drift and covariates.
     t0 <- t(cbind(fields.mkpoly(xnew, m = object$m), XMat))
     temp1 <- sigma2 * (colSums(t0 * (object$Omega %*% t0)) 
