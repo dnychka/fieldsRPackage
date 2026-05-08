@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -57,7 +57,7 @@ profileMLE<- function (obj, parName, parGrid=NULL, gridN=15,
   
   profileInfo<-  mKrigMLEGrid(obj$x, obj$y,  
                weights = obj$weights,
-               Z = obj$Z, 
+               XMat = obj$XMat, 
                mKrig.args = obj$mKrig.args,
                cov.function = obj$cov.function, 
                cov.args  = obj$cov.args,

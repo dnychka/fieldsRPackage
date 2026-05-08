@@ -35,7 +35,7 @@ implied in the definition above.
 
 \usage{
 envelopePlot(x1, y1, x2 = x1, y2,
-                         col ="thistle1" , lineCol = "thistle3", ...)
+                         col ="thistle1" , lineCol = "thistle3",lwd = 3, ...)
 }
 
 \arguments{
@@ -45,7 +45,10 @@ envelopePlot(x1, y1, x2 = x1, y2,
 \item{y2}{The y coordinates for the second function.}
 \item{col}{The color to make the filling between the functions.}
 \item{lineCol}{The color to make the lines representing the functions.}
-\item{\dots}{Additional arguments to the base R function \code{polygon} }
+\item{lwd}{ Line width of the envelope.}
+\item{\dots}{Additional arguments to the base R function \code{polygon} that is
+used to draw the shaded region -- except for the upper and lower boundary lines.
+}
 }
 
 \author{

@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,7 +20,10 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "Krig" <- function(x, Y, cov.function = "stationary.cov", 
-                   lambda = NA, df = NA, GCV = FALSE, Z = NULL, cost = 1,
+                   lambda = NA, df = NA, GCV = FALSE, 
+                   XMat = NULL,
+                   Z=NULL, 
+                   cost = 1,
                    weights = NULL, m = 2, nstep.cv = 200, scale.type = "user", 
                    x.center = rep(0, ncol(x)), x.scale = rep(1, ncol(x)), sigma = NA, 
                    tau2 = NA, method = "REML", verbose = FALSE,
@@ -34,6 +37,15 @@
   # the verbose switch prints many intermediate steps as an aid in debugging.
   #
 { 
+  #
+  # use of "Z"  for fixed part of model has been switched to XMat  
+  if( !is.null( Z)){
+    XMat<-Z
+    warning(" Z  as  an arguments has been renamed to XMat within the function
+    to be more consistent with spatial process model notation. 
+    Please use the XMat argument in the call to Krig avoid this warning. ")
+  }
+  #
   #
   # create output list
   out <- list()
@@ -117,7 +129,7 @@
   #
   # the offset is the effective number of parameters used in the GCV
   # calculations -- unless this is part of an additive model this
-  # is likely zero
+  # is likely Zero
   out$offset <- offset
   #
   # the cost is the multiplier applied to the GCV eff.df
@@ -168,7 +180,7 @@
   # various checks on x and  Y including removal of NAs in Y
   # Here is an instance of adding to the Krig object
   # in this case also some onerous bookkeeping making sure arguments are consistent
-  out2 <- Krig.check.xY(x, Y, Z, weights, na.rm, verbose = verbose)
+  out2 <- Krig.check.xY(x, Y, XMat, weights, na.rm, verbose = verbose)
   out <- c(out, out2)
   # find replicates and collapse to means and pool variances.
   # Transform unique x locations 
@@ -242,17 +254,17 @@
   #
   # Now determine a logical vector to indicate coefficients tied to  the
   # the 'spatial drift' i.e. the fixed part of the model
-  # that is not due to the Z covariates.
+  # that is not due to the XMat covariates.
   # NOTE that the spatial drift coefficients must be the first columns of the
   # M matrix
-  if (is.null(out$Z)) {
+  if (is.null(out$XMat)) {
     out$ind.drift <- rep(TRUE, out$nt)
   }
   else {
     
-    mZ <- ncol(out$ZM)
-    out$ind.drift <- c(rep(TRUE, out$nt - mZ), rep(FALSE, 
-                                                   mZ))
+    mXMat <- ncol(out$XMatM)
+    out$ind.drift <- c(rep(TRUE, out$nt - mXMat), rep(FALSE, 
+                                                   mXMat))
   }
   if (verbose) {
     cat("null df: ", out$nt, "drift df: ", sum(out$ind.drift), 
@@ -332,13 +344,13 @@
   # also on the null space (fixed
   # effects). But be sure to do this at the nonmissing x's.
   ##################################################################
-  out$fitted.values <- predict.Krig(out, x = out$x, Z = out$Z, 
+  out$fitted.values <- predict.Krig(out, x = out$x, XMat = out$XMat, 
                                     eval.correlation.model = FALSE)
   out$residuals <- out$y - out$fitted.values
   #
   # this is just M%*%d  note use of do.call using function name
   Tmatrix <- do.call(out$null.function.name, c(out$null.args, 
-                                               list(x = out$x, Z = out$Z)))
+                                               list(x = out$x, XMat = out$XMat)))
   out$fitted.values.null <- as.matrix(Tmatrix) %*% out$d
   #
   # verbose block

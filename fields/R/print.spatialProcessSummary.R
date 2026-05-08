@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -38,12 +38,21 @@ print.spatialProcessSummary <- function(x, digits = 4, ...) {
   print(x$fixedEffectsTableCommon, quote = FALSE)
   cat("\n")
   }
+  
+  if( x$fixedParameters){
+    cat(" USER PASSED VARIANCES:",  fill = TRUE)
+    cat("  Two parameters values of  tau, sigma2, or lambda  are fixed", fill=TRUE)
+    cat("  with lambda = tau^2/sigma2", fill=TRUE)
+    print( x$summary[c("tau", "sigma2", "lambda")])
+    cat("\n")
+  }
   cat(" COVARIANCE MODEL:", x$cov.function, fill = TRUE)
   if (x$cov.function == "stationary.cov") {
     covName<- ifelse(is.null(x$args$Covariance), 
                      "Exponential", x$args$Covariance)
     cat("  Covariance function: ", covName, fill = TRUE)
   }
+
   if (!is.null(x$args)) {
     cat("   Non-default covariance arguments and their values ", 
         fill = TRUE)
@@ -65,24 +74,29 @@ print.spatialProcessSummary <- function(x, digits = 4, ...) {
   cat( "Nonzero entries in covariance matrix ", x$nonzero.entries, fill=TRUE)
   
   cat("\n")
-  cat("SUMMARY FROM Max. Likelihood ESTIMATION:", fill=TRUE)
+  cat(" SUMMARY FROM MAXIMUM LIKELIHOOD ESTIMATION:", fill=TRUE)
   
   if( !is.null( x$MLEInfo) ){
-    cat("Parameters found from optim: ", fill=TRUE )
+    cat("Parameters found using optim for maximumization: ", fill=TRUE )
     print( x$MLESummary[x$MLEpars] )
+    cat("\n")
     cat("Approx. confidence intervals for MLE(s) ", fill=TRUE )
     print( x$CITable)
-    
+    if( !x$fixedParameters){
     cat("\n")
-    cat(" Note: MLEs for  tau and sigma found analytically from lambda", fill=TRUE)
+    cat(" Note: MLEs for  tau and sigma found from lambda", fill=TRUE)
     cat("\n")
+    }
   }
   else{
+    if( !x$fixedParameters){
     cat(" lambda and range are supplied : ", fill=TRUE)
-    cat(" tau and sigma  analytically  derived from lambda", fill=TRUE)
+    cat(" MLEs for tau and sigma2 constrained so tau^2/sigma2 =lambda", fill=TRUE)
     cat("\n")
+    }
   }
-  cat("Summary from estimation:", fill=TRUE)
+  cat("\n")
+  cat(" SUMMARY FROM FITTING:", fill=TRUE)
   print( x$MLESummary)
  
   invisible(x)

@@ -41,8 +41,11 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
+spatialProcess(x, y,  weights = rep(1, nrow(x)),  
+                 XMat = NULL, XMatCommon=NULL,
+                 Z = NULL, ZCommon=NULL,
                   mKrig.args = NULL,
+                         tau = NA,
                 cov.function = NULL, 
                     cov.args = NULL,
                      parGrid = NULL, 
@@ -68,7 +71,8 @@ spatialProcess(x, y,  weights = rep(1, nrow(x)),   Z = NULL, ZCommon=NULL,
 \method{plot}{spatialProcess}(x, digits = 4, which = 1:4, ...)
 
                            
-spatialProcessSetDefaults(x, cov.function, cov.args, cov.params.start, parGrid,
+spatialProcessSetDefaults(x, cov.function, cov.args, cov.params.start,tau,
+                 parGrid,
                  mKrig.args, extraArgs = NULL, gridN = 5,
                  collapseFixedEffect = TRUE, simpleKriging = FALSE,
                  verbose = FALSE)
@@ -92,14 +96,21 @@ profileMLE (obj, parName, parGrid=NULL, gridN=15,
 \item{weights}{Weights for the error term (nugget) in units of
 reciprocal variance.}
 
-\item{Z}{A matrix of extra covariates for the fixed part of spatial
+\item{XMat}{A matrix of extra covariates for the fixed part of spatial
 model.
 E.g. elevation for fitting climate data over space. }
 
-\item{ZCommon}{
+\item{XMatCommon}{
 A matrix of extra covariates for the fixed part of spatial
 model that pertain to parameters that hold across all realizations.
 This covariates only makes sense for multiple realizations (i.e. y is a matrix with more than one column). }
+
+\item{Z}{For backward compatibility this argument is still included but one should use XMat.
+The change was motivated by the fact that Z and z are used for other components of the model 
+and so as the fixed 
+part matrix this is confusing!}
+
+\item{ZCommon}{For backward compatibility this argument is still included but one should use XMatCommon. }
 
 \item{CILevel}{Confidence level for intervals for the estimated
 parameters.}
@@ -183,6 +194,10 @@ extra time and is not necessary so the default is FALSE. }
  include a linear function in the spatial coordinates. A higher 
  degree polynomial can be choosen using the \code{mKrig.args} argument }
  
+ \item{tau}{ Tau is the nugget standard deviation. If NA this estimated by maximum 
+ likelihood. See Details below how various combinations of passing
+ lambda, tau, and sigma2 are handled.}
+ 
  \item{verbose}{If TRUE print out intermediate information for debugging.}
  
  \item{iseed}{A seed to fix the random number stream used to compute the effective degrees of freedom using the random trace method. Setting this seed will not affect any random numnber generation outside this function. }
@@ -200,24 +215,34 @@ extra time and is not necessary so the default is FALSE. }
 \details{
 	This function makes many choices for the user in terms of defaults and it is 
 	important to be aware of these. 
-	The spatial model is 
+\strong{Spatial Model}	The spatial model is 
 	
-	Y.k= P(x.k) + Z(x.k)\%*\%beta2 + g(x.k) + e.k
+	Y.k= P(x.k) + XMat(x.k)\%*\%beta2 + g(x.k) + e.k
 
 where ".k" means subscripted by k, Y.k is the dependent variable
 observed at location x.k. P is a low degree polynomial (default is a
-linear function in the spatial coordinates, m=2 ) and Z is a
+linear function in the spatial coordinates, m=2 ) and XMat is a
 matrix of covariates (optional) that
 enter as a linear model the fixed part. g is a mean zero,
-Gaussian stochastic process with a marginal variance of sigma and a
-scale (or range) parameter, aRange. The measurement errors, e.k, are
+Gaussian stochastic process with a marginal variance of sigma2 and a
+scale (or range) parameter, aRange. By default the covariance funcion is a stationary Matern
+with smoothness (nu) of 1.0. 
+The measurement errors, e.k, are
 assumed to be uncorrelated, normally distributed with mean zero and
 standard deviation tau. If weights are supplied then the variance of e is assumed to be
 \code{tau^2/ weights}. The polynomial if specified and extra covariates define
 the fixed part of this spatial model and the coefficients are found by
 generalized least squares (GLS).
 
-Perhaps the most important aspect of this function is that
+Note that \code{tau} the nugget standard deviation is used through while \code{sigma2}
+is used for the process variance. To make matters more confusing  
+\code{lambda = tau^2/ sigma2}. If both \code{tau} and \code{sigma2} are specified in
+\code{
+spatialProcess} then no estimation is done for these two parameters and lambda. 
+If any two are given then the third is filled in through their functional 
+relationships. 
+
+\strong{Variance parameters} Perhaps the most important aspect of this function is that
  	the range parameter (aRange), nugget (tau**2) and process variance (sigma) parameters
  	for the covariance are estimated by maximum
  	likelihood and this is the model that is then  used for spatial
@@ -225,11 +250,31 @@ Perhaps the most important aspect of this function is that
  	"sill" and often these parameters are estimated by variogram fitting rather
  	than maximum likelihood. To be consistent with spline models and to focus
  	on the key part of model we reparametrize as lambda= tau**2/
- 	sigma^2 and sigma. Thinking about h as the spatial signal and e as the noise  1/lambda
+ 	sigma^2 and sigma. Thinking about h as the spatial signal and e as the noise 
+ 	1/lambda
  	can be interpreted  as the "signal to noise " ratio in this spatial
  	context.(See also the comparison with fitting the geoR model in the
-  examples section.)
- 	
+  examples section.) Other covariance parameters can also be estimated in this function.
+  For example the smoothness (aka nu) in the Matern family is a popular parameter to determine 
+  from data, see the example below.  Although in our opinion smoothness 
+  is often best left fixed as it is difficult to estimate and complicates the 
+  interpretation of the range parameter. 
+  
+  \strong{About the estimation} 
+  The optimization to obtain the MLEs is kept simple using the \code{optim} function 
+  with some good empricial starting values from coarse grid searching and using a log scale 
+  for postive parameters. The default is find tau, sigma and aRange by maximum likelihood.
+  
+  For a fixed set of covariance and variance parameters the 
+  log Likelihood and the estimated model are computed using the lower level function
+  \code{mKrig} and the user is encouraged to consult this code for numerical details. 
+  When \code{spatialProcess} is given a fixed set of all the parameters then it becomes
+  a pass through wrapper for \code{mKrig} and essentially returns the \code{mKrig} object. 
+  Also at convergence for the MLEs \code{spatialProcess} computes the final model with a 
+  call to \code{mKrig} and returns this result. See the example below for comparing the 
+  call to \code{spatialProcess}  with \code{mKrig} for fixed parameters. 
+  
+
  	For an isotropic covariance function, the likelihood and the cross-validation function
  	can be concentrated to only depend on lambda and aRange and so
  	in reporting the optimization of these two criterion we focus
@@ -357,10 +402,6 @@ data( ozone2)
 # y is a vector of ozone measurements at day 16. Note some missing values. 
   y<- ozone2$y[16,]
   
-# artifically reduce size of data for a quick example to pass CRAN ...
-# x<- x[1:75,]
-# y<- y[1:75]
-  
 # lots of default choices  made here -- see gridN to increase 
 # the number of points in grid searches for MLEs
 # without specifying  lambda or aRange both are found in a robust 
@@ -368,7 +409,8 @@ data( ozone2)
 # the covariance is assumed to be  stationary Matern with a smoothness of 
 # 1.0 (aka Whittle). 
 # profiling over lambda and aRange  is not required but completes the full 
-# example.  Omit this for a faster computation.
+# example.  Omit these for a faster computation
+# e.g. obj<- spatialProcess( x, y)
 
   obj<- spatialProcess( x, y, profileLambda=TRUE, profileARange=TRUE)
   
@@ -415,6 +457,7 @@ objTest<- spatialProcess( x, y,
                           
 test.for.zero(objTest$fitted.values, obj$fitted.values, 
             tag="sanity check" )
+            
 
 # switching to an exponential function 
 # See Exponential for the definition. 
@@ -423,6 +466,39 @@ objExponential <- spatialProcess( x, y,
               Covariance="Exponential" )
               
 objExponential$summary
+
+
+############## spatialProcess vs mKrig
+# another sanity check to show how spatialProcess and mKrig give the same result
+# when parameters are fixed. 
+# Note the call to mrig reveals all the default choices that are made by 
+# spatialProcess
+# omit NAs so mKrig can be called directly
+sOzone<- x
+yOzone<- y
+good<- !is.na( yOzone)
+sOzone<- sOzone[good, ]
+yOzone<- yOzone[good]
+
+obj1<- spatialProcess( sOzone, yOzone,
+                      tau= obj$summary["tau"],
+                    sigma2=obj$summary["sigma2"],
+                     aRange=obj$summary["aRange"]
+                    )
+
+
+objTmp<- mKrig(sOzone, yOzone, 
+                 m= obj$mKrig.args$m,
+               tau= obj$summary["tau"],
+               sigma2=obj$summary["sigma2"],
+               cov.function="stationary.cov",
+               cov.args=list(
+                 Covariance="Matern",
+                 aRange=obj$summary["aRange"],
+                 nu=obj$cov.args$smoothness))
+#                 
+test.for.zero(objTmp$summary, obj1$summary)
+
 
 ####### simple Kriging
 # this is a approximate spatial analysis to show how the 
@@ -447,7 +523,7 @@ abline( 0,1, col="red")
 # handle a conditional simulation on a grid of predictions with 
 # covariates. 
 data(COmonthlyMet)
-  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, Z=CO.elev, 
+  fit1E<- spatialProcess(CO.loc,CO.tmin.MAM.climate, XMat=CO.elev, 
                   profileLambda=TRUE, profileARange=TRUE
 			       )
   set.panel( 2,2)                             
@@ -457,7 +533,7 @@ data(COmonthlyMet)
   
 # plots of the fitted surface and surface of prediction standard errors   
   out.p<-predictSurface( fit1E,CO.Grid,
-                             ZGrid= CO.elevGrid, extrap=TRUE)
+                             XMatGrid= CO.elevGrid, extrap=TRUE)
 
   imagePlot( out.p, col=larry.colors())
   US(add=TRUE, col="grey")
@@ -465,7 +541,7 @@ data(COmonthlyMet)
   title("Average Spring daily min. temp in CO")
 
   out.p2<-predictSurfaceSE( fit1E,CO.Grid,
-                         ZGrid= CO.elevGrid,
+                         XMatGrid= CO.elevGrid,
                          extrap=TRUE, verbose=FALSE) 
 
   imagePlot( out.p2, col=larry.colors())
@@ -482,9 +558,9 @@ data(COmonthlyMet)
 #  first a small application  for fill in  missing data
   notThere<- is.na(CO.tmin.MAM.climate )
   xp <- CO.loc[notThere,]
-  Zp <- CO.elev[notThere]
+  XMatp <- CO.elev[notThere]
   infill<- sim.spatialProcess( fit1E, xp=xp,
-                      Z= Zp, M= 10)
+                      XMat= XMatp, M= 10)
   dim( infill)
 #  
 # interpretation is that these infilled values are all equally plausible 
@@ -492,8 +568,8 @@ data(COmonthlyMet)
 #  
 # EXTRA CREDIT:  standardize the infilled values to have
 # conditional mean and variance from the exact computations
-#  e.g. predict( fit1E, xp=CO.loc[!good,],  Z= CO.elev[!good])
-#  and  predictSE(fit1E, xp=CO.loc[!good,],  Z= CO.elev[!good])  
+#  e.g. predict( fit1E, xp=CO.loc[!good,],  XMat= CO.elev[!good])
+#  and  predictSE(fit1E, xp=CO.loc[!good,],  XMat= CO.elev[!good])  
 # with these standardization one would still preserve the correlations
 # among the infilled values that is also important for considering them as a
 # multivariate prediction.

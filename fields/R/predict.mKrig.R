@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,7 +20,10 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
-                          derivative = 0, Z = NULL, drop.Z = FALSE, just.fixed = FALSE,
+                          derivative = 0, 
+                          XMat = NULL, drop.XMat = FALSE,
+                          Z = NULL, drop.Z = NULL,
+                          just.fixed = FALSE,
                           collapseFixedEffect = object$collapseFixedEffect, 
                           ...) {
   # the main reason to pass new args to the covariance is to increase
@@ -28,6 +31,18 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   # other optional arguments that typically describe the covariance function 
   # from mKrig are passed along in the list object$args
   cov.args <- list(...)
+  #
+  #
+  # some temporary code to handle switch to XMat etc.
+  if( !is.null( Z)| !is.null(drop.Z)){
+    if( !is.null( Z)){ XMat<- Z}
+    if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" Z,  drop.Z  as arguments 
+        have been changed to XMat and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+  }
+  #
   # predict at observation locations by default
   if( !is.null(grid.list)){
     xnew<- make.surface.grid(grid.list)
@@ -35,8 +50,9 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   if (is.null(xnew)) {
     xnew <- object$x
   }
-  if (is.null(Z) & (length(object$ind.drift) >0 )) {
-    Z <- object$Tmatrix[, !object$ind.drift]
+  # use original X matrix (XMat) if not passed. 
+  if (is.null(XMat) & (length(object$ind.drift) >0 )) {
+    XMat <- object$Tmatrix[, !object$ind.drift]
   }
   if (!is.null(ynew)) {
     coef.hold <- mKrig.coef(object, ynew,
@@ -55,26 +71,26 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   
   if( object$nt>0){
     if (derivative == 0) {
-      if (drop.Z | object$nZ == 0) {
-        # just evaluate polynomial and not the Z covariate
+      if (drop.XMat | object$nXMat == 0) {
+        # just evaluate polynomial and not the XMat covariate
         temp1 <- fields.mkpoly(xnew, m = object$m) %*% 
           beta[object$ind.drift, ]
       }
       else {
-        if( nrow( xnew) != nrow(as.matrix(Z)) ){
-          stop(paste("number of rows of covariate Z",
-                     nrow(as.matrix(Z)), 
+        if( nrow( xnew) != nrow(as.matrix(XMat)) ){
+          stop(paste("number of rows of covariate XMat",
+                     nrow(as.matrix(XMat)), 
                      " is not the same as the number of locations",
                      nrow( xnew) )
           )
         }
-        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(Z)) 
+        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(XMat)) 
         temp1 <- temp0 %*% beta
       }
     }
     else {
-      if (!drop.Z & object$nZ > 0) {
-        stop("derivative not supported with Z covariate included")
+      if (!drop.XMat & object$nXMat > 0) {
+        stop("derivative not supported with XMat covariate included")
       }
       temp1 <- fields.derivative.poly(xnew, m = object$m, beta[object$ind.drift, 
       ])

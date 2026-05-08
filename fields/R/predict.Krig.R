@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -25,11 +25,25 @@
   UseMethod("Krig")
  }
 
-"predict.Krig" <- function(object, x = NULL, Z = NULL, 
-    drop.Z = FALSE, just.fixed = FALSE, lambda = NA, df = NA, 
+"predict.Krig" <- function(object, x = NULL,
+                           XMat = NULL, drop.XMat = FALSE,
+                           Z = NULL, drop.Z = NULL,
+    just.fixed = FALSE, lambda = NA, df = NA, 
     model = NA, eval.correlation.model = TRUE, y = NULL, yM = NULL, 
     verbose = FALSE, ...) {
-    #NOTE: most of this function is figuring out what to do!
+
+  # NOTE: most of this function is figuring out what to do!
+  #
+  #
+  # some temporary code to handle switch to XMat etc.
+   if( !is.null( Z)| !is.null(drop.Z)){
+     if( !is.null( Z)){ XMat<- Z}
+     if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" Z,  drop.Z  as arguments 
+        have been changed to XMat and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+    }
     #
     # check that derivative is not called
     if (!is.null(list(...)$derivative)) {
@@ -41,14 +55,14 @@
         temp.c <- object$c
         temp.d <- object$d
     }
-    # check for passed x but no Z -- this is an error
-    # if there  are Z covariates in the model and drop.Z is FALSE
-    ZinModel<- !is.null(object$Z)
+    # check for passed x but no XMat -- this is an error
+    # if there  are XMat covariates in the model and drop.XMat is FALSE
+    XMatinModel<- !is.null(object$XMat)
     newX<- !is.null(x)
-    missingZ<- is.null(Z)
-    if( ZinModel&newX){
-    if( missingZ  & !drop.Z) {
-        stop("Need to specify drop.Z as TRUE or pass Z values")
+    missingXMat<- is.null(XMat)
+    if( XMatinModel&newX){
+    if( missingXMat  & !drop.XMat) {
+        stop("Need to specify drop.XMat as TRUE or pass XMat values")
     }
     }
     # default is to predict at data x's
@@ -58,16 +72,16 @@
     else {
         x <- as.matrix(x)
     }
-    # default is to predict at data Z's
-    if (is.null(Z)) {
-        Z <- object$Z
+    # default is to predict at data XMat's
+    if (is.null(XMat)) {
+        XMat <- object$XMat
     }
     else {
-        Z <- as.matrix(Z)
+        XMat <- as.matrix(XMat)
     }
     if (verbose) {
         print(x)
-        print(Z)
+        print(XMat)
     }
     # transformations of x values used in Krig
     xc <- object$transform$x.center
@@ -113,8 +127,8 @@
     # this is the fixed part of predictor
     #
     Tmatrix <- do.call(object$null.function.name, c(object$null.args, 
-        list(x = x, Z = Z, drop.Z = drop.Z)))
-    if (drop.Z) {
+        list(x = x, XMat = XMat, drop.XMat = drop.XMat)))
+    if (drop.XMat) {
         temp <- Tmatrix %*% temp.d[object$ind.drift]
     }
     else {

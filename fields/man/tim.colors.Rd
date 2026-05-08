@@ -29,15 +29,31 @@
 
 \alias{color.scale}
 \alias{snow.colors}
+
 \alias{Mines.colors}
+\alias{blasterBlue}   
+\alias{coloradoRed}   
+\alias{darkBlue} 
+\alias{darkGray}      
+\alias{earthBlue}   
+\alias{energyYellow}  
+\alias{envrGreen}     
+\alias{goldenTech}
+\alias{lightBlue}     
+\alias{lightGray}   
+\alias{mutedBlue}     
+\alias{paleBlue}      
+\alias{redFlannel}
+\alias{silver}  
 \alias{fieldsPlotColors}
+
 \title{Some useful color tables for images and tools to handle them. }
 \description{
 Several color scales useful for image plots: a pleasing rainbow style
 color table patterned after that used in Matlab by Tim Hoar and also
 some simple color interpolation schemes between two or more
-colors. There is also a useful function that maps  a
-real valued vector into a color scale. 
+colors. There is also a function that converts between colors and a
+real valued vector.
 }
 \usage{
 tim.colors(n = 64, alpha=1.0)
@@ -46,7 +62,7 @@ larry.colors()
 
 snow.colors(n=256, alpha=1)
 
-Mines.colors(color=1:14)
+data(Mines.colors)
 
 two.colors(n=256, start="darkgreen", end="red", middle="white",
 alpha=1.0)
@@ -79,10 +95,6 @@ But for the \code{color.scale} function this can be also be a function that
 returns \code{NC} colors when called with just the
 \code{NC} argument.}
 
-\item{color}{The name or position of the Mines color to use. 
-Can be a single color or a set. The default is to return all 14 official 
-colors. See examples below.}
-
 \item{x}{Positions of colors on a [0,1] scale. Default is to assume
 that the x values are equally spacesd from 0 to 1.}
 
@@ -109,10 +121,8 @@ The color in R can be represented as three vectors in RGB coordinates
 and these coordinates are interpolated separately using a cubic spline
 to give color values that intermediate to the specified colors.
 
- Ask Tim Hoar about \code{tim.colors}! As a Matlab black belt 
-this was his favorite scale at NCAR for geophysical variables. 
-The viridis package has a similar version (turbo)
-that is a grey scale friendly alternative. 
+ Ask Tim Hoar about \code{tim.colors}! As a Mattlab black belt 
+this was his favorite scale  at NCAR in that system.  The viridis package has a similar version (turbo) that is a grey scale friendly alternative. 
 
 \code{two.colors} is
 really about three different colors. For other colors try
@@ -132,22 +142,11 @@ desigend to represent the minimum value of the range ( e.g. 0).
 If the image is in  percent snow cover then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
-\code{Mines.colors} returns a named vector of the webpage colors 
-for Colorado School of Mines. 
-Refer to them by their names: 
-
-\preformatted{
- [1] "blasterBlue"  "coloradoRed"  "darkBlue"     "darkGray"    
- [5] "earthBlue"    "energyYellow" "envrGreen"    "goldenTech"  
- [9] "lightBlue"    "lightGray"    "mutedBlue"    "paleBlue"    
-[13] "redFlannel"   "silver"   
-}
-
-E.g. \code{plot(x,y, col=Mines.colors("blasterBlue"))}
-
-or their index number: 
-
-\code{plot(x,y, col=Mines.colors(1))}
+See \code{data(Mines.colors)} to define the data sets that are 
+web colors for Colorado School of Mines. Note that since these are defined 
+as text strings do _not_ quote them when using in the R graphics functions 
+-- they are already character data.
+E.g. \code{plot(x,y, col=blasterBlue)}
 
 \code{designer.color} is the master function for the other scales. 
  It can be useful if one wants to customize the color
@@ -176,10 +175,11 @@ across several vectors by specifiying a common \code{zlim} range.
 A vector giving the colors in a hexadecimal format, two extra hex
 digits are added for the alpha channel.
 
-Or in the case of \code{Mines.colors} a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
+Or in the case of \code{Mines.colors}
+a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
 }
 \seealso{ topo.colors, terrain.colors, image.plot, imagePlot,  quilt.plot,
-grey.scale, viridis, turbo, 
+grey.scale,
 fields.color.picker }
 \examples{
 
@@ -192,7 +192,7 @@ tim.colors(10)
 #   gives   "#10FFEF80"  note extra "alpha channel"
 
 # view some color table choices
-set.panel( 5,1)
+set.panel( 4,1)
 fieldsPlotColors( tim.colors())
 title("tim.colors")
 fieldsPlotColors( larry.colors())
@@ -201,8 +201,6 @@ fieldsPlotColors( two.colors())
 title("two.colors")
 fieldsPlotColors( snow.colors())
 title("snow.colors")
-fieldsPlotColors( Mines.colors())
-title("Colorado School of Mines ")
 
 # a bubble plot with some transparency for overlapping dots
 set.seed(123)
@@ -239,11 +237,8 @@ image( obj$z, col= coltab )
 # see image.plot for adding all kinds of legends
 
 
-plot( 1:10, 101:110, col= Mines.colors("envrGreen"), pch=19)
-
-# grabbing all 14  Mines webpage colors as a vector.
-MinesColorTable<- Mines.colors()
-print( MinesColorTable)
+data(Mines.colors)
+plot( 1:10, 101:110, col=blasterBlue, pch=19)
 
 set.panel()
 

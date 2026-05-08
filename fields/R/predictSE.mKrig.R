@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,33 +20,33 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 predictSE.mKrig<- function(object, xnew = NULL, 
-                              Z = NULL, verbose = FALSE,
-                              drop.Z = FALSE, ...) {
+                              XMat = NULL, verbose = FALSE,
+                              drop.XMat = FALSE, ...) {
   #
   # name of covariance function
   call.name <- object$cov.function.name
   # check for collapsed fixed effects
   
-  # if(drop.Z){
-  #   stop("  Sorry drop.Z not supported")
+  # if(drop.XMat){
+  #   stop("  Sorry drop.XMat not supported")
   # }
   #
   # default is to predict at data x's
   if (is.null(xnew)) {
     xnew <- object$x
   }
-  if ( is.null(Z)& !is.null( object$Z) ) {
-    Z <- object$Z
+  if ( is.null(XMat)& !is.null( object$XMat) ) {
+    XMat <- object$XMat
   }
   xnew <- as.matrix(xnew)
-  if (!is.null(Z)) {
-    Z <- as.matrix(Z)
+  if (!is.null(XMat)) {
+    XMat <- as.matrix(XMat)
   }
   if (verbose) {
     cat("Passed locations", fill=TRUE)
     print(xnew)
     cat("Assumed covariates", fill=TRUE)
-    print(Z)
+    print(XMat)
   }
   objectSummary<- object$summary
   lambda <- objectSummary["lambda"]
@@ -74,9 +74,11 @@ predictSE.mKrig<- function(object, xnew = NULL,
                               list(x1 = xnew, marginal = TRUE))) 
   temp <- temp0 - sigma2 *colSums((k0) * hold$c.coef)
   # add contribution from fixed effect covariates 
-  if( !drop.Z){
+  # if this is not "simple Kriging
+  addFixedPart<- (!drop.XMat) & (!object$simpleKriging)
+  if( addFixedPart ){
     # fixed effects matrix includes both spatial drift and covariates.
-    t0 <- t(cbind(fields.mkpoly(xnew, m = object$m), Z))
+    t0 <- t(cbind(fields.mkpoly(xnew, m = object$m), XMat))
     temp1 <- sigma2 * (colSums(t0 * (object$Omega %*% t0)) 
                        - 2 * colSums(t0 * hold$beta))
     #print( colSums(t0 * (object$Omega %*% t0)))

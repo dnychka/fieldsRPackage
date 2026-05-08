@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -19,26 +19,26 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-unrollZGrid<- function( grid.list, ZGrid){
-  if( is.null(ZGrid)){
-    return(ZGrid)
+unrollXMatGrid<- function( grid.list, XMatGrid){
+  if( is.null(XMatGrid)){
+    return(XMatGrid)
   }
-  if( is.list( ZGrid) ){
-     if( any(grid.list[[1]] != ZGrid[[1]]) | any(grid.list[[2]] != ZGrid[[2]]) ){
+  if( is.list( XMatGrid) ){
+     if( any(grid.list[[1]] != XMatGrid[[1]]) | any(grid.list[[2]] != XMatGrid[[2]]) ){
          stop("grid list does not match grid for covariates")
        }  
-# wipe out the x and y components of ZGrid 
-  ZGrid<- ZGrid$z
+# wipe out the x and y components of XMatGrid 
+  XMatGrid<- XMatGrid$z
   }
 # check dimensions
-    Zdim<- dim( ZGrid)
+    XMatdim<- dim( XMatGrid)
       nx<- length( grid.list[[1]])
       ny<- length( grid.list[[2]])
-      if( (Zdim[1] != nx) | (Zdim[2] != ny) ){
-         cat( "Z:", Zdim, "grid", nx, ny, fill=TRUE )
-         stop( "Dimension of ZGrid does not match dimensions of location grid list.")
+      if( (XMatdim[1] != nx) | (XMatdim[2] != ny) ){
+         cat( "XMat:", XMatdim, "grid", nx, ny, fill=TRUE )
+         stop( "Dimension of XMatGrid does not match dimensions of location grid list.")
       }
 # reshape as a matrix where rows index locations.
-# Note that this works whether Zdim[3] exists or not! 
-      return( matrix( c(ZGrid),  nrow= Zdim[1]*Zdim[2] ))
+# Note that this works whether XMatdim[3] exists or not! 
+      return( matrix( c(XMatGrid),  nrow= XMatdim[1]*XMatdim[2] ))
  }

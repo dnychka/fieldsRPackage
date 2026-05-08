@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 sim.spatialProcess<- function(object, xp,  M = 1, 
-    verbose = FALSE, giveWarnings=TRUE,  ...) {
+    verbose = FALSE, ...) {
     # important variance parameters estimated from the data  
         tau2 <- (object$summary["tau"])^2
         sigma2 <- (object$summary["sigma2"])
@@ -60,7 +60,7 @@ sim.spatialProcess<- function(object, xp,  M = 1,
     if (verbose) {
         cat("N.full", N.full, fill = TRUE)
     }
-    if( (N.full > 5000) & giveWarnings){
+    if( N.full > 5000){
       cat("WARNING: Number of locations for conditional simulation is large ( >5000)
               this may take some time to compute or exhaust the memory.",
           fill=FALSE)
@@ -122,8 +122,6 @@ sim.spatialProcess<- function(object, xp,  M = 1,
         # note that true values of field have to be expanded in the
         # case of common locations between object$x and xp.
         h.true <- (h[xp.ind])
-#        temp.error <- predict(object, xnew=xp, ynew = y.synthetic, 
-#                              Z=Zp, ...) - h.true
         temp.error <- predict(object, xnew=xp, ynew = y.synthetic, 
                                          ...) - h.true
         # add the error to the actual estimate  (conditional mean)

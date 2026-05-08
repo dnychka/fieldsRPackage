@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -18,9 +18,13 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
-                     ZCommon = NULL,
+spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
+                        XMat = NULL,
+                  XMatCommon = NULL,
+                           Z = NULL, # depreciated argument
+                     ZCommon = NULL, # depreciated argument
                   mKrig.args = NULL,
+                         tau = NA,
                 cov.function = NULL, 
                   	cov.args = NULL,
                       parGrid = NULL, 
@@ -60,32 +64,44 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
 ############################################################ 
   
 
-  
-# It is also convenient to just add a few arugments of the covariance driectly in the 
-# this list collects those.  E.g. spatialProcess( x, y, Covariance="Exponential" )
-# will pass this choice along to the default covariance function, stationary.cov
 #
-  
+# use of Z for fixed part of model has been switched to XMat  
+  if( !is.null( Z)| !is.null(ZCommon)){
+    XMat <- Z
+    XMatCommon <- ZCommon
+    warning(" Z and ZCommon as arguments 
+          have been changed to XMat and XMatCommon.
+         to be more consistent with a spatial model notation. 
+         Please use these instead in the calling arguments to avoid this warning. ")
+  }
+#
+# It is  convenient sometimes to just add a few arugments of the covariance directly in the call
+# rather give the entire specification 
+# The list below collects those.  
+# E.g. spatialProcess( x, y, Covariance="Exponential" )
+# will pass this choice along to the default covariance function, stationary.cov
   extraArgs<- list(...)
   if( verbose){
     cat("extra arguments passed", fill=TRUE)
     print( names(extraArgs))
   }
-  
+#
    if( REML&GCV){
      stop("Cannot optimize for both REML and GCV!")
    }
-  
-# set defaults based on the model passed. 
-# the following function fills in some typical models and 
-# just avoids some typing and makes for some clean examples
+#  
+# Set defaults based on the model passed. 
+#
+# The following function fills in some typical models parameters,  
+# avoids some extra  arguments in the call and makes for some clean examples
 #   
-# note this also creates the initial components for the output list. 
+# Note this also creates the initial components for the output list. 
 #
    obj<- spatialProcessSetDefaults(x, 
                             cov.function = cov.function, 
                                 cov.args = cov.args,
                         cov.params.start = cov.params.start,
+                                     tau = tau, 
                               mKrig.args = mKrig.args,
                                extraArgs = extraArgs,
                                  parGrid = parGrid,
@@ -94,19 +110,22 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
                            simpleKriging = simpleKriging,
                                  verbose = verbose)
    #
+   # Figure out what to do based on the CASE code 
+   #
    # obj$CASE 
-   # 0 evaluate on passed cov parameters but MLEs for sigma, tau found from
-   #   lambda
+   #
+   # 0 evaluate on passed cov parameters but if sigma and tau not specified 
+   # find the MLEs for sigma, tau from the specified lambda.
    #
    # 1 optimize loglikelihood over any parameters specified in 
-   #   cov.params.start but not in cov.args
+   #   cov.params.start but do not optimize over those in cov.args
    #
-   # 2  grid search over parameters using parGrid and generating starting values for 
-   #   for the MLEs 
+   # 2  grid search over parameters using parGrid and use these results to 
+   # generate starting values for the MLEs 
    #
-   # 3 profile over lambda and/or aRange 
-   # this is more computationally demanding. 
-   
+   # 3 also profile over lambda and/or aRange 
+   # (this is more computationally demanding that the other cases. ) 
+   #
   if( verbose){
     cat(" The CASE:", obj$CASE, fill=TRUE)
     cat("Complete list of components in cov.args: ", "\n",
@@ -141,8 +160,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     
     InitialGridSearch<- mKrigMLEGrid(x, y,  
                              weights = weights,
-                                   Z = Z, 
-                             ZCommon = ZCommon,
+                                   XMat = XMat, 
+                             XMatCommon = XMatCommon,
                           mKrig.args = mKrig.args,
                         cov.function = obj$cov.function, 
                            cov.args  = obj$cov.args,
@@ -186,8 +205,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
      # where starting values are given or if
      # values in cov.args are omitted. 
      obj$cov.params.start<- cov.params.start
-     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, Z = Z, 
-                             ZCommon = ZCommon,
+     MLEInfo <-mKrigMLEJoint(x, y,  weights = weights, XMat = XMat, 
+                             XMatCommon = XMatCommon,
                              mKrig.args = obj$mKrig.args,
                              cov.function = obj$cov.function, 
                              cov.args  = obj$cov.args,
@@ -246,19 +265,22 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),   Z = NULL,
     cat("Final call to mKrig for output object", fill=TRUE)
   }
   
-  mKrigObj <- do.call( "mKrig", 
-	                c( list(x=x,
-	                        y=y,
-	                  weights=weights,
-	                        Z=Z,
-	                  ZCommon=ZCommon),
-	                  obj$mKrig.args,
-	             list( na.rm=na.rm),
-	             list(cov.function = obj$cov.function),
-	                  obj$cov.argsFull,
-	             verbose=verbose
-	            	)
-             	)
+  callList<- c( list(x = x,
+                    y = y,
+                    weights = weights,
+                    XMat = XMat,
+                    XMatCommon = XMatCommon,
+                    na.rm = na.rm,
+                    cov.function = obj$cov.function,
+                    verbose = verbose),
+                    obj$cov.argsFull,
+                    obj$mKrig.args)
+  
+
+# print(names( callList))
+  
+  mKrigObj <- do.call( "mKrig", callList)
+	                
 
 ####################################################################
 # sort out output object based on the different cases

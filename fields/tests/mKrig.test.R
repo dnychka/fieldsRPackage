@@ -283,9 +283,29 @@ test.for.zero( temp1, temp2, tag="predictSE: stationary.cov with exponential ver
 test.for.zero( temp2, temp3, tag="predictSE: no distance matrix versus compact distance matrix")
 test.for.zero( temp2, temp4, tag="predictSE: no distance matrix versus distance matrix")
 
+## sanity check with spatialProcess
+data( ozone2)
+sOzone<- ozone2$lon.lat
+zOzone <- ozone2$y[16,]
+good<- !is.na( zOzone)
+sOzone<- sOzone[good,]
+zOzone<- zOzone[good]
+
+obj<- spatialProcess( sOzone, zOzone)
 
 
+objTmp<- mKrig(sOzone, zOzone, 
+               tau= obj$summary["tau"],
+               sigma2=obj$summary["sigma2"],
+               cov.function="stationary.cov",
+               cov.args=list(
+                 Covariance="Matern",
+                 aRange=obj$summary["aRange"],
+                 nu=obj$cov.args$smoothness))
 
+test.for.zero(objTmp$summary[-c(9,10)], objTmp$summary[-c(9,10)], 
+              tag="matchup with spatialProcess") 
+              
 
 cat("all done with mKrig tests", fill=TRUE)
 options( echo=TRUE)

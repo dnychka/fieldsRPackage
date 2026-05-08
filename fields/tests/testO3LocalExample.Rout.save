@@ -41,12 +41,6 @@ Type 'q()' to quit R.
 > 
 > suppressMessages(library(fields))
 > options( echo=FALSE)
-[1] 2250    2
-[1] 2250
-[1] FALSE
-summary of ZGrid
-Length  Class   Mode 
-     0   NULL   NULL 
 Testing:  First a sanity check for fast predict!
 PASSED test at tolerance  1e-07
  
@@ -70,5 +64,5 @@ Testing:  RRMSE local/fast vs. exact
 PASSED test at tolerance  0.05
 all done!
 > proc.time()
-     user    system   elapsed 
-   59.364     5.248 21451.842 
+   user  system elapsed 
+ 22.689   2.872  25.555 

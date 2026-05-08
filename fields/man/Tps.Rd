@@ -115,7 +115,7 @@ the cholesky decomposition is reused.}
 
 For \code{fastTps} any argument that is suitable for the \code{mKrig}
 function see help on mKrig for these choices. The most common would be
-\code{lambda} fixing the value of this parameter (tau^2/sigma^2), \code{Z} linear covariates or 
+\code{lambda} fixing the value of this parameter (tau^2/sigma^2), \code{XMat} linear covariates or 
 \code{ mKrig.args= list( m=1)} setting the regression model to be just a constant function.
 
 Arguments for Tps:
@@ -124,7 +124,7 @@ Arguments for Tps:
     variance (tau**2) to the scale parameter of the covariance
     function. If omitted this is estimated by GCV. }
 
-  \item{Z}{Linear covariates to be included in fixed part of the model
+  \item{XMat}{Linear covariates to be included in fixed part of the model
     that are distinct from the default low order polynomial in
     \code{x}}
 
@@ -399,9 +399,9 @@ out.p<-predictSurface( fit, df=10)
 # NOTE to create an  4km  elevation grid: 
 # data(PRISMelevation); CO.elev1 <- crop.image(PRISMelevation, CO.loc )
 # then use same grid for the predictions: CO.Grid1<- CO.elev1[c("x","y")]
-  obj<- Tps( CO.loc, CO.tmin.MAM.climate, Z= CO.elev)
+  obj<- Tps( CO.loc, CO.tmin.MAM.climate, XMat= CO.elev)
   out.p<-predictSurface( obj,
-              CO.Grid, ZGrid= CO.elevGrid)
+              CO.Grid, XMatGrid= CO.elevGrid)
   imagePlot( out.p)        
   US(add=TRUE, col="grey")
   contour( CO.elevGrid, add=TRUE, levels=c(2000), col="black")
@@ -446,11 +446,11 @@ set.panel( 1,3)
   US( add=TRUE, col="grey")
 
 # with elevation covariate
-  out<- Tps( RMprecip$x,RMprecip$y, Z=RMprecip$elev)
+  out<- Tps( RMprecip$x,RMprecip$y, XMat=RMprecip$elev)
   
 # NOTE: out$d[4] is the estimated elevation coefficient
 # it is easy to get the smooth surface separate from the elevation.
-  out.p<-predictSurface( out, drop.Z=TRUE)
+  out.p<-predictSurface( out, drop.XMat=TRUE)
   surface( out.p)
   US( add=TRUE, col="grey")
   
@@ -464,15 +464,15 @@ set.panel( 1,3)
 # An elevation DEM from the PRISM climate data product (4km resolution)
   data(RMelevation)  
   grid.list<- list( x=RMelevation$x, y= RMelevation$y)
-  fit.full<- predictSurface( out, grid.list, ZGrid= RMelevation)
+  fit.full<- predictSurface( out, grid.list, XMatGrid= RMelevation)
   
 # this is the linear fixed part of the second spatial model:
 # lon,lat and elevation
   fit.fixed<- predictSurface( out, grid.list, just.fixed=TRUE,
-                   ZGrid= RMelevation)
+                   XMatGrid= RMelevation)
                    
 # This is the smooth part but also with the linear lon lat terms. 
-  fit.smooth<-predictSurface( out, grid.list, drop.Z=TRUE)
+  fit.smooth<-predictSurface( out, grid.list, drop.XMat=TRUE)
   
 #
   set.panel( 3,1)

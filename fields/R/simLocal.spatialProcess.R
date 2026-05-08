@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -61,7 +61,6 @@
            nx = nx, 
            ny = ny,
        NNSize = NNSize,
-       verbose=verbose
      )
   # this will fill in gridList from nx, ny if not passed. 
      gridList<- gridInfo$gridList

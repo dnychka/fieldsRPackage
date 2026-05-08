@@ -37,7 +37,7 @@ different covariance parameters with the option of maximizing over
 tau and sigma. They used the \code{mKrig} base are designed for computational efficiency.
 }
 \usage{
-mKrigMLEGrid(x, y, weights = rep(1, nrow(x)), Z = NULL,ZCommon=NULL,
+mKrigMLEGrid(x, y, weights = rep(1, nrow(x)), XMat = NULL,XMatCommon=NULL,
                        mKrig.args = NULL,
                           cov.function = "stationary.cov", 
                          cov.args = NULL,
@@ -52,7 +52,7 @@ mKrigMLEGrid(x, y, weights = rep(1, nrow(x)), Z = NULL,ZCommon=NULL,
                             iseed = NA)
                           
 
-mKrigMLEJoint(x, y, weights = rep(1, nrow(x)), Z = NULL,ZCommon=NULL,
+mKrigMLEJoint(x, y, weights = rep(1, nrow(x)), XMat = NULL,XMatCommon=NULL,
                  mKrig.args = NULL,
 		 na.rm = TRUE, cov.function = "stationary.cov",
                  cov.args = NULL, cov.params.start = NULL, optim.args =
@@ -177,13 +177,13 @@ Vector or matrix of observations at spatial locations,
   from the same covariance and measurment error model.
 }
 
-\item{Z}{
+\item{XMat}{
 Linear covariates to be included in fixed part of the 
   model that are distinct from the default low order 
   polynomial in \code{x}
 }
 
-\item{ZCommon}{
+\item{XMatCommon}{
 Linear covariates to be included in fixed part of the 
   model where a common parameter is estimated across all realizations.
   This option only makes sense for multiple realizations ( y is a matrix).

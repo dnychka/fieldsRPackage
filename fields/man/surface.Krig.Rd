@@ -80,7 +80,7 @@ y axis label}
 \item{zlab}{
 z axis label if "p" or "b" type is used.}
 \item{zlim}{
-Z limits passed to persp}
+XMat limits passed to persp}
 \item{levels}{
 Contour levels passed to contour. }
 \item{nx}{
@@ -102,7 +102,7 @@ for checking the fitted surface. The default of extrap=F is designed to
 discourage looking at the estimated surface outside the range of
 the observations.  
 
-NOTE: that any Z covariates will b edropped and only the spatial part of
+NOTE: that any XMat covariates will b edropped and only the spatial part of
 the model will be evaluated. 
 
 }

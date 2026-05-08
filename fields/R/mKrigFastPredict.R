@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -21,17 +21,17 @@
 ##END HEADER
 
 mKrigFastPredict <- function(object, gridList, ynew = NULL,
-                          derivative = 0, ZGrid = NULL, drop.Z = FALSE,
+                          derivative = 0, XMatGrid = NULL, drop.XMat = FALSE,
                           NNSize=4, setupObject= NULL,
                           giveWarnings=TRUE,
                           verbose=FALSE) 
                            {
   #NOTE: covariance model is specified by the arguments in object$args
   # cov.args <- c( object$args, list(...) )
-  # For convenience the Z covariates are already assumed to be 
+  # For convenience the XMat covariates are already assumed to be 
   # in the unrolled form. But this may be awkward if this 
   # function is called directly 
-  # See the code in predictSurface.mKrig for details. E.g. unrollZGrid
+  # See the code in predictSurface.mKrig for details. E.g. unrollXMatGrid
   
   if (derivative != 0) {
     stop("Derivatives not supported with fast prediction method")
@@ -63,33 +63,33 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
   # only do this if nt>0, i.e. there is a fixed part.
   #
   
-  if (!drop.Z & (object$nZ > 0) & (derivative >0) ) {
-    stop("derivative not supported with Z covariate included
-         use drop.Z = FALSE to omit Z ")
+  if (!drop.XMat & (object$nXMat > 0) & (derivative >0) ) {
+    stop("derivative not supported with XMat covariate included
+         use drop.XMat = FALSE to omit XMat ")
   }
   if( object$nt>0){
     # create locations from gridList
     xnew<- make.surface.grid( gridList)
-    # unroll ZGrid to a  matrix 
-    #print( summary(ZGrid))
+    # unroll XMatGrid to a  matrix 
+    #print( summary(XMatGrid))
     #print( summary(gridList))
-    Z<- unrollZGrid( gridList, ZGrid) 
+    XMat<- unrollXMatGrid( gridList, XMatGrid) 
     
     if (derivative == 0) {
-      if (drop.Z | object$nZ == 0) {
-        # just evaluate polynomial and not the Z covariate
+      if (drop.XMat | object$nXMat == 0) {
+        # just evaluate polynomial and not the XMat covariate
         temp1 <- fields.mkpoly(xnew, m = object$m) %*% 
           beta[object$ind.drift, ]
       }
       else {
-        if( nrow( xnew) != nrow(as.matrix(Z)) ){
-          stop(paste("number of rows of covariate Z",
-                     nrow(as.matrix(Z)), 
+        if( nrow( xnew) != nrow(as.matrix(XMat)) ){
+          stop(paste("number of rows of covariate XMat",
+                     nrow(as.matrix(XMat)), 
                      " is not the same as the number of locations",
                      nrow( xnew) )
           )
         }
-        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(Z)) 
+        temp0 <-  cbind(fields.mkpoly(xnew, m = object$m),as.matrix(XMat)) 
         temp1 <- temp0 %*% beta
       }
     }

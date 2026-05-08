@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -26,7 +26,7 @@
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object,  grid.list, extrap = extrap, 
-        nx = nx, ny = ny, drop.Z = TRUE)
+        nx = nx, ny = ny, drop.XMat = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab
     if (!is.null(xlab)) 
@@ -57,7 +57,7 @@
     ## modified so that you can give main, and ylab as arguments
     ## in ... and have them passed correctly
     out.p <- predictSurface(object, grid.list, extrap = extrap, 
-        nx = nx, ny = ny, drop.Z = TRUE)
+        nx = nx, ny = ny, drop.XMat = TRUE)
     if (!is.null(ylab)) 
         out.p$ylab <- ylab
     if (!is.null(xlab)) 

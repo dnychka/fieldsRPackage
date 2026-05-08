@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -25,15 +25,26 @@
        extrap = FALSE, chull.mask = NA,
        nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE,
-       ZGrid=NULL, 
-       drop.Z= FALSE, just.fixed=FALSE, 
+       XMatGrid=NULL, drop.XMat= FALSE, 
+       ZGrid = NULL, drop.Z = NULL, 
+      just.fixed=FALSE, 
        fast=FALSE, NNSize=4,
        setupObject=NULL, 
        giveWarnings=FALSE,
        derivative=0, ...) {
-#
-      if( is.null(ZGrid) & !drop.Z & (!is.null(object$Z)) ) {
-      stop("Need to specify covariate (Z) values or set drop.Z==TRUE")
+  #
+  # some temporary code to handle switch to XMat etc.
+  if( !is.null( ZGrid)| !is.null(drop.Z)){
+    if( !is.null( ZGrid)){ XMatGrid<- ZGrid}
+    if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" ZGrid,  drop.Z  as arguments 
+        have been changed to XMatGrid and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+  }
+  #
+      if( is.null(XMatGrid) & !drop.XMat & (!is.null(object$XMat)) ) {
+      stop("Need to specify covariate (XMat) values or set drop.XMat==TRUE")
       }
       if( !is.null(setupObject)& !fast){
         stop("Setup Object only makes sense when fast = TRUE
@@ -59,10 +70,10 @@
     }
   
   #print( gridList)
-# do some checks on Zgrid and also reshape as a matrix
+# do some checks on XMatgrid and also reshape as a matrix
 # rows index grid locations and columns  are the covariates
-# (as Z in predict).
-# if ZGrid is NULL just returns NULL back  ...
+# (as XMat in predict).
+# if XMatGrid is NULL just returns NULL back  ...
     
     xg <- make.surface.grid(gridList)
 # NOTE: the predict function called will need to do some internal checks
@@ -70,9 +81,9 @@
   if( verbose){
     print( dim( xg))
     print( nrow( xg))
-    print( drop.Z)
-    cat("summary of ZGrid", fill=TRUE)
-    print( summary( ZGrid))
+    print( drop.XMat)
+    cat("summary of XMatGrid", fill=TRUE)
+    print( summary( XMatGrid))
   }
     if( nrow(xg) > 5e5){
       warning("number of grid points is large for exact prediction
@@ -102,10 +113,10 @@
     
     if(!fast){
 # here is the heavy lifting 
-# need to handle the Z image covariates separately for fast and not fast. 
-    Z<- unrollZGrid( gridList, ZGrid) 
+# need to handle the XMat image covariates separately for fast and not fast. 
+    XMat<- unrollXMatGrid( gridList, XMatGrid) 
     out[indexGood] <-  predict.mKrig(object, xnew=xg[indexGood,], ynew=ynew,
-                               Z=Z[indexGood,], drop.Z= drop.Z, 
+                               XMat=XMat[indexGood,], drop.XMat= drop.XMat, 
                                collapseFixedEffect = object$collapseFixedEffect,
                                just.fixed=just.fixed, ...)
   }
@@ -118,7 +129,7 @@
                           gridList= gridList, 
                           ynew = ynew,
                           derivative = derivative,
-                          ZGrid = ZGrid, drop.Z = drop.Z,
+                          XMatGrid = XMatGrid, drop.XMat = drop.XMat,
                           NNSize=NNSize, 
                           setupObject= setupObject, 
                           giveWarnings=giveWarnings,

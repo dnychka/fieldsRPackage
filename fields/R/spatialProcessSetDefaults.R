@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -22,6 +22,7 @@
 spatialProcessSetDefaults<- function( x, cov.function,
                                       cov.args,
                                       cov.params.start,
+                                      tau, 
                                       parGrid,
                                       mKrig.args,
                                   extraArgs = NULL,
@@ -100,6 +101,10 @@ spatialProcessSetDefaults<- function( x, cov.function,
   #  (some R arcania!)
   ###########################################
   if( !is.null( extraArgs)){
+    # handle the nugget variance/object
+    if( !is.null(extraArgs$tau)){
+      
+    }
     if(!is.null(cov.args)){
       ind<- match( names(cov.args), names(extraArgs) ) 
       cov.args <- c( cov.args[is.na(ind)], (extraArgs) )
@@ -131,6 +136,16 @@ spatialProcessSetDefaults<- function( x, cov.function,
     print( cov.args)
   }
   
+  ###########################################
+  ## Check that tau and sigma have been specified in this case 
+  ## lambda is known and the model should just evaluate at these 
+  ## variance choices. 
+  ###########################################
+  testSigma<- !is.null(cov.args$sigma2)
+  testTau<- !is.na(tau) 
+  if( testSigma&testTau){
+    cov.args$lambda<- tau^2/cov.args$sigma2
+  }
   
   ########################################### 
   # Some logic to figure out how do MLE search over lambda and aRange
@@ -241,6 +256,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
     list(  
         cov.function = cov.function,
             cov.args = cov.args,
+                 tau = tau, 
           mKrig.args = mKrig.args, 
                 CASE = CASE,
              parGrid = parGrid

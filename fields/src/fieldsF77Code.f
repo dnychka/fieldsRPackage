@@ -14,6 +14,29 @@ c****  # but WITHOUT ANY WARRANTY; without even the implied warranty of
 c****  # MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
 c**** # GNU General Public License for more details.
   
+C     wrapper for the lapack solve of a PD banded matrix using
+C     the upper cholesky factor from bandchol
+C
+      subroutine bandsolve( N, KD, NRHS, AB, LDAB, B, LDB, INFO )
+      integer N, KD, NRHS, LDAB, LDB, INFO
+      character UPLO
+      double precision AB(LDAB,*), B(LDB,*)
+      UPLO='U'
+      call DPBTRS( UPLO, N, KD, NRHS, AB, LDAB, B, LDB, INFO )
+      return
+      END
+      
+C     wrapper for the lapack cholesky of a PD banded matrix using
+C     the upper cholesky factor from bandchol
+C      
+      subroutine bandchol( N, KD, AB, LDAB, INFO)
+      integer N, KD, LDAB,INFO
+      character UPLO
+      double precision AB(LDAB,*)
+      UPLO='U'
+      call dpbtrf( UPLO, N, KD, AB, LDAB, INFO )
+      return
+      END
 
     
       subroutine css(h,npoint,x,y,wght,sy,trace,diag,vlam,

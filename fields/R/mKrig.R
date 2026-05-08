@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -19,14 +19,28 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
+mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
+                  
                   cov.function="stationary.cov", 
                   cov.args = NULL, lambda = NA, m = 2, 
                   chol.args = NULL, find.trA = TRUE, NtrA = 20, 
                   iseed = NA, na.rm=FALSE, 
                   collapseFixedEffect = TRUE, 
                   tau=NA, sigma2=NA, verbose=FALSE, simpleKriging=FALSE, 
+                  Z = NULL, ZCommon=NULL, # depreciated arguments 
                   ...) {
+  #
+  # use of "Z"  for fixed part of model has been switched to XMat 
+  #
+  if( !is.null( Z)| !is.null(ZCommon)){
+    XMat<- Z
+    XMatCommon<- ZCommon
+    warning(" Z,  drop.Z and ZCommon as arguments 
+          have been changed to XMat, drop.XMat and XMatCommon.
+         to be more consistent with a spatial model notation. 
+         Please use these instead. ")
+  }
+  #
   # pull extra covariance arguments from ...  and overwrite
   # any arguments already named in cov.args
   ind<- match( names( cov.args), names(list(...) ) )
@@ -35,8 +49,8 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   #If cov.args$find.trA is true, set onlyUpper to FALSE (onlyUpper doesn't
   #play nice with predict.mKrig, called by mKrig.trace)
   #
-  # next function also omits NAs from x,y,weights, and Z  if na.rm=TRUE.
-  object<- mKrigCheckXY( x, y, weights, Z, ZCommon,na.rm = na.rm)
+  # next function also omits NAs from x,y,weights, and XMat  if na.rm=TRUE.
+  object<- mKrigCheckXY( x, y, weights, XMat, XMatCommon,na.rm = na.rm)
   # as the computation progresses additional components are 
   # added to the object list and by the end this is the returned 
   # object of class mKrig.
@@ -77,7 +91,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   if( simpleKriging){
     m<- 0
   }
-  Tmatrix <- cbind(fields.mkpoly(object$x, m), object$Z)
+  Tmatrix <- cbind(fields.mkpoly(object$x, m), object$XMat)
   # set some dimensions
     np <- nrow(object$x)
   if( is.null(Tmatrix) ){
@@ -86,17 +100,17 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   else{
     nt<- ncol(Tmatrix) 
   }
-  if( is.null(object$Z)){
-    nZ<- 0
+  if( is.null(object$XMat)){
+    nXMat<- 0
   }
   else{
-    nZ<- ncol(object$Z)
+    nXMat<- ncol(object$XMat)
   }
-  if( simpleKriging & (nZ>0)){
+  if( simpleKriging & (nXMat>0)){
     stop("simpleKriging is TRUE but some covariates
          have been passed to mKrig")
   }
-  ind.drift <- c(rep(TRUE, (nt - nZ)), rep(FALSE, nZ)) 
+  ind.drift <- c(rep(TRUE, (nt - nXMat)), rep(FALSE, nXMat)) 
   # as a place holder for reduced rank Kriging, distinguish between
   # observations locations and  the locations to evaluate covariance.
   # (this is will also allow predict.mKrig to handle a Krig object)
@@ -170,7 +184,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # of several data sets and one is solving for the coefficients
   # of all of these at once. In this case beta and c.coef are matrices
   #
-  if( !is.null(Tmatrix) | !is.null(ZCommon) ){
+  if( !is.null(Tmatrix) | !is.null(XMatCommon) ){
     # Efficent way to multply inverse of Mc times the Tmatrix  
     TStar<- forwardsolve(Mc, x = Tmatrix, k=ncol(Mc), transpose = TRUE, upper.tri = TRUE)
     qr.VT <- qr(TStar)
@@ -183,9 +197,9 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
                          object$y, upper.tri = TRUE)
   }
   ##########################################
-  ### only the T and Z covariate fixed parts
+  ### only the T and XMat covariate fixed parts
   ##########################################
-  if( !is.null(Tmatrix) & is.null(ZCommon) ){
+  if( !is.null(Tmatrix) & is.null(XMatCommon) ){
     beta <- as.matrix(qr.coef(qr.VT, YStar))
     if (collapseFixedEffect) {
       # use a common estimate of fixed effects across all replicates      
@@ -207,45 +221,45 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     if (collapseFixedEffect) {
       Omega <- Omega/ ncol(beta)
     }
-# set ZCommon  parameters to NA   
+# set XMatCommon  parameters to NA   
   gamma<- NA
-  OmegaZCommon<- NULL
+  OmegaXMatCommon<- NULL
   
 #   GLS residual now used to evaluate likelihood
   resid<-  object$y - Tmatrix %*% beta
   
   }
-  if( !is.null(ZCommon) ){
+  if( !is.null(XMatCommon) ){
     if( is.null(T)){
-      stop("need a fixed part matrix  (m>0, T and/or Z) to add ZCommon")
+      stop("need a fixed part matrix  (m>0, T and/or XMat) to add XMatCommon")
     }
     # check dimensions
      n<- nrow(object$y)
      M<- ncol( object$y)
      if( M ==1){
-       stop("No replications just use the Z argument!")
+       stop("No replications just use the XMat argument!")
      }
      N<- n*M
-     if( nrow( ZCommon)!= N){
-       stop("dimension of ZCommon should be nObs X nReps")
+     if( nrow( XMatCommon)!= N){
+       stop("dimension of XMatCommon should be nObs X nReps")
      }
      
-     ZCStar<- matrix( NA, N, ncol(ZCommon))
+     XMatCStar<- matrix( NA, N, ncol(XMatCommon))
      
-     for( k in 1:ncol(ZCommon) ) {
-      ZCtmp<- matrix(ZCommon[,k],n,M )
+     for( k in 1:ncol(XMatCommon) ) {
+      XMatCtmp<- matrix(XMatCommon[,k],n,M )
       temp<- forwardsolve(Mc, 
-                          x = ZCtmp,
+                          x = XMatCtmp,
                           k=ncol(Mc),
                           transpose = TRUE,
                           upper.tri = TRUE)
-       ZCStar[,k]<- c(temp)
+       XMatCStar[,k]<- c(temp)
      }
-     testZ<- matrix( NA, N, ncol(ZCommon))
-  # Project ZCommon onto subspace orthogonal to  TStar  
-     for( k in 1:ncol(ZCommon) ) {
-       temp<-  qr.resid(qr.VT, matrix( ZCStar[,k],n,M) )
-       testZ[,k]<- c(temp)
+     testXMat<- matrix( NA, N, ncol(XMatCommon))
+  # Project XMatCommon onto subspace orthogonal to  TStar  
+     for( k in 1:ncol(XMatCommon) ) {
+       temp<-  qr.resid(qr.VT, matrix( XMatCStar[,k],n,M) )
+       testXMat[,k]<- c(temp)
      }
      testY<- c( qr.resid(qr.VT,  YStar) )
      ##########################################
@@ -253,34 +267,34 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
      ##########################################
      if (!collapseFixedEffect) {
      
-     gamma<- lsfit(  testZ,testY, intercept=FALSE)$coefficients
-     OmegaZCommon<-  solve( t( testZ)%*%testZ )
+     gamma<- lsfit(  testXMat,testY, intercept=FALSE)$coefficients
+     OmegaXMatCommon<-  solve( t( testXMat)%*%testXMat )
      
      # find correct beta having adjusted by gamma   
-     tmpResid<- YStar -  matrix(ZCStar%*%gamma,n,M)
+     tmpResid<- YStar -  matrix(XMatCStar%*%gamma,n,M)
      beta<- qr.coef(qr.VT, tmpResid )
      }
      else{
        # collapse beta fit -- common fixed effect parameters in T
-       # but need to adjust for ZCommon that might not be the same at 
+       # but need to adjust for XMatCommon that might not be the same at 
        # each realization.
-       UStar<- cbind( rep(1,M)%x%TStar , ZCStar)
+       UStar<- cbind( rep(1,M)%x%TStar , XMatCStar)
        allPar<- lsfit( UStar,c(YStar), intercept=FALSE)$coefficients
        # extract beta and gamma 
        nBeta<- ncol(TStar)
-       nZC<- ncol(ZCommon)
+       nXMatC<- ncol(XMatCommon)
        betaCommon<- allPar[1: nBeta]
-       gamma<- allPar[(1: nZC)+ nBeta]
+       gamma<- allPar[(1: nXMatC)+ nBeta]
        # repeat beta for all realizations to have consitent format with 
        # collapseFixedEffects =FALSE
        beta <- matrix(betaCommon, ncol = M, 
                       nrow = nBeta)
        # correct Omega matrices
        Omega<- solve( t(UStar)%*%UStar)
-       OmegaZCommon<- Omega[(1: nZC)+ nBeta,(1: nZC)+ nBeta]
+       OmegaXMatCommon<- Omega[(1: nXMatC)+ nBeta,(1: nXMatC)+ nBeta]
      }
      #   GLS residual now used to evaluate likelihood   
-     resid<- object$y - Tmatrix%*%beta - matrix(ZCommon%*%gamma,n,M)
+     resid<- object$y - Tmatrix%*%beta - matrix(XMatCommon%*%gamma,n,M)
   }
   if( is.null(Tmatrix)){
 # much is set to NULL because no fixed part of model    
@@ -291,9 +305,9 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
     qr.VT<- NULL
     beta<- NULL
     lnDetOmega <- 0
-    # set ZCommon  parameters to NULL  
+    # set XMatCommon  parameters to NULL  
     gamma<- NULL
-    OmegaZCommon<- NULL
+    OmegaXMatCommon<- NULL
   }
   # and now find c.
   #  the coefficents for the spatial part.
@@ -338,7 +352,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
   # likelihood values.
   lnProfileLike <- (-np/2 - log(2 * pi) * (np/2) - (np/2) * 
                       log(sigma2.MLE) - (1/2) * lnDetCov)
-  # see section 4.2 handbook of spatial statistics (Zimmerman Chapter)
+  # see section 4.2 handbook of spatial statistics (XMatimmerman Chapter)
   # for this amazing shortcut to get the REML version 
   lnProfileREML <-  lnProfileLike + (1/2) * lnDetOmega
   # following FULL means combine the estimates across all replicate fields 
@@ -404,14 +418,14 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), Z = NULL, ZCommon=NULL,
        lnDetOmega = lnDetOmega,
        Omega = Omega,
        lnDetOmega = lnDetOmega,
-       OmegaZCommon = OmegaZCommon,
+       OmegaXMatCommon = OmegaXMatCommon,
        qr.VT = qr.VT,
        Mc = Mc,
        Tmatrix = Tmatrix,
        ind.drift = ind.drift,
-       nZ = nZ,
+       nXMat = nXMat,
        fixedEffectsCov = Omega * sigma2.MLE.FULL,
-       fixedEffectsCovCommon = OmegaZCommon * sigma2.MLE.FULL,
+       fixedEffectsCovCommon = OmegaXMatCommon * sigma2.MLE.FULL,
        collapseFixedEffect = collapseFixedEffect,
        simpleKriging=simpleKriging
      )

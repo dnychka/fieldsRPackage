@@ -5,7 +5,8 @@ importFrom("grDevices", "chull", "col2rgb", "colors", "palette", "rgb",
 importFrom("graphics", "abline", "arrows", "axis", "box", "boxplot",
              "contour", "hist", "lines", "locator", "matlines",
              "matplot", "mtext", "pairs", "par", "persp", "plot",
-             "points", "polygon", "rect", "segments", "text", "title")
+             "points", "polygon", "rect", "segments", "text", "title",
+             "grid", "legend")
 importFrom("stats", "D", "approx", "coef", "cor", "dist", "fft", "mad",
              "median", "optim", "optimize", "predict", "quantile",
              "rnorm", "sd", "var","qchisq","pnorm")
@@ -14,6 +15,7 @@ importFrom("maps","map")
 importFrom("viridisLite","viridis")
 importFrom("stats", "qnorm")
 importFrom("stats", "lsfit")
+
 
 importFrom("RColorBrewer", "brewer.pal")
 

@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -23,7 +23,7 @@
 
 predict.fastTps <- function(object, xnew = NULL, grid.list=NULL,
                             ynew = NULL,  derivative = 0,
-                            Z = NULL, drop.Z = FALSE, just.fixed = FALSE, xy=c(1,2), ...)
+                            XMat = NULL, drop.XMat = FALSE, just.fixed = FALSE, xy=c(1,2), ...)
 {
   # the main reason to pass new args to the covariance is to increase
   # the temp space size for sparse multiplications
@@ -50,20 +50,20 @@ predict.fastTps <- function(object, xnew = NULL, grid.list=NULL,
   # Tmatrix <- fields.mkpoly(xnew, m=object$m)
   #
   if (derivative == 0){
-    if (drop.Z | object$nZ == 0) {
-      # just evaluate polynomial and not the Z covariate
+    if (drop.XMat | object$nXMat == 0) {
+      # just evaluate polynomial and not the XMat covariate
       temp1 <- fields.mkpoly(xnew, m = object$m) %*% beta[object$ind.drift, ]
     }
     else{
-      if( is.null(Z)) {
-        Z <- object$Tmatrix[, !object$ind.drift]
+      if( is.null(XMat)) {
+        XMat <- object$Tmatrix[, !object$ind.drift]
       }
-      temp1 <- cbind(fields.mkpoly(xnew, m = object$m), Z) %*% beta
+      temp1 <- cbind(fields.mkpoly(xnew, m = object$m), XMat) %*% beta
     }
   }
   else{
-    if (!drop.Z & object$nZ > 0) {
-      stop("derivative not supported with Z covariate included")
+    if (!drop.XMat & object$nXMat > 0) {
+      stop("derivative not supported with XMat covariate included")
     }
     temp1 <- fields.derivative.poly(xnew, m = object$m, beta[object$ind.drift, 
     ])
