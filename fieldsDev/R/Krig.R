@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,7 +20,8 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "Krig" <- function(x, Y, cov.function = "stationary.cov", 
-                   lambda = NA, df = NA, GCV = FALSE, XMat = NULL,
+                   lambda = NA, df = NA, GCV = FALSE, 
+                   XMat = NULL,
                    Z=NULL, 
                    cost = 1,
                    weights = NULL, m = 2, nstep.cv = 200, scale.type = "user", 
@@ -39,10 +40,10 @@
   #
   # use of "Z"  for fixed part of model has been switched to XMat  
   if( !is.null( Z)){
-    stop(" Z,  drop.Z and ZCommon as arguments 
-          have been changed to XMat, drop.XMat and XMatCommon.
-         to be more consistent with a spatial model notation. 
-         Please use these instead. ")
+    XMat<-Z
+    warning(" Z  as  an arguments has been renamed to XMat within the function
+    to be more consistent with spatial process model notation. 
+    Please use the XMat argument in the call to Krig avoid this warning. ")
   }
   #
   #

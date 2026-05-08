@@ -44,27 +44,32 @@ surfaces such as image, imagePlot and contour.
 \method{predictSurface}{default}(object, grid.list = NULL, 
                      extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
                         xy = c(1,2),  verbose = FALSE, ...)
-
-\method{predictSurface}{fastTps}(object, gridList = NULL, 
-       extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
-       xy = c(1,2),  verbose = FALSE, ...)
-       
-\method{predictSurface}{Krig}(object, grid.list = NULL, extrap = FALSE, chull.mask = NA, 
-nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, XMatGrid = NULL, 
-    drop.XMat = FALSE, just.fixed=FALSE,  ...)
-    
+   
 \method{predictSurface}{mKrig}(
 object, gridList = NULL, grid.list = NULL, ynew =
                  NULL, extrap = FALSE, chull.mask = NA, nx = 80, ny =
-                 80, xy = c(1, 2), verbose = FALSE, XMatGrid = NULL,
-                 drop.XMat = FALSE, just.fixed = FALSE, fast = FALSE,
+                 80, xy = c(1, 2), verbose = FALSE, 
+                 XMatGrid = NULL, drop.XMat = FALSE,
+                 ZGrid = NULL, drop.Z = NULL,
+                 just.fixed = FALSE, fast = FALSE,
                  NNSize = 4, setupObject = NULL, giveWarnings = FALSE,
                  derivative = 0, ...)
 		 
 mKrigFastPredict(object, gridList, ynew = NULL, derivative = 0, XMatGrid =
                  NULL, drop.XMat = FALSE, NNSize = 4, setupObject = NULL,
                  giveWarnings = TRUE, verbose = FALSE)
-			  
+                 
+\method{predictSurface}{Krig}(object, grid.list = NULL, extrap = FALSE, chull.mask = NA, 
+nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE, 
+XMatGrid = NULL,  drop.XMat = FALSE,
+ZGrid = NULL, drop.Z = NULL,
+ just.fixed=FALSE,  ...)
+ 
+\method{predictSurface}{fastTps}(object, gridList = NULL, 
+       extrap = FALSE, chull.mask = NA, nx = 80, ny = 80,
+       xy = c(1,2),  verbose = FALSE, ...)
+
+ 			  
 \method{predictSurfaceSE}{default}(object, grid.list = NULL, extrap = FALSE, chull.mask =
                  NA, nx = 80, ny = 80, xy = c(1, 2), verbose = FALSE,
                  XMatGrid = NULL, just.fixed = FALSE, ...)
@@ -124,6 +129,9 @@ passed. }
 
 \item{drop.XMat}{If TRUE the fixed part of model depending on covariates is omitted.}
 
+\item{drop.Z}{This argument  is depreciated and a warning will be printed. 
+Should use the new  argument name drop.XMat. }
+
 \item{just.fixed}{If TRUE the nonparametric surface is omitted.}
 
 \item{fast}{If TRUE approximate predictions for stationary models are made using the FFT. For large grids( e.g. nx, ny > 200) this can be substantially faster and still accurate to several decimal places. }
@@ -165,6 +173,11 @@ If XMatGrid is a list then the components x and y shold match those of grid list
 the z component follows the shape described above for the no list 
 case. 
 }
+
+\item{ZGrid}{This argument  is depreciated and a warning will be printed. 
+Should use the new  argument name XMatGrid. }
+
+
 
 \item{XMat}{The covariates for the grid unrolled as a matrix. Columns index
 the variables and rows index the grid locations. E.g. For

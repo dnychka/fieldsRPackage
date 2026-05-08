@@ -45,8 +45,10 @@ subsequent analysis. Krig also supports a correlation model where the mean
 and marginal variances are supplied. 
 }
 \usage{
- Krig(x, Y, cov.function = "stationary.cov", lambda = NA, df
-                 = NA, GCV = FALSE, XMat = NULL, cost = 1, weights = NULL,
+ Krig(x, Y, cov.function = "stationary.cov", lambda = NA, df = NA, GCV = FALSE, 
+                 XMat = NULL, 
+                 Z = NULL, 
+                 cost = 1, weights = NULL,
                  m = 2, nstep.cv = 200, scale.type = "user", x.center =
                  rep(0, ncol(x)), x.scale = rep(1, ncol(x)), sigma =
                  NA, tau2 = NA, method = "REML", verbose = FALSE,
@@ -248,6 +250,10 @@ response in a regression.
 \item{XMat}{
 A vector of matrix of covariates to be include in the fixed part of the 
 model. If NULL (default) no addtional covariates are included.}
+
+\item{Z}{ This is the old argument for the fixed part of the model and is depreciated. 
+It has been changed to
+XMat above.}
 
 \item{\dots}{
  Optional arguments that appear are assumed to be additional arguments

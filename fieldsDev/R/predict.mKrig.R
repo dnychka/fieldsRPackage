@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -20,7 +20,10 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
-                          derivative = 0, XMat = NULL, drop.XMat = FALSE, just.fixed = FALSE,
+                          derivative = 0, 
+                          XMat = NULL, drop.XMat = FALSE,
+                          Z = NULL, drop.Z = NULL,
+                          just.fixed = FALSE,
                           collapseFixedEffect = object$collapseFixedEffect, 
                           ...) {
   # the main reason to pass new args to the covariance is to increase
@@ -28,6 +31,18 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   # other optional arguments that typically describe the covariance function 
   # from mKrig are passed along in the list object$args
   cov.args <- list(...)
+  #
+  #
+  # some temporary code to handle switch to XMat etc.
+  if( !is.null( Z)| !is.null(drop.Z)){
+    if( !is.null( Z)){ XMat<- Z}
+    if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" Z,  drop.Z  as arguments 
+        have been changed to XMat and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+  }
+  #
   # predict at observation locations by default
   if( !is.null(grid.list)){
     xnew<- make.surface.grid(grid.list)
@@ -35,6 +50,7 @@ predict.mKrig <- function(object, xnew = NULL, ynew = NULL, grid.list=NULL,
   if (is.null(xnew)) {
     xnew <- object$x
   }
+  # use original X matrix (XMat) if not passed. 
   if (is.null(XMat) & (length(object$ind.drift) >0 )) {
     XMat <- object$Tmatrix[, !object$ind.drift]
   }

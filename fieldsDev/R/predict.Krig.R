@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -25,11 +25,25 @@
   UseMethod("Krig")
  }
 
-"predict.Krig" <- function(object, x = NULL, XMat = NULL, 
-    drop.XMat = FALSE, just.fixed = FALSE, lambda = NA, df = NA, 
+"predict.Krig" <- function(object, x = NULL,
+                           XMat = NULL, drop.XMat = FALSE,
+                           Z = NULL, drop.Z = NULL,
+    just.fixed = FALSE, lambda = NA, df = NA, 
     model = NA, eval.correlation.model = TRUE, y = NULL, yM = NULL, 
     verbose = FALSE, ...) {
-    #NOTE: most of this function is figuring out what to do!
+
+  # NOTE: most of this function is figuring out what to do!
+  #
+  #
+  # some temporary code to handle switch to XMat etc.
+   if( !is.null( Z)| !is.null(drop.Z)){
+     if( !is.null( Z)){ XMat<- Z}
+     if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" Z,  drop.Z  as arguments 
+        have been changed to XMat and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+    }
     #
     # check that derivative is not called
     if (!is.null(list(...)$derivative)) {

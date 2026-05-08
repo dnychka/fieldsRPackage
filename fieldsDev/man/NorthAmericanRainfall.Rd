@@ -86,6 +86,7 @@ quilt.plot( x, XMatstat)
 
 \dontrun{
 # with a better projection
+# note that you may need to install the mapproj package
 library( maps)
 library( mapproj)
 bubblePlot( NorthAmericanRainfall$x.s, 
@@ -111,7 +112,6 @@ bubblePlot( NorthAmericanRainfall2$lon,NorthAmericanRainfall2$lat,
 NorthAmericanRainfall2$precip,
 size=.3, col=rev(tim.colors()), xlim= c(-130,-50))
 world( add=TRUE, col="grey30")
-
 }
 
 \keyword{datasets}

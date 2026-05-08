@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -64,34 +64,38 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
 ############################################################ 
   
 
-  
-# It is also convenient to just add a few arugments of the covariance driectly in the 
-# this list collects those.  E.g. spatialProcess( x, y, Covariance="Exponential" )
-# will pass this choice along to the default covariance function, stationary.cov
 #
 # use of Z for fixed part of model has been switched to XMat  
   if( !is.null( Z)| !is.null(ZCommon)){
-    stop(" Z,  drop.Z and ZCommon as arguments 
-          have been changed to XMat, drop.XMat and XMatCommon.
+    XMat <- Z
+    XMatCommon <- ZCommon
+    warning(" Z and ZCommon as arguments 
+          have been changed to XMat and XMatCommon.
          to be more consistent with a spatial model notation. 
-         Please use these instead. ")
+         Please use these instead in the calling arguments to avoid this warning. ")
   }
 #
+# It is  convenient sometimes to just add a few arugments of the covariance directly in the call
+# rather give the entire specification 
+# The list below collects those.  
+# E.g. spatialProcess( x, y, Covariance="Exponential" )
+# will pass this choice along to the default covariance function, stationary.cov
   extraArgs<- list(...)
   if( verbose){
     cat("extra arguments passed", fill=TRUE)
     print( names(extraArgs))
   }
-  
+#
    if( REML&GCV){
      stop("Cannot optimize for both REML and GCV!")
    }
-  
-# set defaults based on the model passed. 
-# the following function fills in some typical models and 
-# just avoids some typing and makes for some clean examples
+#  
+# Set defaults based on the model passed. 
+#
+# The following function fills in some typical models parameters,  
+# avoids some extra  arguments in the call and makes for some clean examples
 #   
-# note this also creates the initial components for the output list. 
+# Note this also creates the initial components for the output list. 
 #
    obj<- spatialProcessSetDefaults(x, 
                             cov.function = cov.function, 
@@ -106,19 +110,22 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
                            simpleKriging = simpleKriging,
                                  verbose = verbose)
    #
+   # Figure out what to do based on the CASE code 
+   #
    # obj$CASE 
-   # 0 evaluate on passed cov parameters but MLEs for sigma, tau found from
-   #   lambda
+   #
+   # 0 evaluate on passed cov parameters but if sigma and tau not specified 
+   # find the MLEs for sigma, tau from the specified lambda.
    #
    # 1 optimize loglikelihood over any parameters specified in 
-   #   cov.params.start but not in cov.args
+   #   cov.params.start but do not optimize over those in cov.args
    #
-   # 2  grid search over parameters using parGrid and generating starting values for 
-   #   for the MLEs 
+   # 2  grid search over parameters using parGrid and use these results to 
+   # generate starting values for the MLEs 
    #
-   # 3 profile over lambda and/or aRange 
-   # this is more computationally demanding. 
-   
+   # 3 also profile over lambda and/or aRange 
+   # (this is more computationally demanding that the other cases. ) 
+   #
   if( verbose){
     cat(" The CASE:", obj$CASE, fill=TRUE)
     cat("Complete list of components in cov.args: ", "\n",

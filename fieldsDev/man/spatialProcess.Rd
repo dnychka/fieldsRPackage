@@ -41,7 +41,9 @@
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 }
 \usage{
-spatialProcess(x, y,  weights = rep(1, nrow(x)),   XMat = NULL, XMatCommon=NULL,
+spatialProcess(x, y,  weights = rep(1, nrow(x)),  
+                 XMat = NULL, XMatCommon=NULL,
+                 Z = NULL, ZCommon=NULL,
                   mKrig.args = NULL,
                          tau = NA,
                 cov.function = NULL, 
@@ -102,6 +104,13 @@ E.g. elevation for fitting climate data over space. }
 A matrix of extra covariates for the fixed part of spatial
 model that pertain to parameters that hold across all realizations.
 This covariates only makes sense for multiple realizations (i.e. y is a matrix with more than one column). }
+
+\item{Z}{For backward compatibility this argument is still included but one should use XMat.
+The change was motivated by the fact that Z and z are used for other components of the model 
+and so as the fixed 
+part matrix this is confusing!}
+
+\item{ZCommon}{For backward compatibility this argument is still included but one should use XMatCommon. }
 
 \item{CILevel}{Confidence level for intervals for the estimated
 parameters.}

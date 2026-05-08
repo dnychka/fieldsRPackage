@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -33,7 +33,9 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   # use of "Z"  for fixed part of model has been switched to XMat 
   #
   if( !is.null( Z)| !is.null(ZCommon)){
-    stop(" Z,  drop.Z and ZCommon as arguments 
+    XMat<- Z
+    XMatCommon<- ZCommon
+    warning(" Z,  drop.Z and ZCommon as arguments 
           have been changed to XMat, drop.XMat and XMatCommon.
          to be more consistent with a spatial model notation. 
          Please use these instead. ")

@@ -1,7 +1,7 @@
 #
 # fields  is a package for analysis of spatial data written for
 # the R software environment.
-# Copyright (C) 2024 Colorado School of Mines
+# Copyright (C) 2026 Colorado School of Mines
 # 1500 Illinois St., Golden, CO 80401
 # Contact: Douglas Nychka,  douglasnychka@gmail.com,
 #
@@ -25,13 +25,24 @@
        extrap = FALSE, chull.mask = NA,
        nx = 80, ny = 80,
        xy = c(1,2),  verbose = FALSE,
-       XMatGrid=NULL, 
-       drop.XMat= FALSE, just.fixed=FALSE, 
+       XMatGrid=NULL, drop.XMat= FALSE, 
+       ZGrid = NULL, drop.Z = NULL, 
+      just.fixed=FALSE, 
        fast=FALSE, NNSize=4,
        setupObject=NULL, 
        giveWarnings=FALSE,
        derivative=0, ...) {
-#
+  #
+  # some temporary code to handle switch to XMat etc.
+  if( !is.null( ZGrid)| !is.null(drop.Z)){
+    if( !is.null( ZGrid)){ XMatGrid<- ZGrid}
+    if(!is.null( drop.Z)){drop.XMat<- drop.Z}
+    warning(" ZGrid,  drop.Z  as arguments 
+        have been changed to XMatGrid and drop.XMat to be more consistent
+        with a spatial model notation. 
+        In the future please use these instead. ")
+  }
+  #
       if( is.null(XMatGrid) & !drop.XMat & (!is.null(object$XMat)) ) {
       stop("Need to specify covariate (XMat) values or set drop.XMat==TRUE")
       }

@@ -46,10 +46,13 @@ mKrig(x, y, weights = rep(1, nrow(x)), XMat = NULL, XMatCommon =
                  NULL, lambda = NA, m = 2, chol.args = NULL, find.trA =
                  TRUE, NtrA = 20, iseed = NA, na.rm = FALSE,
                  collapseFixedEffect = TRUE, tau = NA, sigma2 = NA,
-                 verbose = FALSE, simpleKriging = FALSE, ...)
+                 verbose = FALSE, simpleKriging = FALSE, Z = NULL,
+                 ZCommon = NULL, ...)
 \method{predict}{mKrig}( object, xnew=NULL,ynew=NULL, grid.list = NULL,
 derivative=0,
-XMat=NULL,drop.XMat=FALSE,just.fixed=FALSE,
+XMat=NULL,drop.XMat=FALSE,
+ Z = NULL, drop.Z = NULL,
+                 just.fixed=FALSE,
 collapseFixedEffect = object$collapseFixedEffect, ...)
 
 \method{summary}{mKrig}(object, ...)
@@ -91,6 +94,7 @@ functions to reset the memory parameter nnzR.  (See example below.)}
 \item{drop.XMat}{If true the fixed part will only be evaluated at the
 polynomial part of the fixed model. The contribution from the other
 covariates will be omitted.}
+\item{drop.Z}{An older name for drop.XMat. If used a warning will be printed.}
 
 \item{find.trA}{
 If TRUE will estimate the effective degrees of freedom using 
@@ -163,6 +167,12 @@ the returned mKrig object.)}
   (i.e. y is a matrix). The number of rows of \code{XMatCommon} should be equal to
   the
   number of observations times the number of realizations. } 
+  
+\item{Z}{This argument  is depreciated and a warning will be printed. 
+Should use the new  argument name XMat. }
+
+\item{ZCommon}{This argument is depreciated and a warning will be printed. 
+Should use the new  argument name XMatCommon. }
 
 \item{\dots}{ In \code{mKrig} and \code{predict} additional arguments
 that will be passed to the covariance function.}

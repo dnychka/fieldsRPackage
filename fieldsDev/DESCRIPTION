@@ -1,6 +1,6 @@
 Package: fields
-Version: 17.3
-Date: 2026-01-06
+Version: 17.4
+Date: 2026-05-05
 Title: Tools for Spatial Data
 Authors@R: c( person("Douglas", "Nychka", role = c("aut", "cre"),
                email = "douglasnychka@gmail.com"),
@@ -33,7 +33,7 @@ Description: For curve, surface and function fitting with an emphasis
  an implementation of sparse matrix methods for large spatial data
  sets and currently requires the sparse matrix (spam) package. Use
  help(fields) to get started and for an overview. All graphics functions
- focus on using  base R grpahics.  The fields source
+ focus on using  base R graphics.  The fields source
  code is deliberately commented and provides useful explanations of
  numerical details as a companion to the manual pages. The commented
  source code can be viewed by expanding the source code version
@@ -50,7 +50,7 @@ Imports: maps
 Suggests: mapproj
 NeedsCompilation: yes
 Repository: CRAN
-Packaged: 2025-06-24; nychka
+Packaged: 2026-05-03; nychka
 Author: Douglas Nychka [aut, cre],
   Reinhard Furrer [aut],
   John Paige [aut],
