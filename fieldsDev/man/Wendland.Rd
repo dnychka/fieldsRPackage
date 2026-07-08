@@ -38,9 +38,9 @@
 numerical functions}
 
 \description{
- Computes the compactly supported, stationatry Wendland covariance
-function as a function ofdistance. This family is useful for creating
-sparse covariance matrices. 
+ Computes the stationary Wendland covariance
+function as a function of distance. This family is useful for creating
+sparse covariance matrices, since it is a compact kernel. 
 
 }
 
