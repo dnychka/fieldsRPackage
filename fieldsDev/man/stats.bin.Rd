@@ -42,7 +42,7 @@ Values to use to decide bin membership
 A vector of data
 }
 \item{N}{
-Number of bins. If the breaks is missing there are N bins equally spaced
+Number of bins. If breaks is missing there are N bins equally spaced
 on the range of x.
 }
 \item{breaks}{

@@ -45,7 +45,7 @@ The data was originally used by R. Franke.
 Unfortunately at this time we can not find any background on where
 these data were collected or indeed even the location of this glacier.
 However, it is an interesting data set in that it appears that
-the elevations are reported along lnes of equal elevation, i.e. 
+the elevations are reported along lines of equal elevation, i.e.
 contours, perhaps from a digitization of a
 topographic map or survey. It is important to estimate the
 surface in a way that the artifacts from discretization are not
@@ -147,7 +147,7 @@ for( k in 1:3){
 imagePlot(out$x, out$y, out$z[,,k], zlim=zlim)
 }
 
-% test out fast predict algorithm verses exact 
+% test out fast predict algorithm versus exact
 % note speedup of about 15 times 
 system.time(
 look2<- predictSurface.mKrig( obj2, nx=150, ny=150,

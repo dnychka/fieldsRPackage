@@ -36,9 +36,9 @@
 This is an implementation of the  frequentist spatial process  estimate known 
 as "Kriging" that is 
 optimized for large data sets, sparse linear algebra, and a clear exposition of the
-computations. Lambda, the smoothing parameter must be fixed. 
+computations. Lambda, the smoothing parameter, must be fixed. 
 This function is called by higher level functions for maximum likelihood estimates of 
-covariance paramters and so often serves to compute the objective function. 
+covariance parameters and so often serves to compute the objective function. 
 }
 \usage{
 mKrig(x, y, weights = rep(1, nrow(x)), XMat = NULL, XMatCommon =
@@ -106,13 +106,13 @@ If TRUE will estimate the effective degrees of freedom using
   arbitrary locations.}
 
 \item{iseed}{Random seed ( using \code{set.seed(iseed)}) used to generate 
-  iid normals for Monte Carlo estimate of the trace. Set this to an integer to insure the same random draws are used to compute the approximate trace and be consistent across different values of the covariance parameters. }
+  iid normals for Monte Carlo estimate of the trace. Set this to an integer to ensure the same random draws are used to compute the approximate trace and be consistent across different values of the covariance parameters. }
 
 \item{just.fixed}{If TRUE only the predictions for the fixed part of
   the model will be evaluted.}
   
 \item{lambda}{ Smoothing parameter or equivalently the ratio between 
-  the nugget and process varainces.}
+  the nugget and process variances.}
 
 \item{m}{ The degree of the polynomial used in the fixed part.
 This is follows the thin plate spline convention that the degree is m-1. 
@@ -120,7 +120,7 @@ Default is m=2 for a linear function, m=1 a constant and,
 as an quick logical switch, m=0 will result in no fixed part in the spatial model.
 }
 
-\item{na.rm}{If TRUE NAs in y are omitted along with corresonding rows of x.}
+\item{na.rm}{If TRUE NAs in y are omitted along with corresponding rows of x.}
 
 \item{NtrA}{Number of Monte Carlo samples for the trace. But if NtrA is 
   greater than or equal to the number of observations the trace 
@@ -134,9 +134,9 @@ as an quick logical switch, m=0 will result in no fixed part in the spatial mode
 \item{simpleKriging}{If TRUE there is no fixed linear part in the spatial model. 
 This is a more rational way than setting \code{m=0}. }
 
-\item{tau}{ Value of the measurment error (aka nugget)  standard deviation.}
+\item{tau}{ Value of the measurement error (aka nugget)  standard deviation.}
 
-\item{verbose}{If TRUE prints out intermediate values of objsects for debugging.}
+\item{verbose}{If TRUE prints out intermediate values of objects for debugging.}
 
 \item{weights}{Precision ( 1/variance) of each observation}
 
@@ -150,7 +150,7 @@ the returned mKrig object.)}
   vector of observations. If y is a matrix the columns are 
   assumed to be independent replicates of the spatial field.  I.e.
   observation vectors generated 
-  from the same covariance and measurment error model but 
+  from the same covariance and measurement error model but 
   independent from each other. 
 }
 
@@ -168,10 +168,10 @@ the returned mKrig object.)}
   the
   number of observations times the number of realizations. } 
   
-\item{Z}{This argument  is depreciated and a warning will be printed. 
+\item{Z}{This argument  is deprecated and a warning will be printed. 
 Should use the new  argument name XMat. }
 
-\item{ZCommon}{This argument is depreciated and a warning will be printed. 
+\item{ZCommon}{This argument is deprecated and a warning will be printed. 
 Should use the new  argument name XMatCommon. }
 
 \item{\dots}{ In \code{mKrig} and \code{predict} additional arguments
@@ -180,17 +180,17 @@ that will be passed to the covariance function.}
 }
 \details{
  This function is an abridged version of Krig and uses a more direct
- computation for the linear algebra that faciliates compactly supported
- covariance functions. The m stand for micro
-and 
+ computation for the linear algebra that facilitates compactly supported
+ covariance functions. The m stands for micro
+and is
 done for a fixed lambda parameter and other covariance parameters (e.g. aRange) and for unique spatial locations. 
 This is also the basic computational element of the top level \code{\link{spatialProcess} } function for finding MLEs. 
-See the source code for a commented version that described the computation.
-These restrictions simplify the code for reading. Note that also
+See the source code for a commented version that describes the computation.
+These restrictions simplify the code for reading. Note also that
 little checking is done and the spatial locations are not transformed
 before the estimation. 
 
-\strong{Repeated locations} To keep the coding simple \code{x} must be a set of unique locations. When there are multiple observations at a location -- also known as replicated locations -- one strategy is to use the average spatial value for this location in place of mulitple observations.  One can also adjust the weights accordingly  for this location if that makes sense. To do this use the function 
+\strong{Repeated locations} To keep the coding simple \code{x} must be a set of unique locations. When there are multiple observations at a location -- also known as replicated locations -- one strategy is to use the average spatial value for this location in place of multiple observations.  One can also adjust the weights accordingly  for this location if that makes sense. To do this use the function 
 \code{\link{Krig.replicates}}. 
 For example 
 
@@ -216,7 +216,7 @@ algebra this code has been written to handle multiple data
 sets. Specifically, if the spatial model is the same except for
 different observed values (the y's), one can pass \code{y} as a matrix
 and the computations are done efficiently for each set.
-The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also note the \code{collapseFixedEffects} switch to determine if the regression part is found seperately for each replicate or combined into a single model. Note that
+The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also note the \code{collapseFixedEffects} switch to determine if the regression part is found separately for each replicate or combined into a single model. Note that
 this is not a multivariate spatial model  -- just an efficient computation
 over several data vectors without explicit looping. A big difference in
 the computations is that an exact expression for the trace of the
@@ -253,9 +253,9 @@ algebra functions with sparse versions. But to take advantage of some
 additional options in the sparse methods the list argument chol.args
 is a device for changing some default values. The most important of
 these is \code{nnzR}, the number of nonzero elements anticipated in
-the Cholesky factorization of the postive definite linear system used
-to solve for the basis coefficients. The sparse of this system is
-essentially the same as the covariance matrix evalauted at the
+the Cholesky factorization of the positive definite linear system used
+to solve for the basis coefficients. The sparsity of this system is
+essentially the same as the covariance matrix evaluated at the
 observed locations.  As an example of resetting \code{nzR} to 450000
 one would use the following argument for chol.args in mKrig:
 
@@ -276,7 +276,7 @@ simply predicting a surface at the data location using the synthetic
 observation vector E. This is done for \code{NtrA} independent N(0,1)
 vectors and the mean and standard deviation are reported in the
 \code{mKrig} summary.  Typically as the number of observations is
-increased this estimate becomse more accurate. If NtrA is as large as
+increased this estimate becomes more accurate. If NtrA is as large as
 the number of observations (\code{np}) then the algorithm switches to
 finding the trace exactly based on applying A to \code{np} unit
 vectors.
@@ -287,7 +287,7 @@ vectors.
  and log likelihoods.}
 
   \item{beta}{Coefficients of the polynomial fixed part and if present
-  the covariates (XMat).To determine which is which the logical vector
+  the covariates (XMat). To determine which is which the logical vector
   ind.drift also part of this object is TRUE for the polynomial
   part. }
 
@@ -301,7 +301,7 @@ vectors.
 
    \item{ind.drift}{Logical vector that indicates polynomial
    coefficients in the \code{d} coefficients vector. This is helpful
-   to distguish between polynomial part and the extra covariates
+   to distinguish between polynomial part and the extra covariates
    coefficients associated with XMat. }
  
  \item{lambda.fixed}{The fixed lambda value}
@@ -340,10 +340,10 @@ recompute the estimate for new observation vectors.}
  \item{eff.df}{Estimate of effective degrees of freedom. Either the
 mean of the Monte Carlo sample or the exact value. }
 
- \item{trA.info}{If NtrA ids less than \code{np} then the individual
+ \item{trA.info}{If NtrA is less than \code{np} then the individual
 members of the Monte Carlo sample and \code{sd(trA.info)/ sqrt(NtrA)}
 is an estimate of the standard error. If NtrA is greater than or equal
-to \code{np} then these are the diagonal elements of A(lamdba).}
+to \code{np} then these are the diagonal elements of A(lambda).}
 
  \item{GCV}{Estimated value of the GCV function.}
 

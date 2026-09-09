@@ -54,20 +54,20 @@ for each group.
 \item{at}{Same as \code{pos} this is the name for this argument in the standard \code{boxplot} function.}
 
 \item{add}{
-   If true, do not create a new plots just add the boxplots to a current
+   If true, do not create a new plot just add the boxplots to a current
    plot. Note that the pos argument may be useful in this case and should 
    be in the user coordinates of the parent plot.}
 \item{boxwex}{A boxplot argument to control the width of the boxplot.
-It behaves a little different than as an argumetn passed directly to \code{boxplot}.
-To make this a general function it is useful to scale this according to size of positions. Within bplot this happens as \code{boxwex<- boxwex* min(diff( sort( at)))}.
+It behaves a little differently than as an argument passed directly to \code{boxplot}.
+To make this a general function it is useful to scale this according to size of positions. Within bplot this happens as \code{boxwex<- boxwex* min(diff( sort( at)))}
 and then the scaled version of \code{boxwex} is now passed to \code{boxplot}.}
 \item{xlim}{ Same as the usual argument used in plotting. The plotting limits for the 
 x axis. }
 \item{\dots}{
-Other arguments to be passed to the boxplot function some handy favorites are:
+Other arguments to be passed to the boxplot function; some handy favorites are:
 \code{names}
   Labels for each boxplot.
-\code{horizontal}If TRUE draw boxplots horizontally the default is false, produce
+\code{horizontal}If TRUE draw boxplots horizontally. The default is false, producing
     vertical box plots.
 \code{lwd}Width(s) of lines in box plots. 
 \code{col}Color(s) of bplots. See \code{colors()} for some choices.}   

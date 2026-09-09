@@ -45,10 +45,10 @@ The y values that are paired with the x's.
 The grid to evaluate the fitted cubic interpolating curve. 
 }
 \item{derivative}{
-Indicates whether the function or a a first or second derivative 
-should be evaluated. 
+Indicates whether the function or a first or second derivative
+should be evaluated.
 }
-\item{wt}{Weights for different obsrevations in the scale of reciprocal 
+\item{wt}{Weights for different observations in the scale of reciprocal
 variance.}
 \item{lam}{ Value for smoothing parameter. Default value is zero giving 
 interpolation.}
@@ -58,19 +58,19 @@ df equal to the number of observations.}
 \item{nx}{If not NULL this should be the number of points
 to evaluate on an equally spaced grid in the
 range of \code{x}}
-\item{digits}{Number of significant digits uused to determine what is a replicate x value.}
+\item{digits}{Number of significant digits used to determine what is a replicate x value.}
 
 }
 \value{
 A vector consisting of the spline evaluated at the grid values in \code{xgrid}. 
 }
 \details{
-Fits a piecewise interpolating or smoothing cubic 
-polynomial to the x and y values. 
-This code is designed to be fast but does not many options in  
-\code{sreg} or other more statistical implementations.  
-To make the solution well posed the
-the second and third derivatives are set to zero at the limits of the  x 
+Fits a piecewise interpolating or smoothing cubic
+polynomial to the x and y values.
+This code is designed to be fast but does not have many options in
+\code{sreg} or other more statistical implementations.
+To make the solution well posed
+the second and third derivatives are set to zero at the limits of the  x
 values. Extrapolation outside the range of the x 
 values will be a linear function. 
 
@@ -79,7 +79,7 @@ predict if you do have replicated data.
 
 }
 \section{References}{
-See Additive Models by Hastie and Tibshriani. 
+See Additive Models by Hastie and Tibshirani.
 }
 \seealso{
 sreg,  Tps  

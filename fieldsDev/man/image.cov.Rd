@@ -34,7 +34,7 @@ gridded locations.
 }
 \description{
 Given two sets of locations defined on a 2-d grid efficiently multiplies a 
-cross covariance with a vector. The intermediate compuations (the setup)
+cross covariance with a vector. The intermediate computations (the setup)
 can also be used for fast simulation of the processes on a grid using the circulant
 embedding technique. 
 }
@@ -59,7 +59,7 @@ wendland.image.cov(ind1, ind2, Y, cov.obj = NULL,
 }
 \arguments{
 \item{ind1}{
-Matrix of indices for first set of locations this is a two column matrix
+Matrix of indices for first set of locations. This is a two column matrix
 where each row is the row/column index of the image element. If missing
 the default is to use all grid locations.
 }
@@ -95,8 +95,8 @@ This is only required if setup is true.
 \item{gridList}{Same as grid above.}
 
 \item{M}{
-For \code{stationaryImageCov} a vector of two integers that are the desired size for the larger grid to 
-to facilitate the computation. If NULL then this is chosen to be at least twice the grid size and 
+For \code{stationaryImageCov} a vector of two integers that are the desired size for the larger grid to
+facilitate the computation. If NULL then this is chosen to be at least twice the grid size and
 powers of 2 and 3. 
 
 For \code{stationary.image.cov}
@@ -131,14 +131,14 @@ the vector Y.
 }
 \details{
 This function was provided to do fast computations for large numbers of
-spatial locations. In doing so the observations can be irregular spaced
+spatial locations. In doing so the observations can be irregularly spaced
 but their coordinates must be 2-dimensional and be restricted to grid
 points.
 (The function as.image will take irregular, continuous coordinates and
 overlay a grid on them.) 
 
 Returned value: If ind1 and ind2 are matrices where nrow(ind1)=m and
-nrow(ind2)=n then the cross covariance matrix, Sigma, is an mXn matrix
+nrow(ind2)=n then the cross covariance matrix, Sigma, is an mXn matrix whose
 (i,j) element is the covariance between the grid locations indexed at
 ind1[i,] and ind2[j,]. The returned result is Sigma multiplied by Y. Note that
 one can
@@ -149,7 +149,7 @@ the coordinates associated with ind1.
 Clearly it is better just to work
 with ind1!
   
-Functional Form: Following the same form as Exp.cov stationary.cov for 
+Functional Form: Following the same form as Exp.cov and stationary.cov for
 irregular locations, the covariance is defined as phi( D.ij) where D.ij is
 the Euclidean distance between x1[i,] and x2[j,] but having first been
 scaled by aRange. Specifically,
@@ -167,10 +167,10 @@ padding with zeroes and once that multiplication is done only the
 appropriate subset is returned. 
 
 \strong{NOTE:}
-\code{stationary.imageCov} is the current version and should be used in stead of the older 
+\code{stationary.imageCov} is the current version and should be used instead of the older
 \code{stationary.image.cov}
 
-As an example assume that the grid is 100X100 let big.Sigma denote the big
+As an example assume that the grid is 100X100, let big.Sigma denote the big
 covariance matrix among all grid points ( If the parent grid is 100x100
 then big.Sigma is 10K by 10K !) Here are the algorithmic steps:
 
@@ -185,13 +185,13 @@ temp2[ind1]
 Here the matrix multiplication is effected through  fast convolution/FFT 
 exploiting stationarity 
 and avoids creating and multiplying big.Sigma explicitly. It is often faster
-to multiply the regular grid and throw away the parts we do not need then
+to multiply the regular grid and throw away the parts we do not need than
 to deal directly with the irregular set of locations.
 
-Note: In this entire discussion Y is treated as vector. However if
-one has complete data then Y can also be interpreted as a image matrix
+Note: In this entire discussion Y is treated as a vector. However if
+one has complete data then Y can also be interpreted as an image matrix
 conformed to correspond to spatial locations. See the last example for
-this distinction. 
+this distinction.
   
 }
 \seealso{

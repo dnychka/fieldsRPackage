@@ -46,7 +46,7 @@ constant levels for the variables that are not being
 varied.  This format is used in several places in fields
 for functions that evaluate function estimates and plot
 surfaces. These functions provide some default conversions
-among information and the gird.list. The function 
+among information and the grid.list. The function
 \code{discretize.image} is a useful tool for "registering"
 irregular 2-d points to a grid. 
 }
@@ -63,7 +63,7 @@ make.surface.grid( grid.list)
 unrollXMatGrid( grid.list, XMatGrid)
 }
 \arguments{
-\item{M}{An vector of integers.}
+\item{M}{A vector of integers.}
 \item{grid.list}{ No surprises here -- a grid list! These can be unequally 
 spaced.}
 \item{order.variables}{ If "xy" the x variable will be subsequently plotted
@@ -97,16 +97,16 @@ If XMatGrid is an array then the first two indices are the x and y
 grid. The third index, if present, indexes the covariates. e.g. For
  evaluation on 
 a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.
-If XMatGrid is a list then the components x and y shold match those of
+If XMatGrid is a list then the components x and y should match those of
  grid.list and
-the z component follows the shape described above for the no list 
-case. 
+the z component follows the shape described above for the non-list
+case.
 }
 }
 \details{
-\code{makeMultiIndex} creates an expanded set of indices to referencce a
+\code{makeMultiIndex} creates an expanded set of indices to reference a
 regular grid. M are  L integers with product prodM
- Will create a  prodM by L matrix that is all combinations of (1:M[i]) for i =1,2, ...L
+ This will create a  prodM by L matrix that is all combinations of (1:M[i]) for i =1,2, ...L
 This is organized in the standard array ordering where the first
 column varies the fastest for M = c( 3,2,4) the result will be a 24X3 matrix
 with the entries:
@@ -132,14 +132,14 @@ The form of a grid.list is
 \code{list( var.name1= what1  , var.name2=what2 , ... var.nameN=what3)}
 
 Here var.names are the names of the independent variables. 
-The what options describe what should be done with this variable when  
-generating the grid. These should either an increasing sequence of points
-or a single vaules. Obviously there should be only be two variables with 
+The what options describe what should be done with this variable when
+generating the grid. These should either be an increasing sequence of points
+or a single value. Obviously there should only be two variables with
 sequences to define a grid for a surface.
 
-Most of time the gridding  sequences  are equally  
+Most of the time the gridding  sequences  are equally
 spaced and are easily generated using the \code{seq} function. Also throughout fields
-the grid points are typically the midpoints of the grid rather the grid box
+the grid points are typically the midpoints of the grid rather than the grid box
 boundaries. However, these functions can handle unequally spaced grids and the
 logical boundary.grid can indicate a grid being the box boundaries. 
 
@@ -149,7 +149,7 @@ to be in the same order as they appear in the data matrix.
 A useful function that expands the grid from the grid.list description into 
 a full set of locations is \code{make.surface.grid} and  is 
 just a wrapper around the R base function \code{expand.grid}. A typical operation is to go from a grid.list to the set of grid locations. Evaluate a
-fucntion at these lcoations and then reformat this as an image for plotting. 
+function at these locations and then reformat this as an image for plotting.
 Here is how to do this cleanly:
 \preformatted{
 grid.list<- list( x= 1:10, y=1:15)
@@ -169,7 +169,7 @@ Some fields internal functions that support interpreting grid list format are:
 \code{fields.x.to.grid}: 
  Takes an "x" matrix of locations or independent variables and creates a
 reasonable grid list. This is used to evaluate predicted surfaces when a
-grid list is not explicited given to predictSurface. The variables
+grid list is not explicitly given to predictSurface. The variables
 (i.e. columns of x) that are not part of the grid are set to the median
 values.  The x grid values are \code{nx} equally spaced points in the
 range \code{x[, xy[1]]}. The y grid values are \code{ny} equally spaced
@@ -192,13 +192,13 @@ grid values.
 figures out to which boxes they belong. The output matrix ind has the
 grid locations. If boundary.grid is FALSE then the grid list (grid) is
 assumed to be grid midpoints. The grid boundaries are taken to be the
-point half way between these midpoints. The first and last boundaries
+point half way between these midpoints. The first and last boundary
 points are determined by extrapolating so that the first and last box
 has the midpoint in its center. (See the code in fields.convert.grid for
 details.) If grid is NULL then midpoints are found from m and n and the
 range of the x matrix. 
 
-\code{unrollXMatGrid} Checks that the XMatGrid object is compatible with th e grid.list and concatenates the grid arrays into vectors. This version of the covariates are used the usual predict function. 
+\code{unrollXMatGrid} Checks that the XMatGrid object is compatible with the grid.list and concatenates the grid arrays into vectors. This version of the covariates is used by the usual predict function.
 
 }
 

@@ -23,6 +23,7 @@
 
 
 bplot <- function(x, by, pos = NULL, at = pos, add = FALSE, 
+      axes = !add, # default is don't add axes if adding to plot
     boxwex = 0.8, xlim = NULL, ...) {
     if (!missing(by)) {
         x <- split(c(x), as.factor(by))
@@ -33,13 +34,27 @@ bplot <- function(x, by, pos = NULL, at = pos, add = FALSE,
     if (!is.null(at)) {
         boxwex <- boxwex * min(diff(sort(at)))
     }
-    boxplot(x, at = at, xlim = xlim, add = add, boxwex = boxwex, 
+    if( add){
+    boxplot(x, at = at,
+            boxwex = boxwex,
+            add= add,
+            axes=FALSE,
         ...)
+    }
+    else
+    {
+      boxplot(x, at = at,
+              xlim = xlim, 
+              add = add, 
+              boxwex = boxwex,
+              axes= axes,
+              ...)
+      }
     
 }
 
 bplot.xy<- function (x, y, N = 10, breaks = NULL, 
-                        plot = TRUE,axes=TRUE,  ...) 
+                        plot = TRUE,  add=FALSE, axes=TRUE,  ...) 
 {
     if(is.null(breaks)){
       breaks<- pretty(x, N, eps.correct = 1)
@@ -52,15 +67,21 @@ bplot.xy<- function (x, y, N = 10, breaks = NULL,
         stop("No points within breaks")
     }
     if (plot) {
-        bplot(obj, at = centers, show.names = FALSE, axes = axes, 
-              ...)
+       
+        bplot(obj, at = centers, show.names = FALSE,
+              add=add, ...)
         if( axes){ 
             axis(1)
         }
     }
     else {
-        return(list(centers = centers, breaks = breaks, boxplot.obj = boxplot(obj, 
-                                                                              plot = FALSE)))
+        return(
+          list(
+                   centers = centers,
+                    breaks = breaks, 
+               boxplot.obj = boxplot(obj,plot = FALSE)
+               )
+          )
     }
 }
 

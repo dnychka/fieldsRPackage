@@ -32,7 +32,7 @@ fields - graphics hints
 \description{
  Here are some technical hints for assembling multiple plots with common
 legends or axes and setting the graphics parameters to make more
-readable figures. Also we an index to the defaultcolors in R graphics
+readable figures. Also we provide an index to the default colors in R graphics
 and setting their definitions in LaTeX.
 All these hints use the standard graphics environment. 
 }

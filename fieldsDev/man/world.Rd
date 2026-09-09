@@ -28,7 +28,7 @@
 \alias{world.land}
 \title{Plot of the world}
 \description{
-Plots quickly, medium resolution outlines of large land masses. This
+Plots quick, medium resolution outlines of large land masses. This
 is a simple wrapper for the map function from the maps package. 
 }
 \usage{
@@ -45,7 +45,7 @@ maps package.}
 \details{
 See the longstanding \code{maps} package for documentation on this
 function.  The functions world.land, world.color and in.land.grid have
-been depreciated but can be recovered from versions of fields 6.7.1 or
+been deprecated but can be recovered from versions of fields 6.7.1 or
 older.
  }
 \seealso{US, in.poly, in.poly.grid}

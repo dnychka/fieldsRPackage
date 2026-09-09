@@ -78,17 +78,17 @@ type of "unscaled" does not scale the data.
 }
 \item{aRange}{The tapering range that is passed to the Wendland compactly 
 supported covariance. The covariance (i.e. the radial basis function) is 
-zero beyond range aRange. The larger aRange the closer this model will
+zero beyond range aRange. The larger aRange, the closer this model will
 approximate the standard thin plate spline.}
 
-\item{lon.lat}{If TRUE locations are interpreted as lognitude and
+\item{lon.lat}{If TRUE locations are interpreted as longitude and
 latitude and great circle distance is used to find distances among
 locations. The aRange scale parameter for \code{fast.Tps} (setting the
 compact support of the Wendland function) in this case is in units of
 miles (see example and caution below). }
  
  \item{method}{ Determines what "smoothing" parameter should be
-     used. The default is to estimate standard GCV Other choices are:
+     used. The default is to estimate standard GCV. Other choices are:
      GCV.model, GCV.one, RMSE, pure error and REML. The differences
      are explained in the Krig help file.}
      
@@ -104,7 +104,7 @@ distances are in kilometers}
 using a simple Monte Carlo method (random trace). This will add to the
 computational burden by approximately \code{NtrA} solutions of the
 linear system but
-the cholesky decomposition is reused.}
+the Cholesky decomposition is reused.}
 
 \item{REML}{If TRUE find the MLE for lambda using restricted maximum likelihood instead of the full version. }
 
@@ -114,7 +114,7 @@ the cholesky decomposition is reused.}
 \code{Krig} function. Some of the main ones are listed below.
 
 For \code{fastTps} any argument that is suitable for the \code{mKrig}
-function see help on mKrig for these choices. The most common would be
+function; see help on mKrig for these choices. The most common would be
 \code{lambda} fixing the value of this parameter (tau^2/sigma^2), \code{XMat} linear covariates or 
 \code{ mKrig.args= list( m=1)} setting the regression model to be just a constant function.
 
@@ -130,7 +130,7 @@ Arguments for Tps:
 
   \item{df}{ The effective number of parameters for the fitted
     surface. Conversely, N- df, where N is the total number of
-    observations is the degrees of freedom associated with the
+    observations, is the degrees of freedom associated with the
     residuals.  This is an alternative to specifying lambda and much
     more interpretable.}
 
@@ -147,7 +147,7 @@ Arguments for Tps:
   \item{x.center}{ Centering values are subtracted from each column of
      the x matrix.  Must have scale.type="user".}
 
-  \item{x.scale}{ Scale values that divided into each column after
+  \item{x.scale}{ Scale values that are divided into each column after
     centering.  Must have scale.type="user".}
 
   \item{sigma}{Scale factor for covariance. }
@@ -196,9 +196,9 @@ arguments.
 
 \strong{Overview}
 
-This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba. The computational algorithm is based around a QR decomposition followed by an eigen decomposition on a reduced matrix derived from the spline radial basis functions. This insures a stable computation -- basically bombproof -- but is not the fastest. See the function \link{mKrig} and examples for fitting a thin plate spline using \link{spatialProcess} that uses a different linear algebra approach. This is implemented in the "fast" version albeit approximate version to exploit sparse matrices. 
+This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba. The computational algorithm is based around a QR decomposition followed by an eigen decomposition on a reduced matrix derived from the spline radial basis functions. This ensures a stable computation -- basically bombproof -- but is not the fastest. See the function \link{mKrig} and examples for fitting a thin plate spline using \link{spatialProcess} that uses a different linear algebra approach. This is implemented in the "fast" version, albeit an approximate version, to exploit sparse matrices.
 
-This function also works for just a single dimension and reproduces the well known cubic smoothing spline for \code{ m ==2} Finally we note that a thin plate spline is a limiting case of a Gaussian process estimate as the range parameter in the Matern family increases to infinity. 
+This function also works for just a single dimension and reproduces the well-known cubic smoothing spline for \code{ m ==2}. Finally we note that a thin plate spline is a limiting case of a Gaussian process estimate as the range parameter in the Matern family increases to infinity.
 (Kriging). 
 
 A "fast" version of this function uses a compactly supported Wendland covariance and sparse linear algebra for handling larger datta sets. Although a good approximation to Tps for sufficiently large aRange its actual form is very different from the textbook thin-plate definition. The user will see that \code{fastTps} is largely a wrapper for a call to \code{spatialProcess} with the Wendland covariance function. 
@@ -212,7 +212,7 @@ dimension and m=2 the roughness penalty is the integrated square of
 the second derivative of the function. For two dimensions the 
 roughness penalty is the integral of  
 
-        (Dxx(f))**22 + 2(Dxy(f))**2 + (Dyy(f))**22 
+        (Dxx(f))**2 + 2(Dxy(f))**2 + (Dyy(f))**2
 
 (where Duv denotes the second partial derivative with respect to u 
 and v.) Besides controlling the order of the derivatives, the value of 
@@ -239,9 +239,9 @@ valid covariance from the Matern family and a large range parameter.
 \strong{Using a great circle distance function}
  The option to use great circle distance
  to define the radial basis functions (\code{lon.lat=TRUE}) is very useful
- for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains the spherical distortion be large enough that the radial basis functions no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
-dimensional thin plate spline with the locations being the direction cosines. This will 
-give approximate great circle distances for locations that are close and also the numerical methods will always have a positive definite matrices. There are other radial basis functions that are specific to a spherical geometry but these are not implemented in fields. 
+ for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains the spherical distortion can be large enough that the radial basis functions no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
+dimensional thin plate spline with the locations being the direction cosines. This will
+give approximate great circle distances for locations that are close and also the numerical methods will always have positive definite matrices. There are other radial basis functions that are specific to a spherical geometry but these are not implemented in fields.
 
 Here is an example using this idea for \code{RMprecip} and also some 
 examples of building grids and evaluating the Tps results on them:
@@ -269,13 +269,13 @@ The function \code{fastTps} is really a convenient wrapper function that
 calls \code{spatialProcess} with a suitable Wendland covariance 
 function. This means one can use all the additional functions for
 prediction and simulation built for the \code{spatialProcess} and
-\code{mKrig} objects.  Some care needs to exercised in specifying
+\code{mKrig} objects.  Some care needs to be exercised in specifying
 the support \code{aRange} -- a Goldilocks problem -- where aRange
 is large enough so that every location has a reasonable number
 (say 10 or more ) of neighboring locations that have non-zero
 covariances but also the number of neighbors is not so large that
-the sparsity of the covariance matrix is compromised. 
-To figure out the neighborhood pattern are the spatial locations one can use the function \code{nearest.dist}, sparse matrix format,  and \code{table} function. 
+the sparsity of the covariance matrix is compromised.
+To figure out the neighborhood pattern of the spatial locations one can use the function \code{nearest.dist}, sparse matrix format,  and \code{table} function.
 \preformatted{
 set.seed(222)
 s<- cbind( runif(1e4),runif(1e4))
@@ -284,7 +284,7 @@ look<- spam2spind(look)
 
 stats( table( look$ind[,1]))
 }
-Here one has asummary of the number of nearest neighbors within a 
+Here one has a summary of the number of nearest neighbors within a
 distance of .03 for these (randomly generated) locations.
 I see a minimum of 7 for at least one location so aRange should be larger than .03. Trial and error with different deltas can lead to a better choice.  
 

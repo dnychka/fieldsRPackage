@@ -1,10 +1,10 @@
 
-Tps.cov<-function (x1, x2 = NULL, cardinalX, m=2,
+Tps.cov<-function (x1, x2 = NULL, cardinalX, mDegree=2,
                    C = NA, aRange=NA,
                    marginal = FALSE
           ) 
 {
-  
+  m<- mDegree
   if (is.null(x2) ) {
     x2 <- x1
    }

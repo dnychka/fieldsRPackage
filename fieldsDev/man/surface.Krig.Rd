@@ -52,7 +52,7 @@ A Krig object or an mKrig object.
 A list with as many components as variables describing the surface. 
 All components should have a single value except the two that give the 
 grid points for evaluation. If the matrix or data frame has column names,  
-these must appear in the grid list. If grid.list is missing an the
+these must appear in the grid list. If grid.list is missing and the
 surface has just two dimensions the grid is based on the ranges of the
 observed data.
  
@@ -102,7 +102,7 @@ for checking the fitted surface. The default of extrap=F is designed to
 discourage looking at the estimated surface outside the range of
 the observations.  
 
-NOTE: that any XMat covariates will b edropped and only the spatial part of
+NOTE: that any XMat covariates will be dropped and only the spatial part of
 the model will be evaluated. 
 
 }

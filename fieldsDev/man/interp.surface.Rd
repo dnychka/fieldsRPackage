@@ -48,24 +48,24 @@ odd number of grid points.
 }
 \item{loc}{
 A matrix of (irregular) locations to interpolate. First column of loc
-isthe X coordinates and second is the Y's. 
+is the X coordinates and second is the Y's. 
 }
 \item{grid.list}{ A list with components x and y 
 describing the grid to interpolate. The grids do not need to be equally spaced.}
 
 \item{gridList}{Just a newer name for a grid list object.}
 
-\item{M}{ A muliple of the source grid to interpolate to create the target grid. E.g. if M=5 then a 10X20 source grid in \code{obj}
+\item{M}{ A multiple of the source grid to interpolate to create the target grid. E.g. if M=5 then a 10X20 source grid in \code{obj}
 will give an interpolated grid of (10*5)X(20*5).
 See the \code{fillGrid} function that creates the larger grid.}
 
 }
 \value{
- \strong{ interp.surface} An vector of interpolated values.  NA are returned for
+ \strong{ interp.surface} A vector of interpolated values.  NA are returned for
 regions of the  z matrix  that are NA and also for locations outside of the
 range of the parent grid. 
 
-\strong{ interp.surface.grid} Interpolated values using bilinear interpolation in the  list/image format  with comonents: \code{x}, \code{y}, \code{z}.
+\strong{ interp.surface.grid} Interpolated values using bilinear interpolation in the  list/image format  with components: \code{x}, \code{y}, \code{z}.
 
 \strong{ interp.surface.FFT} Interpolated values using the FFT method in an image format with the grid refined by the factor \code{M}.
 
@@ -74,7 +74,7 @@ range of the parent grid.
 
 \strong{ interp.surface} Here is a brief explanation of
 the interpolation:  Suppose that the location, (locx, locy)  lies in
-between the first two grid points in both x an y. That is  locx is between
+between the first two grid points in both x and y. That is  locx is between
 x1 and x2 and
 locy is between y1 and y2.  Let ex= (l1-x1)/(x2-x1) ey= (l2-y1)/(y2-y1).
 The
@@ -85,14 +85,14 @@ interpolant is
 Where the z's are the corresponding elements of the Z matrix. 
 
 Note that bilinear interpolation can produce some artifacts related to
-the grid and not reproduce higher behavior in the surface. For, example
+the grid and not reproduce higher behavior in the surface. For example,
 the extrema of the interpolated surface will always be at the parent
-grid locations.  There is nothing special about about interpolating to
+grid locations.  There is nothing special about interpolating to
 another grid, this function just includes a \code{for} loop over one
 dimension and a call to the function for irregular locations. It was
-included in fields for convenience. since the grid format is so common. 
+included in fields for convenience, since the grid format is so common. 
 
-See also the akima package for fast interpolation from irrgeular locations. 
+See also the akima package for fast interpolation from irregular locations. 
 Many thanks to  Jean-Olivier Irisson for making this code more efficient and 
 concise. 
 
@@ -100,12 +100,12 @@ concise.
 /cosine basis and the FFT. This method only makes sense for interpolating to a
 target grid that is a refinement of the source grid. E.g. if M=5 then a 10X20
 source grid in \code{obj}
-will give an interpolated grid of (10*5)X(20*5) = 50X200. endpoints of this grid match the endpoints of the source.
+will give an interpolated grid of (10*5)X(20*5) = 50X200. The endpoints of this grid match the endpoints of the source.
 
 Note the FFT interpolation is
 "C infinity " accurate which means in practice that this method will do well for
-smooth fields. Sharp changes will induce the usual Gibbs oscillations around large
-the changes. The interpolation is also peridic in both dimensions ( a torus) and so might give strange results for non-periodic fields. Pad the edges to mitigate this artifact. 
+smooth fields. Sharp changes will induce the usual Gibbs oscillations around the large
+changes. The interpolation is also periodic in both dimensions ( a torus) and so might give strange results for non-periodic fields. Pad the edges to mitigate this artifact. 
 
 The algorithm in brief is 
 1) FFT of the source image/matrix. 

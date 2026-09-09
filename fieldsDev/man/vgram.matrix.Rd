@@ -44,7 +44,7 @@ distance or a list in image format with components x, y and z.
 }
 \item{R}{
 Maximum radius for finding variogram differences assuming that the grid
-points are spaced one unit a part. Default is go out to a 
+points are spaced one unit apart. Default is to go out to a
 radius of \code{5*max( c(dx, dy) )}.  
 }
 
@@ -69,14 +69,14 @@ the differences,
 and vgram, the variogram values. This is the traditional variogram 
 ignoring direction.  
 
-d.full, a vector of distances for all possible shifts up distance R, 
+d.full, a vector of distances for all possible shifts up to distance R,
  ind, a two column matrix giving the x and y increment used to compute
 the shifts,  and vgram.full, the variogram at each of these 
 separations. Also computed is vgram.robust, Cressie's version of a robust 
 variogram statistic.
 
-Also returned is the component N the number of differences found for each 
-separation csae. 
+Also returned is the component N the number of differences found for each
+separation case.
 
 }
 

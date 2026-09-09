@@ -70,7 +70,7 @@ FALSE -- of course.
 These additional arguments passed to the predictSE function.
 }
 \item{XMat}{Additional matrix of spatial covariates used for prediction. These are used to 
-determine the additional covariance contributed in teh fixed part of the model.}
+determine the additional covariance contributed in the fixed part of the model.}
 
 }
 
@@ -84,7 +84,7 @@ variance is the same as the expected value of (P(x) + XMat(X) - LY)**2.
 where 
 P(x)+XMat(x) is the value of the surface at x and LY is the linear 
 combination that estimates this point. Finding this expected value is 
-straight forward given the unbiasedness of LY for P(x) and the covariance 
+straightforward given the unbiasedness of LY for P(x) and the covariance 
 for XMat and Y. 
 
 In these calculations it is assumed that the covariance parameters are fixed.
@@ -95,14 +95,14 @@ conditional mean of the field given the data. This function finds the
 conditional standard deviations (or full covariance matrix) of the 
 fields given the data.  
 
- There are two useful extensions supported by this function.  Adding the 
+ There are two useful extensions supported by this function: adding the 
 variance to the estimate of the spatial mean if this is a correlation 
-model. (See help file for Krig) and calculating the variances under 
+model (see help file for Krig), and calculating the variances under 
 covariance misspecification.  The function \code{predictSE.KrigA} uses 
 the smoother matrix ( A(lambda) ) to find the standard errors or 
 covariances directly from the linear combination of the spatial 
 predictor. Currently this is also the calculation in 
-\code{predictSE.Krig} although a shortcut is used 
+\code{predictSE.Krig} although a shortcut is used in 
 \code{predictSE.mKrig} for mKrig objects.
 
 }

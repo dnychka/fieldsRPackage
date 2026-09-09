@@ -69,9 +69,9 @@ x2)=n then the returned matrix will be mXn.
 Surprisingly the distance matrix is computed efficiently in R by dot products of the
 direction cosines. This is the calculation in \code{rdist.earth}. Thanks to Qing Yang for pointing this out a long time 
 ago.  A more efficient version has been implemented in C with the
-R function \code{RdistEarth} by Florian Gerber who has also experimented with parallel versions of fields functions. 
-The main advantage of \code{RdistEarth} is the largely reduce memory usage.
-The speed seems simillar to \code{rdist.earth}. As Florian writes:
+R function \code{RdistEarth} by Florian Gerber who has also experimented with parallel versions of fields functions.
+The main advantage of \code{RdistEarth} is the largely reduced memory usage.
+The speed seems similar to \code{rdist.earth}. As Florian writes:
 
 "The current fields::rdist.earth() is surprisingly fast. In the case where only the argument 'x1' is specified, the new C implementation is faster. In the case where 'x1' and 'x2' are given, fields::rdist.earth() is a bit faster. This might be because fields::rdist.earth() does not check its input arguments and uses a less complicated (probably numerically less stable) formula."
 

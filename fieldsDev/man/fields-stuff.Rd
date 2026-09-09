@@ -51,7 +51,7 @@ fields.evlpoly2( x, coef, ptab)
 \item{mat}{Arbitrary matrix for examining rows}
 
 \item{digits}{Number of significant digits to use for comparing
-elements to determine duplciate values. }
+elements to determine duplicate values. }
 
 \item{x}{Arbitrary matrix where rows are components of a
 multidimensional vector}
@@ -63,11 +63,11 @@ multidimensional vector}
 
 \item{coef}{Polynomial coefficients.}
 
-\item{ptab}{Table of powers of different polnomial terms.}
+\item{ptab}{Table of powers of different polynomial terms.}
 
-\item{tag}{ \code{mkpoly} fills in as columns names the higher order
+\item{tag}{ \code{mkpoly} fills in as column names the higher order
 terms of the polynomial terms. The tag is the  text string prefix for
-thes column names and the powers of the individual variables are
+these column names and the powers of the individual variables are
 appended. Default is just "terms".}
 
 }
@@ -75,16 +75,16 @@ appended. Default is just "terms".}
 \details{
 
 \code{fields.duplicated} finds duplicate rows in a matrix.  The digits
-arguments is the number of digits that are considered in the
-comparison. 
+argument is the number of digits that are considered in the
+comparison.
 The returned value is an array of integers from 1:M where M is the
 number of unique rows and duplicate rows are referenced in the same
 order that they appear as the rows of \code{mat}. 
 
 \code{fields.mkpoly}  computes the complete matrix of all monomial
-terms up to degree (m-1). Each row of \code{x} is are the componets of
+terms up to degree (m-1). Each row of \code{x} is the components of
 a vector.  (The fields function mkpoly returns the number of these
-terms.) In 2 dimensions with m=3 there   6 polynomial terms  up to
+terms.) In 2 dimensions with m=3 there are  6 polynomial terms  up to
 quadratic ( 3-1 =2) order and will be returned as the matrix:
 
 cbind(  1 , x[,1], x[,2], x[,1]**2, x[,1]*x[,2], x[,2]**2  )
@@ -108,27 +108,27 @@ object.
 [6,]    0    2
 }
 
-This information is used in finding derivatives of the polynomial is also used
-to create column names  for the terms that are of higher order than linear. 
+This information is used in finding derivatives of the polynomial and is also used
+to create column names  for the terms that are of higher order than linear.
 
 \code{fields.deriviative.poly} finds the partial derivative matrix of
 a multidimensional polynomial of degree (m-1) at different vector
 values and with coefficients \code{dcoef}. 
-This function has been orgainzed to be a clean utility for the
+This function has been organized to be a clean utility for
 predicting the derivative of the estimated function from Krig or
-mKrig. 
+mKrig.
 Within the fields context
 the polynomial itself would be evaluated as 
      fields.mkpoly( x,m)\%*\%dcoef.
 If x has  d columns ( also the dimension of the polynomial) and n rows
 the partial derivatives of this polynomial at the locations x can be
-organized in a nXd matrix.  This is the object returned by ths
-function.   
+organized in a nXd matrix.  This is the object returned by this
+function.
 
 \code{evlpoly} and \code{evlpoly2} are FORTRAN based functions for 
 evaluating univariate polynomials and multivariate polynomials.  The
 table of powers (ptab) needed for evlpoly2 is the same format as that
-returned my the fields.mkpoly function. 
+returned by the fields.mkpoly function.
 
 }
 \author{Doug Nychka}

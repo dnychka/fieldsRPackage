@@ -28,13 +28,13 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Maximizes likelihood for the process marginal variance (sigma) and
- nugget standard deviation (tau) parameters (e.g. lambda) over a
+ nugget standard deviation (tau) parameters (e.g. lambda) over
  many covariance models or covariance parameter values.
 }
 \description{
-These function are designed to explore the likelihood surface for
+These functions are designed to explore the likelihood surface for
 different covariance parameters with the option of maximizing over
-tau and sigma. They used the \code{mKrig} base are designed for computational efficiency.
+tau and sigma. They use the \code{mKrig} base and are designed for computational efficiency.
 }
 \usage{
 mKrigMLEGrid(x, y, weights = rep(1, nrow(x)), XMat = NULL,XMatCommon=NULL,
@@ -88,7 +88,7 @@ The  arguments that would also be included in calls
 A list of initial starts for covariance parameters  to perform likelihood maximization.  The list 
   contains the names of the parameters as well as the values.
   It usually makes sense to optimize over the important lambda  parameter
-  (tau^2/ sigma^2)  is most spatial applications and
+  (tau^2/ sigma^2)  in most spatial applications and
   so if \code{lambda}  is omitted then the component
   \code{lambda = .5} is added to this list. 
 }
@@ -97,7 +97,7 @@ A list of initial starts for covariance parameters  to perform likelihood maximi
 matrix at convergence.} 
 
 \item{iseed}{ Sets the random seed in finding the approximate 
-Monte Carlo based GCV function and the effective degrees of freedom. This will not effect random number generation outside these functions. 
+Monte Carlo based GCV function and the effective degrees of freedom. This will not affect random number generation outside these functions. 
 }
 
 \item{mKrig.args}{A list of additional parameters to supply to the \code{mKrig} function. E.g.\code{ mKrig.args= list( m=1) }to set the regression function to be a constant function.
@@ -127,7 +127,7 @@ Additional arguments that would also be included in calls
   \code{parTransform} ), and this should be taken into 
   consideration when passing arguments to \code{optim}.
 }
-\item{parameters}{The parameter values for evaluate the likelihood.}
+\item{parameters}{The parameter values to evaluate the likelihood.}
 
  \item{par.grid}{
 A list or data frame with components being parameters for
@@ -137,7 +137,7 @@ A list or data frame with components being parameters for
   are given in \dots.
 }
 
-\item{obj}{ List returnerd from \code{mKrigMLEGrid}}
+\item{obj}{ List returned from \code{mKrigMLEGrid}}
 \item{parName}{Name of parameter to find confidence interval.}
 
 \item{parNames}{Names of the parameters to optimize over.}
@@ -147,7 +147,7 @@ for optimization or
 effects the inverse map from the transformed scale into the original values. See below for more details. 
 }
 
-\item{reltol}{Optim BFGS comvergence criterion.}
+\item{reltol}{Optim BFGS convergence criterion.}
 
 \item{REML}{If TRUE use REML instead of the full log likelihood.}
 
@@ -173,8 +173,8 @@ Matrix of unique spatial locations (or in print or surface
 Vector or matrix of observations at spatial locations, 
   missing values are not allowed! Or in mKrig.coef a new 
   vector of observations. If y is a matrix the columns are 
-  assumed to be independent observations vectors generated 
-  from the same covariance and measurment error model.
+  assumed to be independent observation vectors generated 
+  from the same covariance and measurement error model.
 }
 
 \item{XMat}{
@@ -199,16 +199,16 @@ reparametrize as \code{sigma} and  \code{ lambda = tau^2/sigma}.
 The likelihood can be
 maximized analytically over sigma and the parameters in the fixed part
 of the model, this estimate of sigma can be substituted back into the
-likelihood to give a expression that is just a function of lambda and
-the remaining covariance parameters. This operation is called concentrating the likelhood by maximizing over a subset of parameters
+likelihood to give an expression that is just a function of lambda and
+the remaining covariance parameters. This operation is called concentrating the likelihood by maximizing over a subset of parameters.
 
-For these kind of computations there has to be some device to identify parameters that are fixed and those that are optimized. For \code{mKrigMLEGrid} and \code{mKrigMLEJoint} the list \code{cov.args} should have the fixed parameters.
+For these kinds of computations there has to be some device to identify parameters that are fixed and those that are optimized. For \code{mKrigMLEGrid} and \code{mKrigMLEJoint} the list \code{cov.args} should have the fixed parameters.
 For example this is how to fix a lambda value in the model. The list
-\code{cov.params.start} should be list with all parameters to optimize. The values for each component are use as the starting values. This is how the \link{optim} function works.
+\code{cov.params.start} should be a list with all parameters to optimize. The values for each component are used as the starting values. This is how the \link{optim} function works.
 
-These functions may compute  the effective degrees of freedomn 
+These functions may compute  the effective degrees of freedom 
 ( see \code{ \link{mKrig.trace}} )  using
-the random tace method and so need to generate some random normals. The \code{iseed} arguement can be used to set the seed for this with the default being the seed  \code{303}. Note that the random number generation internal to these functions  is coded so that it does not effect the random number stream outside these function calls. 
+the random trace method and so need to generate some random normals. The \code{iseed} argument can be used to set the seed for this with the default being the seed  \code{303}. Note that the random number generation internal to these functions  is coded so that it does not affect the random number stream outside these function calls. 
 
 For \code{mKrigMLEJoint} the 
  default transformation of the parameters is set up for a log/exp transformation:
@@ -247,7 +247,7 @@ performed in the maximization process.
 
 \item{par.MLE}{The maximum likelihood estimates.}
 
-\item{parTransform}{The transformation of the parameters used in the optimziation.}
+\item{parTransform}{The transformation of the parameters used in the optimization.}
 
 }
 \references{

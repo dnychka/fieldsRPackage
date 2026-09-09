@@ -26,8 +26,8 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{ Adds color scale strips to an existing plot.}
 \description{
-Adds one or more color scales in a horizontal orientation, 
-vertical orientation to an existing plot.
+Adds one or more color scales in a horizontal orientation, or
+vertical orientation, to an existing plot.
 }
 \usage{
 
@@ -50,9 +50,9 @@ region. Default is a pleasing 8 times width.   }
    assigning the color scale. Default is to use the range of values in 
 strip. If a two column matrix, rows are used as the limits for each 
 strip.}
-  \item{adj.x}{ Location of strip relative to x coordinate. Most 
-common values are .5 (centered), 0 (right end at x) and  1 (left end of 
-at x). These are the same conventions that are used for \code{adj} in 
+  \item{adj.x}{ Location of strip relative to x coordinate. Most
+common values are .5 (centered), 0 (right end at x) and  1 (left end
+at x). These are the same conventions that are used for \code{adj} in
 positioning text.}
   \item{adj.y}{Location of strip relative to y coordinate. 
 Same rules as \code{adj.x} 

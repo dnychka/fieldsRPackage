@@ -54,8 +54,8 @@ predictDerivative.Krig(object, x = NULL,  verbose = FALSE,...)
 }
 \arguments{
 
-\item{derivative}{The degree of the derivative to be evauated. Default is
-0 (evaluate the function itself), 1 is supported by some covariance functions,
+\item{derivative}{The degree of the derivative to be evaluated. Default is
+0 (evaluate the function itself), 1 is supported by some covariance functions.
 Higher derivatives are not supported in this version and for mKrig.}
 
 \item{df}{
@@ -66,7 +66,7 @@ in place of lambda ( see the function Krig.df.to.lambda)
 \item{eval.correlation.model}{
 If true ( the default) will multiply the predicted function by marginal
 sd's
-and add the mean function. This usually what one wants. If false will
+and add the mean function. This is usually what one wants. If false will
 return predicted surface in the standardized scale. The main use of this
 option is a call from Krig to find MLE's of sigma and tau2     
 }
@@ -115,7 +115,7 @@ fixed part of spatial model}
 \item{drop.XMat}{ If TRUE only spatial fixed
 part of model is evaluated.  i.e. XMat covariates are not used.  }
 
-\item{Z}{This argument is depreciated and a warning will be printed. 
+\item{Z}{This argument is deprecated and a warning will be printed. 
 Should use the new argument name XMat. }
 
 \item{drop.Z}{An older name for drop.XMat. If used a warning will be printed.}
@@ -134,7 +134,7 @@ Vector of predicted responses or a matrix of the partial derivatives.
 evaluate different estimates. Thus there is flexibility in changing the 
 value of lambda and also the independent data without having to 
 recompute the matrices associated with the Krig object. The reason this 
-is possible is that most on the calculations depend on the observed 
+is possible is that most of the calculations depend on the observed 
 locations not on lambda or the observed data. Note the version for 
 evaluating partial derivatives does not provide the same flexibility as 
 \code{predict.Krig} and makes some assumptions about the null model 

@@ -24,11 +24,11 @@
 \name{as.surface}
 \alias{as.surface}
 \title{
-  Creates an "surface" object from grid values. 
+  Creates a "surface" object from grid values.
 }
 \description{
-Reformats the vector from evaluating  a function on a grid of points into 
-a list for use with surface plotting function. The list has the
+Reformats the vector from evaluating  a function on a grid of points into
+a list for use with the surface plotting function. The list has the
 usual components x,y and z and is suitable for use with persp, contour,
 image and image.plot.
  
@@ -41,7 +41,7 @@ as.surface(obj, z, location=NULL, order.variables="xy")
 A description of the grid used to evaluate the function. This can 
 either be in the form of a grid.list 
 ( see help file for grid.list) or the matrix of grid of points produced 
-by make.surface.grid. In the later case obj is a matrix with 
+by make.surface.grid. In the latter case obj is a matrix with
 the grid.list as an attribute. 
 }
 \item{z}{
@@ -57,7 +57,7 @@ object.
 }
 \value{
 A list of class surface. This object is a modest generalization of the 
-list input format (x,y,z,) for the S functions contour, image or persp.  
+list input format (x,y,z) for the S functions contour, image or persp.
 
 \item{x}{
 The grid values in the  X-axis
@@ -71,13 +71,13 @@ entries being the  grid point value reformatted from z.
 }
 }
 \details{
-This function was written to simply to go back and forth between a
+This function was written simply to go back and forth between a
 matrix of gridded values and the stacked vector obtained by stacking
 columns. The main application is evaluating a function at each grid point
 and then reforming the results for plotting. (See example below.)
 
-If zimage is matrix of values then the input vector is c( zimage).
-To go from the stacked vector to the matrix one needs the the nrow ncol
+If zimage is a matrix of values then the input vector is c( zimage).
+To go from the stacked vector to the matrix one needs the nrow and ncol
 and explains why grid information must also be specified.
  
 Note that the z input argument must be in the order 

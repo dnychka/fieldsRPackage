@@ -43,8 +43,8 @@ A vector of
 data to be smoothed   
 }
 \item{ind}{
-Row and column indices that correspond to 
-the locations of the data on regular grid. This is most useful when
+Row and column indices that correspond to
+the locations of the data on a regular grid. This is most useful when
 smoothing the same locations many times. (See also the x argument.)
 }
 \item{weight.obj }{
@@ -58,9 +58,9 @@ convolution kernel. In this case the function will return this
 list. Default is false.  
 }
 \item{grid}{
-A list with components x and y 
-being equally spaced values that define the grid. Default are integers
-1:nrow, 1:ncol. If x is given the ranges will be used to define the grid.  
+A list with components x and y
+being equally spaced values that define the grid. Default is integers
+1:nrow, 1:ncol. If x is given the ranges will be used to define the grid.
 }
 \item{x}{
 Actual locations 
@@ -89,8 +89,8 @@ assumption is that this be stationary. Default is the (isotropic) Gaussian.
 \item{Nwidth}{
 The size of the padding  regions of zeroes when computing the 
 (exact) convolution of the kernel with the data. The most conservative 
-values are 2*nrow and 2*ncol, the default. If the kernel has support of  
-say 2L+1 grid points then the padding region need only be of size L+1. 
+values are 2*nrow and 2*ncol, the default. If the kernel has support of
+say 2L+1 grid points then the padding region needs only be of size L+1.
 }
 \item{Mwidth}{
 See Nwidth.
@@ -98,7 +98,7 @@ See Nwidth.
 \item{\dots}{
 Parameters that are passed to the smoothing kernel. ( e.g. the scale
 parameter aRange for the
-exponential or gaussian)
+exponential or Gaussian)
 }
 }
 \value{
@@ -109,15 +109,15 @@ matrix where the data is present.
 \details{
 The irregular locations are first discretized to a regular grid ( using
 as.image)  
-then a 2d- FFT is used to compute a 
+then a 2d- FFT is used to compute a
 Nadaraya-Watson type kernel estimator. Here we take advantage of two
 features. The kernel estimator is a convolution and by padding the regular
-by zeroes where data is not obsevred one can sum the kernel over irregular
-sets of locations. 
-A second convolutions to find the normalization of the kernel 
-weights.  
+grid by zeroes where data is not observed one can sum the kernel over irregular
+sets of locations.
+A second convolution to find the normalization of the kernel
+weights.
 
-The kernel function is specified by an function that should evaluate with
+The kernel function is specified by a function that should evaluate with
 the kernel for two matrices of locations. Assume that the kernel has the
 form:  K( u-v) for two locations u and v. The function given as the
 argument to cov.function should
@@ -126,9 +126,9 @@ if nrow(x1)=m and nrow( x2)=n then this function should return a mXn
 matrix where the (i,j) element is K( x1[i,]- x2[j,]).  Optional arguments
 that are included in the ... arguments are passed to this function when it
 is used. The default kernel is the Gaussian and the argument aRange is the
-bandwidth. It is easy to write other other kernels, just use 
+bandwidth. It is easy to write other kernels, just use
 Exp.cov.simple as
-a template. 
+a template.
 }
 \examples{
 # Normal kernel smooth of the precip data with bandwidth of .5 ( degree) 

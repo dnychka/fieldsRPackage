@@ -48,8 +48,8 @@ Vector of the independent variable in  y = f(x) + e}
 \item{y}{
 Vector of the dependent variable}
 \item{lam}{
-Values of the smoothing parameter. If omitted is found by GCV based on the  
-the quantile criterion 
+Values of the smoothing parameter. If omitted, it is found by GCV based on
+the quantile criterion
 }
 \item{maxit}{
 Maximum number of iterations used to estimate each quantile spline. 
@@ -69,8 +69,8 @@ Constant added to the effective degrees of freedom in the GCV function.
 }
 \item{sc}{
 Scale factor for rounding out the absolute value function at zero to a 
-quadratic. Default is a small scale to produce something more like 
-quantiles. Scales on the order of the residuals will result is a robust 
+quadratic. Default is a small scale to produce something more like
+quantiles. Scales on the order of the residuals will result in a robust
 regression fit using the Huber weight function. The default is 1e-5 of the 
 variance of the Y's. The larger this value the better behaved the problem 
 is numerically and requires fewer iterations for convergence at each new 
@@ -120,12 +120,12 @@ The quantile spline is found by an iterative algorithm using weighted
 least squares cubic splines. At convergence the estimate will also be a  
 weighted natural  cubic spline but the weights will depend on the 
 estimate. 
-Alternatively at convergence the estimate will be a least squares spline applied to the 
-empirical psuedo data. The user is referred to the paper by Oh and Nychka ( 2002) for the 
-details and properties of the robust cross-validation using empirical psuedo data.
-Of course these weights are crafted so that the resulting spline is an  
-estimate of the alpha quantile instead of the mean. CV as function of 
-lambda can be strange so it should be plotted. 
+Alternatively at convergence the estimate will be a least squares spline applied to the
+empirical pseudo data. The user is referred to the paper by Oh and Nychka ( 2002) for the
+details and properties of the robust cross-validation using empirical pseudo data.
+Of course these weights are crafted so that the resulting spline is an
+estimate of the alpha quantile instead of the mean. CV as a function of
+lambda can be strange so it should be plotted.
   
 }
 \seealso{

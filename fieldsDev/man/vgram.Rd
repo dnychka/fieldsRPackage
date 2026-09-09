@@ -82,14 +82,14 @@ Value of field 1 at locations
 Value of field 2 at locations
 }
 \item{id}{
-A 2 column matrix that specifies which variogram differnces to find. 
-If omitted all possible pairing are found. 
-This can used if the data has an additional covariate that determines
-proximity, for example a time window. 
+A 2 column matrix that specifies which variogram differences to find.
+If omitted all possible pairings are found.
+This can be used if the data has an additional covariate that determines
+proximity, for example a time window.
 }
 \item{d}{
-Distances among pairs indexed by id. If not included distances from from
-directly from loc. 
+Distances among pairs indexed by id. If not included distances are found
+directly from loc.
 }
 \item{lon.lat }{
 If true, locations are assumed to be longitudes and latitudes
@@ -100,7 +100,7 @@ and distances found are great circle distances (in miles see
 Maximum distance to compute variogram.
 }
 \item{N}{
-Number of bins to use. The break points are found by the \code{pretty} function and so ther may not be exactly N bins. Specify the breaks explicity if you want excalty N bins. 
+Number of bins to use. The break points are found by the \code{pretty} function and so there may not be exactly N bins. Specify the breaks explicitly if you want exactly N bins.
 }
 \item{breaks}{
 Bin boundaries for binning variogram values. Need not be equally spaced
@@ -140,8 +140,8 @@ following values:
 \item{call}{Calling string} 
 \item{stats}{Matrix of statistics for values in each bin. 
   Rows are the summaries returned by the stats function or describe.  
-  If not either breaks or N arguments are not supplied then this
-  component is not computed.} 
+  If neither breaks nor N arguments are supplied then this
+  component is not computed.}
 \item{centers}{Bin centers.}
 
 If \code{boxplotVGram} is called with \code{plot=FALSE}, it returns a 

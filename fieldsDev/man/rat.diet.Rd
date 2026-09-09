@@ -24,11 +24,11 @@
 \name{rat.diet}
 \alias{rat.diet}
 \title{
-  Experiment studying an appetite supressant in rats.
+  Experiment studying an appetite suppressant in rats.
 }
 \description{
 The `rat.diet' data frame has 39 rows and 3 columns.
-These are data from a study of an appetite supressant given to young rats.
+These are data from a study of an appetite suppressant given to young rats.
 The suppressant was removed from the treatment group at around 60 days.
 The responses are the median food intake and  each group had approximately 
 10 animals. 

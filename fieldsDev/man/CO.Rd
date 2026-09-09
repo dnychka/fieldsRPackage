@@ -41,29 +41,29 @@
 \alias{CO.elevGrid}
 \alias{CO.Grid}
 
-\title{Monthly surface meterology for Colorado 1895-1997}
+\title{Monthly surface meteorology for Colorado 1895-1997}
 
 \description{
 
 Source:
- These is a group of R data sets for monthly min/max temperatures and
+ This is a group of R data sets for monthly min/max temperatures and
 precipitation over the period 1895-1997. It is a subset extracted from
 the more extensive US data record.
 Temperature is in degrees C and
 precipitation is total monthly accumulation in millimeters. Note that
-minimum (maximum) monthly tempertuare is the mean of the daily minimum
-(maximum) temperatures. 
+minimum (maximum) monthly temperature is the mean of the daily minimum
+(maximum) temperatures.
 
 Data domain:
- 
-A rectagular lon/lat region [-109.5,-101]x [36.5,41.5] larger than the
+
+A rectangular lon/lat region [-109.5,-101]x [36.5,41.5] larger than the
 boundary of Colorado comprises approximately 400 stations. Although
 there are additional stations reported in this domain, stations that
-only report preicipitation or only report temperatures have been
+only report precipitation or only report temperatures have been
 excluded. In addition stations that have mismatches between locations
 and elevations from the two meta data files have also been excluded. The
 net result is 367 stations that have colocated temperatures and
-precipitation. 
+precipitation.
 
 }
 
@@ -87,13 +87,13 @@ This group of data sets is organized with the following  objects:
 Temperature is in degrees C and precipitation in total monthly
 accumulation in millimeters.}
 
-\item{CO.ppt.MAM CO.tmax.MAM CO.tmin.MAM}{Spring seasonal means 
+\item{CO.ppt.MAM CO.tmax.MAM CO.tmin.MAM}{Spring seasonal means
 (March, April,May) as two dimensional arrays
    (Year, Station).}
 
- \item{CO.MAM.ppt.climate CO.MAM.tmax.climate CO.MAM.tmin.climate}{Spring seasonal means 
-(March, April,May) means by station for the period 1960-1990. If less than 15 years are present over this period an NA is recorded. 
-No detreding or other adjustments have been made for these mean estimates. 
+ \item{CO.MAM.ppt.climate CO.MAM.tmax.climate CO.MAM.tmin.climate}{Spring seasonal means
+(March, April,May) by station for the period 1960-1990. If less than 15 years are present over this period an NA is recorded.
+No detrending or other adjustments have been made for these mean estimates.
 }
 }
 
@@ -119,23 +119,24 @@ title("Recorded MAM max (red) and min (blue) temperatures 1997")
 #Fitting a spatial model:
 obj<- Tps(CO.loc,CO.tmax.MAM.climate,  XMat= CO.elev )
 \dontrun{
-out<- spatialProcess(CO.loc,CO.tmax.MAM.climate, 
+out<- spatialProcess(CO.loc,CO.tmax.MAM.climate,
           smoothness=1.0, XMat= CO.elev)
 surface( out)
 	  }
-	  
-         
+
+
+
 
 
 }
 \section{Creation of data subset}{
-Here is the precise R script used to create this data subset from the 
-larger US monthly data set. This parent, R binary file can be obtained
+Here is the precise R script used to create this data subset from the
+larger US monthly data set. This parent R binary file can be obtained
 by contacting Doug Nychka (nychka@mines.edu).
 
- These technical details are not needed for casual use of the data -- 
+ These technical details are not needed for casual use of the data --
 skip down to examples for some R code that summarizes these data.
- 
+
 \preformatted{
 
 attach("RData.USmonthlyMet.bin")
@@ -152,7 +153,7 @@ indt<- indt & UStinfo$lat<41.5 &  UStinfo$lat>36.5
 tn<-  match(  UStinfo$station.id, USpinfo$station.id)
 indt<- !is.na(tn) & indt
 
-# compare  metadata locations and elevations. 
+# compare  metadata locations and elevations.
 # initial matches to precip stations
 CO.id<- UStinfo[indt,1]
 CO.names<- as.character(UStinfo[indt,5])
@@ -165,7 +166,7 @@ abs(loc1- loc2) ->  temp
 indbad<- temp[,1] > .02 | temp[,2]> .02 |  temp[,3] > 100
 
 # tolerance at 100 meters set mainly to include the CLIMAX station
-# a high altitude station. 
+# a high altitude station.
 
 data.frame(CO.names[ indbad], loc1[indbad,], loc2[indbad,], temp[indbad,] )
 
@@ -184,8 +185,8 @@ data.frame(CO.names[ indbad], loc1[indbad,], loc2[indbad,], temp[indbad,] )
 badones<-  match(  CO.id[indbad], UStinfo$station.id)
 indt[ badones] <- FALSE
 
-###### now have working set of CO stations have both temp and precip 
-##### and are reasonably close to each other. 
+###### now have working set of CO stations have both temp and precip
+##### and are reasonably close to each other.
 
 N<- sum( indt)
 # put data in time series order instead of table of year by month.
@@ -251,15 +252,15 @@ ind<-  CO.years>=1960 & CO.years < 1990
 
 save( list=c( "CO.tmax", "CO.tmin", "CO.ppt",
               "CO.id", "CO.loc","CO.years",
-              "CO.names","CO.elev", 
+              "CO.names","CO.elev",
               "CO.tmin.MAM", "CO.tmax.MAM", "CO.ppt.MAM",
-              "CO.tmin.MAM.climate", "CO.tmax.MAM.climate", 
-              "CO.ppt.MAM.climate", "CO.tmean.MAM.climate"), 
+              "CO.tmin.MAM.climate", "CO.tmax.MAM.climate",
+              "CO.ppt.MAM.climate", "CO.tmean.MAM.climate"),
                file="COmonthlyMet.rda")
 }
 
 }
- 
+
 \keyword{datasets}
 % docclass is data
 % Converted by Sd2Rd version 1.21.

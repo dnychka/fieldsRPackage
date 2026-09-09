@@ -52,13 +52,13 @@ Vector of x value}
 Vector of y values}
 
 \item{lambda}{
-Single smoothing parameter or a vector of values . If omitted 
-smoothing parameter estimated by GCV. NOTE: lam here is equivalent to 
+Single smoothing parameter or a vector of values . If omitted,
+smoothing parameter is estimated by GCV. NOTE: lam here is equivalent to
 the value lambda*N  in Tps/Krig  where N is the number of unique observations.
 See example below.}
 
 \item{object}{An sreg object.}
-\item{derivative}{Order of deriviatve to evaluate. Must be 0,1, or 2.}
+\item{derivative}{Order of derivative to evaluate. Must be 0,1, or 2.}
 \item{df}{
 Amount of smoothing in term of effective degrees of freedom for the
 spline}
@@ -86,7 +86,7 @@ criteria to estimate the smoothing parameter.}
 If TRUE  calculates the diagonal elements of the smoothing matrix. The
 effective
 number of degrees of freedom is the sum of these diagonal elements.
-Default is true. This requires more stores if a grid of smoothing
+Default is true. This requires more storage if a grid of smoothing
 parameters is passed. ( See returned values below.)}
 
 \item{trmin}{
@@ -105,7 +105,7 @@ Same function as trmin but in the lambda scale.}
 Same function as trmax but in the lambda scale.}
 
 \item{verbose}{
-Print out all sorts of debugging info. Default is falseof course!}
+Print out all sorts of debugging info. Default is false, of course!}
 
 \item{do.cv}{
 Evaluate the spline at the GCV minimum. Default is true.}
@@ -168,7 +168,7 @@ Estimate of tau using estimated lambda from GCV minimization }
 Effective degrees of freedom for the spline estimate(s)}
 
 \item{gcv.grid}{
-Values of trace, GCV, tauHat. etc. for a grid of smoothing parameters.
+Values of trace, GCV, tauHat, etc. for a grid of smoothing parameters.
 If lambda ( or df) is specified those values are used. }
 
 \item{lambda.est}{
@@ -197,7 +197,7 @@ Same as trace.}
 Matrix containing diagonal elements of the smoothing matrix. Number of
 columns is the number of lambda values. 
 WARNING: If there is replicated data the
-diagonal elements are those for the smoothing the group means at the
+diagonal elements are those for smoothing the group means at the
 unique x locations. }
 }
 
@@ -216,8 +216,8 @@ the curve that minimizes the criterion:
 
 where R(f) is the integral of the squared second derivative of f over 
 the range of the X values. Because of the inclusion of the (1/n) in the
-sum of squares the lambda parameter in sreg corresponds to the a value of
-lambda*n in the Tps function and in the Krig function. 
+sum of squares the lambda parameter in sreg corresponds to a value of
+lambda*n in the Tps function and in the Krig function.
  
  The solution to this minimization is a piecewise cubic polynomial with
 the join points at the unique set of X values. The polynomial segments
@@ -234,15 +234,15 @@ expressed in the matrix form:
     predicted values= A(lambda)Y 
 
 where A is an nXn symmetric matrix that does NOT depend on Y. 
-The diagonal elements are the leverage values for the estimate and the 
-sum of these  (trace(A(lambda)) can be interpreted as the effective 
-number of parameters that are used to define the spline function. 
+The diagonal elements are the leverage values for the estimate and the
+sum of these  (trace(A(lambda))) can be interpreted as the effective
+number of parameters that are used to define the spline function.
 IF there are replicate points the A matrix is the result of finding group
 averages and applying a weighted spline to the means. 
 The A matrix is also used to find "Bayesian" confidence intervals for the 
 estimate, see the example below. 
 
-CROSS-VALIDATION:The GCV criterion with no replicate points for a fixed
+CROSS-VALIDATION: The GCV criterion with no replicate points for a fixed
 value of lambda is
 
  (1/n)(Residual sum of squares)/((1-(tr(A)-offset)*cost + offset)/n)**2, 

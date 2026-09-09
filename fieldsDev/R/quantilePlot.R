@@ -8,7 +8,7 @@ quantilePlot<- function(y,
                         quantileFunction="qnorm", 
                          quantileArgs= NULL,alpha=.05, M=100,
                         smoothQuantiles=FALSE,dfSmooth=NA,
-                        col = "thistle1", lineCol = "thistle3",
+                        col = "thistle1", lineCol = "thistle3",cex=1.0,
                         ...){
   n<- length(y)
   sortedY<- sort(y)
@@ -50,7 +50,7 @@ quantilePlot<- function(y,
   matlines( Q, cbind( lower, upper), lty=2, lwd=1.5, col=lineCol)
   
   #matlines( Q,bigZ,lty=1, col="red1" )
-  points( Q,sortedY, pch=16, col="grey30")
+  points( Q,sortedY, pch=16, col="grey30", cex=cex)
   
   
 }

@@ -41,7 +41,7 @@ from the maps package.
 }
 \details{
 The older version of this function (fields < 6.7.2) used the FIELDS dataset US.dat for the
-  coordinates. Currenty this has been switched to use the maps package.    
+  coordinates. Currently this has been switched to use the maps package.
 }
 \seealso{
 world

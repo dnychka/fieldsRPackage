@@ -33,9 +33,9 @@ Testing fields functions
 Some of the basic methods in fields can be tested by directly
 implementing the linear algebra using matrix expressions and
 other functions can be cross checked within fields. These
-comparisons are done in the the R source code test files in the tests
+comparisons are done in the R source code test files in the tests
 subdirectory of fields.  The function \code{test.for.zero} is useful for
-comparing the tests in a meaninful and documented way. 
+comparing the tests in a meaningful and documented way.
 }
 
 \usage{
@@ -56,7 +56,7 @@ xtest, xtrue, tol = 1e-08, relative = TRUE, RMSE =
 \item{relative}{If true a relative error comparison is used. (See
  details below.)}
  
- \item{RMSE}{If TRUE computes the root meansqaured error between \code{xtest} and \code{xtrue}}
+ \item{RMSE}{If TRUE computes the root mean squared error between \code{xtest} and \code{xtrue}}
 
 \item{tag}{ A text string to be printed out with the test results as a
    reference}
@@ -67,7 +67,7 @@ xtest, xtrue, tol = 1e-08, relative = TRUE, RMSE =
 IMPORTANT: If the R object \code{test.for.zero.flag} exists with any
 value ( e.g. \code{test.for.zero.flag <- 1} ) then when the test fails
 this function will also generate an error in addition to printing a
-message. This option is added to insure
+message. This option is added to ensure
 that any test scripts will generate an error when any individual test
 fails.  
 
@@ -141,7 +141,7 @@ when the test fails.
 
 
 FORM OF COMPARISON:
-The actual test done is the sum of absolute differnces:
+The actual test done is the sum of absolute differences:
 
 test value = \code{ 
 sum( abs(c(xtest) - c( xtrue) ) ) /denom}

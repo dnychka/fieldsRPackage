@@ -27,7 +27,7 @@
   Print kriging fit results. 
 }
 \description{
-Prints the results from a fitting a spatial process estimate (Krig)
+Prints the results from fitting a spatial process estimate (Krig)
 }
 \usage{
 \method{print}{Krig}(x,digits=4,...)

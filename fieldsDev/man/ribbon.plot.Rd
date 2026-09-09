@@ -59,8 +59,8 @@ missing values make the ribbon transparent.}
 
 \details{
 Besides possible 2-d applications, 
-this function is useful to annotate a curve on a surface using colors. 
-The values mapped to acolor scheme could indicate a feature 
+this function is useful to annotate a curve on a surface using colors.
+The values mapped to a color scheme could indicate a feature
 other than the height of the surface. 
 For example, this function could indicate the slope of the surface. 
 

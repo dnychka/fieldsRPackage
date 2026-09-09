@@ -24,7 +24,7 @@
 \alias{supportsArg}
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
-Tests if function supports a given argument
+Tests if a function supports a given argument
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~

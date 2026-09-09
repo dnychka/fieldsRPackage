@@ -64,7 +64,7 @@ arguments must be explicitly x,y and z with x, and y being matrices of
 dimensions equal to, or one more than, z giving the grid
 locations. The basic concept is that the coordinates of x and y still
 define a grid but the image cells are quadrilaterals rather than being
-restricted to rectangles. NOTE: graphical argruments passed here will only have impact
+restricted to rectangles. NOTE: graphical arguments passed here will only have impact
 on the image plot. To change the graphical defaults for the legend use
  the individual legend arguments and/or  \code{legend.arg} listed 
  below. 
@@ -80,7 +80,7 @@ these will
 be determined within the function.  
 }
 
-\item{border}{This only works if x and y are matrices -- if NA the quadralaterals will 
+\item{border}{This only works if x and y are matrices -- if NA the quadrilaterals will 
 have a border color that is 
 the same as the interior color. Otherwise this specifies the color to use.}
 
@@ -107,7 +107,7 @@ true the legend strip will be along the bottom.
 }
 
 \item{lab.breaks}{ If breaks are supplied these are text string labels
-to put at each break value. This is intended to label axis on a
+to put at each break value. This is intended to label the axis on a
 transformed scale such as logs.}
 
 \item{axis.args}{Additional arguments for the axis function used to 
@@ -115,13 +115,13 @@ create the legend axis. (See example below adding a log scaling.)}
 
 \item{legend.only}{
 If TRUE just add the
-legend to a the plot in the plot region defined by the coordinates in
-smallplot. In the absence of other information the range for the legend 
+legend to the plot in the plot region defined by the coordinates in
+smallplot. In the absence of other information the range for the legend
 is determined from the \code{zlim} argument. 
 }
 
-\item{legend.args}{Arguments for a complete specification of the 
-legend label, e.g. if you need to the rotate text or other details.  This is in the form of list and is just passed to the 
+\item{legend.args}{Arguments for a complete specification of the
+legend label, e.g. if you need to rotate text or other details.  This is in the form of a list and is just passed to the
 mtext function and you will need to give both the side and line arguments for positioning.  This usually will not be needed. 
 (See example below.)}
 
@@ -136,7 +136,7 @@ Width in characters of legend margin that has the axis. Default is 5.1
 for a vertical legend and 3.1 for a horizontal legend.}
 
 \item{legend.lab}{ Label for the axis of the color legend. Default is no
-label as this is usual evident from the plot title.}
+label as this is usually evident from the plot title.}
 
 \item{legend.shrink}{
  Amount to shrink the size of legend relative to the full height or
@@ -146,22 +146,22 @@ of the plot.
 
 \item{legend.width}{
 Width in characters of the legend strip. Default is 1.2, a little
-bigger 
-that the width of a character. }
+bigger
+than the width of a character. }
 
 \item{lwd}{Line width of bordering lines around pixels.
  This might need to be set less than 1.0 
 to avoid visible rounding of the pixel corners.}
 
-\item{midpoint}{ 
-This option for the case of unequally spaced grids with x and y being 
-matrices of grid point locations. 
- If FALSE (default) the quadralaterals  will be extended
+\item{midpoint}{
+This option is for the case of unequally spaced grids with x and y being
+matrices of grid point locations.
+ If FALSE (default) the quadrilaterals  will be extended
 to surround the  z locations as midpoints. If TRUE z values will be
 averaged
-to yield a midpoint value and the original grid points be used to define
+to yield a midpoint value and the original grid points will be used to define
 the
-quadralaterals. (See help on poly.image for details). In most cases
+quadrilaterals. (See help on poly.image for details). In most cases
 midpoint should be FALSE to preserve exact values for z and 
 let the grid polygons be modified.}
 
@@ -197,17 +197,17 @@ Just use the \code{box} function to redraw them.
 
 \details{
 	
-This is a function using the basic R graphics. The coding was done to make it easier for users to see how this function works and to modify. 
+This is a function using the basic R graphics. The coding was done to make it easier for users to see how this function works and to modify it.
 
 \strong{How this function works:}
-The strategy for \code{image.plot} is simple, divide the plotting region
+The strategy for \code{image.plot} is simple: divide the plotting region
 into two smaller regions \code{bigplot} and \code{smallplot}. The image
 goes in one and the legend in the other. This way there is always room for
 the legend. Some adjustments are made to this rule by not shrinking the
 \code{bigplot} if there is already room for the legend strip and also
 sticking the legend strip close to the image plot. One can specify the
 plot regions explicitly by \code{bigplot} and  \code{smallplot} if the
-default choices do not work.(Note that these in figure coordinates.
+default choices do not work. (Note that these are in figure coordinates.
 ) There may be problems with small plotting
 regions in fitting both of these elements into the plot region and one may 
 have to change the default character sizes or margins to make things fit.
@@ -219,14 +219,14 @@ This always seems to happen as one is rushing to finish a talk  and the figures 
 
 \strong{Why ``image.plot" and not ``image"?} The R Base function \code{image} is very 
 useful but it is awkward to place a legend quickly. However, that said if you are
-drawing several image plots and want a common legend use the \code{image} function 
-and just just use \code{image.plot} to add the legend. See the example in the 
+drawing several image plots and want a common legend use the \code{image} function
+and just use \code{image.plot} to add the legend. See the example in the
 help file. Note that you can use \code{image} to draw a bunch of images and then follow with \code{image.plot} and \code{legend.only=TRUE} to add a common legend. (See examples below.)
 
-\strong{Almost cloropleths too:}  It  should be noted that this image function is slightly
-different than a cloropleth map because
-the legend is assuming that a continous scale has been discretized into a series of colors.
-To make the image.plot function as a  cloropleth graphic one would of course use the
+\strong{Almost choropleths too:}  It  should be noted that this image function is slightly
+different than a choropleth map because
+the legend is assuming that a continuous scale has been discretized into a series of colors.
+To make the image.plot function as a  choropleth graphic one would of course use the
  \code{breaks} option
 and for clarity perhaps code the different regions as different integer values. 
 In addition, for publication quality one would want to use the \code{legend.args} to
@@ -235,22 +235,22 @@ add more descriptive labels at the midpoints in the color strip.
 \strong{Relationship of x, y and z:}
  If the z component is a matrix then the user should be aware that
 this function locates the matrix element z[i,j] at the grid locations
-(x[i], y[j]) this is very different than simply listing out the
+(x[i], y[j]). This is very different than simply listing out the
 matrix in the usual row column tabular form. See the example below
 for details on the difference in formatting. What does one do
 if you do not really have the "z" values on a regular grid? See the
 functions \code{quilt.plot.Rd} and \code{as.image} to discretise
-irregular observations to a grid. If the values makes sense as points on 
+irregular observations to a grid. If the values make sense as points on
 a smooth surface see \code{Tps} and \code{fastTps} for surface interpolation.
 
-\strong{Adding separate color to indicate the grid box boundaries.} Sometimes you want to show to the grid box borders to emphasize this is not a smooth surface. To our knowledge there is no easy way to do this as an option in \code{image}. But if your image is formatted in the "poly image" style where x and y are also matrices you can use the polyimage  (see the \code{border} argument above) option to draw in boundaries. 
+\strong{Adding separate color to indicate the grid box boundaries.} Sometimes you want to show the grid box borders to emphasize this is not a smooth surface. To our knowledge there is no easy way to do this as an option in \code{image}. But if your image is formatted in the "poly image" style where x and y are also matrices you can use the polyimage  (see the \code{border} argument above) option to draw in boundaries. 
 
 
-\strong{Grids with unequally spacing -- quadrialteral pixels:}
+\strong{Grids with unequal spacing -- quadrilateral pixels:}
 If x and y are matrices that are a smooth transformation of a regular grid  then
-z[i,j] can be interperted as representing the average value in a quadrilateral that is centered at x[i,j] and
+z[i,j] can be interpreted as representing the average value in a quadrilateral that is centered at x[i,j] and
 y[i,j] (\code{midpoint} TRUE). The details of how this cell is found
-are buried in \code{poly.image} but it it essentially found using midpoints between the centers. If \code{midpoint} is FALSE then x
+are buried in \code{poly.image} but it is essentially found using midpoints between the centers. If \code{midpoint} is FALSE then x
 and y are interpreted as the corners of the quadrilateral cells. But
 what about z? The four values of z are now averaged to represent a
 value at the midpoint of the cell and this is what is used for
@@ -259,7 +259,7 @@ the gridded output of geophysical models where the regular grid is
 defined according to one map projection but the image plotting is required
 in another projection. Typically the regular grid becomes distorted in 
 a smooth way when this happens. See the regional climate example for
-a illustration of this application. One can add border colors in this case
+an illustration of this application. One can add border colors in this case
 easily because these choices are just passed onto the polygon function. 
 
 \strong{Adding the pixel grid for rectangular images:}
@@ -277,16 +277,16 @@ after calling \code{image.plot}.
  yline( ytemp, col="grey", lwd=2) 
 }
 
-Here \code{x} and \code{y} here are the x and y grid values from the image list.  
+Here \code{x} and \code{y} are the x and y grid values from the image list.
 
 \strong{Fine tuning color scales:} This function gives some flexibility in
 tuning the color scale to fit the rendering of z values. This can
-either be specially designed color scale with specific colors ( see
+either be a specially designed color scale with specific colors ( see
 help on \code{designer.colors}), positioning the colors at specific
 points on the [0,1] scale, or mapping distinct colors to intervals of
 z. The examples below show how to do each of these. In addition, by
 supplying \code{lab.break} strings or axis parameters one can
-annotate the legend axis in an informative matter.
+annotate the legend axis in an informative manner.
 
 \strong{Adding just the legend strip:}
 Note that to add just the legend strip all the numerical information one
@@ -294,18 +294,18 @@ needs is the \code{zlim} argument and the color table! See examples for tricks i
 
 \strong{About color tables:}
 We like \code{tim.colors} 
-as a default color scale and so if this what you use this can be omitted.
+as a default color scale and so if this is what you use this can be omitted.
 Unfortunately this is not the default for the \code{image} function. Another
 important color scale is \code{viridis() } from the viridis package.
 It seems that by
-and large everyone seems to react postively to viridis -- guess that is the
+and large everyone seems to react positively to viridis -- guess that is the
 point!
 
 The
 topographic color scale (\code{topo.colors}) is
 also a close second showing our geophysical bias.
 Users may find \code{larry.colors} useful for coding distinct regions
-in the style of a cloropleith map.   See also
+in the style of a choropleth map.   See also
 \code{terrain.colors} for a subset of the topo ones and \code{designer.colors} to "roll
 your own" color table. One nice option in this last function is to fix
 color transitions at
@@ -327,7 +327,7 @@ easier to work with than user coordinates.
 spaces. These units are helpful in thinking about axis labels that
 will be put into these areas. To add more or less space between the
 legend and the image plot alter the mar parameters. The default mar
-settings (5.1,5.1,5.1,2.1) leaves 2.1 spaces for vertical legends and
+settings (5.1,5.1,5.1,2.1) leave 2.1 spaces for vertical legends and
 5.1 spaces for horizontal legends. 
 
 There are always problems with
@@ -346,7 +346,7 @@ another mechanism to pass through plotting commands. Apparently
 
 \strong{About setup and add legend functions} These came about to create a
 scatterplot in Base R Graphics where the points are colored with a color scale
-and the scale can be plotted as part of the figure
+and the scale can be plotted as part of the figure.
 See \code{ \link{bubblePlot} } for a version of this kind of figure.  The
 function \code{setupLegend} should be used first to create enough space
 to add a color scale later. After plotting then \code{addLegend} will add the
@@ -374,12 +374,12 @@ More complete graphics languages, such as that in  ggplot,  do not need such
 functions because the
 entire graphics segment is parsed to create the complete figure. In this way
 room for a color scale can be created automatically. The functions proposed here
-are a simple work around to create these figures using base R graphics. 
+are a simple workaround to create these figures using base R graphics.
 
 \strong{Other packages}
 \code{levelplot} that is part of the lattice package has a very 
 similar function to image.plot and a formula syntax in the call.
-The \code{geom_raster} for setting up a graphics object within \code{ggplot} is another alternative forr image plots with legends.
+The \code{geom_raster} for setting up a graphics object within \code{ggplot} is another alternative for image plots with legends.
 See the last example to compare the steps in creating an image plot using \code{image.plot} that is close to the ggplot version. Mostly this involves resetting base graphics parameters using the {\code{par}} function. 
 
 \strong{Multiple images:} 

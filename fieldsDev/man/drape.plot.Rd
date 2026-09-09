@@ -64,9 +64,9 @@ plot, if FALSE it is placed vertically on the right side.  }
        obtained by averaging 4 corners.}
   \item{breaks}{Numerical divisions for the color scale. If the default (NA)
   is N+1 equally spaced points in the range \code{zlim} where N is the number of
-colors in \code{col}. This is the argument has the same effect as used in the
+colors in \code{col}. This argument has the same effect as used in the
 \code{image} and \code{image.plot} functions.}
- \item{eps}{Amount to inflate the range (1+/- eps) to inlude points on 
+ \item{eps}{Amount to inflate the range (1+/- eps) to include points on
      break endpoints.}
   \item{\dots}{ Other arguments that will be passed to the 
           persp function. The most common is zlim the z limits for the
@@ -82,7 +82,7 @@ and lines using the \code{trans3d} function and also the example below.
 
 
 \code{drape.color} If dim( z) = M,N this function returns a list with components:
-\item{color.index}{An (M-1)X(N-1) matrix (midpoint= TRUE) or MXN matrx (midpoint=FALSE) where each element is a text string specifying the color. }
+\item{color.index}{An (M-1)X(N-1) matrix (midpoint= TRUE) or MXN matrix (midpoint=FALSE) where each element is a text string specifying the color. }
 \item{breaks}{The breaks used to assign the numerical values in z to color categories.}
 
 }
@@ -105,10 +105,10 @@ dividing up the zlim2 interval into equally spaced bins and adding a
 very small inflation to these limits.  The mean z2 values, comprising
 an (M-1)X(N-1) matrix, for each facet are discretized to the bins. The
 bin numbers then become the indices used for the color scale. If zlim2
-is not specified it is the range of the z2 matrix is used to generate
+is not specified, the range of the z2 matrix is used to generate
 the ranges of the color bar. Note that this may be different than the
 range of the mean facets.  If z2 is not passed then z is used in its
-place and in this case the zlim2 or zlim argument can used to define
+place and in this case the zlim2 or zlim argument can be used to define
 the color scale.
 
 This kind of plot is also supported through the wireframe function in the

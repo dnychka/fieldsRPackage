@@ -26,9 +26,9 @@
 Evaluate covariance over upper triangle of distance matrix
 }
 \description{
-Evaluates the covariance over the upper triangle of a distance matrix 
-  rather than over the entire matrix to reduce computation time.  Note 
-  that the \code{chol} function only requires the upper triangle of 
+Evaluates the covariance over the upper triangle of a distance matrix
+  rather than over the entire matrix to reduce computation time.  Note
+  that the \code{chol} function only requires the upper triangle of
   the covariance matrix to perform the Cholesky decomposition.
 }
 \usage{
@@ -40,13 +40,13 @@ The distance matrix to evaluate the covariance over.
 }
   \item{range}{
 Range parameter default is one. Note that the scale can also
-  be specified through the "aRange" scaling argument used in
+  be specified through the "aRange" scaling argument (used in
   fields covariance functions)
 }
 
 \item{alpha}{
 1/range}
-  
+
 \item{theta}{
 Also the range parameter.}
 
@@ -63,7 +63,7 @@ John Paige
 \examples{
 set.seed(123)
 
-#a  distance matrix 
+#a  distance matrix
 coords = matrix(runif(10), ncol=2)
 distMat = rdist(coords)
 

@@ -33,9 +33,9 @@
 Generates exact (or approximate) random draws from the unconditional or
 conditional 
 distribution of a spatial process given specific observations. 
-Draws from the conditional distribution, known as conditional simulation in geostatistics,  is a 
-useful way to characterize the uncertainty in the predicted process from 
-data.  Note that exact simulation is limted by the number of locations but there are approximate strategies to handle simulation for large grids of locations.  
+Draws from the conditional distribution, known as conditional simulation in geostatistics,  are a
+useful way to characterize the uncertainty in the predicted process from
+data.  Note that exact simulation is limited by the number of locations but there are approximate strategies to handle simulation for large grids of locations.
  }
 \usage{
 
@@ -48,25 +48,34 @@ mKrigObject, gridList = NULL, M = 1, nx = 80, ny = 80,
                  delta = NULL, fast = FALSE, NNSize = 4, NNSizePredict
                  = 4, giveWarnings = FALSE, verbose = FALSE, ...)
 
-             
+ensembleEnvelope(object=NULL,ensemble= NULL, alpha.level =.95,
+                            ...)
 %checkPredictGrid(predictionGridList) 
 
 } 
  
 \arguments{
- 
- \item{delta}{If the covariance has compact support the simulation method can 
-take advantage of this. This is the amount of buffer added for the simulation domain in the circulant embedding method. 
-A minimum size would be \code{aRange} for the Wendland but a multiple of this maybe needed to obtain a positive definite 
+\item{alpha.level}{ alpha level for simultaneous coverage of confidence
+envelope.}
+
+\item{delta}{If the covariance has compact support the simulation method can 
+take advantage of this. This is the amount of buffer added for the simulation
+domain in the circulant embedding method. 
+A minimum size would be \code{aRange} for the Wendland but a multiple of this
+maybe needed to obtain a positive definite 
 circulant covariance function.  }
 
+ \item{ensemble}{ The result of \code{sim.spatialProcess}}
  
   \item{fast}{ If TRUE will use approximate,
                 fast spatial prediction on grids. }
+                
   
- \item{giveWarnings}{If true will warn when more than one observation is in a grid box. 
+ \item{giveWarnings}{If true will warn when more than one observation is in a 
+ grid box. 
                       This is instead of giving an error and stopping.}
-\item{gridList}{A grid list that is the grid for predictions. If NULL (default) a grid will be creatd based on the
+\item{gridList}{A grid list that is the grid for predictions. If NULL (default)
+a grid will be created based on the
 location ranges and \code{nx} and \code{ny}.}
 
   \item{mKrigObject}{An mKrig Object (or spatialProcess object)}
@@ -95,7 +104,8 @@ location ranges and \code{nx} and \code{ny}.}
  %  for the conditional samples. }
  
   
-% \item{truncate}{Controls how negative elements of the FFT are set to zero in the
+% \item{truncate}{Controls how negative elements of the FFT are set to zero 
+in the
 %circulant embedding algorithm. See \link{circulantEmbedding} for details. }
  
   \item{xp}{Same as predictionPoints above.}
@@ -105,15 +115,19 @@ location ranges and \code{nx} and \code{ny}.}
  \item{\dots}{Any other arguments to be passed to the predict function.
  	Usually this is the \code{XMat} or \code{drop.XMat} argument when there are 
  	additional covariates in the fixed part of the model.
- 	(See example below.) }
+ 	(See example below.) 
+ 	
+ 	For ensembleEnvelope any arguments to pass to \code{sim.spatialProcess} }
 
   
 }
 
 \details{
 
-These functions generate samples from an unconditional or conditional multivariate (spatial) 
-distribution, or an approximate one. The \strong{unconditional} simulation function,
+These functions generate samples from an unconditional or conditional
+multivariate (spatial) 
+distribution, or an approximate one. The \strong{unconditional} simulation
+function,
 \code{simSpatialData},
 is a handy way to generate synthetic observations from a fitted model.
 Typically one would use these for a parametric bootstrap.
@@ -123,9 +137,11 @@ in their coding. They are useful
 for describing the uncertainty in predictions using the estimated spatial 
 process under Gaussian assumptions. An important assumption throughout 
 these functions is that all covariance parameters are fixed at their 
-estimated or prescribed values from the passed object. Although these functions might
+estimated or prescribed values from the passed object. Although these 
+functions might
 be coded up easily by the users these
-versions have the advantage that they take the \code{mKrig}, \code{spatialProcess} or
+versions have the advantage that they take the \code{mKrig}, 
+\code{spatialProcess} or
 \code{Krig} objects as a way to specify the
 model in an unambiguous way. 
 
@@ -144,12 +160,12 @@ the goal is to sample the conditional distribution of the process.
  
 [h(x) | Y ]  or the full prediction XMat(x)d + h(x)
 
-For fixed a covariance this is just a multivariate normal sampling
+For a fixed covariance this is just a multivariate normal sampling
 problem.  \code{sim.spatialProcess} samples this conditional process at
 the points \code{xp} and is exact for fixed covariance parameters.
 
 The outline of the conditional simulation algorithm is given below and has the
-advantage that is only depends on the unconditional simulation
+advantage that it only depends on the unconditional simulation
 of the spatial process and being able to make a spatial prediction - the
 conditional mean of the process given the observations and covariance function.
 
@@ -159,7 +175,7 @@ conditional mean of the process given the observations and covariance function.
  the actual data. Call this h.hat(x) and this is also  the conditional mean. 
 
 1) Generate a realization that includes both prediction and observation locations from the unconditional spatial process and from this process
-simluate synthetic observations. 
+simulate synthetic observations.
 
 2) Use the spatial prediction model ( using the true covariance) to
 estimate the spatial process at unobserved locations.
@@ -180,14 +196,14 @@ making the prediction from the synthetic observations
 that have mean zero but include estimation of the
 fixed part as part of the prediction. 
 Because the
-regression estimates are unbaised, this gives a
-valid draw from the correct mulitvariate distribution
+regression estimates are unbiased, this gives a
+valid draw from the correct multivariate distribution
 even though the synthetic observations do not include
-a fixed part. 
+a fixed part.
 
 
 \code{sim.spatialProcess} Follows this algorithm exactly. For the case of an
-addtional covariate  this of course needs to be included. For a model
+additional covariate  this of course needs to be included. For a model
 with covariates use \code{drop.XMat=TRUE} for the function to ignore prediction
 using the covariate and generate conditional samples for just the spatial
 process and any low order polynomial. Finally, it should be noted that this
@@ -201,13 +217,13 @@ includes the covariates XMat or not. (See example below.)
 
 \code{simLocal.spatialProcess} This function is
 designed for conditional simulation for a large
-prediction grid and for a large number of observation
-s. The approximation will be accurate for fine grids
+prediction grid and for a large number of observations.
+The approximation will be accurate for fine grids
 that separate clusters of observation locations. E.g.
 multiple observations in a single gridbox are treated
-exactly. If observation location are separated by a
+exactly. If observation locations are separated by a
 grid box then due to the screening effect the
-approximation error will be negliable, especially if a
+approximation error will be negligible, especially if a
 nugget component  (tau ) is present. 
 
 A 1D version of this function will not be much more
@@ -219,7 +235,12 @@ See the utility function \code{\link{offGridWeights2D}} for the function that cr
  are utilities to setup the grids when not 
 specified. 
 
+\code{ensembleEnvelope} This is a simple function to find the simultaneous 
+confidence envelope based on conditionally simulated samples. For 1 D curve 
+fitting use this with envelopePlot to add a spiffy confidence region. 
+(see example below).
 }
+
 \value{
 \code{sim.Krig and sim.spatialProcess}
  a matrix with rows indexed by the locations in \code{xp} and columns being the 
@@ -291,6 +312,24 @@ allTime2<- system.time(
 print( allTime2)
 print( look$timing)
 }
+
+#### 1 D fit to the AudiA4 data 
+#### with confidence envelope
+
+data(AudiA4)
+AudiA4<- na.omit(AudiA4)
+
+s<- cbind(AudiA4$mileage)/1000
+y<- AudiA4$price/1000
+obj1<- spatialProcess( s, y,  gridN=30,
+smoothness= 1.5, aRange=50)
+sGrid<- cbind(seq( 0, 170, length.out=100))
+simOut<- sim.spatialProcess(obj1, xp=sGrid, M=500)
+CIEnvelope<- ensembleEnvelope( ensemble= simOut)
+plot( s,y,  type="n", xlab="mileage (1000)", ylab="price (1000)")
+envelopePlot( sGrid,CIEnvelope)
+lines( sGrid, predict(obj1, sGrid), col="blue")
+points( s,y, pch=16 )
 
 \dontrun{
 ## A simple example for setting up a bootstrap 

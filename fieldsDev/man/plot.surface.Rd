@@ -28,7 +28,7 @@
 }
 \description{
 Plots a surface object in several different ways to give 3-d
-information e.g. a contour plots, perspective plots.  
+information e.g. a contour plot, perspective plot.  
 }
 \usage{
 \method{plot}{surface}(x, main = NULL, type = "C", zlab = NULL, xlab = NULL,
@@ -48,7 +48,7 @@ Title for plot.
 \item{type}{
 type="p" for a perspective/drape plot (see drape.plot), 
 type="I" for an image plot with a legend
-strip (see image.plot), type="c" draws a contour plot,  type="C" is the "I" option but with contours lines
+strip (see image.plot), type="c" draws a contour plot,  type="C" is the "I" option but with contour lines
 added. type="b" gives both  "p" and "C" as a 2X1 panel }
 \item{zlab}{
 z-axes label 

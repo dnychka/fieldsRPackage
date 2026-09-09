@@ -46,8 +46,8 @@ relax set to false.
 }
 }
 \details{
-After set.panel is called, the graphics screen is reset to 
-put  plots  according to a m x n table. Plotting starts in 
+After set.panel is called, the graphics screen is reset to
+put  plots  according to an m x n table. Plotting starts in
 the upper left hand corner and proceeds row by row.  After 
 m x n plots have been drawn, the next plot will erase the 
 window and start in the 1,1 position again.  This function 

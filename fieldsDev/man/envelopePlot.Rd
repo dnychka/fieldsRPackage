@@ -22,7 +22,7 @@
 %##END HEADER
 \name{envelopePlot}
 \alias{envelopePlot}
-\title{ Add a shaded the region between two functions to an existing plot}
+\title{ Add a shaded region between two functions to an existing plot}
 
 \description{
 This function shades the region vertically between two functions, specified as pairs of x and y vectors,

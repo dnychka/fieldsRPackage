@@ -37,7 +37,7 @@ yline(y, ...)
 Values on y axis specifying location of vertical lines. 
 }
 \item{\dots}{
-Any ploting options for abline. 
+Any plotting options for abline. 
 }
 }
 \seealso{

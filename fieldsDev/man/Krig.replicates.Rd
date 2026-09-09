@@ -27,7 +27,7 @@
 Collapse repeated spatial locations into unique locations
 }
 \description{
-In case that several observations are available for a single spatial location find the 
+In case that several observations are available for a single spatial location find the
 group means and replicate variability
 }
 \usage{
@@ -36,18 +36,18 @@ Krig.replicates(out = NULL, x, y, XMat = NULL, weights = rep(1,
 }
 
 \arguments{
-  \item{out}{ A list with components  \code{x}, \code{y}, \code{weights},  and  possibily 
+  \item{out}{ A list with components  \code{x}, \code{y}, \code{weights},  and  possibily
 \code{XMat}.}
 \item{x}{Spatial locations.}
 \item{y}{Spatial observations}
 \item{XMat}{Spatial covariates.}
-\item{weights}{Weights proportional to reciprocal varainces of observations.}
-\item{digits}{Number of significant digits to consider in determing a replicate location.}
+\item{weights}{Weights proportional to reciprocal variances of observations.}
+\item{digits}{Number of significant digits to consider in determining a replicate location.}
 \item{verbose}{If TRUE print out details for debugging. }
 }
 \details{
-This function figures out which locations are the same and within the function fast.1way 
-use \code{tapply} to find replicate group means and standard deviations. 
+This function figures out which locations are the same and within the function fast.1way
+use \code{tapply} to find replicate group means and standard deviations.
 NOTE: it is assumed the XMat covariates are unique at the locations. Currently these functions
 can not handle a model with common spatial locations but different values for the XMat covariates.
 
@@ -58,9 +58,9 @@ A list with components:
  available this is the mean of the replicates.}
 
   \item{xM }{Unique spatial locations.}
-\item{weightsM}{Weights matching the unique lcoations proportional to reciprocal variances 
+\item{weightsM}{Weights matching the unique locations proportional to reciprocal variances
 This is found as a combination of the original weights at each location.}
-\item{XMatM}{Values of the covariates at the unique lcoations.}
+\item{XMatM}{Values of the covariates at the unique locations.}
 \item{uniquerows}{Index for unique rows of \code{x}.}
 \item{tauHat.rep, tauHat.pure.error}{Standard deviation of pure error estimate based on replicate groups
  (and adjusting for possibly different weights.)}
@@ -79,13 +79,13 @@ Douglas Nychka
  x0<- matrix( runif(10*2), 10,2)
  x<-  x0[ c(rep(1,3), 2:8, rep( 9,5),10) , ]
  y<-  rnorm( 16)
- 
+
  out<- Krig.replicates( x=x, y=y)
-# compare 
+# compare
 # out$yM[1] ;  mean( y[1:3])
 # out$yM[9] ; mean( y[11:15])
 # mean( y[ out$rep.info==9])
- 
+
 }
 % Add one or more standard keywords, see file 'KEYWORDS' in the
 % R documentation directory.

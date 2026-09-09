@@ -29,7 +29,7 @@
 \description{
 The response is 8-hour average (surface) ozone ( from 9AM-4PM) measured in
 parts per billion (PPB) for 153 sites in the midwestern US over the period
-June 3,1987 through August 31, 1987, 89 days. This season of high 
+June 3, 1987 through August 31, 1987, 89 days. This season of high 
 ozone corresponds with a large modeling experiment using the EPA Regional
 Oxidant Model.
 }
@@ -47,7 +47,7 @@ sites.
 Site locations in longitude and latitude as a 153X2 table
 </s-arg>
 <s-arg name="chicago.subset">
-Logical vector indicating stations that form teh smaller 
+Logical vector indicating stations that form the smaller 
 Chicagoland subset. (see FIELDS ozone data set)
 </s-arg>
 </s-args>

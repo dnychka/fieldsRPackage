@@ -49,8 +49,8 @@ remain in the design (see "fixed" option), nd is the number of points
 to add. If no points are fixed, nd is the design size. 
 }
 \item{nruns}{
-The number of random starts to be optimized. Uses random starts unless 
-"start" is specified. If nruns is great than 1, the final results are  
+The number of random starts to be optimized. Uses random starts unless
+"start" is specified. If nruns is greater than 1, the final results are
 the minimum.
 }
 \item{nn}{
@@ -62,8 +62,8 @@ points for possible swapping. The default is to use nearest neighbors
 only (nn=TRUE). 
 }
 \item{num.nn}{
-Number of nearest-neighbors to search over. The default number is 100. 
-If nn=F then this argument will be ignore. 
+Number of nearest-neighbors to search over. The default number is 100.
+If nn=F then this argument will be ignored.
 }
 \item{fixed}{
 A matrix or vector specifying points to be forced into the 
@@ -76,7 +76,7 @@ specified by fixed.
 }
 \item{scale.type}{
 A character string that tells how to scale the candidate matrix, R, 
-before calculating distances. The default is "unscaled", no
+before calculating distances. The default is "unscaled"; no
 transformation is done.
 Another option is "range" in which case
 variables are scaled to a [0,1] range before applying any distance
@@ -106,8 +106,8 @@ P=-Inf would give minimum distance (not available as a value). As P gets
 large and negative, points will tend to be more spread out. 
 }
 \item{Q}{
-The "q" exponent of the coverage criterion (see below).It
-affects how distances from all points not in the design to points in the 
+The "q" exponent of the coverage criterion (see below). It
+affects how distances from all points not in the design to points in the
 design are averaged. When Q=1, simple averaging of the distances is employed. 
 Q=Inf (not available as a value) in combination with P=-Inf would give a 
 classical minimax design. 
@@ -118,13 +118,13 @@ optimization. If start is a matrix, it gives the coordinates of the
 design points. In this case start must be a subset of the candidate set , R matrix.
 If start is a
 vector, then start gives the row numbers of the initial design based on the rows of the
-candidate matrix rows. The
+candidate matrix. The
 default is to use a random starting design. 
 }
 \item{DIST}{
 This argument is only for cover.design.S. 
 A distance metric in the form of an S function. Default is Euclidean
-distance (FIELDS rdist function)
+distance (FIELDS rdist function).
 See details
 and example below for the correct form.
 }
@@ -181,8 +181,8 @@ The designs other than the best design generated when nruns is
 greater than 1. 
 }
 \item{other.crit}{
-The optimality criteria for the other designs when nrun is greate
-than 1. 
+The optimality criteria for the other designs when nruns is greater
+than 1.
 }
 \item{DIST}{
 The distance function used in calculating the design criterion. 
@@ -213,8 +213,8 @@ The parameter value for calculating criterion.
 The number of swaps performed. 
 }
 \item{nloop}{
-The number of outer loops required to reach convergence if nloop is less 
-the max.loop. 
+The number of outer loops required to reach convergence if nloop is less
+than max.loop.
 }
 \item{minimax.crit}{
 The minimax design criterion using DIST. 
@@ -241,8 +241,8 @@ below using sample correlation matrices is an example.
 
 COVERAGE CRITERION:
 For nd design points  in the set D and nc candidate points ci in the
-set C, 
-the coverage criteria is defined as:
+set C,
+the coverage criterion is defined as:
 
 M(D,C) =  [sum(ci in C) [sum(di in D) (dist(di,ci)**P]**(Q/P)]**(1/Q)
 

@@ -65,30 +65,28 @@ spatialProcessSetDefaults<- function( x, cov.function,
   } 
   ###########################################
   ## Set some convenient default choices for a 
-  ## thin plate spline  
+  ## thin plate spline  constraint is  2*m-dimX >0 
   ###########################################
   if( cov.function=='Tps.cov'){
   # determine cardinal points if not included in
   # cov.args
     dimX<- ncol( x)
     mMin<- max(c(2, ceiling(dimX/2 + 0.1)))
+  if( is.null(cov.args)){
+      cov.args<- list(mDegree = mMin)
+    }
   if( is.null( mKrig.args$m)){
-    # m should satisfy  2*m-dimX >0
-    mKrig.args<- list( mKrig.args, m=mMin )
+    # m should match the degree in cov.args if not specified
+    mKrig.args<- list( mKrig.args, m = cov.args$mDegree )
   }
-
+# test for a problem
      if( mKrig.args$m < mMin){
    stop("m component specified in the mKrig.args list 
         needs to satisfy 2*m-dimX >0 for the spline to be valid")
  }
-    
 #  
-  if( is.null(cov.args)){
-    cov.args<- list()
-  }
-#     
   if( is.null(cov.args$cardinalX)){
-    nterms <- choose((mKrig.args$m + dimX - 1), dimX)
+    nterms <- choose((cov.args$mDegree + dimX - 1), dimX)
     cardinalX<- cover.design(x, nterms, num.nn = 50 )$design
     cov.args$cardinalX<- cardinalX
   }

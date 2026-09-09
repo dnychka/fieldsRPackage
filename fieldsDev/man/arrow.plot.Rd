@@ -76,9 +76,9 @@ arrows.
 
 
 \item{\dots}{
-Graphics arguments passed to the arrows function that can can change the 
-color or arrow sizes. See help on this for 
-details. 
+Graphics arguments passed to the arrows function that can change the
+color or arrow sizes. See help on this for
+details.
 }
 }
 \details{
@@ -91,8 +91,8 @@ that are the streamlines  true.angle should be false. In this case you
 want u and v to be scaled in the same way as the x and y variables.  
 If the scaling is not the same then the arrows will not look like tangent 
 vectors to the streamlines.  
-An application where the absolute angles are meaningful might be the hands of a 
-clock showing different times zones on a world map. Here true.angle=T is
+An application where the absolute angles are meaningful might be the hands of a
+clock showing different time zones on a world map. Here true.angle=T is
 appropriate, the clock hands should preserve the right angles. 
 }
 \seealso{arrows} 

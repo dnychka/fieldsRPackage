@@ -30,14 +30,14 @@ data has been restricted to 1999 and to countries with a population larger than 
 }
  \usage{ data(WorldBankCO2)}
 \format{
-  This a 75X5 matrix with the row names identifying  countries  and 
+  This is a 75X5 matrix with the row names identifying  countries  and
 columns the covariables: 
 \code{ "GDP.cap" "Pop.mid" "Pop.urb" "CO2.cap" "Pop"}
 \itemize{
 \item GDP.cap: Gross domestic product (in US dollars) per capita.
 \item Pop.mid: percentage of the population within the ages of 15 through 65.
-\item Pop.urb: Precentage of the population living in an urban environment
-\item CO2.cap: Equivalent CO2 emmissions per capita 
+\item Pop.urb: Percentage of the population living in an urban environment
+\item CO2.cap: Equivalent CO2 emissions per capita
 \item Pop: Population
 }
 

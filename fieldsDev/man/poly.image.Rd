@@ -82,13 +82,13 @@ no color.}
 \details{
  This function is straightforward except in the case when the dimensions
 of x,y, and z are equal. In this case the relationship of the values to
-the grid cells is ambigious and the switch midpoint gives two possible
+the grid cells is ambiguous and the switch midpoint gives two possible
 solutions. The z values at 4 neighboring grid cells can be averaged to
 estimate a new value interpreted to be at the center of the grid. This
 is done when midpoint is TRUE. Alternatively the full set of z values
-can be retained by redefining the grid. This is accomplisehd by finding
+can be retained by redefining the grid. This is accomplished by finding
 the midpoints of x and y grid points and adding two outside rows and
-cols to complete the grid.  The new result is a new grid that is is
+cols to complete the grid.  The new result is a new grid that is
 (M+1)X (N+1) if z is MXN. These new grid points define cells that
 contain each of the original grid points as their midpoints. Of course
 the advantage of this alternative is that the values of z are preserved
@@ -102,7 +102,7 @@ The function \code{poly.image.regrid} does a simple averaging and
 extrapolation  of the grid locations to shift from midpoints to
 corners.  In the interior grid corners are found by the average of the
 4 closest midpoints. For the edges the corners are just extrapolated
-based on the separation of nieghboring grid cells. 
+based on the separation of neighboring grid cells. 
 }
 \author{Doug Nychka }
 \seealso{image.plot}

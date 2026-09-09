@@ -30,9 +30,9 @@
   Euclidean distance matrix or vector 
 }
 \description{
-Given two sets of locations \code{rdist} and \code{fields.rdist.near} computes the full 
-Euclidean distance matrix among all pairings or a sparse version for points within a 
-fixed threshhold distance.  \code{rdist.vec} computes a vector of pairwise distances 
+Given two sets of locations \code{rdist} and \code{fields.rdist.near} compute the full
+Euclidean distance matrix among all pairings or a sparse version for points within a
+fixed threshold distance.  \code{rdist.vec} computes a vector of pairwise distances
 between corresponding elements of the input locations and is used in empirical 
 variogram calculations.
 }
@@ -56,7 +56,7 @@ a particular point. If this is not passed or given as NULL x1 is used.
 \item{compact}{
 Whether or not to return a distance matrix in compact form inheriting class ``dist'' (as returned by the \code{dist} function in base R).  Only values for one triangle of the symmetric distance matrix are returned. This saves time evaluating the returned matrix and the covariance.  Note that this option is ignored when \code{x2} is not NULL.
 }
-\item{delta}{ Threshhold distance. All pairs of points that separated by more than 
+\item{delta}{ Threshold distance. All pairs of points that are separated by more than
 delta in distance are ignored. }
 
 \item{max.points}{Size of the expected number of pairs less than or equal to 
@@ -66,9 +66,9 @@ delta. The default is set to the nrow(x1)*mean.neighbor. }
  
 }
 \section{Returned values}{
-Let D be the mXn distance matrix, 
-with m= nrow(x1) and n=nrow( x2). The elements are 
-the Euclidean distances between the all locations x1[i,] and x2[j,].
+Let D be the mXn distance matrix,
+with m= nrow(x1) and n=nrow( x2). The elements are
+the Euclidean distances between all locations x1[i,] and x2[j,].
 That is,
 
 D.ij = sqrt( sum.k (( x1[i,k] - x2[j,k]) **2 ).
@@ -106,7 +106,7 @@ are more points that are within delta the function stops with an error
 but lists the offending rows. Just rerun the function with a larger
 choice for max.points
 
-It possible that for certain x1 points there are no x2 points within a distance 
+It is possible that for certain x1 points there are no x2 points within a distance
 delta. This situation will cause an error if the list is converted to spam format. 
 
 }

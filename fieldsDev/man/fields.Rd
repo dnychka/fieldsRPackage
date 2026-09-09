@@ -30,7 +30,7 @@ fields - tools for spatial data
 \description{
  \code{fields} is a collection of functions for curve and function
  fitting with an emphasis on spatial data and spatial statistics. It was developed over 20+ years to provide easy to use but sophisticated tools for analyzing
- spatial data, particularly that encountered in the environmental sciences. For the impatient users, jump to the examples below to see how easy this is use. 
+ spatial data, particularly that encountered in the environmental sciences. For the impatient users, jump to the examples below to see how easy this is to use.
  Please send bugs and questions to Doug Nychka, nychka@mines.edu. Positive
  comments are also welcome!
 
@@ -42,8 +42,8 @@ The
  Throughout we try to include reasonable defaults in functions that reflect
  our experience with analyzing spatial data. For example, the Matern covariance function is the default choice for the main spatial method. 
  
- A key feature of this package is any
- covariance function implemented in R code can be used for spatial prediction through the spatial functions.  
+ A key feature of this package is that any
+ covariance function implemented in R code can be used for spatial prediction through the spatial functions.
  Another important feature is that fields will take advantage of compactly
  supported covariance functions in a seamless way through 
 the spam package. 
@@ -63,8 +63,8 @@ strip comments from the source for efficiency.   You can go to
  the latest  "tarball" ( aka Package Source) and unzip to get code with comments.
  We also keep the most recent version of this package  at the 
 \href{https://github.com/dnychka/fieldsRPackage}{fields github repository}.
-and for commented source go to the 
-the subdirectory \code{fields/R}. This may be a more recent version, however, than what is posted to CRAN. 
+and for commented source go to
+the subdirectory \code{fields/R}. This may be a more recent version, however, than what is posted to CRAN.
 }
 
 \details{
@@ -80,14 +80,13 @@ function that is
 written in native R code.  See (\code{\link{stationary.cov}}) that
 includes
 several families of covariances  including the
-Matern and several distance metrics including great circle distance
-. 
+Matern and several distance metrics including great circle distance.
 \code{\link{sim.spatialProcess}} and \code{\link{simLocal.spatialProcess}} provide  "one liners" for conditional simulation of the fitted surface. 
  
 \item \code{\link{Tps}} Thin Plate spline
 regression including GCV and REML estimates for the smoothing parameter. For moderate size data sets as a first look we use \code{Tps} all the time. See also \code{\link{fastTps}} for an 
 approximate method to handle very large numbers of spatial locations.
-Also see the help file for \code{spatialProcess} to see how to fit a thin plate plate using the more extensive set of spatial stats functions. 
+Also see the help file for \code{spatialProcess} to see how to fit a thin plate spline using the more extensive set of spatial stats functions.
 
 \item \code{\link{sreg}} , \code{\link{splint}}   Fast 1-D cubic smoothing 
 splines and interpolating  splines, a workhorse  algorithm for more EDA and more complicated methods.  
@@ -96,13 +95,13 @@ splines and interpolating  splines, a workhorse  algorithm for more EDA and more
     Efficient Universal Kriging and Gaussian process function,
     that can take advantage of sparse covariance
     functions and is the core algorithm called by optimization
-functions and for spatial predictio. 
+functions and for spatial prediction.
 
-\item \code{\link{QTps}} A easy to use extension of thin plate splines for quantile and robust surface fitting. 
+\item \code{\link{QTps}} An easy to use extension of thin plate splines for quantile and robust surface fitting.
 
-\item \code{\link{mKrigMLEGrid}} and \code{\link{mKrigMLEJoint}} for maximum likelihood estimates of covariance parameters. These functions also 
-handle replicate fields, assumed to be independent realizations, at the same locations and can also take any covariate function function written in R following the \code{fields} format 
-}  
+\item \code{\link{mKrigMLEGrid}} and \code{\link{mKrigMLEJoint}} for maximum likelihood estimates of covariance parameters. These functions also
+handle replicate fields, assumed to be independent realizations, at the same locations and can also take any covariate function written in R following the \code{fields} format
+}
 % end itemize
 
 
@@ -110,14 +109,14 @@ handle replicate fields, assumed to be independent realizations, at the same loc
 \itemize{
 
 \item \code{\link{vgram}} and \code{\link{vgram.matrix}} find variograms for spatial data (and
-with temporal replications.
+with temporal replications).
 
-\item \code{\link{cover.design}} Generates space-filling designs where the distance 
-function is expresed in R code.
+\item \code{\link{cover.design}} Generates space-filling designs where the distance
+function is expressed in R code.
 
 \item  There are many
 convenient functions for working with image data and rationally (well,
-maybe reasonably) creating and  placing a color scale on  plots. This suite of tools are for the users who want to extend the "base R grahics" and retain control over details. See the last amusing example in help(imagePlot) for an example.  
+maybe reasonably) creating and  placing a color scale on  plots. This suite of tools are for the users who want to extend the "base R graphics" and retain control over details. See the last amusing example in help(imagePlot) for an example.
 \code{\link{as.image}}, \code{\link{imagePlot}}, \code{bubblePlot}, \code{
 \link{drape.plot}}, \code{\link{quilt.plot}}
 \code{\link{add.image}}, \code{\link{crop.image}}, \code{\link{half.image}},
@@ -136,9 +135,9 @@ and \code{\link{world}} for adding a map quickly.
 \code{summary}- statistical summary of fit \cr
 \code{print}- shorter version of summary \cr
 \code{\link{surface}}- graphical display of fitted surface \cr
-\code{predict}- evaluation fit at arbitrary points \cr
+\code{predict}- evaluation of fit at arbitrary points \cr
 \code{\link{predictSE}}- prediction standard errors at arbitrary points. \cr
-\code{\link{sim.rf}}- Simulate a random fields on a 2-d grid.
+\code{\link{sim.rf}}- Simulate a random field on a 2-d grid.
 
 } % end details
 
@@ -151,7 +150,7 @@ and \code{\link{world}} for adding a map quickly.
 
 \section{\strong{Some fields datasets}}{
 \itemize{
-\item \code{\link{CO2}} Global satelite CO2 concentrations (simulated field)
+\item \code{\link{CO2}} Global satellite CO2 concentrations (simulated field)
 \item \code{\link{COmonthlyMet}} Monthly mean temperatures and precip for Colorado
 \item \code{\link{glacier}} An elevation dataset of a glacier also used by the applied math community to test interpolation methods. 
 \item \code{\link{lennon}} Image of John Lennon

@@ -37,13 +37,13 @@ C and FORTRAN functions.
 }
 \description{
 These are objects of class \code{CallRoutine} or \code{FortranRoutine} and also \code{\link{NativeSymbolInfo}}
-They provide information for compiledfunctions called with \code{.Call},
+They provide information for compiled functions called with \code{.Call},
 or \code{.Fortran}.
 Ordinarily one would not need to consult these and they are used to make
 the search among dynamically loaded libraries ( in particular the fields library) have less ambiguity and
-also be faster. These are created when the package/library is loaded 
-are have their definitions from the compliation of  \code{init.c} in the
-package source (src) directory. 
+also be faster. These are created when the package/library is loaded
+and have their definitions from the compilation of  \code{init.c} in the
+package source (src) directory.
 }
 %ExponentialUpperC.Rd	compactToMatC.Rd	multebC.Rd
 %RdistC.Rd		mltdrb.Rd		multwendlandg.Rd
@@ -80,11 +80,11 @@ package source (src) directory.
 
 \item{compactToMatC}{ Converts compact format to full matrix format. See \code{compactToMat}.}
 
-\item{multebC}{Mulitplies a vector/matrix with an exponential covariance function. See \code{exp.cov}} 
+\item{multebC}{Multiplies a vector/matrix with an exponential covariance function. See \code{exp.cov}}
 
 \item{multwendlandg}{This has been mysteriously included but it is not a function! }
 
-\item{mltdrb}{Evaluates the derivatives of thin plate sline radial basis functions. See \code{rad.cov}. }
+\item{mltdrb}{Evaluates the derivatives of thin plate spline radial basis functions. See \code{rad.cov}. }
 
 \item{RdistC}{ Euclidean distance function between sets of coordinates.
 See \code{rdist}.}

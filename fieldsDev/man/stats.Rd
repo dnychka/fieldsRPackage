@@ -52,7 +52,7 @@ index the separate data sets.
 Stats breaks x up into separate data sets and then calls describe 
 to calculate the statistics. 
 Statistics are found by columns for matrices, by components for a list and
-by the relevent groups when a  numeric vector and a by  vector are given.
+by the relevant groups when a  numeric vector and a by  vector are given.
 The default set of statistics are the number of 
 (nonmissing) observations, mean, standard deviation, minimum, lower quartile, 
 median, upper quartile, maximum, and number of missing observations.  If any 

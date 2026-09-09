@@ -29,7 +29,7 @@
 \description{
 Draws boxplots for y by binning on x. This gives a coarse, but quick,  
 representation
-of the conditional distrubtion of [Y|X] in terms of boxplots.  
+of the conditional distribution of [Y|X] in terms of boxplots.
 }
 \usage{
 bplot.xy(x, y, N = 10, breaks = NULL,

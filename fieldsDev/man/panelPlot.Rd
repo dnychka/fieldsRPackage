@@ -41,17 +41,17 @@ panelPlotExample()
 The function is really a fairly elaborate "script" that creates a  
  3X2 panel of plots. Usually there will not be as much variation among the individual
  plots. That is the whole point of organizing them in a matrix format!
-However, the intent is for the user to copy this code and modify it according.
+However, the intent is for the user to copy this code and modify it accordingly.
 The commenting should help
-in naviagting the different parts. We have resisted making this into a more polished function
+in navigating the different parts. We have resisted making this into a more polished function
 for two reasons. 
 First, panel plots typically need customization and so handling all kinds of
-flexibilty would make
+flexibility would make
 a general function complex.  There are useful frameworks such as \code{ggplot2} 
 and \code{lattice}
 that provide this kind of function but in doing so require some effort  to 
-deviate from the default settings. The second reason is our realization that 
-that basic elements of
+deviate from the default settings. The second reason is our realization that
+basic elements of
 grouping plots together and adding  common axes on the outsides is really not
 too complicated to code up. 
 We implement this as a \code{for} loop over the panel plots
@@ -60,13 +60,13 @@ adding particular features to
 specific plots in the panel -- an option that we found awkward in higher level packages for 
 creating panel plots. See the comments in our example. For a data science student 
 it is useful 
-to become familar with building a  complex figure from  a sequwence of 
+to become familiar with building a  complex figure from  a sequence of 
 simpler graphical elements and 
 to be able to do this using base R graphics.  
 
-The most exotic part of this example is the use of the the 
+The most exotic part of this example is the use of the 
 \code{eval} function to 
-evaluate the plot functions for each separate panel. The plotting code is setup as 
+evaluate the plot functions for each separate panel. The plotting code is set up as 
 components of
 a list, \code{plotCode}, at the beginning of the script. Within
 the \code{for} loop over the plots these
@@ -77,7 +77,7 @@ The comments in the function indicate the parts to change for each plot and thos
 that usually are not touched. 
 
 Here we just generate trivial vectors to plot although the reader is probably aware that any data object 
-refered to in this function will be looked for in the work space. Or to be more rigorous add some
+referred to in this function will be looked for in the work space. Or to be more rigorous add some
 figure specific arguments to the function and just pass the object as an argument. This would help to 
 isolate drawing the figure from stray versions of the data objects in the workspace with the same name. 
 
@@ -85,7 +85,7 @@ To run the example  use \code{panelPlot()} from this package. Unfortunately the 
 loading is to strip comments from functions and so \code{panelPlot} has
 its comments removed. You can find the commented version in 
 \url{https://github.com/dnychka/fieldsRPackage/tree/main/fields/R}
-in the file \code{panelPlotExample.R} Use this code to make a copy of the function,  
+in the file \code{panelPlotExample.R}. Use this code to make a copy of the function,  
 rename it, then modify as needed. Enjoy!
 
 }

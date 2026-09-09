@@ -38,9 +38,9 @@
 numerical functions}
 
 \description{
- Computes the compactly supported, stationatry Wendland covariance
-function as a function ofdistance. This family is useful for creating
-sparse covariance matrices. 
+ Computes the compactly supported, stationary Wendland covariance
+function as a function of distance. This family is useful for creating
+sparse covariance matrices.
 
 }
 
@@ -72,7 +72,7 @@ range parameter.}
 \item{n}{Dimension for computing Wendland polynomial coefficients}
 \item{k}{Order of covariance function.}
 \item{derivative}{Indicates derivative of covariance function}
-\item{phi}{Depreciated argument will give stop if not an NA.
+\item{phi}{Deprecated argument will give stop if not an NA.
  (Formerly the scale factor to multiply the function. Equivalent to the
 marginal variance or sill if viewed as a covariance function.) }
 \item{r}{ Real value in [0,1] to evaluate Wendland function.}
@@ -102,11 +102,11 @@ stationary.cov and station.taper.cov functions.
 The proofs and construction of the Wendland family of positive definite functions can be found in the work of Wendland(1995).
 ( H. Wendland. Piecewise polynomial , positive definite and compactly supported radial functions of minimal degree. AICM 4(1995), pp 389-396.)
 
-The Wendland covariance function is a positive 
-polynomial on [0,aRange] and zero beyond aRange. It is further normalized in these fields functions to be 1 at 0. The parameter \code{k} detemines the smoothness of the covariance at zero. The additional parameter \code{n} or \code{dimension} is needed because the property of 
-positive definitness for radial functions depends on the dimension being considered.  
+The Wendland covariance function is a positive
+polynomial on [0,aRange] and zero beyond aRange. It is further normalized in these fields functions to be 1 at 0. The parameter \code{k} determines the smoothness of the covariance at zero. The additional parameter \code{n} or \code{dimension} is needed because the property of
+positive definiteness for radial functions depends on the dimension being considered.
 
-The polynomial terms of the Wenland function.
+The polynomial terms of the Wendland function
  are computed recursively based on the values of \code{k}
 and \code{dimension} in the function \code{wendland.eval}. The matrix of
 coefficients found by \code{Wendland.beta} is used to weight each polynomial term and follows Wendland's original construction of these functions. The recursive definition of the Wendland coefficients depends on Pochhammer symbols akin to binomial coefficients:

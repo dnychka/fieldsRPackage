@@ -46,7 +46,7 @@ other arguments are used.
 This function is out of place in fields but was included because often large
 geophysical data sets are in netCDF format and the ncdf R package is also 
 needed. To date the summary capability in the ncdf package is limited and 
-this function is used to supplement it use. The function is also a a 
+this function is used to supplement its use. The function is also a
 useful device to see how the ncdf object is structured.
 }
 

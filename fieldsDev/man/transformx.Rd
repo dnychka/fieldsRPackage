@@ -51,7 +51,7 @@ A vector of scaling values to subtract from each column.
 }
 }
 \value{
-A matrix whose columns have between transformed.
+A matrix whose columns have been transformed.
 This matrix also has the attributes: scale.type, x.center and y.center 
 with the transformation information. 
 }

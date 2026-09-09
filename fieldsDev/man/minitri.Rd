@@ -38,7 +38,7 @@ run:   (4 miles)
 
 <s-section 
 name= "DATA DESCRIPTION">
-This is a dataframe. Row names are the place within this age group based 
+This is a data frame. Row names are the place within this age group based 
 on total time.  
 }
 \arguments{

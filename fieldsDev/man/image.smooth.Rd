@@ -48,7 +48,7 @@ A matrix image. Missing values can be indicated by NAs. }
 FFT of smoothing kernel. If this is NULL the default is to compute this
 object. }
 \item{grid}{
-A list with x and y components. Each are equally spaced and define the rectangular. ( see grid.list)}
+A list with x and y components. Each are equally spaced and define the rectangular grid. ( see grid.list)}
 \item{dx}{
 Grid spacing in x direction }
 \item{dy}{
@@ -90,7 +90,7 @@ matrix being the FFT of the kernel, dx, dy, xwidth and ywidth.}
  The function works by taking convolutions using an FFT. The missing
 pixels are taken into account and the kernel smoothing is correctly
 normalized for the edge effects following the classical Nadaraya-Watson
-estimator. For this reason the kernel doe snot have to be a desity as it
+estimator. For this reason the kernel does not have to be a density as it
 is automatically normalized when the kernel weight function is found for
 the data.  If the kernel has limited support then the width arguments
 can be set to reduce the amount of computation. (See example below.) 

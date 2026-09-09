@@ -36,9 +36,9 @@ Utilities for fast spatial prediction.
 \description{
 Based on a stationary Gaussian process model these functions support fast prediction onto
 a grid using a sparse matrix approximation. They also allow for fast 
-prediction to off-grid values (aka interpoltation) from an equally spaced rectangular grid and  using a spatial model. The sparsity comes about because only a fixed number of neighboring grid points
-(NNSize) are used in the prediction.  The prediction variance for off-grid location is also give in the returned object. These function are used as the basis for approximate conditional simulation for large
-spatial datasets asnd also for fast spatial prediction from irregular locations onto a grid.
+prediction to off-grid values (aka interpolation) from an equally spaced rectangular grid and  using a spatial model. The sparsity comes about because only a fixed number of neighboring grid points
+(NNSize) are used in the prediction.  The prediction variance for off-grid location is also given in the returned object. These functions are used as the basis for approximate conditional simulation for large
+spatial datasets and also for fast spatial prediction from irregular locations onto a grid.
 
 }
 \usage{
@@ -95,21 +95,21 @@ mKrigFastPredictSetup(mKrigObject,
 \item{findCov}{If TRUE the prediction variances (via the Kriging
   model and assumed covariance function) for the offgrid locations are
   found. If FALSE just the prediction weights are returned. This option is a bit faster. 
- This switch only is implemented for the 2 D case since the extra 
+ This switch is only implemented for the 2 D case since the extra 
  computational demands for 1 D are modest.}
  
  \item{giveWarnings}{If TRUE will warn if two or more observations
  are in the same grid box. See details below.}
  
   \item{gridList}{
-  A list as the gridList format ( x and y components) that describes the
-  rectagular grid. The grid must have at least \code{NNSize} extra grid points beyond
+  A list in the gridList format ( x and y components) that describes the
+  rectangular grid. The grid must have at least \code{NNSize} extra grid points beyond
   the range of the points in \code{s}. See
   \code{\link{grid.list}}. 
 }
 
 \item{mKrigObject}{
-  The output object (Aka a list with some specfic components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
+  The output object (Aka a list with some specific components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
   The following items are coded in place of not supplying this object.  See the example below for more details.
 }
 \item{nx}{Number of grid points in X}
@@ -118,7 +118,7 @@ mKrigFastPredictSetup(mKrigObject,
 \item{NNSize}{
   Number of nearest neighbor grid points to use for prediction.  \code{NNSize = 1}
   will use the 4 grid points that bound the offgrid point.  \code{NNSize = 2}
-  will be a 4X4 subgrid that define a 3X3 set of boxes
+  will be a 4X4 subgrid that defines a 3X3 set of boxes
   and the middle grid box containing the offgrid point.
   In general there will be  \code{(2*NNSize)^2} neighboring points used. 
 
@@ -154,7 +154,7 @@ fast, but approximate prediction for Kriging with a
 stationary covariance. 
 
 The function \code{offGridWeights} is a simple wrapper to
-call either the 1D or 2D functions 
+call either the 1D or 2D functions.
 
 In most cases one would not use these approximations for a 1D problem.
 However,
@@ -179,14 +179,14 @@ observations then
 \preformatted{error <- obj$SE\%*\% rnorm( nObs)} 
 will simulate a prediction error that includes the dependence. Note that
 in
-the case that there all observations are in separate grid boxes this code line is the same as 
+the case that all observations are in separate grid boxes this code line is the same as 
 \preformatted{error <- sqrt(obj$predictionVariance)*rnorm( nObs)}
 It is always true that the prediction variance is given by 
 \code{ diag( obj$SE\%*\% t( obj$SE))}.
 
 The user is also referred to the testing scripts
 \code{offGridWeights.test.R}  and 
-\code{offGridWeights.testNEW.R}in \code{tests} where the 
+\code{offGridWeights.testNEW.R} in \code{tests} where the 
 Kriging predictions and standard errors are computed explicitly and 
 tested against the sparse
 matrix computation. This is helpful in defining exactly what
@@ -195,21 +195,21 @@ is being computed.
 Returned value below pertains to the offGridWeights function. 
 
 \strong{approximateCovariance2d} This is used to approximate a stationary covariance for fast prediction
-The weights reuired are the same as those used for the local simulation and so this function is
+The weights required are the same as those used for the local simulation and so this function is
 included here. See \code{ \link{ predictSurface}} with the \code{fast} option for more details. 
 
-\strong{augmentPredictionGrid} This is a supporting functions that adds 
+\strong{augmentPredictionGrid} This is a supporting function that adds 
 extra grid points to  a gridList so that every irregular point has a
-complete number of nearest neighbors.Typically the initial grid has as
+complete number of nearest neighbors. Typically the initial grid has as
 its limits the ranges of the observations. 
-This functions adds more grid points at the edges so the there are \code{NNSize}
+This function adds more grid points at the edges so that there are \code{NNSize}
 neighbors around every data location. 
 
 
-\strong{findGridBox}This is a handy function that finds the indices of
+\strong{findGridBox} This is a handy function that finds the indices of
 the lower left grid box that contains the points in \code{s}. If the
-point is not contained within the range of the grid and NA is returned 
-fo the index. 
+point is not contained within the range of the grid then NA is returned 
+for the index. 
 This function assumes that the grid points are equally spaced.}
 
 
@@ -220,7 +220,7 @@ locations (rows) in \code{s} and n being the total number of grid points.
 \code{n = length(gridList$x)*length(gridList$y) }
 }
 
-\item{predictionVariance}{A vector of length as the rows of \code{s}
+\item{predictionVariance}{A vector of length equal to the rows of \code{s}
 with the Kriging prediction variance based on the nearest neighbor
 prediction and the specified covariance function. }
  \item{SE}{A sparse matrix that can be used to simulate dependence among

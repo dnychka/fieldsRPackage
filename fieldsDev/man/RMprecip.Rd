@@ -43,7 +43,7 @@ The data set  \code{RMprecip} is a list containing the following components:
 
 \describe{
 \item{x}{
-Longitude-latitude position of monitoring stations. Rows names are station id codes consistent
+Longitude-latitude position of monitoring stations. Row names are station id codes consistent
 with the US Cooperative observer network.
 The ranges for these coordinates are  [-111, -99] for longitude and [35,45] for latitude.
 }
@@ -51,7 +51,7 @@ The ranges for these coordinates are  [-111, -99] for longitude and [35,45] for 
 Station elevation in meters. 
 }
 \item{y}{
-Monthly total precipitation in millimeters.
+Monthly total precipitation in millimeters
 for August, 1997
 }
 }
@@ -59,7 +59,7 @@ for August, 1997
 The data sets 
  \code{PRISMelevation} and  
  \code{RMelevation} are lists 
-in the usual R grid format for images and contouring
+in the usual R grid format for images and contouring.
 
 They have  the following components:
 \describe{
@@ -79,8 +79,8 @@ Conterminous United States
 ( see \url{https://prism.oregonstate.edu/documents/PRISM_downloads_FTP.pdf}
 and also archived at the National
 Climate Data Center. This work is authored by Chris Daly
-\url{https://prism.oregonstate.edu} and his PRISM group but had some
-contribution from the Geophysical Statistics Project at NCAR  
+\url{https://prism.oregonstate.edu} and his PRISM group but has some
+contribution from the Geophysical Statistics Project at NCAR
 and is an interpolation of the observational data to a 4km grid that
 takes into account topography such as elevation and aspect.
 

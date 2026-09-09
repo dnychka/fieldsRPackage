@@ -28,13 +28,13 @@
 }
 \description{
 The characteristics of an ionizing flame are varied with the intent of 
-maximizing the intensity of emitted light for lithuim in 
+maximizing the intensity of emitted light for lithium in
 solution. Areas outside of the measurements are where the mixture may 
 explode! Note that the optimum is close to the boundary. Source of data is 
 from a master's level lab experiment in 
 analytical chemistry from Chuck Boss's course at NCSU. 
 <s-section name= "DATA DESCRIPTION">
-This is list with the following components
+This is a list with the following components
 }
 \arguments{
 \item{x}{

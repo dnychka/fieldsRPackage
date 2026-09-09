@@ -30,7 +30,7 @@
 }
 \description{
 Simulates a stationary Gaussian random field on a regular grid with
-unit marginal variance. Makes use of the efficient algorithm based on the FFT know as 
+unit marginal variance. Makes use of the efficient algorithm based on the FFT known as
 circulant embedding.
 }
 \usage{
@@ -61,18 +61,18 @@ positive definite.}
 
 \item{M}{A vector of dimensions to embed the field. Simulation will be exact if each \code{M[i]} is
 larger than \code{2*length(grid)}. The default is to choose a power of 2 larger than this
-minima bound.}
+minimum bound.}
 
 \item{mKrigObject}{Object from fitting surface using the mKrig or spatialProcess functions.}
 
 \item{cov.function}{A text string with the name of the stationary covariance function to use.
-Default is \code{stationary.cov} and general function that takes advantage of some efficiency
+Default is \code{stationary.cov} a general function that takes advantage of some efficiency
 in finding distances.}
 
 \item{cov.args}{A list of arguments to include with the covariance function, Eg. aRange and 
 smoothness for the Matern.}
 
-\item{delta}{If NULL the spatial domain is artifically doubled in size in all dimensions to account for the periodic wrapping of the fft. If  passed this is the amount to extend the domain and can be less than double if a compact covariance function is used. }
+\item{delta}{If NULL the spatial domain is artificially doubled in size in all dimensions to account for the periodic wrapping of the fft. If  passed this is the amount to extend the domain and can be less than double if a compact covariance function is used. }
 
 %\item{truncate}{If the real part of the circulate matrix is negative set these values to zero.
 %if \code{truncate = "default"} then all values are set zero to zero if their absolute value 
@@ -95,7 +95,7 @@ A matrix with the random field values.
 
 \strong{circulantEmbedding}: An array according to the grid values specified in the setup.
 
-\strong{circulantEmbeddingetup}: A list with components 
+\strong{circulantEmbeddingSetup}: A list with components
 
 \code{ "m"    "grid" "dx"   "M"    "wght" "call"}
 
@@ -104,7 +104,7 @@ With the information needed to simulate the field.
 }
 \details{
 The functions \code{circulantEmbedding} and \code{circulantEmbeddingSetup} are more recent \code{fields}
-functions, more easy to read, and recommended over \code{sim.rf}. \code{sim.rf} is limited to 2D fields
+functions, easier to read, and recommended over \code{sim.rf}. \code{sim.rf} is limited to 2D fields
 while \code{circulantEmbedding} can handle any number of 
 dimensions and has some shortcuts to be efficient for the 2D case. 
 
@@ -115,8 +115,8 @@ to create \code{covObject} for fast multiplication of
 a stationary covariance function with values on a regular, 2D grid 
 (e.g. see \code{\link{stationaryImageCov}} )
 
-One complication in this code is to take any grid size and enlarge it so that 
-the grid sizes are powers of 2 and 3 (highly composite). This make the FFT more 
+One complication in this code is to take any grid size and enlarge it so that
+the grid sizes are powers of 2 and 3 (highly composite). This makes the FFT more
 efficient. (In fact without any adjustment  grid sizes that are prime numbers will 
 make the FFT quite slow.) 
 
@@ -130,7 +130,7 @@ recommend that alternative covariance functions also be normalized so
 that this is one.
 
 Of course if one requires a Gaussian field with different marginal
-variances one can simply scale the result of this function but the process standard deviations. 
+variances one can simply scale the result of this function by the process standard deviations.
 See the third example below. 
 
 Both \code{sim.rf} and \code{circulantEmbedding}
@@ -168,9 +168,9 @@ the FFT of the covariance function with dimensions \code{M}.
 Keep in mind that for the final results only the array
 that is within the indices   \code{1: m[i]}  for each dimension \code{i} is retained.
 This can give a much larger intermediate array, however, in the computation. 
-E.g. if \code{m[1] = 100} and \code{m[2]=200} by default then \code{M[1] = 256} 
-and  \code{M[2] = 512}. A 256 X 512 array 
-is simluated with to get the 100 by 200 result. 
+E.g. if \code{m[1] = 100} and \code{m[2]=200} by default then \code{M[1] = 256}
+and  \code{M[2] = 512}. A 256 X 512 array
+is simulated to get the 100 by 200 result.
 
 The easiest way to create the
 object for simulation is to use \code{circulantEmbeddingSetup}. 
@@ -182,9 +182,9 @@ See the example below for this usage.
 The classic reference for this algorithm is 
 Wood, A.T.A. and Chan, G. (1994).
     Simulation of Stationary Gaussian Processes in [0,1]^d . Journal of
-Computational and Graphical Statistics, 3, 409-432. Micheal Stein and
+Computational and Graphical Statistics, 3, 409-432. Michael Stein and
 Tilman Gneiting have also made some additional contributions to the
-algortihms and theory.
+algorithms and theory.
 
 }
 \seealso{

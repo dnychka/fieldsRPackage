@@ -34,8 +34,8 @@ methods in mKrig to evaluate a Kriging estimate on a large grid.
 
 \details{
 \code{mKrig} is a flexible function for surface fitting  using 
-a spatial process model. It can also exploit sparse matrix methods forlarge data sets by using a compactly supported covariance. 
-The example below shows how ot evaluate a solution on a big grid. (Thanks to Jan Klennin for  this example.)
+a spatial process model. It can also exploit sparse matrix methods for large data sets by using a compactly supported covariance.
+The example below shows how to evaluate a solution on a big grid. (Thanks to Jan Klennin for  this example.)
 }
 \examples{
 x<- RMprecip$x

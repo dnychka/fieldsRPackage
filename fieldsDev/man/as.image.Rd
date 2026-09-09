@@ -27,7 +27,7 @@
   Creates image from irregular x,y,z  
 }
 \description{
-Discretizes a set of  2-d locations to a grid and produces a image object  
+Discretizes a set of  2-d locations to a grid and produces an image object
 with the z values in the right cells. For cells with more than one Z
 value the average is used.   
 }
@@ -53,10 +53,10 @@ ranges of the data locations (x)  to construct a grid.
 Locations of image values. Not needed if  ind  is specified.  
 }
 \item{nrow}{
-Same as nx this is depreciated. 
+Same as nx this is deprecated.
 }
 \item{ncol}{
-Same as ny this is depreciated.  
+Same as ny this is deprecated.
 }
 \item{weights}{
 If two or more values fall into the same  
@@ -65,7 +65,7 @@ equal weights.
 }
 \item{na.rm}{ 
 If true NA's are removed from the Z vector.}
-\item{nx}{Number of grid point in X coordinate.}
+\item{nx}{Number of grid points in X coordinate.}
 \item{ny}{Number of grid points in Y coordinate.}
 \item{boundary.grid}{If FALSE grid points are assumed to be the 
 grid midpoints. If TRUE they are the grid box boundaries.}
@@ -75,7 +75,7 @@ grid midpoints. If TRUE they are the grid box boundaries.}
 }
 
 \value{
-An list in image format with a few more components. Components x and y are 
+A list in image format with a few more components. Components x and y are
 the grid values , z is a 
 nrow X ncol matrix 
 with the Z values. NA's are placed at cell locations where Z data has 

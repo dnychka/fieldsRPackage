@@ -55,17 +55,17 @@ bubblePlot(x, y, z, col = viridisLite::viridis(256), zlim = NULL,
      a 2 column matrix of the x-y coordinates. }
   \item{y}{A vector of the y coordinates -or- if the locations are passed 
 in x the z vector  }
-  \item{z}{Values of the variable to be plotted. For bubblePlot if a character or factor will be assigned colors based on the order of appearance.}
+  \item{z}{Values of the variable to be plotted. For bubblePlot, if z is a character or factor, it will be assigned colors based on the order of appearance.}
   \item{nlevel}{Number of color levels.}
   \item{nx}{Number of grid boxes in x if a grid is not specified.}
   \item{ny}{Number of grid boxes in y. }
-  \item{nrow}{Depreciated, same as nx.}
-  \item{ncol}{Depreciated same as ny. }
+  \item{nrow}{Deprecated, same as nx.}
+  \item{ncol}{Deprecated same as ny. }
   \item{grid}{A grid in the form of a \code{grid list}.  }
   \item{add.legend}{If TRUE a legend color strip is added}
   \item{add}{If FALSE add to existing plot.}
   \item{col}{Color function or the color scale for the image, the   default is the tim.colors  function --
-    a pleasing spectrum for quilt.plot and the  modern and versitle
+    a pleasing spectrum for quilt.plot and the  modern and versatile
      viridis for bubblePlot }
   \item{boundary.grid}{If FALSE the passed grid is considered to be the  midpoints of the grid cells. 
   If TRUE then these are assumed to define corners and the number of boxes is one less in each dimension.}
@@ -73,9 +73,9 @@ in x the z vector  }
     \item{plot}{If FALSE just returns the image object instead of plotting it.}
     \item{FUN}{The function to apply to values that are common to a grid
     box. The default is to find the mean. (see \code{as.image}).}
-    \item{na.rm}{If FALSE NAs are not removed from zand so a grid box
+    \item{na.rm}{If FALSE NAs are not removed from z and so a grid box
     even one of these values may be an NA. (See details below.)}
-  \item{size}{Size of bubble dots in cex units. Can be a vector to procduce different size points in the scatterplot.}
+  \item{size}{Size of bubble dots in cex units. Can be a vector to produce different size points in the scatterplot.}
   \item{zlim}{Numerical range to determine the colorscale. If omitted the range of z is used. }
   \item{\dots}{ for quilt.plot  arguments to be passed to the \code{image.plot}
   function. For bubblePlot arguments to be passed to the \code{plot}
@@ -101,7 +101,7 @@ true the legend strip will be along the bottom.
 label.}
 
 \item{legend.lab}{ Label for the axis of the color legend. Default is no
-label as this is usual evident from the plot title.}
+label as this is usually evident from the plot title.}
 
 \item{legend.line}{Distance in units of character height 
 (same as in \code{mtext})
@@ -119,7 +119,7 @@ of the plot.
 
 \item{legend.width}{
 Width in characters of the legend strip. Default is 1.2, a little bigger
-that the width of a character. }
+than the width of a character. }
 
 \item{axis.args}{A list giving additional arguments for the \code{axis} function used to 
 create the legend axis. (See examples in \code{\link{image.plot}}.)}
@@ -157,7 +157,7 @@ in tandem with \code{split.screen} or enlarging the plot margin
 See \code{help(image.plot)} for examples of this function and these 
 strategies.
 
-\strong{bubblePlot} Why was this function was written for fields?
+\strong{bubblePlot} Why was this function written for fields?
 Certainly ggplot has many options for this kind of figure. 
 To quote Tim Hoar a gifted data scientist and software engineer at NCAR:
 "because we could".   It is a crisp
@@ -171,9 +171,9 @@ out a plotting region in advance of the actual plotting using R base graphics.
 See the functions  \code{\link{setupLegend}} and  \code{\link{addLegend}}
 for more details. Other graphics approaches in R such as ggplot determine
 the plotting regions and layout based on having the entire figure
-specification at hand. Although this a comprehensive solution it also seems
-overkill to just add a lone color bar to annotate a plot. Moreover, and the graphics lower level functions
-to add the color bar legend are already available from the image.plot functio.
+specification at hand. Although this is a comprehensive solution it also seems
+overkill to just add a lone color bar to annotate a plot. Moreover, the graphics lower level functions
+to add the color bar legend are already available from the image.plot function.
 }
 
 \author{D.Nychka}

@@ -31,12 +31,12 @@
 \alias{predictSurfaceSE.default}
 \alias{mKrigFastPredict}
 
-\title{
+\title{ 
   Evaluates a fitted function or the prediction error as a surface that is suitable for plotting with 
 the image, persp, or contour functions.
 }
 \description{
-Evaluates a a fitted model or the prediction error on a 2-D grid keeping any other variables constant.
+Evaluates a fitted model or the prediction error on a 2-D grid keeping any other variables constant.
 The resulting object is suitable for use with functions for viewing 3-d
 surfaces such as image, imagePlot and contour. 
 }
@@ -195,21 +195,21 @@ The usual list components for making image, contour, and perspective plots
 \code{predictSurface.derivative} the component \code{z} is a three
 dimensional array with values( \code{nx}, \code{ny}, 2 ) 
  } 
-\details{ These function evaluate the spatial process or thin plate spline estimates on a regualr grid of points 
+\details{ These functions evaluate the spatial process or thin plate spline estimates on a regular grid of points. 
 The  grid can be specified using the grid.list/ gridList  information or just the sizes.
 
 For the standard Krig and mKrig versions the steps are to create a matrix of locations the represent the grid, 
  call the predict function for the object with these
 points and also adding any extra arguments passed in the ... section,
 and then reform the results as a surface object (as.surface). To
-determine the what parts of the prediction grid are in the convex hull
+determine what parts of the prediction grid are in the convex hull
 of the data the function \code{in.poly} is used. The argument
 inflation in this function is used to include a small margin around
-the outside of the polygon so that point on convex hull are
+the outside of the polygon so that points on the convex hull are
 included. This potentially confusing modification is to prevent
 excluding grid points that fall exactly on the ranges of the
 data. Also note that as written there is no computational savings for
-evaluting only the convex subset compared to the full grid.
+evaluating only the convex subset compared to the full grid.
 
 For the "fast" option a stationary covariance function and  resulting surface
 estimate is approximated by the covariance kernel restricted to the grid
@@ -220,25 +220,25 @@ transform to compute the predicted values at the grid locations.
 
 The nearest
 neighbor argument \code{NNSize} controls the number of covariance kernels
-only evalauted at grid location used
+only evaluated at grid locations used
 to approximate a  covariance function at an off-grid location. We have
 found good results  with \code{NNSize=5}. 
 
 
 \code{predictSurface.fastTps} is a specific version ( m=2, and k=2) of
-Kriging with a compact covariance kernel (Wendland). 
+Kriging with a compact covariance kernel (Wendland) 
 that can be much more efficient because it takes advantage of a low
 level FORTRAN call to evaluate the  covariance function. Use
 \code{predictSurface} or \code{predict} for other choices of m and k.
 
 
-\code{predictSurface.Krig} is designed to also include covariates for the fixed in terms of grids.
+\code{predictSurface.Krig} is designed to also include covariates for the fixed part in terms of grids.
 
-\code{predictSurface.mKrig} Similar in function to the Krig prediction function but it more efficient using the \code{mKrig} fit object.
+\code{predictSurface.mKrig} Similar in function to the Krig prediction function but is more efficient using the \code{mKrig} fit object.
 
-\code{mKrigFastpredict} Although this function might be called at the top is it easier to use through the wrapper,  \code{predictSurface.mKrig} and \code{fast=TRUE}. 
+\code{mKrigFastpredict} Although this function might be called at the top level, it is easier to use through the wrapper,  \code{predictSurface.mKrig} and \code{fast=TRUE}. 
  
-NOTE: \code{predict.surface} has been depreciated and just prints out
+NOTE: \code{predict.surface} has been deprecated and just prints out
 a warning when called. 
 
  }

@@ -30,8 +30,8 @@
 \title{Conversion of formats for sparse matrices}
 \description{
 Some supporting functions that are internal to fields top level
-methods. These are used to convert between the efficient but 
-opaque format used by spam and more easily checked format based directly
+methods. These are used to convert between the efficient but
+opaque format used by spam and a more easily checked format based directly
 on the row and column indices of non zero elements.
 }
 \usage{
@@ -50,12 +50,12 @@ spam2spind(obj)
 \item{obj}{
 Either a list with the sparse index components (spind) or an 
 obj of class spam.}
-\item{add.zero.rows}{If TRUE an entire row is zero add a hard zero value to the element in the first  column for each zero row. The spam format requires at least one element in each row to have an explicit value. It is OK if this value is zero but one must be specified. }
+\item{add.zero.rows}{If TRUE and an entire row is zero, add a hard zero value to the element in the first  column for each zero row. The spam format requires at least one element in each row to have an explicit value. It is OK if this value is zero but one must be specified. }
 }
 
 
 \details{
-The differencee in formats is best illustarted by an example:
+The difference in formats is best illustrated by an example:
 
 A 4X5 sparse matrix:
 \preformatted{
@@ -111,11 +111,11 @@ dimension
 
  [1] 4 5
 
-The row pointers are the position in the array of entries where the next row
-starts. 
+The row pointers are the positions in the array of entries where the next row
+starts.
 
 NOTE: It is possible for the spind format to have a missing row of all
-zeroes but this not allowed in spam format and produces an error message. 
+zeroes but this is not allowed in spam format and produces an error message.
 
 
 }

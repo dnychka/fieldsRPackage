@@ -13,8 +13,10 @@ importFrom("stats", "D", "approx", "coef", "cor", "dist", "fft", "mad",
 importFrom("utils", "object.size")
 importFrom("maps","map")
 importFrom("viridisLite","viridis")
-importFrom("stats", "qnorm")
+importFrom("stats", "qnorm", "runif")
 importFrom("stats", "lsfit")
+importFrom("splines", "splineDesign")
+
 
 
 importFrom("RColorBrewer", "brewer.pal")

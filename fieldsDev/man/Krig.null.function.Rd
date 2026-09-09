@@ -25,7 +25,7 @@
 \alias{Krig.null.function}
 \title{Default function to create fixed matrix part of spatial process model.}
 \description{
-Constructs a matrix of terms representing a low order polynomial 
+Constructs a matrix of terms representing a low order polynomial
 and binds additional columns due to covariates ( the XMat matrix)
 }
 \usage{
@@ -40,13 +40,13 @@ Krig.null.function(x, XMat = NULL, drop.XMat = FALSE, m)
 }
 \value{
 A matrix where the first columns are the polynomial terms and the
-following columns are from XMat. 
+following columns are from XMat.
 
 }
 \details{
-This function can be modified to produce a different fixed part of the 
+This function can be modified to produce a different fixed part of the
 spatial model. The arguments x, XMat and drop.XMat are required but other arguments
-can  be passed as part of a list in null.args  in the call to Krig. 
+can  be passed as part of a list in null.args  in the call to Krig.
 }
 \author{Doug Nychka }
 \seealso{Krig}

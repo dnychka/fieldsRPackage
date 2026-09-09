@@ -32,7 +32,7 @@
 \alias{which.max.image}
  \title{Some simple functions for subsetting images} 
 \description{These function help in subsetting images or reducing its
-size by averaging adjecent cells.}
+size by averaging adjacent cells.}
 \usage{
 
 crop.image(obj, loc=NULL,...)
@@ -60,9 +60,9 @@ for being inside a polygon.}
 polygon. The last point is assumed to be connected to the first.}
  \item{convex.hull}{If TRUE then the convex hull of \code{xp} is used 
 instead of the polygon.}
-\item{grid.list}{A list with components x and y specifing the 2-d grid values.
+\item{grid.list}{A list with components x and y specifying the 2-d grid values.
 (See help( grid.list) for more details.)}
- \item{inflation}{A small expansion factor to insure that points 
+ \item{inflation}{A small expansion factor to ensure that points
 precisely on the boundaries and vertices of the convex hull are included 
 as members.}
 \item{z}{ A matrix of numerical values}
@@ -78,10 +78,10 @@ containing the locations is used.
 
 \describe{
 
-\item{crop.image}{Creates a subset of the image \code{obj} by taking 
-using the largest rectangle in the locations \code{loc}. This is useful 
-if one needs to extract a image that is no bigger in extant than som 
-edata location.  If locations are omitted the parent image is plotted 
+\item{crop.image}{Creates a subset of the image \code{obj} by
+using the largest rectangle in the locations \code{loc}. This is useful
+if one needs to extract an image that is no bigger in extent than some
+data location.  If locations are omitted the parent image is plotted
 and the locations from two mouse clicks on the image. Returned value is 
 an image with appropriate \code{x,y} and \code{z} components.}
 
@@ -90,8 +90,8 @@ clicks that are returned.}
 
 \item{which.max.image}{Returns a list with components \code{x, y, z}
 , and \code{ind} giving the
-location of the maximun and value of the maximum in the image based
-on the grid values and also on the indicies of the image matrix.}
+location of the maximum and value of the maximum in the image based
+on the grid values and also on the indices of the image matrix.}
 
 \item{average.image, half.image}{Takes passed image and averages the 
 pixel values and adjusts the grid to create an image that has a smaller 

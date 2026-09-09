@@ -82,7 +82,7 @@ fieldsPlotColors( col,...)
              still being able to view the graphics that is covered. }
 
 \item{n}{ Number of color levels. The setting \code{n}=64 is the
-orignal definition.}
+original definition.}
 
 \item{start}{Starting color for lowest values in color scale}
 
@@ -91,12 +91,12 @@ orignal definition.}
 \item{middle}{Color scale passes through this color at halfway}
 
 \item{col}{A list of colors (names or hex values) to interpolate.
-But for the \code{color.scale} function this can be also be a function that
+But for the \code{color.scale} function this can also be a function that
 returns \code{NC} colors when called with just the
 \code{NC} argument.}
 
 \item{x}{Positions of colors on a [0,1] scale. Default is to assume
-that the x values are equally spacesd from 0 to 1.}
+that the x values are equally spaced from 0 to 1.}
 
 \item{z}{Real vector to encode in a color table.}
 
@@ -119,9 +119,9 @@ that the x values are equally spacesd from 0 to 1.}
 \details{
 The color in R can be represented as three vectors in RGB coordinates
 and these coordinates are interpolated separately using a cubic spline
-to give color values that intermediate to the specified colors.
+to give color values that are intermediate to the specified colors.
 
- Ask Tim Hoar about \code{tim.colors}! As a Mattlab black belt 
+ Ask Tim Hoar about \code{tim.colors}! As a Matlab black belt
 this was his favorite scale  at NCAR in that system.  The viridis package has a similar version (turbo) that is a grey scale friendly alternative. 
 
 \code{two.colors} is
@@ -137,14 +137,14 @@ useful for visualizing fields of climate variables.
 
 \code{snow.colors} is the scale used by Will Klieber's team for
 visualizing snow cover from remotely sensed data products. See the
-commented code for the script as to how how this was formed from an orignal raw 256 level scale. Note the that first color in this table is grey and is
-desigend to represent the minimum value of the range ( e.g. 0).
+commented code for the script as to how this was formed from an original raw 256 level scale. Note that the first color in this table is grey and is
+designed to represent the minimum value of the range ( e.g. 0).
 If the image is in  percent snow cover then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
 See \code{data(Mines.colors)} to define the data sets that are 
 web colors for Colorado School of Mines. Note that since these are defined 
-as text strings do _not_ quote them when using in the R graphics functions 
+as text strings do _not_ quote them when using them in the R graphics functions 
 -- they are already character data.
 E.g. \code{plot(x,y, col=blasterBlue)}
 
@@ -152,7 +152,7 @@ E.g. \code{plot(x,y, col=blasterBlue)}
  It can be useful if one wants to customize the color
 table to match quantiles of a distribution.  e.g. if the median of the
 data is at .3 with respect to the range then set \code{x} equal to
-c(0,.3,1) and specify two colors to provide a transtion that matches
+c(0,.3,1) and specify two colors to provide a transition that matches
 the median value. In fields language this function interpolates
 between a set of colors at locations x. While you can be creative
 about these colors just using another color scale as the basis is
@@ -164,19 +164,19 @@ leaves the choice of the colors to Dr. R after a thunderstorm.
 See also \code{colorBrewer} to choose sequences of colors that form a good palette. 
 
 \code{color.scale} assigns colors to a numerical vector in the same way as 
-the \code{image} function. This is useful to kept the assigment of colors consistent
-across several vectors by specifiying a common \code{zlim} range.  
+the \code{image} function. This is useful to keep the assignment of colors consistent
+across several vectors by specifying a common \code{zlim} range.
 
-\code{plotColorScale} A simple function to plot a vector of colors to examine their values. 
+\code{plotColorScale} is a simple function to plot a vector of colors to examine their values.
 }
 
 \value{
 
-A vector giving the colors in a hexadecimal format, two extra hex
+A vector giving the colors in a hexadecimal format; two extra hex
 digits are added for the alpha channel.
 
 Or in the case of \code{Mines.colors}
-a set of character strings loaded as separate objects with th color name. Use \code{ls()} to list them out. 
+a set of character strings loaded as separate objects with the color name. Use \code{ls()} to list them out.
 }
 \seealso{ topo.colors, terrain.colors, image.plot, imagePlot,  quilt.plot,
 grey.scale,
