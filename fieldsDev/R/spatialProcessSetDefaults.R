@@ -35,13 +35,13 @@ spatialProcessSetDefaults<- function( x, cov.function,
   
   ## convenient defaults for GP fitting.
   ## and also sort out what starting parameter values are provided
-  # this code runs on  by perhaps it is useful to see all the defualts and 
+  # this code runs on, but perhaps it is useful to see all the defaults and 
   # logic in one place.
-  # Note the stranger device below where mKrig.args is created and amended
-  #  mKrig is the basic computational function for evaluating the likleihood and 
+  # Note the strange device below where mKrig.args is created and amended
+  #  mKrig is the basic computational function for evaluating the likelihood and 
   # setting up  the Kriging predictions. 
   #
-  # aRange and lambda  are  handled specially because are almost always 
+  # aRange and lambda  are  handled specially because they are almost always 
   # estimated and this will simplify the call in  this top level function 
   #
   ###########################################
@@ -72,8 +72,14 @@ spatialProcessSetDefaults<- function( x, cov.function,
   # cov.args
     dimX<- ncol( x)
     mMin<- max(c(2, ceiling(dimX/2 + 0.1)))
+    
   if( is.null(cov.args)){
       cov.args<- list(mDegree = mMin)
+  }
+    else{
+    if( is.null(cov.args$mDegree)){
+      cov.args<- c( cov.args, list(mDegree = mMin))
+    }
     }
   if( is.null( mKrig.args$m)){
     # m should match the degree in cov.args if not specified
@@ -96,7 +102,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
   
   ###########################################
   # overwrite the default choices if some are passed as ...
-  #  (some R arcania!)
+  #  (some R arcana!)
   ###########################################
   if( !is.null( extraArgs)){
     # handle the nugget variance/object
@@ -146,12 +152,12 @@ spatialProcessSetDefaults<- function( x, cov.function,
   }
   
   ########################################### 
-  # Some logic to figure out how do MLE search over lambda and aRange
+  # Some logic to figure out how to do the MLE search over lambda and aRange
   ###########################################
   noLambda<- is.null( cov.args$lambda) & is.null(cov.params.start$lambda)
   noARange<- is.null( cov.args$aRange) & is.null(cov.params.start$aRange)
   makeDefaultGrid<- (noLambda | noARange) & is.null(parGrid)
-# easy default search grid if lambda and/or aRange ahave not been specified
+# easy default search grid if lambda and/or aRange have not been specified
   if( makeDefaultGrid ){
   if( noLambda){
     lGrid<- 10**seq( -4, .5, length.out= gridN)
@@ -216,7 +222,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
 ########################################### 
 # Determine linear fixed model if not specified and add
 # in how to find fixed part.
-# simpleKriging means there is not fixed regression part.
+# simpleKriging means there is no fixed regression part.
 # collapseFixedEffect is important enough where it is handled at this level.
 #
   
@@ -230,7 +236,7 @@ spatialProcessSetDefaults<- function( x, cov.function,
                       list(collapseFixedEffect= collapseFixedEffect))
     }
   }
-# adjust the fixed part is simple Kriging is specified
+# adjust the fixed part if simple Kriging is specified
 # this is switched in mKrig by setting m for the fixed part
 #  polynomial to zero
   

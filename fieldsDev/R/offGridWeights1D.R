@@ -49,7 +49,7 @@ offGridWeights1D<-function(s, gridList, NNSize=2,
       Covariance<- "Exponential"
     }
     covArgs<-mKrigObject$args 
-  # some R arcania -- strip out all arguments used by say stationary.cov
+  # some R arcana -- strip out all arguments used by say stationary.cov
   # but not used by the Covariance function 
   # Do not want to call the covariance function with these extra args. 
     if( !is.null( covArgs) ){
@@ -118,7 +118,7 @@ offGridWeights1D<-function(s, gridList, NNSize=2,
                               c(list(d = dNN/aRange), 
                                 covArgs))
   Sigma11Inv <- solve( Sigma11)
-  # each row of B are the weights used to predict off grid point
+  # each row of B is the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
   # create spind sparse matrix
   # note need to use unrolled indices to refer to grid points
@@ -130,7 +130,7 @@ offGridWeights1D<-function(s, gridList, NNSize=2,
   BigB<- spind2spam( spindBigB)
   #
   # prediction variances  
-  # use cholesky for more stable numerics
+  # use Cholesky for more stable numerics
   cholSigma11Inv<- chol(Sigma11Inv)
   # create spind sparse matrix of sqrt variances
   # or covariances to simulate prediction error. 
@@ -174,7 +174,7 @@ offGridWeights1D<-function(s, gridList, NNSize=2,
       A<- w[indBox,]
       localSE2<-  sigmaMarginal - A%*%t(A)
       localSE<- t(chol( localSE2 ))
-      # localSE %*% rnorm(nDup) will generate correct corrected 
+      # localSE %*% rnorm(nDup) will generate correctly correlated 
       # prediction errors for obs in this grid box ("theBox")
       indTmp<- cbind(rep( indBox, nDup), rep( indBox, each=nDup) )
       raTmp<- c(localSE)

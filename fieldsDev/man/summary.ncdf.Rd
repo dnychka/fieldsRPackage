@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
 \title{Summarizes a netCDF file handle}
 \description{
 Provides a summary of the variable names and sizes from the handle
-returned from netCDF file. 
+returned from a netCDF file. 
 }
 \usage{
 \method{summary}{ncdf}(object,...)
@@ -43,9 +43,9 @@ other arguments are used.
 }
 }
 \details{
-This function is out of place in fields but was included because often large
-geophysical data sets are in netCDF format and the ncdf R package is also 
-needed. To date the summary capability in the ncdf package is limited and 
+This function is out of place in fields, but was included because large
+geophysical data sets are often in netCDF format and the ncdf R package is also 
+needed. To date, the summary capability in the ncdf package is limited and 
 this function is used to supplement its use. The function is also a
 useful device to see how the ncdf object is structured.
 }

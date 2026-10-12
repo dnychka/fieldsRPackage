@@ -78,6 +78,8 @@ colorBar<- function(breaks=NULL,
   #
   # next par call sets up a new plotting region just for the legend strip
   # at the smallplot coordinates
+  #cat("smallplot", fill=TRUE)
+  #print( smallplot)
   par(new = TRUE, pty = "m", plt = smallplot, err = -1)
   # draw color scales the two  cases are horizontal/vertical 
   # add a label if this is passed.

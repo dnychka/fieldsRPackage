@@ -25,8 +25,8 @@ Krig.check.xY <- function(x, Y, XMat, weights, na.rm,
     #
     # check for missing values in Y or X.
     #
-    # save logical indicating where there are NA's
-    # and check for NA's
+    # save logical indicating where there are NAs
+    # and check for NAs
     #
     ind <- is.na(Y)
     if (any(ind) & !na.rm) {
@@ -43,7 +43,7 @@ Krig.check.xY <- function(x, Y, XMat, weights, na.rm,
         stop("Krig can not handle matrix Y data. See mKrig.")
     }
     #
-    #default weights ( reciprocal variance of errors).
+    #default weights (reciprocal variance of errors).
     #
     if (is.null(weights)) 
         weights <- rep(1, length(Y))
@@ -85,12 +85,12 @@ Krig.check.xY <- function(x, Y, XMat, weights, na.rm,
         }
     }
     #
-    # check for NA's in x matrix -- there should not be any !
+    # check for NAs in x matrix -- there should not be any !
     if (any(c(is.na(x)))) {
         stop(" NA's in x matrix")
     }
     #
-    # check for NA's in XMat matrix
+    # check for NAs in XMat matrix
     if (!is.null(XMat)) {
         if (any(c(is.na(XMat)))) {
             stop(" NA's in XMat matrix")
@@ -118,8 +118,8 @@ Krig.check.xY <- function(x, Y, XMat, weights, na.rm,
     #
     # NOTE default value of lambda used from Krig object.
     #
-    # Determine whether to collapse onto means of replicates ( using y)
-    # if the data has been passed use as the replicate means (yM) use that.
+    # Determine whether to collapse onto means of replicates (using y)
+    # if the data have been passed as the replicate means (yM), use that.
     # If both y and YM are null then just use out$yM
     # For readability of this function, all this tortured logic happens in
     #  Krig.ynew.
@@ -136,12 +136,12 @@ Krig.check.xY <- function(x, Y, XMat, weights, na.rm,
         print(dim(temp.yM))
     }
     #
-    #   case when knots= unqiue x's
+    #   case when knots= unique x's
     # any lambda
     #
     if (out$decomp == "WBW") {
-        # pad u with zeroes that corresond to null space basis functions
-        # this makes it compatible with the Demmler Reisch decomposition.
+        # pad u with zeroes that correspond to null space basis functions
+        # this makes it compatible with the Demmler-Reinsch decomposition.
         # from an older version of this code
         u <- rbind(matrix(0, nrow = out$nt, ncol = ndata), t(out$matrices$V) %*% 
             qr.q2ty(out$matrices$qr.T, out$W2 %d*% temp.yM))
@@ -322,10 +322,10 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
         # form M
         diag(tempM) <- (lambda/out$weightsM) + diag(tempM)
         #
-        # find cholesky factor
+        # find Cholesky factor
         #  tempM = t(Mc)%*% Mc
         #  V=  Mc^{-T}
-        # call cholesky but also add in the args supplied in Krig object.
+        # call Cholesky but also add in the args supplied in Krig object.
         Mc <- do.call("chol", c(list(x = tempM), out$chol.args))
         VT <- forwardsolve(Mc, x = Tmatrix, transpose = TRUE, 
             upper.tri = TRUE)
@@ -479,7 +479,7 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
     # If a weight matrix has been passed use it.
     #
     # Note that in either case the weight matrix assumes that
-    # replicate observations have been collapses to the means.
+    # replicate observations have been collapsed to the means.
     #
     if (out$nondiag.W) {
         temp <- eigen(out$W, symmetric = TRUE)
@@ -499,8 +499,8 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
 "Krig.make.u" <- function(out, y = NULL, yM = NULL, 
     verbose = FALSE) {
     #
-    # Determine whether to collapse onto means of replicates ( using y)
-    # if the data has been passed use as the replicate means (yM) use that.
+    # Determine whether to collapse onto means of replicates (using y)
+    # if the data have been passed as the replicate means (yM), use that.
     # If both y and YM are null then just use out$yM
     # For readability of this function, all this tortured logic happens in
     #  Krig.ynew.
@@ -517,7 +517,7 @@ Krig.Amatrix <- function(object, x0 = object$x, lambda = NULL,
         print(dim(temp.yM))
     }
     #
-    #   case when knots= unqiue x's
+    #   case when knots= unique x's
     # any lambda
     #
         u <- rbind(matrix(0, nrow = out$nt, ncol = ndata), t(out$matrices$V) %*% 
@@ -547,7 +547,7 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
     # otherwise assume a diagonal set of weights.
     #
     # NOTE: calculation of  tauHat involves full set of obs
-    # not those colllapsed to the mean.
+    # not those collapsed to the mean.
     if (obj$nondiag.W) {
         tauHat.GCV <- sqrt(sum((obj$W2 %d*% obj$residuals)^2)/(length(obj$y) - 
             obj$eff.df))
@@ -558,15 +558,15 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
     }
     if (mle.calc) {
         sigma.MLE <- sum(c(obj$c) * c(obj$yM))/obj$N
-        # set sigma estimate to zero if negtive. Typically this
-        # is an issue of machine precision and very small negative value.
+        # set sigma estimate to zero if negative. Typically this
+        # is an issue of machine precision and a very small negative value.
         sigma.MLE <- ifelse(sigma.MLE < 0, 0, sigma.MLE)
         
         #    commented out code for debugging ...
         #      if( sigma.MLE< 0) {
         #        stop('problems computing sigma.MLE')}
         # commented out is the REML estimate -- lose null space df because of
-        # the restiction to orthogonal subspace of T.
+        # the restriction to orthogonal subspace of T.
         # sigmahat<- sigma.MLE <- sum(obj$c * obj$yM)/(obj$N - obj$nt)
         # .
         sigmahat <- sigma.MLE
@@ -634,7 +634,7 @@ Krig.parameters <- function(obj, mle.calc = obj$mle.calc) {
 }
 
 Krig.transform.xY <- function(obj, knots=NA,  verbose = FALSE) {
-    # find all replcates and  collapse to unique locations and mean response
+    # find all replicates and  collapse to unique locations and mean response
     # and pooled variances and weights.
     out <- Krig.replicates(obj, verbose = verbose)
     if (verbose) {
@@ -711,7 +711,7 @@ Krig.which.lambda <- function(out) {
     #  Note order
     # default is to do 'gcv/REML'
     out2 <- list()
-    # copy all all parameters to out2 just to make this
+    # copy all parameters to out2 just to make this
     # easier to read.
     out2$method <- out$method
     out2$lambda.est <- NA
@@ -722,7 +722,7 @@ Krig.which.lambda <- function(out) {
     if (!is.na(out2$lambda) | !is.na(out2$eff.df)) {
         #
         # this indicates lambda has been supplied and leads to
-        # the cholesky type computational approaches
+        # the Cholesky type computational approaches
         #        -- but only if GCV is FALSE
         #
         out2$method <- "user"
@@ -799,8 +799,8 @@ Krig.which.lambda <- function(out) {
     #
     if (length(unique(out$rep.info)) < out$N) {
         #
-        # calculate means by pooling Replicated observations but use the
-        # the right weighting.
+        # calculate means by pooling replicated observations but use the
+        # right weighting.
         #
         rep.info.aov <- fast.1way(out$rep.info, y, out$weights)[c("means", 
             "MSE", "SSE")]

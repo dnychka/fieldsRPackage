@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -41,12 +41,12 @@ horizontal = TRUE, ...)
   \item{x}{x position of strip  in user coordinates }
   \item{y}{y position of strip in user coordinates}
   \item{strip}{ Either a vector or matrix giving the values of the color 
-strip(s). If a matrix then strips are assumed to be the columns.   }
+strip(s). If a matrix, then strips are assumed to be the columns.   }
   \item{strip.width}{ Width of strip as a fraction of the plotting 
 region. }
-  \item{strip.length}{ Length of strip as a function of the plotting 
+  \item{strip.length}{ Length of strip as a fraction of the plotting 
 region. Default is a pleasing 8 times width.   }
-  \item{zrange}{If a vector these are the common limits used for 
+  \item{zrange}{If a vector, these are the common limits used for 
    assigning the color scale. Default is to use the range of values in 
 strip. If a two column matrix, rows are used as the limits for each 
 strip.}
@@ -59,17 +59,17 @@ Same rules as \code{adj.x}
 }
   \item{col}{ Color table used for strip. Default is our favorite 
 tim.colors being a scale from a dark blue to dark red.}
-  \item{horizontal}{ If TRUE draws strips horizontally. If FALSE strips 
-are drawn vertically }
-  \item{\dots}{ optional graphical arguments that are passed to 
+  \item{horizontal}{ If TRUE, draws strips horizontally. If FALSE, strips
+are drawn vertically. }
+  \item{\dots}{ Optional graphical arguments that are passed to 
 the \code{image} function. }
 }
 \details{
 This function draws the strips as a sequence of image plots added to the 
-existing plot. The main work is in creating a grid ( x,y) for the image 
+existing plot. The main work is in creating a grid (x,y) for the image 
 that makes sense when superimposed on the plot. 
 Note that although the columns of strip are considered as 
-separate strips these can be oriented either horizontally or vertically 
+separate strips, these can be oriented either horizontally or vertically 
 based on the value of \code{horizontal}. The rows of zrange are
 essentially the \code{zlim} argument passed to the \code{image} function 
 when each strip is drawn. 
@@ -77,12 +77,12 @@ when each strip is drawn.
 Don't forget to use \code{locator} to interactively determine positions. 
 \code{text} can be used to label points neatly in conjunction with 
 setting adj.x and adj.y.  Although this function is inefficient for 
-placing images at arbitrary locations on a plot the code can be easily 
+placing images at arbitrary locations on a plot, the code can be easily 
 adapted to do this. 
 
-This function was created to depict univariate posterior 
-distribution on a map. The values are quantiles of the distribution and 
-the strips when added under a common color scale give an overall 
+This function was created to depict univariate posterior
+distributions on a map. The values are quantiles of the distribution and 
+the strips, when added under a common color scale, give an overall 
 impression of location and scale for several distributions. 
  }
 \author{Doug Nychka}

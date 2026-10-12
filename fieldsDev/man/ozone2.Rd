@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,8 +27,8 @@
   Daily 8-hour ozone averages for sites in the Midwest
 }
 \description{
-The response is 8-hour average (surface) ozone ( from 9AM-4PM) measured in
-parts per billion (PPB) for 153 sites in the midwestern US over the period
+The response is 8-hour average (surface) ozone (from 9AM-4PM) measured in
+parts per billion (PPB) for 153 sites in the Midwestern US over the period
 June 3, 1987 through August 31, 1987, 89 days. This season of high 
 ozone corresponds with a large modeling experiment using the EPA Regional
 Oxidant Model.
@@ -38,20 +38,14 @@ data(ozone2)
 }
 \format{
 The data list has components:
-<s-args>
-<s-arg name="y">
-a 89X153 matrix of ozone values. Rows are days and columns are the 
-sites. 
-</s-arg>
-</s-arg name="lon.lat"> 
-Site locations in longitude and latitude as a 153X2 table
-</s-arg>
-<s-arg name="chicago.subset">
-Logical vector indicating stations that form the smaller 
-Chicagoland subset. (see FIELDS ozone data set)
-</s-arg>
-</s-args>
-<s-section name="Reference">
+\describe{
+\item{y}{An 89X153 matrix of ozone values. Rows are days and columns are the
+sites.}
+\item{lon.lat}{Site locations in longitude and latitude as a 153X2 table.}
+\item{chicago.subset}{Logical vector indicating stations that form the smaller
+Chicagoland subset. (See the fields ChicagoO3 data set.)}
+}
+Reference:
 Nychka, D., Cox, L., Piegorsch, W. (1998) Case Studies in Environmental 
 Statistics Lecture Notes in Statistics, Springer
 Verlag, New York 

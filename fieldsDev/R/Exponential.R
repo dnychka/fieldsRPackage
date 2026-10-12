@@ -33,7 +33,7 @@
     # check for negative distances
     #
     # fill in other arguments as aRange.
-    # Note that the theta argument has been depreciated.
+    # Note that the theta argument has been deprecated.
     if( !is.null(theta)){  
      aRange<- theta
     }

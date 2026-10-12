@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,7 +30,6 @@
 \description{
 Fits a cubic smoothing spline to univariate data. The amount of
 smoothness can be specified or estimated from the data by GCV. 
-<!--brief description-->
 }
 \usage{
 sreg(x, y, lambda = NA, df = NA, offset = 0, weights =
@@ -46,25 +45,25 @@ sreg(x, y, lambda = NA, df = NA, offset = 0, weights =
 
 \arguments{
 \item{x}{
-Vector of x value}
+Vector of x values}
 
 \item{y}{
 Vector of y values}
 
 \item{lambda}{
-Single smoothing parameter or a vector of values . If omitted,
+Single smoothing parameter or a vector of values. If omitted, the
 smoothing parameter is estimated by GCV. NOTE: lam here is equivalent to
-the value lambda*N  in Tps/Krig  where N is the number of unique observations.
+the value lambda*N in Tps/Krig, where N is the number of unique observations.
 See example below.}
 
 \item{object}{An sreg object.}
-\item{derivative}{Order of derivative to evaluate. Must be 0,1, or 2.}
+\item{derivative}{Order of derivative to evaluate. Must be 0, 1, or 2.}
 \item{df}{
-Amount of smoothing in term of effective degrees of freedom for the
+Amount of smoothing in terms of effective degrees of freedom for the
 spline}
 
 \item{offset}{
-an offset added to the term cost*degrees of freedom in the denominator of
+An offset added to the term cost*degrees of freedom in the denominator of
 the GCV function. (This would be used for adjusting the df from fitting
 other models such as in back-fitting additive models.)}
 
@@ -83,20 +82,20 @@ Number of grid points of smoothing parameter for GCV grid search.}
 \item{tol}{Tolerance for convergence in minimizing the GCV or other
 criteria to estimate the smoothing parameter.}
 \item{find.diagA}{
-If TRUE  calculates the diagonal elements of the smoothing matrix. The
+If TRUE, calculates the diagonal elements of the smoothing matrix. The
 effective
 number of degrees of freedom is the sum of these diagonal elements.
-Default is true. This requires more storage if a grid of smoothing
-parameters is passed. ( See returned values below.)}
+Default is TRUE. This requires more storage if a grid of smoothing
+parameters is passed. (See returned values below.)}
 
 \item{trmin}{
-Sets the minimum of the smoothing parameter range  for the GCV grid
+Sets the minimum of the smoothing parameter range for the GCV grid
 search in terms of effective degrees of freedom.}
 
 \item{trmax}{
-Sets the maximum of the smoothing parameter range  for the GCV grid
-search in terms of effective degrees of freedom. If NA the range is set
-to .99 of number of unique locations.}
+Sets the maximum of the smoothing parameter range for the GCV grid
+search in terms of effective degrees of freedom. If NA, the range is set
+to .99 of the number of unique locations.}
 
 \item{lammin}{
 Same function as trmin but in the lambda scale.}
@@ -105,10 +104,10 @@ Same function as trmin but in the lambda scale.}
 Same function as trmax but in the lambda scale.}
 
 \item{verbose}{
-Print out all sorts of debugging info. Default is false, of course!}
+Print out all sorts of debugging info. Default is FALSE, of course!}
 
 \item{do.cv}{
-Evaluate the spline at the GCV minimum. Default is true.}
+Evaluate the spline at the GCV minimum. Default is TRUE.}
 
 \item{method}{
 A character string giving the 
@@ -119,7 +118,7 @@ parameter. Choices are
 \item{rmse}{
 Value of the root mean square error to match by varying lambda.}
 
-\item{na.rm}{If TRUE NA's are removed from y before analysis.}
+\item{na.rm}{If TRUE, NAs are removed from y before analysis.}
 
 \item{digits}{Number of significant digits used to determine replicate x values.}
 
@@ -134,7 +133,7 @@ Some of the returned components are
 Call to the function 
 }
 \item{yM}{
-Vector of dependent variables. If replicated data is given these are the
+Vector of dependent variables. If replicated data is given, these are the
 replicate group means. }
 
 \item{xM}{
@@ -169,17 +168,17 @@ Effective degrees of freedom for the spline estimate(s)}
 
 \item{gcv.grid}{
 Values of trace, GCV, tauHat, etc. for a grid of smoothing parameters.
-If lambda ( or df) is specified those values are used. }
+If lambda (or df) is specified, those values are used. }
 
 \item{lambda.est}{
 Summary of various estimates of the smoothing parameter}
 
 \item{lambda}{
-If lambda is specified the passed  vector, if missing the estimated value.}
+If lambda is specified, the passed vector; if missing, the estimated value.}
 
 \item{residuals}{
-Residuals from spline(s). If lambda or df is specified the residuals from
-these values. If lambda and df are omitted then the spline having
+Residuals from spline(s). If lambda or df is specified, the residuals from
+these values. If lambda and df are omitted, then the residuals from the spline with the
 estimated lambda. This will be a matrix with as many columns as the values
 of lambda. }
 
@@ -196,7 +195,7 @@ Same as trace.}
 \item{diagA}{
 Matrix containing diagonal elements of the smoothing matrix. Number of
 columns is the number of lambda values. 
-WARNING: If there is replicated data the
+WARNING: If there is replicated data, the
 diagonal elements are those for smoothing the group means at the
 unique x locations. }
 }
@@ -208,7 +207,7 @@ normal and independent errors with variances tau**2/w.k
 
 ESTIMATE: A smoothing spline is a locally weighted average of the y's
 based 
-on the relative locations of the x values. Formally the estimate is 
+on the relative locations of the x values. Formally, the estimate is 
 the curve that minimizes the criterion: 
 
     
@@ -216,16 +215,16 @@ the curve that minimizes the criterion:
 
 where R(f) is the integral of the squared second derivative of f over 
 the range of the X values. Because of the inclusion of the (1/n) in the
-sum of squares the lambda parameter in sreg corresponds to a value of
+sum of squares, the lambda parameter in sreg corresponds to a value of
 lambda*n in the Tps function and in the Krig function.
  
  The solution to this minimization is a piecewise cubic polynomial with
 the join points at the unique set of X values. The polynomial segments
 are constructed so that the entire curve has continuous first and second
-derivatives and the second and third derivatives are zero at the
+derivatives, and the second and third derivatives are zero at the
 boundaries.  The smoothing has the range [0,infinity]. Lambda equal to
 zero gives a cubic spline interpolation of the data. As lambda diverges
-to infinity ( e.g lambda =1e20) the estimate will converge to the
+to infinity (e.g., lambda =1e20) the estimate will converge to the
 straight line estimated by least squares.
 
     The values of the estimated function at the data points can be
@@ -235,9 +234,9 @@ expressed in the matrix form:
 
 where A is an nXn symmetric matrix that does NOT depend on Y. 
 The diagonal elements are the leverage values for the estimate and the
-sum of these  (trace(A(lambda))) can be interpreted as the effective
+sum of these (trace(A(lambda))) can be interpreted as the effective
 number of parameters that are used to define the spline function.
-IF there are replicate points the A matrix is the result of finding group
+If there are replicate points, the A matrix is the result of finding group
 averages and applying a weighted spline to the means. 
 The A matrix is also used to find "Bayesian" confidence intervals for the 
 estimate, see the example below. 
@@ -256,14 +255,14 @@ COMPUTATIONS: The computations for 1-d splines exploit the banded
 structure of the matrices needed to solve for the spline coefficients.
 Banded structure also makes it possible to get the diagonal elements of A
 quickly. This approach is different from the algorithms in Tps and
-tremendously more efficient for larger numbers of unique x values ( say >
+tremendously more efficient for larger numbers of unique x values (say >
 200). The advantage of Tps is getting "Bayesian" standard errors at
 predictions different from the observed x values. This function is similar
 to the S-Plus smooth.spline. The main advantages are more information and
-control over the choice of lambda and also the FORTRAN source code is
+control over the choice of lambda, and also the FORTRAN source code is
 available (css.f). 
 
-See also the function \code{splint} which is designed to be a bare bones
+See also the function \code{splint}, which is designed to be a bare-bones
 but fast smoothing spline. 
  
 }
@@ -293,7 +292,7 @@ set.panel() # reset panel to 1 plot
 
 
 # the same fit using  the thin plate spline numerical algorithms 
-# sreg does not scale the obs so instruct Tps not to sacel either
+# sreg does not scale the obs so instruct Tps not to scale either
 # this will make lambda comparable within factor of n. 
 
    fit.tps<-Tps( rat.diet$t,rat.diet$con, scale="unscaled")
@@ -310,7 +309,7 @@ set.panel() # reset panel to 1 plot
 SE<- fit$tauHat.GCV*sqrt(fit$diagA)
 
 # compare to predictSE( fit.tps) differences are due to 
-# slightly different lambda values and using tauHat.MLE instad of tauHat.GCV
+# slightly different lambda values and using tauHat.MLE instead of tauHat.GCV
 #
 
 # 95% pointwise prediction intervals

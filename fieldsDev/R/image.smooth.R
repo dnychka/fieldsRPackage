@@ -23,11 +23,11 @@
     dy = 1, kernel.function = double.exp, aRange = 1, grid = NULL, 
     tol = 1e-08, xwidth = NULL, ywidth = NULL, weights = NULL, theta=NULL,
     ...) {
-    # theta argument has been depreciated.
+    # theta argument has been deprecated.
     if( !is.null( theta)){
         aRange<- theta
     }
-    # first part of this function is figuring what has been passed and
+    # first part of this function is figuring out what has been passed and
     # what to do
     if (is.list(x)) {
         # assume that an image list format has been passed as x
@@ -43,7 +43,7 @@
     m <- nrow(Y)
     n <- ncol(Y)
     # use information in previous setup kernel function from a
-    # a call to setup.image.smooth and in the process override any
+    # call to setup.image.smooth and in the process override any
     # passed arguments
     if (!is.null(wght)) {
         dx <- wght$dx
@@ -64,7 +64,7 @@
     # the periodicity from the fft.
     # make sure that the span of the kernel is less than xwidth and ywidth.
     # there will be substantial speedup if the kernel has a small support,
-    # Y is big  (e.g. 512X512) and Mwidth and N widht are adjusted to suit.
+    # Y is big  (e.g. 512X512) and Mwidth and Nwidth are adjusted to suit.
     if (is.null(xwidth)) {
         xwidth <- dx * m
     }
@@ -93,7 +93,7 @@
         temp[is.na(temp)] <- 0
         temp2[1:m, 1:n] <- ifelse(!is.na(Y), 1, 0)
     }
-    # temp and temp2 are numerator and denominator of Nadarya-Watson estimator.
+    # temp and temp2 are numerator and denominator of Nadaraya-Watson estimator.
     temp <- Re(fft(fft(temp) * wght$W, inverse = TRUE))[1:m, 
         1:n]
     temp2 <- Re(fft(fft(temp2) * wght$W, inverse = TRUE))[1:m, 

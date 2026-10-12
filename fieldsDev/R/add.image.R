@@ -35,7 +35,7 @@
     dy <- image.width * (ucord[4] - ucord[3])
     dx <- image.height * pin[2] * (ucord[2] - ucord[1])/(pin[1])
     #
-    # dx and dy should have the correct ratio given different different scales
+    # dx and dy should have the correct ratio given different scales
     # and also different aspects to the plot window
     #
     # find grid to put image in right place.

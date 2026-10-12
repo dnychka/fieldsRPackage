@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -68,15 +68,15 @@ mKrigCheckXY(x, y, weights, XMat, XMatCommon, na.rm)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{collapseFixedEffect}{ If replicated fields are given to mKrig (i.e.
-\code{y} has more than one column) there is the choice of estimating the
+\item{collapseFixedEffect}{ If replicated fields are given to mKrig (i.e.,
+\code{y} has more than one column), there is the choice of estimating the
 fixed effect coefficients (\code{d} in the returned object) separately
 for each replicate or pooling across replicates and deriving a single
-estimate. If \code{collapseFixedEffect} is TRUE (default) the estimates are
+estimate. If \code{collapseFixedEffect} is TRUE (default), the estimates are
 pooled. }
   
 \item{chol.args}{A list of optional arguments (pivot, nnzR) that will
-be used with the call to the cholesky decomposition. Pivoting is done
+be used with the call to the Cholesky decomposition. Pivoting is done
 by default to make use of sparse matrices when they are
 generated. This argument is useful in some cases for sparse covariance
 functions to reset the memory parameter nnzR.  (See example below.)}
@@ -84,46 +84,46 @@ functions to reset the memory parameter nnzR.  (See example below.)}
 \item{cov.args}{A list of optional arguments that will be used in
   calls to the covariance function.}
 
-\item{cov.function}{The name, a text string of the covariance function.}
+\item{cov.function}{The name, a text string, of the covariance function.}
 
-\item{derivative}{If zero the surface will be evaluated. If not zero
+\item{derivative}{If zero, the surface will be evaluated. If not zero,
   the matrix of partial derivatives will be computed.}
 
 \item{digits}{Number of significant digits used in printed output.}
 
-\item{drop.XMat}{If true the fixed part will only be evaluated at the
+\item{drop.XMat}{If TRUE, the fixed part will only be evaluated at the
 polynomial part of the fixed model. The contribution from the other
 covariates will be omitted.}
-\item{drop.Z}{An older name for drop.XMat. If used a warning will be printed.}
+\item{drop.Z}{An older name for drop.XMat. If used, a warning will be printed.}
 
 \item{find.trA}{
-If TRUE will estimate the effective degrees of freedom using 
+If TRUE, will estimate the effective degrees of freedom using 
   a simple Monte Carlo method. This will add to the computational 
-  burden by approximately NtrA solutions of the linear system but 
-  the cholesky decomposition is reused.}
+  burden by approximately NtrA solutions of the linear system, but 
+  the Cholesky decomposition is reused.}
 
 \item{grid.list}{A grid.list to evaluate the surface in place of specifying 
   arbitrary locations.}
 
-\item{iseed}{Random seed ( using \code{set.seed(iseed)}) used to generate 
+\item{iseed}{Random seed (using \code{set.seed(iseed)}) used to generate 
   iid normals for Monte Carlo estimate of the trace. Set this to an integer to ensure the same random draws are used to compute the approximate trace and be consistent across different values of the covariance parameters. }
 
-\item{just.fixed}{If TRUE only the predictions for the fixed part of
-  the model will be evaluted.}
+\item{just.fixed}{If TRUE, only the predictions for the fixed part of
+  the model will be evaluated.}
   
-\item{lambda}{ Smoothing parameter or equivalently the ratio between 
+\item{lambda}{ Smoothing parameter or, equivalently, the ratio between 
   the nugget and process variances.}
 
 \item{m}{ The degree of the polynomial used in the fixed part.
-This is follows the thin plate spline convention that the degree is m-1. 
-Default is m=2 for a linear function, m=1 a constant and,
-as an quick logical switch, m=0 will result in no fixed part in the spatial model.
+This follows the thin plate spline convention that the degree is m-1. 
+Default is m=2 for a linear function, m=1 for a constant and,
+as a quick logical switch, m=0 will result in no fixed part in the spatial model.
 }
 
-\item{na.rm}{If TRUE NAs in y are omitted along with corresponding rows of x.}
+\item{na.rm}{If TRUE, NAs in y are omitted along with corresponding rows of x.}
 
 \item{NtrA}{Number of Monte Carlo samples for the trace. But if NtrA is 
-  greater than or equal to the number of observations the trace 
+  greater than or equal to the number of observations, the trace 
   is computed exactly.}
 
 \item{object}{Object returned by mKrig. (Same as "x"
@@ -131,24 +131,24 @@ as an quick logical switch, m=0 will result in no fixed part in the spatial mode
   
 \item{sigma2}{Value of the process variance.} 
 
-\item{simpleKriging}{If TRUE there is no fixed linear part in the spatial model. 
+\item{simpleKriging}{If TRUE, there is no fixed linear part in the spatial model. 
 This is a more rational way than setting \code{m=0}. }
 
 \item{tau}{ Value of the measurement error (aka nugget)  standard deviation.}
 
-\item{verbose}{If TRUE prints out intermediate values of objects for debugging.}
+\item{verbose}{If TRUE, prints out intermediate values of objects for debugging.}
 
-\item{weights}{Precision ( 1/variance) of each observation}
+\item{weights}{Precision (1/variance) of each observation}
 
-\item{x}{Matrix of unique spatial locations (or in print or surface 
-the returned mKrig object.)}
+\item{x}{Matrix of unique spatial locations (or, in print or surface,
+the returned mKrig object).}
 
 \item{xnew}{Locations for predictions.}
 
 \item{y}{ Vector or matrix of observations at spatial locations, 
   missing values are not allowed! Or in mKrig.coef a new 
-  vector of observations. If y is a matrix the columns are 
-  assumed to be independent replicates of the spatial field.  I.e.
+  vector of observations. If y is a matrix, the columns are 
+  assumed to be independent replicates of the spatial field, i.e.,
   observation vectors generated 
   from the same covariance and measurement error model but 
   independent from each other. 
@@ -157,14 +157,14 @@ the returned mKrig object.)}
 \item{ynew}{New observation vector. \code{mKrig} will reuse matrix
   decompositions and find the new fit to these data.}
 
-\item{XMat}{ Linear covariates to be included in fixed part of the 
+\item{XMat}{ Linear covariates to be included in the fixed part of the 
   model that are distinct from the default low order 
-  polynomial in \code{x}. (NOTE the order of the polynomial
-  determined by \code{m})}
+  polynomial in \code{x}. (NOTE: the order of the polynomial is
+  determined by \code{m}.)}
   
-\item{XMatCommon}{  Linear covariates to be included in fixed part of the 
+\item{XMatCommon}{  Linear covariates to be included in the fixed part of the 
   model. This option is only relevant for independent realizations of the fields
-  (i.e. y is a matrix). The number of rows of \code{XMatCommon} should be equal to
+  (i.e., y is a matrix). The number of rows of \code{XMatCommon} should be equal to
   the
   number of observations times the number of realizations. } 
   
@@ -174,7 +174,7 @@ Should use the new  argument name XMat. }
 \item{ZCommon}{This argument is deprecated and a warning will be printed. 
 Should use the new  argument name XMatCommon. }
 
-\item{\dots}{ In \code{mKrig} and \code{predict} additional arguments
+\item{\dots}{ In \code{mKrig} and \code{predict}, additional arguments
 that will be passed to the covariance function.}
 
 }
@@ -183,14 +183,14 @@ that will be passed to the covariance function.}
  computation for the linear algebra that facilitates compactly supported
  covariance functions. The m stands for micro
 and is
-done for a fixed lambda parameter and other covariance parameters (e.g. aRange) and for unique spatial locations. 
-This is also the basic computational element of the top level \code{\link{spatialProcess} } function for finding MLEs. 
+done for a fixed lambda parameter and other covariance parameters (e.g., aRange) and for unique spatial locations. 
+This is also the basic computational element of the top-level \code{\link{spatialProcess}} function for finding MLEs. 
 See the source code for a commented version that describes the computation.
 These restrictions simplify the code for reading. Note also that
 little checking is done and the spatial locations are not transformed
 before the estimation. 
 
-\strong{Repeated locations} To keep the coding simple \code{x} must be a set of unique locations. When there are multiple observations at a location -- also known as replicated locations -- one strategy is to use the average spatial value for this location in place of multiple observations.  One can also adjust the weights accordingly  for this location if that makes sense. To do this use the function 
+\strong{Repeated locations} To keep the coding simple, \code{x} must be a set of unique locations. When there are multiple observations at a location -- also known as replicated locations -- one strategy is to use the average spatial value for this location in place of multiple observations.  One can also adjust the weights accordingly  for this location if that makes sense. To do this, use the function 
 \code{\link{Krig.replicates}}. 
 For example 
 
@@ -212,15 +212,15 @@ will also combine the weight vector  based on the  replications and be returned 
 
 
 \strong{Multiple fields}  Because most of the operations are linear
-algebra this code has been written to handle multiple data
+algebra, this code has been written to handle multiple data
 sets. Specifically, if the spatial model is the same except for
 different observed values (the y's), one can pass \code{y} as a matrix
 and the computations are done efficiently for each set.
-The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also note the \code{collapseFixedEffects} switch to determine if the regression part is found separately for each replicate or combined into a single model. Note that
+The likelihood across all replicates is combined and denoted with  \code{FULL} at the end. Also note the \code{collapseFixedEffect} switch to determine if the regression part is found separately for each replicate or combined into a single model. Note that
 this is not a multivariate spatial model  -- just an efficient computation
 over several data vectors without explicit looping. A big difference in
 the computations is that an exact expression for the trace of the
-smoothing matrix is (trace A(lambda)) is computationally expensive and
+smoothing matrix (trace A(lambda)) is computationally expensive and
 a Monte Carlo approximation is supplied instead.
 
 \strong{Supporting functions}
@@ -231,32 +231,32 @@ simulation.
 
 \code{predict.mKrig} will evaluate the derivatives of the estimated
 function if derivatives are supported in the covariance function.  For
-example the wendland.cov function supports derivatives.
+example, the wendland.cov function supports derivatives.
 
 
 \code{summary.mKrig} creates a list of class \code{mKrigSummary} along with a table of standard errors for the fixed linear parameters.
 
 \code{print.mKrigSummary} prints the  \code{mKrigSummary} object and adds some more explanation about the model and results
 
-\code{print.mKrig} prints a summary for the \code{mKrig} object that the combines the summary and  print methods.
+\code{print.mKrig} prints a summary for the \code{mKrig} object that combines the summary and  print methods.
 
 
-\code{mKrig.coef} finds "beta"" and "c"  coefficients representing the
-solution using the previous cholesky decomposition but  for a new data
+\code{mKrig.coef} finds "beta" and "c" coefficients representing the
+solution using the previous Cholesky decomposition but for a new data
 vector. This is used in computing the prediction standard error in
-predictSE.mKrig and can also be used to evalute the estimate
-efficiently at new vectors of observations provided the locations, fixed part,  and
-the covariance matrix  all remain  the same .
+predictSE.mKrig and can also be used to evaluate the estimate
+efficiently at new vectors of observations provided the locations, fixed part, and
+the covariance matrix all remain the same.
 
 \strong{Sparse covariance functions} Sparse matrix methods are handled through overloading the usual linear
 algebra functions with sparse versions. But to take advantage of some
-additional options in the sparse methods the list argument chol.args
+additional options in the sparse methods, the list argument chol.args
 is a device for changing some default values. The most important of
 these is \code{nnzR}, the number of nonzero elements anticipated in
 the Cholesky factorization of the positive definite linear system used
 to solve for the basis coefficients. The sparsity of this system is
 essentially the same as the covariance matrix evaluated at the
-observed locations.  As an example of resetting \code{nzR} to 450000
+observed locations.  As an example of resetting \code{nnzR} to 450000,
 one would use the following argument for chol.args in mKrig:
 
 \code{ chol.args=list(pivot=TRUE,memory=list(nnzR= 450000))}
@@ -267,17 +267,17 @@ to estimate the effective degrees of freedom.  The Kriging surface
 estimate at the data locations is a linear function of the data and
 can be represented as A(lambda)y.  The trace of A is one useful
 measure of the effective degrees of freedom used in the surface
-representation. In particular this figures into the GCV estimate of
+representation. In particular, this figures into the GCV estimate of
 the smoothing parameter.  It is computationally intensive to find the
-trace explicitly but there is a simple Monte Carlo estimate that is
-often very useful.  If E is a vector of iid N(0,1) random variables
+trace explicitly, but there is a simple Monte Carlo estimate that is
+often very useful.  If E is a vector of iid N(0,1) random variables,
 then the trace of A is the expected value of t(E)AE. Note that AE is
 simply predicting a surface at the data location using the synthetic
 observation vector E. This is done for \code{NtrA} independent N(0,1)
 vectors and the mean and standard deviation are reported in the
-\code{mKrig} summary.  Typically as the number of observations is
-increased this estimate becomes more accurate. If NtrA is as large as
-the number of observations (\code{np}) then the algorithm switches to
+\code{mKrig} summary.  Typically, as the number of observations is
+increased, this estimate becomes more accurate. If NtrA is as large as
+the number of observations (\code{np}), then the algorithm switches to
 finding the trace exactly based on applying A to \code{np} unit
 vectors.
 }
@@ -286,9 +286,9 @@ vectors.
   \item{summary}{A named array with the values of  covariance parameters
  and log likelihoods.}
 
-  \item{beta}{Coefficients of the polynomial fixed part and if present
-  the covariates (XMat). To determine which is which the logical vector
-  ind.drift also part of this object is TRUE for the polynomial
+  \item{beta}{Coefficients of the polynomial fixed part and, if present,
+  the covariates (XMat). To determine which is which, the logical vector
+  ind.drift, also part of this object, is TRUE for the polynomial
   part. }
 
   \item{c.coef}{ Coefficients of the nonparametric part.}
@@ -301,7 +301,7 @@ vectors.
 
    \item{ind.drift}{Logical vector that indicates polynomial
    coefficients in the \code{d} coefficients vector. This is helpful
-   to distinguish between polynomial part and the extra covariates
+   to distinguish between the polynomial part and the extra covariate
    coefficients associated with XMat. }
  
  \item{lambda.fixed}{The fixed lambda value}
@@ -317,7 +317,7 @@ vectors.
 
  \item{m}{Order of fixed part polynomial.}
 
-  \item{chol.args}{ A list with all the cholesky arguments that were
+  \item{chol.args}{ A list with all the Cholesky arguments that were
          specified in the call.}
 
  \item{call}{ A copy of the call to mKrig.}
@@ -330,9 +330,9 @@ matrix for the process at the observation locations.}
   observations having factored out sigma.}
 
  \item{Omega}{GLS covariance for the estimated parameters in the fixed
-part of the model (d coefficients0.}
+part of the model (d coefficients).}
 
- \item{qr.VT, Mc}{QR and cholesky matrix decompositions needed to
+ \item{qr.VT, Mc}{QR and Cholesky matrix decompositions needed to
 recompute the estimate for new observation vectors.}
 
  \item{fitted.values, residuals}{Usual predictions from fit.}
@@ -340,10 +340,10 @@ recompute the estimate for new observation vectors.}
  \item{eff.df}{Estimate of effective degrees of freedom. Either the
 mean of the Monte Carlo sample or the exact value. }
 
- \item{trA.info}{If NtrA is less than \code{np} then the individual
+ \item{trA.info}{If NtrA is less than \code{np}, then the individual
 members of the Monte Carlo sample and \code{sd(trA.info)/ sqrt(NtrA)}
 is an estimate of the standard error. If NtrA is greater than or equal
-to \code{np} then these are the diagonal elements of A(lambda).}
+to \code{np}, then these are the diagonal elements of A(lambda).}
 
  \item{GCV}{Estimated value of the GCV function.}
 
@@ -362,7 +362,7 @@ to \code{np} then these are the diagonal elements of A(lambda).}
   y<-y[good]
   x<- ozone2$lon.lat[good,]
 # nearly interpolate using defaults (Exponential covariance range = 2.0)
-# see also mKrigMLEGrid to choose lambda by maxmimum likelihood
+# see also mKrigMLEGrid to choose lambda by maximum likelihood
   out<- mKrig( x,y, aRange = 2.0, lambda=.01)
   out.p<- predictSurface( out)
   surface( out.p)
@@ -413,7 +413,7 @@ surface( out.p)
 #   e.g. spam.nearestdistnnz
 
 # The following will give a warning for aRange=.9 because 
-# allocation for the  covariance matirx storage is too small. 
+# allocation for the  covariance matrix storage is too small. 
 # Here aRange controls the support of the covariance and so 
 # indirectly the  number of nonzero elements in the sparse matrix
 
@@ -423,7 +423,7 @@ surface( out.p)
 
 # The warning resets the memory allocation  for the covariance matrix
 # according the to values   options(spam.nearestdistnnz=c(416052,400))'
-# this is inefficient becuase the preliminary pass failed. 
+# this is inefficient because the preliminary pass failed. 
 
 # the following call completes the computation in "one pass"
 # without a warning and without having to reallocate more memory. 
@@ -433,7 +433,7 @@ options( spam.nearestdistnnz=c(416052,400))
                     aRange=.9, lambda=1e-2)
 # as a check notice that 
 #   print( look2)
-# reports the number of nonzero elements consistent with the specifc allocation
+# reports the number of nonzero elements consistent with the specific allocation
 # increase in spam.options
 
 
@@ -445,7 +445,7 @@ options( spam.nearestdistnnz=c(416052,400))
 
 \dontrun{  
 # the following is an example of where the allocation  (for nnzR) 
-# for the cholesky factor is too small. A warning is issued and 
+# for the Cholesky factor is too small. A warning is issued and 
 # the allocation is increased by 25% in this example
 #
  look2<- mKrig( x,y, 
@@ -457,7 +457,7 @@ options( spam.nearestdistnnz=c(416052,400))
             lambda=1e2, chol.args=list(pivot=TRUE, memory=list(nnzR= 450000)))
 
 ###############################################################################
-# fiting multiple data sets
+# fitting multiple data sets
 #
 #\dontrun{ 
   y1<- sin( 1.8*pi*x[,1])*sin( 2.5*pi*x[,2]) + rnorm( N)*.01
@@ -490,7 +490,7 @@ options( spam.nearestdistnnz=c(416052,400))
 # 50 or so neighbors
 # full distance matrix excluding distances greater than dguess
   hold2<- nearest.dist( x, x, delta= dguess )
-# here is trick to find the number of nonsero rows for a matrix in spam format. 
+# here is a trick to find the number of nonzero rows for a matrix in spam format. 
   hold3<-  diff( hold2@rowpointers)
 #  min( hold3) = 43   which we declare close enough. This also counts the diagonal
 # So there are a minimum of 42 nearest neighbors  ( median is 136)

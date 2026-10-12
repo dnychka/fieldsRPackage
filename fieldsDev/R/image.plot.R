@@ -111,7 +111,7 @@
     # next par call sets up a new plotting region just for the legend strip
     # at the smallplot coordinates
     par(new = TRUE, pty = "m", plt = smallplot, err = -1)
-    # draw color scales the two  cases are horizontal/vertical 
+    # draw color scales; the two cases are horizontal/vertical 
     # add a label if this is passed.
     if (!horizontal) {
             image(ix, iy, iz, xaxt = "n", yaxt = "n", xlab = "", 

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -34,13 +34,13 @@
 \alias{Paciorek.cov}
 \title{
   Exponential  family, radial basis 
-functions,cubic spline,  compactly  supported Wendland family, 
+functions, cubic spline, compactly  supported Wendland family, 
 stationary covariances and non-stationary covariances. }
 \description{
-Given two sets of locations these functions compute the cross covariance matrix for
-some covariance families. In addition these functions can take advantage 
+Given two sets of locations, these functions compute the cross covariance matrix for
+some covariance families. In addition, these functions can take advantage 
 of sparseness, implement more efficient multiplication of the 
-cross covariance by a vector or matrix and also return a marginal 
+cross covariance by a vector or matrix, and also return a marginal 
 variance to be consistent with calls by the Krig function.  
 
 \code{stationary.cov} and \code{Exp.cov} have additional arguments for 
@@ -52,7 +52,7 @@ distance matrix is used to save time.
 
 Note: These functions have been renamed from the previous fields functions
 using 'Exp' in place of 'exp' to avoid conflict with the generic exponential 
-function (\code{exp(...)})in R.
+function (\code{exp(...)}) in R.
 }
 \usage{
 Exp.cov(x1, x2 = NULL, aRange = 1, p = 1, distMat = NA, C =
@@ -87,6 +87,7 @@ Tps.cov(x1, x2 = NULL, cardinalX, mDegree=2,
 wendland.cov(x1, x2, aRange = 1, V=NULL, k = 2, C = NA, 
              marginal =FALSE,Dist.args = list(method = "euclidean"), 
              spam.format = TRUE, derivative = 0, verbose=FALSE, theta=NULL)
+             
 Paciorek.cov(x1,
                            x2 = NULL,
                            Distance = "rdist",
@@ -102,7 +103,7 @@ Paciorek.cov(x1,
 coordinates of a particular point.}
 
 \item{x2}{ Matrix of second set of locations where each row gives the
-coordinates of a particular point. If this is missing x1 is used. }
+coordinates of a particular point. If this is missing, x1 is used. }
 
 \item{aRange}{ Range (or scale) parameter. This should be a scalar (use
 the V argument for other scaling options). Any distance calculated for
@@ -111,20 +112,20 @@ is evaluated. For \code{Tps.cov} this argument is ignored.}
 
 \item{aRangeObj}{ A fit object that defines the Range (or scale) parameter for arbitrary locations using the generic \code{predict} function.}
 
-\item{theta}{ Old version of the aRange parameter. If passed will be copied to aRange.}
+\item{theta}{ Old version of the aRange parameter. If passed, it will be copied to aRange.}
 
 
 \item{ cardinalX}{Locations added to the thin plate radial function to make it positive definite (See Details below).
 }
 
-\item{C}{ A vector or matrix with the same rows  as the number of rows of x2.
-If specified the covariance matrix will be multiplied by this vector/matrix.}
+\item{C}{ A vector or matrix with the same number of rows as x2.
+If specified, the covariance matrix will be multiplied by this vector/matrix.}
 
 \item{Covariance}{Character string that is the name of the covariance
 shape function for the distance between locations. Choices in fields
 are \code{Exponential}, \code{Matern}}
 
-\item{derivative}{ If nonzero evaluates the partials of the
+\item{derivative}{ If nonzero, evaluates the partials of the
 covariance function at locations x1. This must be used with  the "C" option
 and is mainly called from within a predict function.  The partial
 derivative is taken with respect to \code{x1}.  }
@@ -145,7 +146,7 @@ function.}
 \item{k}{The order of the Wendland covariance function.  See help on
  Wendland.}
 
-\item{marginal}{If TRUE returns just the diagonal elements of the
+\item{marginal}{If TRUE, returns just the diagonal elements of the
 covariance matrix using the \code{x1} locations. In this case this is
 just 1.0. The marginal argument is trivial for this function, but is a
 required argument and capability for all covariance functions used
@@ -156,8 +157,10 @@ with Krig.}
 \item{mDegree}{For the radial basis function p = 2m-d, with d being the
 dimension of the locations, is the exponent applied to
 the distance between locations. (m is a common way of parametrizing this
-exponent.) Equivalently in Tps.cov the order of the spline. (See Details
+exponent.) Equivalently, in Tps.cov, the order of the spline. (See Details
 section below).}
+
+\item{m}{ Same as mDegree.}
 
 \item{onlyUpper}{
 For internal use only, not meant to be set by the user.  Automatically 
@@ -179,19 +182,19 @@ and the default is set to \code{FALSE} so it is compatible with all of
 
 \item{p}{ Exponent in the exponential covariance family.  p=1 gives an
 exponential and p=2 gives a Gaussian.  Default is the exponential
-form.  For the radial basis function this is the exponent applied to
+form.  For the radial basis function, this is the exponent applied to
 the distance between locations. } 
 
 \item{rhoObj}{
 A fit object that defines a component of the marginal variance
 (rho) parameter for
-arbitrary locations using the generic \code{predict} function. Note that in fields the complete marginal variance is \code{sigma2*rho} where \code{sigma2} can be estimated in \code{spatialProcess}.
+arbitrary locations using the generic \code{predict} function. Note that in fields, the complete marginal variance is \code{sigma2*rho} where \code{sigma2} can be estimated in \code{spatialProcess}.
  }
  
-\item{smoothness}{For the Matern family the smoothness of the process (aka "nu" in formulas). }
+\item{smoothness}{For the Matern family, the smoothness of the process (aka "nu" in formulas). }
 
-\item{spam.format}{If TRUE returns matrix in sparse matrix format
-implemented in the spam package. If FALSE just returns a full
+\item{spam.format}{If TRUE, returns the matrix in the sparse matrix format
+implemented in the spam package. If FALSE, just returns a full
 matrix. }
 
 \item{Taper}{Character string that is the name of the taper function
@@ -202,35 +205,35 @@ function. \code{aRange} should always be the name for the range (or
 scale) parameter.}
 
 \item{V}{ A matrix that describes the inverse linear transformation of
-the coordinates before distances are found.  In R code this
-transformation is: \code{x1 \%*\% t(solve(V))} Default is NULL, that
-is the transformation is just dividing distance by the scalar value
-\code{aRange}. See Details below.  If one has a vector of "aRange's"
-that are the scaling for each coordinate then just express this as
+the coordinates before distances are found.  In R code, this
+transformation is: \code{x1 \%*\% t(solve(V))}. Default is NULL, that
+is, the transformation is just dividing distance by the scalar value
+\code{aRange}. See Details below.  If one has a vector of "aRange" values
+that are the scaling for each coordinate, then just express this as
 \code{V = diag(aRange)} in the call to this function.}
 
-\item{verbose}{If TRUE prints out some useful information for
+\item{verbose}{If TRUE, prints out some useful information for
 debugging.}
 
-\item{with.constant}{ If TRUE includes complicated constant for radial
- basis functions.  See the function \code{radbad.constant} for more
+\item{with.constant}{ If TRUE, includes the complicated constant for radial
+ basis functions.  See the function \code{radbas.constant} for more
  details. The default is TRUE, include the constant. Without the usual
- constant the lambda used here will differ by a constant from spline
- estimators ( e.g.  cubic smoothing splines) that use the
- constant. Also a negative value for the constant may be necessary to
+ constant, the lambda used here will differ by a constant from spline
+ estimators (e.g., cubic smoothing splines) that use the
+ constant. Also, a negative value for the constant may be necessary to
  make the radial basis positive definite as opposed to negative
  definite. }
 
-\item{with.log}{If TRUE include a log term for even dimensions.  This
+\item{with.log}{If TRUE, include a log term for even dimensions.  This
 is needed to be a thin plate spline of integer order. }
 
 
 \item{\dots}{ Any other arguments that will be passed to the
-covariance function. e.g. \code{smoothness} for the Matern.}  }
+covariance function, e.g., \code{smoothness} for the Matern.}  }
 
-\value{ If the argument C is NULL the cross covariance matrix is
-returned.  In general if nrow(x1)=m and nrow(x2)=n then the returned
-matrix will be mXn.  Moreover, if x1 is equal to x2 then this is the
+\value{ If the argument C is NULL, the cross covariance matrix is
+returned.  In general, if nrow(x1)=m and nrow(x2)=n, then the returned
+matrix will be mXn.  Moreover, if x1 is equal to x2, then this is the
 covariance matrix for this set of locations.
 
 
@@ -252,7 +255,7 @@ A common scaling for stationary covariances: If \code{x1} and
  is the covariance between the locations \code{x1[i,]} and
  \code{x2[j,]}. The exponential covariance function is computed as
  exp( -(D.ij)) where D.ij is a distance between \code{x1[i,]} and
- \code{x2[j,]} but having first been scaled by aRange. Specifically if
+ \code{x2[j,]} but having first been scaled by aRange. Specifically, if
  \code{aRange} is a matrix to represent a linear transformation of the
  coordinates, then let \code{u= x1\%*\% t(solve( aRange))} and \code{v=
  x2\%*\% t(solve(aRange))}.  Form the mXn distance matrix with
@@ -265,22 +268,22 @@ tapered form (ignoring scaling parameters) is a matrix with i,j entry
 \code{exp(-D[i,j])*T(D[i,j])}. With T being a positive definite
 tapering function that is also assumed to be zero beyond 1.
 
-Note that if aRange is a scalar then this defines an isotropic
+Note that if aRange is a scalar, then this defines an isotropic
 covariance function and the functional form is essentially
 \code{exp(-D/aRange)}.
 
-Implementation: The function \code{r.dist} is a useful FIELDS function
+Implementation: The function \code{rdist} is a useful FIELDS function
 that finds the cross Euclidean distance matrix (D defined above) for
-two sets of locations. Thus in compact R code we have
+two sets of locations. Thus, in compact R code, we have
 
   exp(-rdist(u, v))
 
 Note that this function must also support two other kinds of calls:
 
-If marginal is TRUE then just the diagonal elements are returned (in R
+If marginal is TRUE, then just the diagonal elements are returned (in R
 code \code{diag( exp(-rdist(u,u)) )}).
 
-If C is passed then the returned value is \code{ exp(-rdist(u, v))
+If C is passed, then the returned value is \code{ exp(-rdist(u, v))
 \%*\% C}.
 
 
@@ -291,7 +294,7 @@ Some details on particular covariance functions:
 
 \item{Stationary covariance \code{stationary.cov}:}{Here the
 computation is to apply the function Covariance to the distances found
-by the Distance function.  For example
+by the Distance function.  For example,
 
 \code{Exp.cov(x1,x2, aRange=MyTheta)}
 
@@ -305,9 +308,9 @@ are the same. This is also the same as
 \code{stationary.cov( x1,x2, aRange=MyTheta, Distance= "rdist",
 Covariance="Matern",smoothness=.5)}.  }
 
-\item{Radial basis functions (\code{Rad.cov}:}{The
+\item{Radial basis functions (\code{Rad.cov}):}{The
 functional form is Constant* rdist(u, v)**p for odd dimensions and
-Constant* rdist(u,v)**p * log( rdist(u,v) ) For an m th order thin plate
+Constant* rdist(u,v)**p * log( rdist(u,v) ) for even dimensions. For an m-th order thin plate
 spline in d dimensions p= 2*m-d and must be positive. The constant,
 depending on m and d, is coded in the fields function
 \code{radbas.constant}. This form is only a generalized covariance
@@ -343,21 +346,22 @@ observational
 data} is to augment the radial basis functions with a low rank set
 of
 functions based on a low order polynomial evaluated at a set of
-points. The set of locations for these modifications are called
+points. The set of locations for these modifications is called
 \emph{cardinal point}s due to the
 property mentioned below.  This is
 implemented in \code{Tps.cov} leading to a full rank  
 (non-stationary!)
 covariance function. If the fixed part of the spatial model also
 includes
-this same order polynomial then the final result gives a TPS and
+this same order polynomial, then the final
+ result gives a TPS and
 is invariant
 to the choice of cardinal points. To streamline using this
 covariance when it is specified in the \code{spatialProcess}
-function the cardinal points will be chosen automatically based on
-the observation locations and  the spline order, \code{m} using a
-space filling design.
-A simple example  with fixed smoothing parameter, \code{lambda <- .1} may help
+function, the cardinal points will be chosen automatically based on
+the observation locations and  the spline order, \code{m}, using a
+space-filling design.
+A simple example with a fixed smoothing parameter, \code{lambda <- .1}, may help:
 
 \preformatted{
 data( "ozone2")
@@ -376,8 +380,8 @@ fitTps2<- Tps( s,y, scale.type ="unscaled", lambda=.1)
 stats( abs(fitTps2$fitted.values - fitTps1$fitted.values)) 
 }
  
- Here the default choice for the order is 2 and in two dimensions implies a
- linear polynomial. The arguments filled in by default are shown below
+ Here, the default choice for the order is 2, which in two dimensions implies a
+ linear polynomial. The arguments filled in by default are shown below:
  
 \preformatted{
  fitTps1$args
@@ -409,32 +413,31 @@ $find.trA
 
 }
 
-\code{ cardinalX} are the cardinal points chosen using a space
-filling
+\code{ cardinalX} are the cardinal points chosen using a space-filling
 criterion. These are attached to the covariance arguments list so
 they are used
 in the subsequent computations for this fit (such as  predict,
 predictSE, sim.spatialProcess).
 
-To change the order of the spline say to m=3.
+To change the order of the spline, say to m=3:
 \preformatted{
 fitTps1<- spatialProcess( s,y, cov.function= "Tps.cov",
                cov.args=list( mDegree=3), lambda=.1)               
  }
 
 In general, if \code{d} is the dimension of the locations and
-\code{m} the order of the spline one must have \code{2*m-d >0}.
+\code{m} the order of the spline, one must have \code{2*m-d >0}.
 The polynomial will have \code{ choose( m+d-1,d)} terms and so
-this many cardinal points need to be specified. As mentioned above
-these are generated using a space filling design if \code{spatialProcess} is
+this many cardinal points need to be specified. As mentioned above,
+these are generated using a space-filling design if \code{spatialProcess} is
 used and the points are not given.  
 }
 
 \item{Stationary tapered covariance \code{stationary.taper.cov}
 :}{The
 resulting cross covariance is the direct or Schur product of the
-tapering function and the covariance. In R code given location
-matrices, \code{x1} and \code{x2} and using Euclidean distance.
+tapering function and the covariance. In R code, given location
+matrices \code{x1} and \code{x2} and using Euclidean distance:
  
 \code{Covariance(rdist( x1, x2)/aRange)*Taper( rdist( x1,
 x2)/Taper.args$aRange)}
@@ -444,9 +447,9 @@ zero outside the interval [0,1]. Some efficiency is introduced within
 the function to search for pairs of locations that are nonzero with
 respect to the Taper. This is done by the SPAM function
 \code{nearest.dist}.  This search may find more nonzero pairs than
-dimensioned internally and SPAM will try to increase the space. One
+dimensioned internally, and SPAM will try to increase the space. One
 can also reset the SPAM options to avoid these warnings.  For
-spam.format TRUE the multiplication with the \code{C} argument is done
+spam.format TRUE, the multiplication with the \code{C} argument is done
 with the spam sparse multiplication routines through the "overloading"
 of the \code{\%*\%} operator.  }
 
@@ -461,8 +464,8 @@ This covariance works by specifying an object aRangeObj such that the
 generic call  \code{predict(aRangeObj, loc)} will evaluate the aRange
 function at the locations \code{loc}. This object can be as simple as a
 fit to local estimated aRange parameters using a fields function such
-as Tps or spatialProcess. For more specific applications one can create a
-special predict function. For example suppose log aRange follows a
+as Tps or spatialProcess. For more specific applications, one can create a
+special predict function. For example, suppose log aRange follows a
 linear model in the spatial coordinates and these coefficients are the
 vector \code{Afit}. Define a class and a predict function. 
 
@@ -482,14 +485,14 @@ Now use \code{spatialProcess} with this object and make sure
 
 }
 A similar strategy will also work for a varying marginal variance by
-creating \code{sigmaObj} and if needed a companion predict method. 
+creating \code{sigmaObj} and, if needed, a companion predict method. 
 
 }
 
-About the FORTRAN: The actual function \code{Exp.cov} and
+About the FORTRAN: The actual functions \code{Exp.cov} and
 \code{Rad.cov} call FORTRAN to
 make the evaluation more efficient. This is especially important when the
-C argument is supplied. So unfortunately the actual production code in
+C argument is supplied. So, unfortunately, the actual production code in
 Exp.cov is not as crisp as the R code sketched above. See
 \code{Rad.simple.cov} for an R coding of the radial basis functions.
 

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -53,7 +53,7 @@ Optional graphics arguments to pass to each plot.
 }
 \details{
  This function creates four summary plots of the Krig or sreg object. The
-default is to put these on separate pages. However if the screen is
+default is to put these on separate pages. However, if the screen is
 already divided in some other fashion the plots will just be added
 according to that scheme. This option is useful to compare
 several different model fits. 
@@ -67,16 +67,16 @@ In the case of a "correlation model" the residuals are also divided by the
 marginal standard deviation from this model.
 
 The third plot shows the values of the GCV function against the effective
-degrees of freedom. When there are replicate points several versions of
-the GCV function may be plotted.  GCV function is with respect to the
+degrees of freedom. When there are replicate points, several versions of
+the GCV function may be plotted.  The GCV function is with respect to the
 standardized data if a correlation model is specified. A vertical line
 indicates the minimum found.
 
-For \code{Krig} and \code{sreg} objects the fourth plot is a histogram of the standardized residuals. 
-For sreg if multiple lambdas are given plotted are boxplots of the  
-residuals for each fit. 
+For \code{Krig} and \code{sreg} objects, the fourth plot is a histogram of the standardized residuals. 
+For sreg, if multiple lambdas are given, boxplots of the
+residuals for each fit are plotted. 
 
-For a \code{spatialProcess} object the fourth plot is the profile likelihood for the
+For a \code{spatialProcess} object, the fourth plot is the profile likelihood for the
 aRange parameter. Points are the actual evaluated log likelihoods and the dashed line is
 just a spline interpolation to help with visualization. 
 

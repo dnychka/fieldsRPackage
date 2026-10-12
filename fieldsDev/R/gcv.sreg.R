@@ -44,7 +44,7 @@ gcv.sreg<- function(out, lambda.grid = NA, cost = 1,
         cat("endpoints of coarse lamdba grid", fill = TRUE)
         cat(l1, l2, fill = TRUE)
     }
-    # build up table of coarse grid serach results for lambda
+    # build up table of coarse grid search results for lambda
     # in the matrix gcv.grid
     nl <- length(lambda.grid)
     V <- V.model <- V.one <- trA <- MSE <- RSS.model <- rep(NA, 
@@ -115,7 +115,7 @@ gcv.sreg<- function(out, lambda.grid = NA, cost = 1,
       		lambda.est[k,1]<-  gcv.grid$lambda[IMIN[k]]
       	}
       }                              
-    # now optimze the search producing refined optima
+    # now optimize the search producing refined optima
     #
     # now step through the many different ways to find lambda
     # This is the key to these choices:
@@ -124,7 +124,7 @@ gcv.sreg<- function(out, lambda.grid = NA, cost = 1,
     #     each location and each location is omitted 
     #  3- True leave-one-out even with replicated observations
     #  4- Match estimate of tau to external value supplied (RMSE)
-    #  5- Match estimate of tau from the estimate based the 
+    #  5- Match estimate of tau from the estimate based on the 
     #     pure error sum of squares obtained by the observations
     #     replicated at the same locations
     #test<- sreg.fit(.1, out)

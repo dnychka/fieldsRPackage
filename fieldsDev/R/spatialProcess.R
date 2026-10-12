@@ -21,8 +21,8 @@
 spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
                         XMat = NULL,
                   XMatCommon = NULL,
-                           Z = NULL, # depreciated argument
-                     ZCommon = NULL, # depreciated argument
+                           Z = NULL, # deprecated argument
+                     ZCommon = NULL, # deprecated argument
                   mKrig.args = NULL,
                          tau = NA,
                 cov.function = NULL, 
@@ -45,17 +45,17 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
                simpleKriging = FALSE,
                            ...) {
  
-# Through out this code:  obj is the output list and will be added to throughout the computation
+# Throughout this code:  obj is the output list and will be added to throughout the computation
 # This device is typical in fields functions where a list is built up in the process of the 
 # computation. 
   
 #  THE RULES: 
 # Being in the cov.params.start list means a parameter will be optimized
-# by maximum likelhood. 
+# by maximum likelihood. 
 # If a  parameter is in the cov.args list it will be fixed at that value
 #  
   
-# NOTE all the  ... extra arguents are assumed to be for the cov.args list
+# NOTE all the  ... extra arguments are assumed to be for the cov.args list
   GCV<- FALSE # A top level placeholder to add GCV search capability once
 # algorithm is stable 
 # this default choice is used in the next level functions.
@@ -75,8 +75,8 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
          Please use these instead in the calling arguments to avoid this warning. ")
   }
 #
-# It is  convenient sometimes to just add a few arugments of the covariance directly in the call
-# rather give the entire specification 
+# It is  convenient sometimes to just add a few arguments of the covariance directly in the call
+# rather than give the entire specification 
 # The list below collects those.  
 # E.g. spatialProcess( x, y, Covariance="Exponential" )
 # will pass this choice along to the default covariance function, stationary.cov
@@ -92,7 +92,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
 #  
 # Set defaults based on the model passed. 
 #
-# The following function fills in some typical models parameters,  
+# The following function fills in some typical model parameters,  
 # avoids some extra  arguments in the call and makes for some clean examples
 #   
 # Note this also creates the initial components for the output list. 
@@ -124,7 +124,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
    # generate starting values for the MLEs 
    #
    # 3 also profile over lambda and/or aRange 
-   # (this is more computationally demanding that the other cases. ) 
+   # (this is more computationally demanding than the other cases.) 
    #
   if( verbose){
     cat(" The CASE:", obj$CASE, fill=TRUE)
@@ -201,7 +201,7 @@ spatialProcess <- function(x, y,  weights = rep(1, nrow(x)),
 # CASES 1 , 2 , 3, 4
 #################################################################### 
    if(obj$CASE !=0 ){
-     # optimze over all parameters 
+     # optimize over all parameters 
      # where starting values are given or if
      # values in cov.args are omitted. 
      obj$cov.params.start<- cov.params.start

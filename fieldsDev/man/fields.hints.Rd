@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ fields - graphics hints
 \description{
  Here are some technical hints for assembling multiple plots with common
 legends or axes and setting the graphics parameters to make more
-readable figures. Also we provide an index to the default colors in R graphics
+readable figures. Also, we provide an index to the default colors in R graphics
 and setting their definitions in LaTeX.
 All these hints use the standard graphics environment. 
 }
@@ -80,7 +80,7 @@ image.plot( zlim=zr, legend.only=TRUE, horizontal=TRUE, legend.mar=5)
 
 
 ##
-### also add some axes on the sides. in a lattice style 
+### also add some axes on the sides in a lattice style 
 ## note oma adds some more room at bottom. 
 
 par( oma=c(8,6,1,1))

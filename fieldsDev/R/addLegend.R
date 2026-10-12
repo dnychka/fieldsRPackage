@@ -19,30 +19,14 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-addLegend<- function(legendLayout,
-                col,
-               zlim,
-          axis.args = NULL,
-        legend.args = NULL,
-         legend.cex = 1.0, 
-         legend.lab = NULL,
-        legend.line = 2 
+addLegend<- function(
            ){
-   info<- legendLayout
-   
-   imagePlot( legend.only=TRUE,
-              add=TRUE,
-              smallplot = info$smallplot,
-              col= col,
-              zlim = zlim,
-              legend.lab = legend.lab,
-              legend.line= legend.line, 
-               axis.args = axis.args,
-              legend.args = legend.args,
-              legend.cex = legend.cex,
-           legend.shrink = info$legend.shrink,
-              legend.mar = info$legend.mar,
-            legend.width = info$legend.width,
-              horizontal = info$horizontal
-              )
+  oldPar<- par(no.readonly = TRUE)
+  par( mar = c(0, 0, 0, 0),
+       oma=c(0,0,0,0),
+       fig=c(0,1,0,1), 
+       new = TRUE, # not sure what this does!
+       usr=c(0,1,0,1))
+  cat("Figure region now reset to [0,1] X [0,1]", fill=TRUE)
+  return(invisible(oldPar))
 }

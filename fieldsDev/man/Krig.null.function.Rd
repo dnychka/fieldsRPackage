@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -26,7 +26,7 @@
 \title{Default function to create fixed matrix part of spatial process model.}
 \description{
 Constructs a matrix of terms representing a low order polynomial
-and binds additional columns due to covariates ( the XMat matrix)
+and binds additional columns due to covariates (the XMat matrix).
 }
 \usage{
 Krig.null.function(x, XMat = NULL, drop.XMat = FALSE, m)
@@ -35,7 +35,7 @@ Krig.null.function(x, XMat = NULL, drop.XMat = FALSE, m)
 \arguments{
   \item{x}{Spatial locations }
   \item{XMat}{ Other covariates to be associated with each location.}
-  \item{drop.XMat}{If TRUE only the low order polynomial part is created.  }
+  \item{drop.XMat}{If TRUE, only the low order polynomial part is created.  }
   \item{m}{ The polynomial order is (m-1). }
 }
 \value{
@@ -45,8 +45,8 @@ following columns are from XMat.
 }
 \details{
 This function can be modified to produce a different fixed part of the
-spatial model. The arguments x, XMat and drop.XMat are required but other arguments
-can  be passed as part of a list in null.args  in the call to Krig.
+spatial model. The arguments x, XMat and drop.XMat are required, but other arguments
+can be passed as part of a list in null.args  in the call to Krig.
 }
 \author{Doug Nychka }
 \seealso{Krig}

@@ -60,7 +60,7 @@ approximateCovariance2D<-function(s, gridList, NNSize=4,
   if( !is.null( covArgs$aRange)){
     aRange<- covArgs$aRange
   }
-  # some R arcania -- strip out all arguments used by say stationary.cov
+  # some R arcana -- strip out all arguments used by say stationary.cov
   # but not used by the Covariance function 
   # Do not want to call the covariance function with these extra args. 
   if( !is.null( covArgs) ){
@@ -198,7 +198,7 @@ approximateCovariance2D<-function(s, gridList, NNSize=4,
   
   Sigma11Inv <- U%*% diag( dVInv)%*%t(U)
   
-  # each row of B are the weights used to predict off grid point
+  # each row of B is the weights used to predict off grid point
   B <- Sigma21Star%*%Sigma11Inv
   # create spind sparse matrix
   # note need to use unrolled indices to refer to grid points

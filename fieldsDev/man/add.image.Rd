@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -40,8 +40,8 @@ image.width = 0.15, image.height = NULL, col = tim.colors(256), ...)
   \item{z}{ Matrix of intensities comprising the image. }
  \item{adj.x}{ Location of image relative to x coordinate. 
  Most
-common values are .5 (centered), 0 (right side of image at x) and  1 
-(left side  of
+common values are .5 (centered), 0 (left side of image at x) and  1 
+(right side  of
 image at x). These are the same conventions that are used for \code{adj} 
 in
 positioning text.}
@@ -51,7 +51,7 @@ Same rules as \code{adj.x}
   \item{image.width}{ Width of image as a fraction of the 
 plotting region in horizontal direction. }
   \item{image.height}{ Height of image as a fraction of the
-plotting region in horizontal direction. If NULL height is scaled to 
+plotting region in vertical direction. If NULL, height is scaled to 
 make image pixels square.}
   \item{col}{ Color table for image. Default is tim.colors.}
   \item{\dots}{Any other plotting arguments that are passed to the image 

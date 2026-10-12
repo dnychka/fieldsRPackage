@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
   Euclidean distance matrix or vector 
 }
 \description{
-Given two sets of locations \code{rdist} and \code{fields.rdist.near} compute the full
+Given two sets of locations, \code{rdist} and \code{fields.rdist.near} compute the full
 Euclidean distance matrix among all pairings or a sparse version for points within a
 fixed threshold distance.  \code{rdist.vec} computes a vector of pairwise distances
 between corresponding elements of the input locations and is used in empirical 
@@ -51,7 +51,7 @@ point.
 }
 \item{x2}{
 Matrix of second set of locations where each row gives the coordinates of
-a particular point. If this is not passed or given as NULL x1 is used. 
+a particular point. If this is not passed or given as NULL, x1 is used. 
 }
 \item{compact}{
 Whether or not to return a distance matrix in compact form inheriting class ``dist'' (as returned by the \code{dist} function in base R).  Only values for one triangle of the symmetric distance matrix are returned. This saves time evaluating the returned matrix and the covariance.  Note that this option is ignored when \code{x2} is not NULL.
@@ -83,12 +83,12 @@ the form of a list.
 List components:
 \describe{
 \item{ind}{ Row  and column indices of elements }
-\item{ra}{ (Distances ( D.ij)}
+\item{ra}{ Distances (D.ij)}
 \item{da}{ Dimensions of full distance matrix. }
 }
 
 This is a simple sparse format that can be manipulated by several fields
-functions. E.g. ind2spam will convert this list to the format used by
+functions. E.g., ind2spam will convert this list to the format used by
 the spam sparse matrix package. ind2full will convert this to an
 ordinary matrix with zeroes. 
 
@@ -99,12 +99,12 @@ ordinary matrix with zeroes.
 More about fields.rdist.near:
 
 The sparse version is designed to work with the sparse covariance
-functions in fields and anticipates that the full matrix, D is too large
+functions in fields and anticipates that the full matrix, D, is too large
 to store. The argument max.points is set as a default to nrow( x1)*100
-and allocates the space to hold the sparse elements. In case that there
-are more points that are within delta the function stops with an error
+and allocates the space to hold the sparse elements. If there
+are more points within delta, the function stops with an error
 but lists the offending rows. Just rerun the function with a larger
-choice for max.points
+choice for max.points.
 
 It is possible that for certain x1 points there are no x2 points within a distance
 delta. This situation will cause an error if the list is converted to spam format. 
@@ -135,7 +135,7 @@ out3<- fields.rdist.near( x1,x2, delta=.5)
 temp<- matrix( NA, nrow=out3$da[1], ncol= out3$da[2])
 temp[ out3$ind] <- out3$ra 
 
-#       or justuse 
+#       or just use 
 
   temp<- spind2full( out3)
   image( temp)

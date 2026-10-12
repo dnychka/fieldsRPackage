@@ -23,7 +23,7 @@ cubic.cov <- function(x1, x2=NULL, aRange = 1, C = NA, marginal = FALSE,
                       theta=NULL) {
     # comments in Exp.simple.cov for more details about the
     # required parts of this covariance
-    # theta argument has been deopreciated.
+    # theta argument has been deprecated.
     if( !is.null( theta)){
         aRange<- theta
     }

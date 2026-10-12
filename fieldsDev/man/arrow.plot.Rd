@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ Adds arrows at specified points where the arrow lengths are scaled to
 fit on 
 the plot in a reasonable manner. A classic use of this function is to
 depict a vector field. At each point (x,y) we have a vector with
-components (u,v).  Like the arrows function this adds arrows to an 
+components (u,v).  Like the arrows function, this adds arrows to an 
 existing plot.  
 }
 \usage{
@@ -57,20 +57,20 @@ the a2 argument
 }
 \item{arrow.ex}{
 Controls the length of the arrows. The length is in terms of the fraction 
-of the shorter axis in the plot. So with a default of .05 20 arrows  
+of the shorter axis in the plot. So, with a default of .05, 20 arrows  
 of maximum length can line up end to end along the shorter axis. 
 }
 \item{xpd}{
-If true does not clip arrows to fit inside the plot region, default is 
+If TRUE, does not clip arrows to fit inside the plot region, default is 
 not to clip. 
 }
 \item{true.angle}{
-If true preserves the true angle of the (u,v) pair on the plot. E.g. if  
-(u,v)=(1,1) then the arrow will be drawn at 45 degrees.  
+If TRUE, preserves the true angle of the (u,v) pair on the plot. E.g., if
+(u,v)=(1,1), then the arrow will be drawn at 45 degrees.  
 }
 \item{arrowfun}{
 The actual arrow function to use. The default is standard R \code{arrows}.
-However,  Tamas K Papp suggests  \code{p.arrows} from sfsmisc which makes prettier 
+However,  Tamas K Papp suggests  \code{p.arrows} from sfsmisc, which makes prettier 
 arrows.
 }
 
@@ -83,17 +83,17 @@ details.
 }
 \details{
 This function is useful because (u,v) may be in very different scales
-from the locations (x,y). So some careful scaling is needed to plot the
+from the locations (x,y). So, some careful scaling is needed to plot the
 arrows. 
 The only tricky thing about this function is whether you want the true 
 angles on the plot. For overlaying a  vector field on top of contours 
-that are the streamlines  true.angle should be false. In this case you 
+that are the streamlines, true.angle should be FALSE. In this case you 
 want u and v to be scaled in the same way as the x and y variables.  
-If the scaling is not the same then the arrows will not look like tangent 
+If the scaling is not the same, then the arrows will not look like tangent 
 vectors to the streamlines.  
 An application where the absolute angles are meaningful might be the hands of a
 clock showing different time zones on a world map. Here true.angle=T is
-appropriate, the clock hands should preserve the right angles. 
+appropriate; the clock hands should preserve the right angles. 
 }
 \seealso{arrows} 
 

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -28,8 +28,8 @@
 quadrilaterals.  This function is useful for a regular grid that has
 been transformed to another nonlinear or rotated coordinate system. This
 situation comes up in lon-lat grids created under different map projections. 
-Unlike the usual image format this function requires the grid to be
-specified as two matrices x and y that given the grid x and y coordinates
+Unlike the usual image format, this function requires the grid to be
+specified as two matrices x and y that give the grid x and y coordinates
 explicitly for every grid point. 
 }
 \usage{
@@ -48,14 +48,14 @@ poly.image.regrid(x)
   \item{z}{Values for each grid cell. Can either be the value at the
 grid points or interpreted as the midpoint of the grid cell. }
   \item{col}{ Color scale for plotting. }
-  \item{breaks}{Numerical breaks to match to the colors. If missing breaks are
+  \item{breaks}{Numerical breaks to match to the colors. If missing, breaks are
  equally spaced on the range \code{zlim}.}
   \item{transparent.color}{ Color to plot cells that are outside the 
 range specified in the function call. }
   \item{midpoint}{ 
- Only relevant if the dimensions of x,y, and z are the same. If TRUE
+ Only relevant if the dimensions of x,y, and z are the same. If TRUE,
 the z values will be averaged and then used as the cell midpoints.  If
-FALSE the x/y grid will be expanded and shifted to represent grid cells
+FALSE, the x/y grid will be expanded and shifted to represent grid cell
 corners. (See poly.image.regrid.) }
  
  \item{zlim}{ Plotting limits for z. }
@@ -64,12 +64,12 @@ corners. (See poly.image.regrid.) }
   
   \item{ylim}{Plotting limits for y.}
   
-  \item{add}{ If TRUE will add image onto current plot. }
+  \item{add}{ If TRUE, will add the image onto current plot. }
   
-  \item{border}{Color of the edges of the quadrilaterals, the default is
+  \item{border}{Color of the edges of the quadrilaterals; the default is
 no color.}
 
-  \item{lwd.poly}{Line width for the mesh surface. i.e. the outlines of the
+  \item{lwd.poly}{Line width for the mesh surface, i.e., the outlines of the
   quadrilateral facets. This might have to be set smaller than one if rounded
   corners on the facets are visible. }
 
@@ -81,27 +81,27 @@ no color.}
 }
 \details{
  This function is straightforward except in the case when the dimensions
-of x,y, and z are equal. In this case the relationship of the values to
+of x,y, and z are equal. In this case, the relationship of the values to
 the grid cells is ambiguous and the switch midpoint gives two possible
 solutions. The z values at 4 neighboring grid cells can be averaged to
 estimate a new value interpreted to be at the center of the grid. This
-is done when midpoint is TRUE. Alternatively the full set of z values
+is done when midpoint is TRUE. Alternatively, the full set of z values
 can be retained by redefining the grid. This is accomplished by finding
 the midpoints of x and y grid points and adding two outside rows and
-cols to complete the grid.  The new result is a new grid that is
+columns to complete the grid.  The new result is a new grid that is
 (M+1)X (N+1) if z is MXN. These new grid points define cells that
-contain each of the original grid points as their midpoints. Of course
+contain each of the original grid points as their midpoints. Of course,
 the advantage of this alternative is that the values of z are preserved
-in the image plot; a feature that may be important for some uses. 
+in the image plot, a feature that may be important for some uses. 
 
 The function image.plot uses this function internally when image
-information is passed in this format and can add a legend. In most cases
+information is passed in this format and can add a legend. In most cases,
 just use image.plot.
 
 The function \code{poly.image.regrid} does a simple averaging and
 extrapolation  of the grid locations to shift from midpoints to
-corners.  In the interior grid corners are found by the average of the
-4 closest midpoints. For the edges the corners are just extrapolated
+corners.  In the interior, grid corners are found by the average of the
+4 closest midpoints. For the edges, the corners are just extrapolated
 based on the separation of neighboring grid cells. 
 }
 \author{Doug Nychka }

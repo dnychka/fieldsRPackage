@@ -1,9 +1,0 @@
-load("/Users/nychka/Dropbox/Home/Repositories/fieldsRPackage/fields/data/NorthAmericanRainfall2.rda")
-load("/Users/nychka/Dropbox/Home/Repositories/fieldsRPackage/fields/data/LENSExample.rda")
-ls()
-LENSExample<- LENNSExample
-save(LENSExample, file="LENSExample.rda")
-dir()
-q()
-load("/Users/nychka/Dropbox/Home/Repositories/fieldsRPackage/fields/data/LENSExample.rda")
-ls()

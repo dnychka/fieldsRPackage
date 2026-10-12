@@ -81,7 +81,7 @@
 # set up various arrays for reuse during the simulation
 #  
 ####### NOTE there are two and possibly (if fast ==TRUE ) three SETUP steps  to 
-# make conditional  simulation loops efficients by reusing some objects. 
+# make conditional  simulation loops efficient by reusing some objects. 
 #  
 # SETUP weights for  fast, local off grid simulation
 # grid is expanded to include nearest neighbors.

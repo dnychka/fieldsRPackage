@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -29,7 +29,7 @@
 \description{
 Discretizes a set of  2-d locations to a grid and produces an image object
 with the z values in the right cells. For cells with more than one Z
-value the average is used.   
+value, the average is used.   
 }
 \usage{
 as.image(Z, ind=NULL, grid=NULL, x=NULL,weights=rep(1, length(Z)),
@@ -53,50 +53,50 @@ ranges of the data locations (x)  to construct a grid.
 Locations of image values. Not needed if  ind  is specified.  
 }
 \item{nrow}{
-Same as nx this is deprecated.
+Same as nx; this is deprecated.
 }
 \item{ncol}{
-Same as ny this is deprecated.
+Same as ny; this is deprecated.
 }
 \item{weights}{
 If two or more values fall into the same  
-pixel a weighted average is used to represent the pixel value. Default is 
+pixel, a weighted average is used to represent the pixel value. Default is 
 equal weights. 
 }
 \item{na.rm}{ 
-If true NA's are removed from the Z vector.}
+If TRUE, NAs are removed from the Z vector.}
 \item{nx}{Number of grid points in X coordinate.}
 \item{ny}{Number of grid points in Y coordinate.}
-\item{boundary.grid}{If FALSE grid points are assumed to be the 
+\item{boundary.grid}{If FALSE, grid points are assumed to be the 
 grid midpoints. If TRUE they are the grid box boundaries.}
 \item{FUN}{The function to apply to common values in a grid box. 
-	The default is a mean (or weighted mean). If FUN is specified the 
+	The default is a mean (or weighted mean). If FUN is specified, the 
 	weights are not used. }
 }
 
 \value{
 A list in image format with a few more components. Components x and y are
-the grid values , z is a 
+the grid values, z is a 
 nrow X ncol matrix 
-with the Z values. NA's are placed at cell locations where Z data has 
+with the Z values. NAs are placed at cell locations where Z data has 
 not been supplied.  
 Component ind is a 2 column matrix with subscripts for the locations of 
 the values in the image matrix.  
 Component weights is an image matrix with the  sum of the
-individual weights for each cell. If no weights are specified the
+individual weights for each cell. If no weights are specified, the
 default for each observation is one and so the weights will be the
 number of observations in each bin. 
 
 }
 \details{
 The discretization is straightforward once the grid is determined.  
-If two or more Z values have locations in the same cell the weighted 
+If two or more Z values have locations in the same cell, the weighted 
 average value is taken as the value. The weights component that is
 returned can be used to account for means that have different numbers
 (or precisions) of observations contributing to the grid point averages. 
 The default weights are taken to be one for each observation. 
 See the source code to modify this to get more 
-information about coincident locations. (See the call to fast.1way) 
+information about coincident locations. (See the call to fast.1way.) 
 
 }
 \seealso{

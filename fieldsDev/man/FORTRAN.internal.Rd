@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -41,16 +41,16 @@ computations for radial basis functions. All are called using the \code{.FORTRAN
 interface.
 }
 \details{
-For these low level FORTRAN subroutines refer to the R functions for the calling
+For these low-level FORTRAN subroutines, refer to the R functions for the calling
 sequence and to the src subdirectory of the fields package for the source code.
 \describe{
-\item{css}{Computes a cubic smoothing spline see \code{sreg} and \code{splint}}
+\item{css}{Computes a cubic smoothing spline. See \code{sreg} and \code{splint}}
 \item{ddfind}{Finds nearest neighbor points within a fixed distance. See \code{fields.rdist.near}}
-\item{dmaket}{Creates matrix of all polynomial terms up to fixed order. See \code{fields.mkpoly}}
+\item{dmaket}{Creates a matrix of all polynomial terms up to fixed order. See \code{fields.mkpoly}}
 \item{evlpoly}{Evaluates a univariate polynomial. See \code{fields.evlpoly}}
 \item{evlpoly2}{Evaluates a multivariate polynomial. See \code{fields.evlpoly2}}
- \item{inpoly}{Determine which  2-d locations are within a polynomial. see \code{in.poly}}
- \item{igpoly}{Determine which  2-d grid points locations are within a polynomial. see \code{in.poly.grid}}
+ \item{inpoly}{Determine which  2-d locations are within a polygon. See \code{in.poly}}
+ \item{igpoly}{Determine which  2-d grid point locations are within a polygon. See \code{in.poly.grid}}
  \item{multeb}{Multiply an exponential cross covariance matrix by another matrix. See \code{exp.cov}}
   \item{multrb}{Multiply a radial basis function matrix by another matrix. See \code{rad.cov}}
  \item{radbas}{Evaluates radial basis functions. See \code{rdist.R}}

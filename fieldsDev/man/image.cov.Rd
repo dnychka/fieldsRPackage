@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -33,7 +33,7 @@ Exponential, Matern and general covariance functions for 2-d
 gridded locations. 
 }
 \description{
-Given two sets of locations defined on a 2-d grid efficiently multiplies a 
+Given two sets of locations defined on a 2-d grid, efficiently multiplies a 
 cross covariance with a vector. The intermediate computations (the setup)
 can also be used for fast simulation of the processes on a grid using the circulant
 embedding technique. 
@@ -60,15 +60,15 @@ wendland.image.cov(ind1, ind2, Y, cov.obj = NULL,
 \arguments{
 \item{ind1}{
 Matrix of indices for first set of locations. This is a two column matrix
-where each row is the row/column index of the image element. If missing
+where each row is the row/column index of the image element. If missing,
 the default is to use all grid locations.
 }
 \item{ind2}{
-Matrix of indices for second set of locations. If missing this is taken to
-be ind2. If ind1 is missing ind2 is coerced to be all grid locations.
+Matrix of indices for second set of locations. If missing, this is taken to
+be ind1. If ind1 is missing, ind2 is coerced to be all grid locations.
 }
 \item{Y}{
-Vector to multiply by the cross covariance matrix. Y must be the same
+Vector to multiply by the cross covariance matrix. Y must be at the same
 locations as those referred to by ind2.
 }
 \item{cov.args}{Any additional arguments or parameters to the covariance function.}
@@ -82,31 +82,31 @@ setup=T.
 
 \item{cov.function}{Name of the (stationary) covariance function.}
 \item{setup}{
-If true do not do the multiplication but just return the covariance object
+If TRUE, do not do the multiplication; just return the covariance object
 required by this function. 
 }
 \item{delta}{A distance that indicates the range of the covariance when it has compact support.
-For example this is the aRange parameter in the Wendland covariance.}
+For example, this is the aRange parameter in the Wendland covariance.}
 \item{grid}{
 A grid list giving the X and Y grids for the image. (See example below.)
-This is only required if setup is true. 
+This is only required if setup is TRUE. 
 }
 
 \item{gridList}{Same as grid above.}
 
 \item{M}{
-For \code{stationaryImageCov} a vector of two integers that are the desired size for the larger grid to
-facilitate the computation. If NULL then this is chosen to be at least twice the grid size and
+For \code{stationaryImageCov}, a vector of two integers that are the desired size for the larger grid to
+facilitate the computation. If NULL, then this is chosen to be at least twice the grid size and
 powers of 2 and 3. 
 
-For \code{stationary.image.cov}
-Size of x-grid used to compute multiplication (see notes on image.smooth 
+For \code{stationary.image.cov},
+the size of the x-grid used to compute multiplication (see notes on image.smooth 
 for details) by the FFT. If NULL, the default for M is the largest power 
 of 2 
 greater than or equal to 2*m where m is the length of the x component of the grid.
 
-In either case this  will give an exact 
-result but  smaller values of M will yield an approximate, faster result. 
+In either case, this will give an exact
+result, but smaller values of M will yield an approximate, faster result. 
 }
 
 \item{mKrigObject}{ The fit object from \code{spatialProcess} or 
@@ -121,7 +121,7 @@ This is in place of specifying the covariance parameters individually.}
 \item{\dots}{
 Any arguments to pass to the covariance function in setting up the
 covariance object. This is only required if setup is TRUE.
-For \code{stationary.image.cov} one can include \code{V} a matrix reflecting
+For \code{stationary.image.cov}, one can include \code{V}, a matrix reflecting
 a rotation and scaling of 
 coordinates. See stationary.cov for details. }
 }
@@ -131,19 +131,19 @@ the vector Y.
 }
 \details{
 This function was provided to do fast computations for large numbers of
-spatial locations. In doing so the observations can be irregularly spaced
+spatial locations. In doing so, the observations can be irregularly spaced
 but their coordinates must be 2-dimensional and be restricted to grid
 points.
 (The function as.image will take irregular, continuous coordinates and
 overlay a grid on them.) 
 
 Returned value: If ind1 and ind2 are matrices where nrow(ind1)=m and
-nrow(ind2)=n then the cross covariance matrix, Sigma, is an mXn matrix whose
+nrow(ind2)=n, then the cross covariance matrix, Sigma, is an mXn matrix whose
 (i,j) element is the covariance between the grid locations indexed at
 ind1[i,] and ind2[j,]. The returned result is Sigma multiplied by Y. Note that
 one can
 always recover the coordinates themselves by evaluating the grid list at
-the indices.  E.g. If \code{x} and \code{y} are the grids for the X and Y
+the indices.  E.g., if \code{x} and \code{y} are the grids for the X and Y
 dimensions,  \code{cbind( x[ind1[,1]], y[ind1[,2]))} will give
 the coordinates associated with ind1.
 Clearly it is better just to work
@@ -158,21 +158,21 @@ D.ij = sqrt(  sum.k (( x1[i,k] - x2[j,k]) /aRange[k])**2 ).
 
 See \code{Matern} for the version of phi for the Matern family. 
  
-Note that if aRange is a scalar then this defines an isotropic covariance
+Note that if aRange is a scalar, then this defines an isotropic covariance
 function.  
 
 Implementation: This function does the multiplication on the full
 grid efficiently by a 2-d FFT. The irregular pattern in Y is handled by
-padding with zeroes and once that multiplication is done only the
+padding with zeroes, and once that multiplication is done, only the
 appropriate subset is returned. 
 
 \strong{NOTE:}
-\code{stationary.imageCov} is the current version and should be used instead of the older
+\code{stationaryImageCov} is the current version and should be used instead of the older
 \code{stationary.image.cov}
 
-As an example assume that the grid is 100X100, let big.Sigma denote the big
-covariance matrix among all grid points ( If the parent grid is 100x100
-then big.Sigma is 10K by 10K !) Here are the algorithmic steps:
+As an example, assume that the grid is 100X100, let big.Sigma denote the big
+covariance matrix among all grid points (if the parent grid is 100x100,
+then big.Sigma is 10K by 10K!). Here are the algorithmic steps:
 
 temp<- matrix( 0, 100,100)
 
@@ -182,14 +182,14 @@ temp2<- big.Sigma\%*\% temp
 
 temp2[ind1]
 
-Here the matrix multiplication is effected through  fast convolution/FFT 
+Here, the matrix multiplication is effected through fast convolution/FFT 
 exploiting stationarity 
 and avoids creating and multiplying big.Sigma explicitly. It is often faster
 to multiply the regular grid and throw away the parts we do not need than
 to deal directly with the irregular set of locations.
 
-Note: In this entire discussion Y is treated as a vector. However if
-one has complete data then Y can also be interpreted as an image matrix
+Note: In this entire discussion, Y is treated as a vector. However, if
+one has complete data, then Y can also be interpreted as an image matrix
 conformed to correspond to spatial locations. See the last example for
 this distinction.
   

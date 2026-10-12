@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
   Cubic spline interpolation 
 }
 \description{
-A fast, FORTRAN based function for cubic spline interpolation. 
+A fast, FORTRAN-based function for cubic spline interpolation. 
 }
 \usage{
 splint(x, y, xgrid, wt = NULL, derivative = 0, lam = 0, df =
@@ -35,7 +35,7 @@ splint(x, y, xgrid, wt = NULL, derivative = 0, lam = 0, df =
 }
 \arguments{
 \item{x}{
-The x values that define the curve or a two column matrix of  
+The x values that define the curve or a two-column matrix of  
 x and y values. 
 }
 \item{y}{
@@ -52,10 +52,10 @@ should be evaluated.
 variance.}
 \item{lam}{ Value for smoothing parameter. Default value is zero giving 
 interpolation.}
-\item{lambda}{Same as \code{lam} just to make this easier to remember.}
+\item{lambda}{Same as \code{lam}, just to make this easier to remember.}
 \item{df}{ Effective degrees of freedom. Default is to use lambda =0 or a  
 df equal to the number of observations.}
-\item{nx}{If not NULL this should be the number of points
+\item{nx}{If not NULL, this should be the number of points
 to evaluate on an equally spaced grid in the
 range of \code{x}}
 \item{digits}{Number of significant digits used to determine what is a replicate x value.}
@@ -67,9 +67,9 @@ A vector consisting of the spline evaluated at the grid values in \code{xgrid}.
 \details{
 Fits a piecewise interpolating or smoothing cubic
 polynomial to the x and y values.
-This code is designed to be fast but does not have many options in
+This code is designed to be fast but does not have the many options in
 \code{sreg} or other more statistical implementations.
-To make the solution well posed
+To make the solution well-posed,
 the second and third derivatives are set to zero at the limits of the  x
 values. Extrapolation outside the range of the x 
 values will be a linear function. 

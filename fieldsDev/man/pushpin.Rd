@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -23,7 +23,7 @@
 \name{pushpin}
 \alias{pushpin}
 \title{ Adds a "push pin" to an existing  3-d plot} 
-\description{Adds  to an existing 3-d perspective plot 
+\description{Adds to an existing 3-d perspective plot 
 a push pin to locate a  specific point.}
 \usage{
 pushpin( x,y,z,p.out, height=.05,col="black",text=NULL,adj=-.1,cex=1.0,...)
@@ -35,7 +35,7 @@ pushpin( x,y,z,p.out, height=.05,col="black",text=NULL,adj=-.1,cex=1.0,...)
   \item{z}{z location}
   \item{p.out}{Projection information returned by persp}   
   \item{height}{Height of pin in device coordinates (default is about
-  5\% of the vertical distance ). }
+  5\% of the vertical distance). }
   \item{col}{Color of pin head.}
   \item{text}{Optional text to go next to pin head.}
   \item{adj}{Position of text relative to pin head.}
@@ -45,13 +45,13 @@ pushpin( x,y,z,p.out, height=.05,col="black",text=NULL,adj=-.1,cex=1.0,...)
 }
 
 \details{
-See the help(text) for the conventions on
+See help(text) for the conventions on
 the \code{adj} argument and other options for placing text.  
 
  }
 \author{Doug Nychka}
 
-\seealso{drape.plot,persp}
+\seealso{drape.plot, persp}
 
 \examples{
 # Dr. R's favorite New  Zealand Volcano!

@@ -26,7 +26,7 @@ Matern.cor.to.range <- function(d, nu, cor.target = 0.5,
     ftemp <- function(aRange, f.extra) {
         Matern(f.extra$d/aRange, nu = f.extra$nu) - f.extra$cor.target
     }
-    # inital guess is exponential
+    # initial guess is exponential
     if (is.null(guess)) {
         guess[1] <- guess[2] <- -d/log(cor.target)
     }

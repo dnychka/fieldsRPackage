@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
   Standard errors of predictions for Krig spatial process estimate 
 }
 \description{
-Finds the standard error ( or covariance) of prediction based on a linear
+Finds the standard error (or covariance) of prediction based on a linear
 combination of
 the observed data. The linear combination is usually the "Best Linear
 Unbiased Estimate" (BLUE) found from the Kriging equations. 
@@ -44,30 +44,30 @@ predictSE(object, ...)
                  = FALSE, ...)
  }
 \arguments{
-\item{drop.XMat}{If FALSE find standard error without including the additional spatial covariates
-described by \code{XMat}. If TRUE find full standard error with spatial covariates if they are part of the model.}
-\item{object}{ A fitted object that can be used to find prediction standard errors. This is usually from fitting a spatial model to data. e.g. a Krig or mKrig object.  
+\item{drop.XMat}{If FALSE, find standard error without including the additional spatial covariates
+described by \code{XMat}. If TRUE, find full standard error with spatial covariates if they are part of the model.}
+\item{object}{ A fitted object that can be used to find prediction standard errors. This is usually from fitting a spatial model to data, e.g., a Krig or mKrig object.  
 }
 \item{xnew}{
-Points to compute the predict standard error or the prediction 
+Points to compute the prediction standard error or the prediction 
 cross covariance matrix.  
 }
 \item{x}{
-Same as \code{xnew} -- points to compute the predict standard error or the prediction 
+Same as \code{xnew} -- points to compute the prediction standard error or the prediction 
 cross covariance matrix.  
 }
 \item{cov}{
-If TRUE the full covariance matrix for the predicted values is returned.
-Make sure this will not be big if this option is used. ( e.g. 50X50 grid
-will return a matrix that is 2500X2500!)  If FALSE just the marginal
+If TRUE, the full covariance matrix for the predicted values is returned.
+Make sure this will not be big if this option is used. (e.g., a 50X50 grid
+will return a matrix that is 2500X2500!)  If FALSE, just the marginal
 standard deviations of the predicted values are returned. Default is
 FALSE -- of course.
 }
 
-\item{verbose}{If TRUE will print out various information for debugging.}
+\item{verbose}{If TRUE, will print out various information for debugging.}
 
 \item{\dots}{
-These additional arguments passed to the predictSE function.
+Additional arguments passed to the predictSE function.
 }
 \item{XMat}{Additional matrix of spatial covariates used for prediction. These are used to 
 determine the additional covariance contributed in the fixed part of the model.}
@@ -79,16 +79,16 @@ A vector of standard errors for the predicted values of the Kriging fit.
 }
 \details{
 The predictions are represented as a linear combination of the dependent 
-variable, Y. Call this LY.  Based on this representation the conditional 
-variance is the same as the expected value of (P(x) + XMat(X) - LY)**2.
+variable, Y. Call this LY.  Based on this representation, the conditional 
+variance is the same as the expected value of (P(x) + XMat(X) - LY)**2,
 where 
 P(x)+XMat(x) is the value of the surface at x and LY is the linear 
 combination that estimates this point. Finding this expected value is 
 straightforward given the unbiasedness of LY for P(x) and the covariance 
 for XMat and Y. 
 
-In these calculations it is assumed that the covariance parameters are fixed.
-This is an approximation since in most cases they have been estimated from the 
+In these calculations, it is assumed that the covariance parameters are fixed.
+This is an approximation, since in most cases they have been estimated from the 
 data. It should also be noted that if one assumes a Gaussian field and known 
 parameters in the covariance, the usual Kriging estimate is the 
 conditional mean of the field given the data. This function finds the 
@@ -99,15 +99,15 @@ fields given the data.
 variance to the estimate of the spatial mean if this is a correlation 
 model (see help file for Krig), and calculating the variances under 
 covariance misspecification.  The function \code{predictSE.KrigA} uses 
-the smoother matrix ( A(lambda) ) to find the standard errors or 
+the smoother matrix (A(lambda)) to find the standard errors or 
 covariances directly from the linear combination of the spatial 
 predictor. Currently this is also the calculation in 
-\code{predictSE.Krig} although a shortcut is used in 
+\code{predictSE.Krig}, although a shortcut is used in 
 \code{predictSE.mKrig} for mKrig objects.
 
 }
 \seealso{
-spatialProcess, mKrig, Krig, predict.Krig, predictSurfaceSE, 
+spatialProcess, mKrig, Krig, predict.Krig, predictSurfaceSE
 }
 \examples{
 # 

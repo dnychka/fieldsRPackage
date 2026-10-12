@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -63,7 +63,7 @@ fields.D(f,name,order = 1)
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
-\item{d}{Distances between locations. Or for wendland.coef the dimension of
+\item{d}{Distances between locations. Or, for wendland.coef, the dimension of
 the locations.}
 \item{aRange}{Scale for distances. This is the same as the
 range parameter.}
@@ -72,7 +72,7 @@ range parameter.}
 \item{n}{Dimension for computing Wendland polynomial coefficients}
 \item{k}{Order of covariance function.}
 \item{derivative}{Indicates derivative of covariance function}
-\item{phi}{Deprecated argument will give stop if not an NA.
+\item{phi}{Deprecated argument; will stop if not NA.
  (Formerly the scale factor to multiply the function. Equivalent to the
 marginal variance or sill if viewed as a covariance function.) }
 \item{r}{ Real value in [0,1] to evaluate Wendland function.}
@@ -98,9 +98,9 @@ marginal variance or sill if viewed as a covariance function.) }
  This is the basic function applied to distances and called by the
 \code{wendland.cov} function. It can also be used as the Covariance or 
 Taper specifications in the more general 
-stationary.cov and station.taper.cov functions.
-The proofs and construction of the Wendland family of positive definite functions can be found in the work of Wendland(1995).
-( H. Wendland. Piecewise polynomial , positive definite and compactly supported radial functions of minimal degree. AICM 4(1995), pp 389-396.)
+stationary.cov and stationary.taper.cov functions.
+The proofs and construction of the Wendland family of positive definite functions can be found in the work of Wendland (1995).
+( H. Wendland. Piecewise polynomial, positive definite and compactly supported radial functions of minimal degree. AICM 4(1995), pp 389-396.)
 
 The Wendland covariance function is a positive
 polynomial on [0,aRange] and zero beyond aRange. It is further normalized in these fields functions to be 1 at 0. The parameter \code{k} determines the smoothness of the covariance at zero. The additional parameter \code{n} or \code{dimension} is needed because the property of
@@ -119,10 +119,10 @@ and
 \code{fields.pochdown(q, k)}
 calculates the Pochhammer symbol for falling factorial q(q-1)(q-2)...(q-k+1). 
 
-Derivatives are found symbolically using  a recursive modification of the base function \code{D} (\code{fields.D}) and then evaluated numerically based on the polynomial form.
+Derivatives are found symbolically using a recursive modification of the base function \code{D} (\code{fields.D}) and then evaluated numerically based on the polynomial form.
 
 
-A specific example of the Wendland family is \code{Wendland2.2} (k=2, dimension=2). This is included mainly for testing but the explicit formula may also be enlightening. 
+A specific example of the Wendland family is \code{Wendland2.2} (k=2, dimension=2). This is included mainly for testing, but the explicit formula may also be enlightening. 
 }
 
 \value{

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -60,26 +60,26 @@ Higher derivatives are not supported in this version and for mKrig.}
 
 \item{df}{
 Effective degrees of freedom for the predicted surface. This can be used
-in place of lambda ( see the function Krig.df.to.lambda)
+in place of lambda (see the function Krig.df.to.lambda)
 }
 
 \item{eval.correlation.model}{
-If true ( the default) will multiply the predicted function by marginal
-sd's
-and add the mean function. This is usually what one wants. If false will
+If TRUE (the default), will multiply the predicted function by the marginal
+SDs
+and add the mean function. This is usually what one wants. If FALSE, will
 return predicted surface in the standardized scale. The main use of this
-option is a call from Krig to find MLE's of sigma and tau2     
+option is a call from Krig to find MLEs of sigma and tau2     
 }
 
-\item{grid.list}{A \code{grid.list} specfiying a grid of locations to
+\item{grid.list}{A \code{grid.list} specifying a grid of locations to
 evaluate the fitted surface.}
 
 
-\item{just.fixed}{ Only fixed part of model is evaluated}
+\item{just.fixed}{ Only the fixed part of the model is evaluated}
 
 
-\item{lambda}{ Smoothing parameter. If omitted,  the value in the \code{lambda} of the object  will be
-used.  (See also df and gcv arguments) } \item{model}{ Generic
+\item{lambda}{ Smoothing parameter. If omitted, the value in the \code{lambda} of the object will be
+used.  (See also df and gcv arguments.) } \item{model}{ Generic
 argument that may be used to pass a different lambda.  }
 \item{object}{ Fit object from the Krig, Tps, mKrig, or fastTps
 functions.  }
@@ -102,7 +102,7 @@ surface.  If omitted, the data x values will be used.  }
 
 \item{ynew}{Same as y above.}  
 
-\item{yM}{ If not NULL evaluate the
+\item{yM}{ If not NULL, evaluate the
 estimate using this vector as the replicate mean data. That is, assume
 the full data has been collapsed into replicate means in the same
 order as xM. The replicate weights are assumed to be the same as the
@@ -110,18 +110,18 @@ original data. (weightsM) }
 
 
 \item{XMat}{ Vector/Matrix of additional covariates to be included in
-fixed part of spatial model} 
+the fixed part of the spatial model} 
 
-\item{drop.XMat}{ If TRUE only spatial fixed
-part of model is evaluated.  i.e. XMat covariates are not used.  }
+\item{drop.XMat}{ If TRUE, only the spatial fixed
+part of the model is evaluated, i.e., XMat covariates are not used.  }
 
 \item{Z}{This argument is deprecated and a warning will be printed. 
 Should use the new argument name XMat. }
 
-\item{drop.Z}{An older name for drop.XMat. If used a warning will be printed.}
+\item{drop.Z}{An older name for drop.XMat. If used, a warning will be printed.}
 
-\item{\dots}{Other arguments passed to covariance function. In the case of
-\code{fastTps} these are the same arguments as \code{predict.mKrig}.
+\item{\dots}{Other arguments passed to the covariance function. In the case of
+\code{fastTps}, these are the same arguments as \code{predict.mKrig}.
 This argument is usually not needed. 
 }
 
@@ -131,18 +131,18 @@ Vector of predicted responses or a matrix of the partial derivatives.
 }
 \details{
  The main goal in this function is to reuse the Krig object to rapidly 
-evaluate different estimates. Thus there is flexibility in changing the 
+evaluate different estimates. Thus, there is flexibility in changing the 
 value of lambda and also the independent data without having to 
 recompute the matrices associated with the Krig object. The reason this 
 is possible is that most of the calculations depend on the observed 
-locations not on lambda or the observed data. Note the version for 
+locations and not on lambda or the observed data. Note that the version for 
 evaluating partial derivatives does not provide the same flexibility as 
 \code{predict.Krig} and makes some assumptions about the null model 
-(as a low order polynomial) and can not handle the correlation model form.
+(as a low order polynomial) and cannot handle the correlation model form.
 
 }
 \seealso{
-Krig, predictSurface gcv.Krig 
+Krig, predictSurface, gcv.Krig 
 }
 
 \examples{

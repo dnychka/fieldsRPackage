@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -45,14 +45,14 @@ setup.image.smooth(nrow = 64, ncol = 64, dx = 1, dy = 1,
 \item{x}{
 A matrix image. Missing values can be indicated by NAs. }
 \item{wght}{
-FFT of smoothing kernel. If this is NULL the default is to compute this
+FFT of smoothing kernel. If this is NULL, the default is to compute this
 object. }
 \item{grid}{
-A list with x and y components. Each are equally spaced and define the rectangular grid. ( see grid.list)}
+A list with x and y components. Each is equally spaced, and they define the rectangular grid (see grid.list).}
 \item{dx}{
 Grid spacing in x direction }
 \item{dy}{
-Grid spacing in x direction }
+Grid spacing in y direction }
 \item{kernel.function}{
  An R function that takes as its argument the \emph{squared} distance 
 between two points divided by the bandwidth. The default is exp(
@@ -61,8 +61,8 @@ between two points divided by the bandwidth. The default is exp(
 \item{theta}{Same as aRange.}
 \item{xwidth}{
  Amount of zero padding in horizontal dimension in units of the grid spacing.
-If NULL the default value is equal to the width of the image the most 
-conservative value but possibly inefficient for computation.
+If NULL, the default value is equal to the width of the image, the most
+conservative value, but possibly inefficient for computation.
 Set this equal to zero to get periodic wrapping of the smoother. This is
 useful to smooth a Mercator map projection. }
 \item{ywidth}{
@@ -82,21 +82,21 @@ way.}
 }
 
 \value{
-The smoothed image in R image format. ( A list with components x, y
-and z.)  \code{setup.image.smooth} returns a list with components W a
+The smoothed image in R image format. (A list with components x, y
+and z.)  \code{setup.image.smooth} returns a list with components W, a
 matrix being the FFT of the kernel, dx, dy, xwidth and ywidth.}
 
 \details{
  The function works by taking convolutions using an FFT. The missing
 pixels are taken into account and the kernel smoothing is correctly
 normalized for the edge effects following the classical Nadaraya-Watson
-estimator. For this reason the kernel does not have to be a density as it
+estimator. For this reason, the kernel does not have to be a density, as it
 is automatically normalized when the kernel weight function is found for
-the data.  If the kernel has limited support then the width arguments
+the data.  If the kernel has limited support, then the width arguments
 can be set to reduce the amount of computation. (See example below.) 
-For multiple smoothing compute the fft of the kernel just once using
+For multiple smoothing, compute the FFT of the kernel just once using
 \code{setup.image.smooth} and pass this as the wght argument to
-image.smooth.  this will save an FFT in computations. 
+image.smooth. This will save an FFT in computations. 
 }
 \seealso{ as.image, sim.rf, image.plot}
 
@@ -125,7 +125,7 @@ points( RMprecip$x)
 US( add=TRUE, col="grey", lwd=2)
 
 # to save on computation, decrease the padding with zeroes 
-# only pad 32 grid points around the margins ofthe image. 
+# only pad 32 grid points around the margins of the image. 
 
 look<- image.smooth(out$z, dx=dx, dy=dy, aRange= .25, xwidth=32*dx,ywidth=32*dy) 
 

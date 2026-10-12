@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -32,7 +32,7 @@ Testing fields functions
 
 Some of the basic methods in fields can be tested by directly
 implementing the linear algebra using matrix expressions and
-other functions can be cross checked within fields. These
+other functions can be cross-checked within fields. These
 comparisons are done in the R source code test files in the tests
 subdirectory of fields.  The function \code{test.for.zero} is useful for
 comparing the tests in a meaningful and documented way.
@@ -53,10 +53,10 @@ xtest, xtrue, tol = 1e-08, relative = TRUE, RMSE =
 
 \item{tol}{Tolerance to judge whether the test passes.}
 
-\item{relative}{If true a relative error comparison is used. (See
+\item{relative}{If TRUE, a relative error comparison is used. (See
  details below.)}
  
- \item{RMSE}{If TRUE computes the root mean squared error between \code{xtest} and \code{xtrue}}
+ \item{RMSE}{If TRUE, computes the root mean squared error between \code{xtest} and \code{xtrue}}
 
 \item{tag}{ A text string to be printed out with the test results as a
    reference}
@@ -65,7 +65,7 @@ xtest, xtrue, tol = 1e-08, relative = TRUE, RMSE =
 
 \details{
 IMPORTANT: If the R object \code{test.for.zero.flag} exists with any
-value ( e.g. \code{test.for.zero.flag <- 1} ) then when the test fails
+value (e.g., \code{test.for.zero.flag <- 1}), then when the test fails,
 this function will also generate an error in addition to printing a
 message. This option is added to ensure
 that any test scripts will generate an error when any individual test
@@ -102,10 +102,10 @@ Kriging estimate.}
 \item{Krig.se.grid.test.R}{Tests approximate standard errors for the
 Krig function found by Monte Carlo conditional simulation.} 
 
-\item{Krig.test.W.R}{Tests predictions and A matrix  when an off diagonal 
+\item{Krig.test.W.R}{Tests predictions and A matrix  when an off-diagonal 
 observation weight matrix is used.}
 
-\item{Krig.se.W.R}{Tests standard errors when an off diagonal 
+\item{Krig.se.W.R}{Tests standard errors when an off-diagonal 
 observation weight matrix is used.}
 
 \item{spam.test.R}{Tests sparse matrix formats and linear algebra.}
@@ -125,8 +125,8 @@ matrix methods. }
 
 }
 
-To run the tests just attach the fields library and source the testing
-file.  In the  fields source code these are in a subdirectory
+To run the tests, just attach the fields library and source the testing
+file.  In the fields source code, these are in a subdirectory
 "tests". Compare the output to the "XXX.Rout.save" text file. 
 
  \code{test.for.zero} is used to print out the result for each
@@ -136,7 +136,7 @@ string beginning
 
 "FAILED test value = ... "
 
-If the object test.for.zero.flag exists then an error is also generated
+If the object test.for.zero.flag exists, then an error is also generated
 when the test fails.
 
 

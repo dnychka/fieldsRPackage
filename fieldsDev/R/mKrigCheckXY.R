@@ -24,8 +24,8 @@ mKrigCheckXY <- function(x, y,  weights, XMat, XMatCommon, na.rm)
   #
   # check for missing values in y or X.
   #
-  # save logical indicating where there are NA's
-  # and check for NA's
+  # save logical indicating where there are NAs
+  # and check for NAs
   #
   ind <- is.na(y)
   if (any(ind) & !na.rm) {
@@ -39,7 +39,7 @@ mKrigCheckXY <- function(x, y,  weights, XMat, XMatCommon, na.rm)
   #
   y <- as.matrix(y)
   #
-  #default weights ( reciprocal variance of errors).
+  #default weights (reciprocal variance of errors).
   #
   if (is.null(weights)) 
     weights <- rep(1, nrow(y))
@@ -92,12 +92,12 @@ mKrigCheckXY <- function(x, y,  weights, XMat, XMatCommon, na.rm)
     }
   }
   #
-  # check for NA's in x matrix -- there should not be any !
+  # check for NAs in x matrix -- there should not be any !
   if (any(c(is.na(x)))) {
     stop(" NA's in x matrix")
   }
   #
-  # check for NA's in XMat matrix
+  # check for NAs in XMat matrix
   if (!is.null(XMat)) {
     if (any(c(is.na(XMat)))) {
       stop(" NA's in XMat matrix")

@@ -22,7 +22,7 @@
 matern.image.cov <- function(ind1, ind2, Y, cov.obj = NULL, 
     setup = FALSE, grid, M = NULL, N = NULL,
     aRange=1, smoothness=.5,theta=NULL ) {
-    # theta argument has been depreciated.
+    # theta argument has been deprecated.
     if( !is.null( theta)){
         aRange<- theta
     }

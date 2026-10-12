@@ -71,7 +71,7 @@
             title(main)
     }
     if (type == "I") {
-        image.plot(obj$x, obj$y, obj$z, xlab = xlab, ylab = ylab, 
+        imagePlot(obj$x, obj$y, obj$z, xlab = xlab, ylab = ylab, 
             zlim = zlim, ...)
         if ((!is.null(main)) & type != "b") 
             title(main)

@@ -23,7 +23,7 @@
     Taper = "Wendland", Dist.args = NULL, Taper.args = NULL, 
     aRange = 1, V = NULL, C = NA, marginal = FALSE, spam.format = TRUE, 
     verbose = FALSE, theta=NULL, ...) {
-     # theta argument has been deopreciated.
+     # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }
@@ -108,7 +108,7 @@
     # now apply covariance function to pairwise distance matrix, or multiply
     # by C vector or just find marginal variance
     if (!marginal) {
-        # find nearest neighbor distances based on taper threshhold.
+        # find nearest neighbor distances based on taper threshold.
         # This is hardwired to 'nearest.dist' function from spam.
         # note that delta is taken from the taper range not aRange or V
         sM <- do.call("nearest.dist", c(list(x1, x2, delta = delta, 

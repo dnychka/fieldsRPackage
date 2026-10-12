@@ -133,7 +133,7 @@ summary.spatialProcess <- function(object, ...) {
       
     }
     else{
-      # if more that one realization just summarize the coefficients
+      # if more than one realization just summarize the coefficients
       outObject$fixedEffectsTable <- stats(t(object$beta))
     }
   }

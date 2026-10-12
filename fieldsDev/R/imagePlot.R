@@ -27,7 +27,8 @@
     horizontal = FALSE, legend.shrink = 0.9, legend.width = 1.2, 
     legend.mar = ifelse(horizontal, 3.1, 5.1), legend.lab = NULL,
     legend.line= 2,                    
-    graphics.reset = FALSE, bigplot = NULL, smallplot = NULL, 
+    graphics.reset = FALSE, oldPar=NULL, 
+    bigplot = NULL, smallplot = NULL, 
     legend.only = FALSE,  lab.breaks = NULL, 
     axis.args = NULL, legend.args = NULL, 
     legend.cex=1.0, midpoint = FALSE, border = NA, 
@@ -35,7 +36,13 @@
     lowerTriangle= FALSE, upperTriangle=FALSE, asp = NA, 
     verbose=FALSE) {
     # save current graphics settings
+    if( is.null(oldPar)){
     old.par <- par(no.readonly = TRUE)
+    }
+    else{
+      old.par<- oldPar
+    }
+  
     # set defaults for color scale 
     # note this works differently than the image function.
     if( is.null(col))  {
@@ -116,11 +123,15 @@
     # reset to larger plot region with right user coordinates.
     mfg.save <- par()$mfg
     if (graphics.reset | add) {
+        # this reverts to the original canvas before it was divided up
+        # for the legend
+        print( old.par$plt)
         par(old.par)
         par(mfg = mfg.save, new = FALSE)
         invisible()
     }
     else {
+        # this reverts to plotting in the image part.
         par(big.par)
         par(plt = big.par$plt, xpd = FALSE)
         par(mfg = mfg.save, new = FALSE)

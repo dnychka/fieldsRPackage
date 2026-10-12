@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,7 +30,7 @@
 The `rat.diet' data frame has 39 rows and 3 columns.
 These are data from a study of an appetite suppressant given to young rats.
 The suppressant was removed from the treatment group at around 60 days.
-The responses are the median food intake and  each group had approximately 
+The responses are the median food intake, and each group had approximately 
 10 animals. 
 }
 \usage{

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 }
 \description{
 Given two sets of longitude/latitude locations, \code{rdist.earth} computes 
-the Great circle (geographic) distance matrix among all pairings and 
+the great circle (geographic) distance matrix among all pairings and 
 \code{rdist.earth.vec} computes a vector of pairwise great circle distances 
 between corresponding elements of the input locations using the Haversine 
 method and is used in empirical variogram calculations.
@@ -43,33 +43,33 @@ rdist.earth.vec(x1, x2, miles = TRUE, R = NULL)
 }
 \arguments{
 \item{x1}{
-Matrix of first set of lon/lat coordinates first column is the
+Matrix of first set of lon/lat coordinates; the first column is the
 longitudes
 and second is the latitudes. 
 }
 \item{x2}{
-Matrix of second  set of lon/lat coordinates first column is the
+Matrix of second  set of lon/lat coordinates; the first column is the
 longitudes
-and second is the latitudes. If missing  or NULL x1 is used. 
+and second is the latitudes. If missing or NULL, x1 is used. 
 }
 \item{miles}{
-If true distances are in statute miles if false distances in kilometers. 
+If TRUE, distances are in statute miles; if FALSE, distances are in kilometers. 
 }
 \item{R}{
-Radius to use for sphere to find spherical distances. If NULL the radius
-is either in miles or kilometers depending on the values of the miles
-argument. If R=1 then distances are of course in radians. 
+Radius to use for sphere to find spherical distances. If NULL, the radius
+is either in miles or kilometers depending on the value of the miles
+argument. If R=1, then distances are of course in radians. 
 }
 }
 \value{
-The great circle distance matrix if nrow(x1)=m and nrow(
-x2)=n then the returned matrix will be mXn. 
+The great circle distance matrix. If nrow(x1)=m and nrow(
+x2)=n, then the returned matrix will be mXn. 
 }
 \details{
-Surprisingly the distance matrix is computed efficiently in R by dot products of the
+Surprisingly, the distance matrix is computed efficiently in R by dot products of the
 direction cosines. This is the calculation in \code{rdist.earth}. Thanks to Qing Yang for pointing this out a long time 
 ago.  A more efficient version has been implemented in C with the
-R function \code{RdistEarth} by Florian Gerber who has also experimented with parallel versions of fields functions.
+R function \code{RdistEarth} by Florian Gerber, who has also experimented with parallel versions of fields functions.
 The main advantage of \code{RdistEarth} is the largely reduced memory usage.
 The speed seems similar to \code{rdist.earth}. As Florian writes:
 

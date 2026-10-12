@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -37,7 +37,7 @@ binning. \code{crossCoVGram} is the same as \code{vgram} but differences are
 taken across different variables rather than the same variable.
 
 \code{plot.vgram} and \code{boxplotVGram} create lineplots and boxplots of 
-vgram objects output by the \code{vgram} function.  \code{boxplotVGram} plots 
+vgram objects output by the \code{vgram} function.  \code{boxplotVGram} plots using
 the base R boxplot function, and plots estimates of the mean over the boxplot.
 
 The \code{getVGMean} function returns the bin centers and means of the \code{vgram} 
@@ -82,18 +82,18 @@ Value of field 1 at locations
 Value of field 2 at locations
 }
 \item{id}{
-A 2 column matrix that specifies which variogram differences to find.
-If omitted all possible pairings are found.
+A 2-column matrix that specifies which variogram differences to find.
+If omitted, all possible pairings are found.
 This can be used if the data has an additional covariate that determines
-proximity, for example a time window.
+proximity, for example, a time window.
 }
 \item{d}{
-Distances among pairs indexed by id. If not included distances are found
+Distances among pairs indexed by id. If not included, distances are found
 directly from loc.
 }
 \item{lon.lat }{
 If true, locations are assumed to be longitudes and latitudes
-and distances found are great circle distances (in miles see 
+and distances found are great circle distances (in miles; see 
 \link{rdist.earth}).  Default is FALSE. 
 }
 \item{dmax}{
@@ -110,17 +110,17 @@ but must be ordered.
 An object of class "vgram" (an object returned by \code{vgram})
 }
 \item{add}{
-If \code{TRUE}, adds empirical variogram lineplot to current plot.  Otherwise 
+If \code{TRUE}, adds empirical variogram lineplot to current plot.  Otherwise,
 creates new plot with empirical variogram lineplot.
 }
 \item{plot}{
-If \code{TRUE}, creates a plot, otherwise returns variogram statistics output by 
+If \code{TRUE}, creates a plot; otherwise, returns variogram statistics output by 
 \code{bplot.xy}.
 }
 \item{plot.args}{
 Additional arguments to be passed to \code{plot.vgram}.
 }
-\item{prettyBins}{If FALSE creates exactly N-1 bins. If TRUE you are at the mercy of giving N to the pretty function! } 
+\item{prettyBins}{If FALSE, creates exactly N-1 bins. If TRUE, you are at the mercy of giving N to the pretty function! } 
 
 \item{type}{
 One of "variogram", "covariogram", "correlogram", "cross-covariogram", and 
@@ -128,7 +128,7 @@ One of "variogram", "covariogram", "correlogram", "cross-covariogram", and
 \code{crossCoVGram} supports the last two.
 }
 \item{...}{
-Additional argument passed to \code{plot} for \code{plot.vgram} or to 
+Additional arguments passed to \code{plot} for \code{plot.vgram} or to 
 \code{bplot.xy} for \code{boxplotVGram}.
 }
 }
@@ -140,7 +140,7 @@ following values:
 \item{call}{Calling string} 
 \item{stats}{Matrix of statistics for values in each bin. 
   Rows are the summaries returned by the stats function or describe.  
-  If neither breaks nor N arguments are supplied then this
+  If neither breaks nor N arguments are supplied, then this
   component is not computed.}
 \item{centers}{Bin centers.}
 
@@ -149,8 +149,8 @@ list with the same components as returned by \code{bplot.xy}
 }
 
 \section{References}{
-See any standard reference on spatial statistics. For example 
-Cressie, Spatial Statistics  
+See any standard reference on spatial statistics. For example,
+Cressie, Spatial Statistics.  
 }
 \author{John Paige, Doug Nychka}
 \seealso{

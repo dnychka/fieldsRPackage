@@ -182,8 +182,8 @@ z1<-  R1%*%c.coef + T1%*% d.coef
    m<- 2
    
    # simple check of marginal variances 
-   look<- Tps.cov( x1,x1,cardinalX, m=m)
-   look2<- Tps.cov( x1,cardinalX=cardinalX, m=m, marginal=TRUE)
+   look<- Tps.cov( x1,x1,cardinalX, mDegree=m)
+   look2<- Tps.cov( x1,cardinalX=cardinalX, mDegree=m, marginal=TRUE)
    test.for.zero(diag(look), look2, tag="Tps.cov marginal" )
    
    

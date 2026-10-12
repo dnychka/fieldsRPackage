@@ -22,7 +22,7 @@
 "Exp.cov" <- function(x1, x2=NULL, aRange = 1, p=1, 
                       distMat = NA, C = NA, marginal = FALSE, onlyUpper=FALSE,
                       theta=NULL, ...)  {
-  # theta argument has been depreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }

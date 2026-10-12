@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -36,7 +36,7 @@
 the image, persp, or contour functions.
 }
 \description{
-Evaluates a fitted model or the prediction error on a 2-D grid keeping any other variables constant.
+Evaluates a fitted model or the prediction error on a 2-D grid, keeping any other variables constant.
 The resulting object is suitable for use with functions for viewing 3-d
 surfaces such as image, imagePlot and contour. 
 }
@@ -85,32 +85,32 @@ A list with as many components as variables describing the surface.
 All components should have a single value except the two that give the 
 grid points for evaluation. If the matrix or data frame has column names,  
 these must appear in the grid list. See the grid.list help file for more
-details. If this is omitted and the fit just depends on two variables the
+details. If this is omitted and the fit just depends on two variables, the
 grid will be made from the ranges of the observed variables. 
 (See the function \code{fields.x.to.grid}.)
  
 }
-\item{grid.list}{Alternative to the  \code{gridList} argument. }
+\item{grid.list}{Alternative to the \code{gridList} argument. }
 
-\item{giveWarnings}{If TRUE will warn when more than one observation is in a grid box. }
+\item{giveWarnings}{If TRUE, will warn when more than one observation is in a grid box. }
 
 \item{extrap}{
  Extrapolation beyond the range of the data. If \code{FALSE} (the 
-default) the predictions will be restricted to the convex hull of the observed 
+default), the predictions will be restricted to the convex hull of the observed 
 data or the convex hull defined from the points from the argument chull.mask. 
 This function may be slightly faster if this logical is set to 
 \code{TRUE} to avoid checking the grid points for membership in the 
-convex hull. For more complicated masking a low level creation of a bounding 
+convex hull. For more complicated masking, a low-level creation of a bounding 
 polygon and testing for membership with \code{in.poly} may be useful. 
 
 }
 
 \item{chull.mask}{
-Whether to restrict the fitted surface to be on a convex hull, NA's
+Whether to restrict the fitted surface to be on a convex hull; NAs
 are assigned to values outside the
 convex hull. chull.mask should be a sequence of points defining a convex
 hull. Default is to form the convex hull from the observations if this
-argument is missing (and extrap is false).  
+argument is missing (and extrap is FALSE).  
 }
   
 
@@ -118,34 +118,34 @@ argument is missing (and extrap is false).
 
 \item{ny}{Number of grid points in Y axis. }
 
-\item{xy}{ A two element vector giving the positions for the "X" and "Y"
+\item{xy}{ A two-element vector giving the positions for the "X" and "Y"
 variables for the surface. The positions refer to the columns of the x 
 matrix used to define the multidimensional surface. This argument is 
-provided in lieu of generating the grid list. If a 4 dimensional surface
-is fit to data then \code{ xy= c(2,4)} will evaluate a surface using the 
-second and fourth variables with  variables 1 and 3 fixed at their median 
+provided in lieu of generating the grid list. If a 4-dimensional surface
+is fit to data, then \code{ xy= c(2,4)} will evaluate a surface using the 
+second and fourth variables with variables 1 and 3 fixed at their median 
 values. NOTE: this argument is ignored if a grid.list argument is 
 passed. }
 
-\item{drop.XMat}{If TRUE the fixed part of model depending on covariates is omitted.}
+\item{drop.XMat}{If TRUE, the fixed part of the model depending on covariates is omitted.}
 
-\item{drop.Z}{This argument  is depreciated and a warning will be printed. 
+\item{drop.Z}{This argument  is deprecated and a warning will be printed. 
 Should use the new  argument name drop.XMat. }
 
-\item{just.fixed}{If TRUE the nonparametric surface is omitted.}
+\item{just.fixed}{If TRUE, the nonparametric surface is omitted.}
 
-\item{fast}{If TRUE approximate predictions for stationary models are made using the FFT. For large grids( e.g. nx, ny > 200) this can be substantially faster and still accurate to several decimal places. }
+\item{fast}{If TRUE, approximate predictions for stationary models are made using the FFT. For large grids (e.g., nx, ny > 200) this can be substantially faster and still accurate to several decimal places. }
 
-\item{NNSize}{Order of nearest neighborhood used for fast prediction.  The default,\code{NSize = 5}, means an 11X11=121 set of grid points/covariance kernels are used to approximate the off-grid covariance kernel. }
+\item{NNSize}{Order of nearest neighborhood used for fast prediction.  The default, \code{NNSize = 5}, means an 11X11=121 set of grid points/covariance kernels are used to approximate the off-grid covariance kernel. }
 
 \item{setupObject}{The object created explicitly using
-\code{\link{mKrigFastPredictSetup}}. Useful for predicting multple surfaces with the same observation locations.
-If NULL the setup is done each time the function is called. (See \code{\link{approximateCovariance2D}}.) }
+\code{\link{mKrigFastPredictSetup}}. Useful for predicting multiple surfaces with the same observation locations.
+If NULL, the setup is done each time the function is called. (See \code{\link{approximateCovariance2D}}.) }
 
 \item{derivative}{Predict the  estimated derivatives of order \code{derivative}.}
 
  \item{ynew}{
- New data to use to refit the spatial model. Locations must be the same but if so this is efficient because the matrix decompositions are reused. 
+ New data to use to refit the spatial model. Locations must be the same, but if so, this is efficient because the matrix decompositions are reused. 
  }
   
  \item{\dots}{
@@ -156,7 +156,7 @@ Some of the usual arguments for several of the fields fitted objects include:
 
 \item{ynew}{ New values of y used to reestimate the surface.}
 
-\item{XMat}{A matrix of covariates for the fixed part of model.}
+\item{XMat}{A matrix of covariates for the fixed part of the model.}
 }
 }
 
@@ -164,41 +164,41 @@ Some of the usual arguments for several of the fields fitted objects include:
 	 prediction. This must match the same dimensions from the 
 \code{grid.list} / \code{gridList} argument.  
 
-If XMatGrid is an array then the first two indices are the x and y
+If XMatGrid is an array, then the first two indices are the x and y
  locations in the 
-grid. The third index, if present, indexes the covariates. e.g. For
- evaluation on 
-a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.
-If XMatGrid is a list then the components x and y shold match those of grid list and
-the z component follows the shape described above for the no list 
+grid. The third index, if present, indexes the covariates. E.g., for
+ evaluation on
+a 10X15 grid and with 2 covariates, \code{ dim( XMatGrid) == c(10,15, 2)}.
+If XMatGrid is a list, then the components x and y should match those of the grid list and
+the z component follows the shape described above for the non-list 
 case. 
 }
 
-\item{ZGrid}{This argument  is depreciated and a warning will be printed. 
+\item{ZGrid}{This argument  is deprecated and a warning will be printed. 
 Should use the new  argument name XMatGrid. }
 
 
 
 \item{XMat}{The covariates for the grid unrolled as a matrix. Columns index
-the variables and rows index the grid locations. E.g. For
- evaluation on  a 10X15 grid and with 2 covariates. \code{ dim( XMatGrid) == c(10,15, 2)}.  and so \code{  dim( XMat) = c(150, 2)} and  
+the variables and rows index the grid locations. E.g., for
+ evaluation on a 10X15 grid and with 2 covariates, \code{ dim( XMatGrid) == c(10,15, 2)} and so \code{  dim( XMat) = c(150, 2)} and  
  \code{ XMat[,1] <- c( XMatGrid[,,1])}
  }
 
- \item{verbose}{If TRUE prints out some imtermediate results for debugging.}
+ \item{verbose}{If TRUE, prints out some intermediate results for debugging.}
 
 }
 
 \value{
 The usual list components for making image, contour, and perspective plots
 (x,y,z) along with labels for the x and y variables. For
-\code{predictSurface.derivative} the component \code{z} is a three
+\code{predictSurface.derivative}, the component \code{z} is a three
 dimensional array with values( \code{nx}, \code{ny}, 2 ) 
  } 
 \details{ These functions evaluate the spatial process or thin plate spline estimates on a regular grid of points. 
-The  grid can be specified using the grid.list/ gridList  information or just the sizes.
+The  grid can be specified using the grid.list/gridList information or just the sizes.
 
-For the standard Krig and mKrig versions the steps are to create a matrix of locations the represent the grid, 
+For the standard Krig and mKrig versions, the steps are to create a matrix of locations that represent the grid, 
  call the predict function for the object with these
 points and also adding any extra arguments passed in the ... section,
 and then reform the results as a surface object (as.surface). To
@@ -208,12 +208,12 @@ inflation in this function is used to include a small margin around
 the outside of the polygon so that points on the convex hull are
 included. This potentially confusing modification is to prevent
 excluding grid points that fall exactly on the ranges of the
-data. Also note that as written there is no computational savings for
+data. Also note that, as written, there is no computational savings for
 evaluating only the convex subset compared to the full grid.
 
-For the "fast" option a stationary covariance function and  resulting surface
+For the "fast" option, a stationary covariance function and  resulting surface
 estimate is approximated by the covariance kernel restricted to the grid
-locations. In this way the approximate problem becomes a 2-d convolution.
+locations. In this way, the approximate problem becomes a 2-d convolution.
 The evaluation of the approximate prediction surface uses a fast Fourier
 transform to compute the predicted values at the grid locations.
 
@@ -222,10 +222,10 @@ The nearest
 neighbor argument \code{NNSize} controls the number of covariance kernels
 only evaluated at grid locations used
 to approximate a  covariance function at an off-grid location. We have
-found good results  with \code{NNSize=5}. 
+found good results with \code{NNSize=5}. 
 
 
-\code{predictSurface.fastTps} is a specific version ( m=2, and k=2) of
+\code{predictSurface.fastTps} is a specific version (m=2 and k=2) of
 Kriging with a compact covariance kernel (Wendland) 
 that can be much more efficient because it takes advantage of a low
 level FORTRAN call to evaluate the  covariance function. Use
@@ -236,7 +236,7 @@ level FORTRAN call to evaluate the  covariance function. Use
 
 \code{predictSurface.mKrig} Similar in function to the Krig prediction function but is more efficient using the \code{mKrig} fit object.
 
-\code{mKrigFastpredict} Although this function might be called at the top level, it is easier to use through the wrapper,  \code{predictSurface.mKrig} and \code{fast=TRUE}. 
+\code{mKrigFastPredict} Although this function might be called at the top level, it is easier to use through the wrapper \code{predictSurface.mKrig} and \code{fast=TRUE}. 
  
 NOTE: \code{predict.surface} has been deprecated and just prints out
 a warning when called. 
@@ -313,7 +313,7 @@ system.time(
 gHat<- predictSurface( mKrigObject, gridList)
 )
 
-# aproximate 
+# approximate 
 system.time( 
 gHat1<- predictSurface( mKrigObject, gridList,
                                 fast = TRUE)

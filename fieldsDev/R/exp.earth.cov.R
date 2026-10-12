@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "Exp.earth.cov" <- function(x1, x2, aRange = 1, theta=NULL) {
-  # theta argument has been deopreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }

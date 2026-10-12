@@ -141,7 +141,7 @@
     # This is how much space to work with based on setting the margins in the
     # high level par command to leave between strip and big plot
     offset <- char.size * ifelse(horizontal, par()$mar[1], par()$mar[4])
-    # this is the width of the legned strip itself.
+    # this is the width of the legend strip itself.
     legend.width <- char.size * legend.width
     # this is room for legend axis labels
     legend.mar <- legend.mar * char.size
@@ -298,7 +298,7 @@ designer.colors <- function(n = 256, col = c("darkgreen",
 # generate colors at equal spacings but interpolate to colors at x
     xRange<- range(x)
     xg <- seq(xRange[1], xRange[2],, n)
-# convert colors from names  e.g. "magenta" to rgb in [0.1]    
+# convert colors from names  e.g. "magenta" to rgb in [0,1]    
     y.rgb <- t(col2rgb(col))/255
 # matrix to hold RGB color values
     temp <- matrix(NA, ncol = 3, nrow = n)

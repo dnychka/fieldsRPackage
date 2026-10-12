@@ -19,28 +19,29 @@
 # Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
-setupLegend<- function( horizontal = FALSE,
-                        legend.shrink = 0.9, 
-                        legend.width = 1.2, 
-                        legend.mar = ifelse(horizontal, 3.1, 5.1)
-){
-  # save current graphics settings
-   
-  temp <- imageplot.setup(add = FALSE, 
-                          legend.shrink = legend.shrink, 
-                          legend.width = legend.width ,
-                          legend.mar= legend.mar, 
-                          horizontal = horizontal,
-                          bigplot = NULL,
-                          smallplot = NULL)
-  Info<- list(    smallplot = temp$smallplot, 
-              legend.shrink = legend.shrink, 
-                legend.mar  = legend.mar, 
-               legend.width = legend.width ,
-                 horizontal = horizontal)
-#oldPar =  par(no.readonly = TRUE) )
-  par(plt = temp$bigplot)
+addColorBar<- function(
+               zlim,
+               col= turbo(256),
+               ...
+         
+           ){
   
-  return( Info)
+  oldPar<- addLegend()
+  # par( mar = c(0, 0, 0, 0),
+  #      oma=c(0,0,0,0),
+  #      fig=c(0,1,0,1), 
+  #      new = TRUE, # not sure what this does
+  #      usr=c(0,1,0,1))
+  # 
+  do.call( "imagePlot",
+  c(
+    list( col=col, zlim=zlim, 
+          legend.only=TRUE, add=TRUE),
+    graphics.reset=FALSE,
+    #resets for plotting on original figure
+              list(...)
+  )
+  )
+par( oldPar) 
+            
 }
-

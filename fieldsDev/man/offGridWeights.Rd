@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -34,10 +34,10 @@
 Utilities for fast spatial prediction. 
 }
 \description{
-Based on a stationary Gaussian process model these functions support fast prediction onto
+Based on a stationary Gaussian process model, these functions support fast prediction onto
 a grid using a sparse matrix approximation. They also allow for fast 
-prediction to off-grid values (aka interpolation) from an equally spaced rectangular grid and  using a spatial model. The sparsity comes about because only a fixed number of neighboring grid points
-(NNSize) are used in the prediction.  The prediction variance for off-grid location is also given in the returned object. These functions are used as the basis for approximate conditional simulation for large
+prediction to off-grid values (aka interpolation) from an equally spaced rectangular grid using a spatial model. The sparsity comes about because only a fixed number of neighboring grid points
+(NNSize) are used in the prediction.  The prediction variance for off-grid locations is also given in the returned object. These functions are used as the basis for approximate conditional simulation for large
 spatial datasets and also for fast spatial prediction from irregular locations onto a grid.
 
 }
@@ -84,57 +84,57 @@ mKrigFastPredictSetup(mKrigObject,
 \item{aRange}{
   The range parameter.}
 \item{covArgs}{
-  If \code{mKrigObject} is not specified  a list giving any additional arguments for the covariance function. }
+  If \code{mKrigObject} is not specified, a list giving any additional arguments for the covariance function. }
 
   \item{Covariance}{
   The stationary covariance function  (taking pairwise distances as its
-  first argument.) }
+  first argument). }
  
- \item{debug}{If TRUE returns intermediate calculations and structures for debugging and checking.}
+ \item{debug}{If TRUE, returns intermediate calculations and structures for debugging and checking.}
  
-\item{findCov}{If TRUE the prediction variances (via the Kriging
-  model and assumed covariance function) for the offgrid locations are
-  found. If FALSE just the prediction weights are returned. This option is a bit faster. 
- This switch is only implemented for the 2 D case since the extra 
- computational demands for 1 D are modest.}
+\item{findCov}{If TRUE, the prediction variances (via the Kriging
+  model and assumed covariance function) for the off-grid locations are
+  found. If FALSE, just the prediction weights are returned. This option is a bit faster. 
+ This switch is only implemented for the 2-D case, since the extra
+ computational demands for 1-D are modest.}
  
- \item{giveWarnings}{If TRUE will warn if two or more observations
+ \item{giveWarnings}{If TRUE, will warn if two or more observations
  are in the same grid box. See details below.}
  
   \item{gridList}{
-  A list in the gridList format ( x and y components) that describes the
+  A list in the gridList format (x and y components) that describes the
   rectangular grid. The grid must have at least \code{NNSize} extra grid points beyond
   the range of the points in \code{s}. See
   \code{\link{grid.list}}. 
 }
 
 \item{mKrigObject}{
-  The output object (Aka a list with some specific components.) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
-  The following items are coded in place of not supplying this object.  See the example below for more details.
+  The output object (a list with some specific components) from either mKrig or spatialProcess. This has the information about the covariance function used to do the Kriging. 
+  If this object is not supplied, the following items are used instead.  See the example below for more details.
 }
 \item{nx}{Number of grid points in X}
 \item{ny}{Number of grid points in Y}
 
 \item{NNSize}{
   Number of nearest neighbor grid points to use for prediction.  \code{NNSize = 1}
-  will use the 4 grid points that bound the offgrid point.  \code{NNSize = 2}
+  will use the 4 grid points that bound the off-grid point.  \code{NNSize = 2}
   will be a 4X4 subgrid that defines a 3X3 set of boxes
-  and the middle grid box containing the offgrid point.
-  In general there will be  \code{(2*NNSize)^2} neighboring points used. 
+  and the middle grid box containing the off-grid point.
+  In general, there will be \code{(2*NNSize)^2} neighboring points used. 
 
 }
 
   \item{s}{
-  Off grid spatial locations
+  Off-grid spatial locations
 }
 
  \item{sigma2}{
   Marginal variance of the process. 
 }
- \item{verbose}{If TRUE intermediate output is printed for debugging.}
+ \item{verbose}{If TRUE, intermediate output is printed for debugging.}
  
 %  \item{xObs}{
-%    Off grid spatial locations}
+%    Off-grid spatial locations}
 
 }
 
@@ -147,39 +147,39 @@ predictions from a rectangular grid.
 The returned matrix is in spam sparse matrix format. See
 example below for the "one-liner" to make the prediction
 once the weights are computed. Although created primarily
-for (approximate) conditional simulation of a spatial process this
-function is also useful for interpolating to off grid
+for (approximate) conditional simulation of a spatial process, this
+function is also useful for interpolating to off-grid
 locations from a rectangular field. It is also used for
-fast, but approximate prediction for Kriging with a
+fast, but approximate, prediction for Kriging with a
 stationary covariance. 
 
 The function \code{offGridWeights} is a simple wrapper to
 call either the 1D or 2D functions.
 
-In most cases one would not use these approximations for a 1D problem.
+In most cases, one would not use these approximations for a 1D problem.
 However,
 the 1D algorithm is included as a separate function for testing and also
-because this is easier to read and understand the conversion between the
+because it is easier to read and to understand the conversion between the
 Kriging weights for each point and the sparse matrix encoding of them.
 
 
 The interpolation errors are also computed based on the nearest neighbor
 predictions. This is returned as a sparse matrix in the component SE. 
-If all observations are in different grid boxes then \code{SE} is
+If all observations are in different grid boxes, then \code{SE} is
 diagonal
 and agrees with the square root of the component
-\code{predctionVariance} but
-if multiple observations are in the same grid box then SE has blocks of
+\code{predictionVariance}, but
+if multiple observations are in the same grid box, then SE has blocks of
 upper
 triangular matrices that can be used to simulate the prediction error
 dependence among observations in the same grid box. 
-Explicitly if \code{obj} is the output object and there are \code{nObs}
-observations then 
+Explicitly, if \code{obj} is the output object and there are \code{nObs}
+observations, then
 
 \preformatted{error <- obj$SE\%*\% rnorm( nObs)} 
 will simulate a prediction error that includes the dependence. Note that
 in
-the case that all observations are in separate grid boxes this code line is the same as 
+the case that all observations are in separate grid boxes, this code line is the same as 
 \preformatted{error <- sqrt(obj$predictionVariance)*rnorm( nObs)}
 It is always true that the prediction variance is given by 
 \code{ diag( obj$SE\%*\% t( obj$SE))}.
@@ -194,13 +194,13 @@ is being computed.
 
 Returned value below pertains to the offGridWeights function. 
 
-\strong{approximateCovariance2d} This is used to approximate a stationary covariance for fast prediction
+\strong{approximateCovariance2d} This is used to approximate a stationary covariance for fast prediction.
 The weights required are the same as those used for the local simulation and so this function is
-included here. See \code{ \link{ predictSurface}} with the \code{fast} option for more details. 
+included here. See \code{\link{predictSurface}} with the \code{fast} option for more details. 
 
 \strong{augmentPredictionGrid} This is a supporting function that adds 
-extra grid points to  a gridList so that every irregular point has a
-complete number of nearest neighbors. Typically the initial grid has as
+extra grid points to a gridList so that every irregular point has a
+complete number of nearest neighbors. Typically, the initial grid has as
 its limits the ranges of the observations. 
 This function adds more grid points at the edges so that there are \code{NNSize}
 neighbors around every data location. 
@@ -208,7 +208,7 @@ neighbors around every data location.
 
 \strong{findGridBox} This is a handy function that finds the indices of
 the lower left grid box that contains the points in \code{s}. If the
-point is not contained within the range of the grid then NA is returned 
+point is not contained within the range of the grid, then NA is returned 
 for the index. 
 This function assumes that the grid points are equally spaced.}
 
@@ -237,7 +237,7 @@ Bailey, Maggie D., Soutir Bandyopadhyay, and Douglas Nychka. "Adapting condition
 }
 
 \seealso{
-\link{interp.surface} , \link{mKrigFastPredict}
+\link{interp.surface}, \link{mKrigFastPredict}
 
 }
 \examples{

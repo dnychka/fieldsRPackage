@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 }
 \description{
 Plots a surface object in several different ways to give 3-d
-information e.g. a contour plot, perspective plot.  
+information, e.g., a contour plot or perspective plot.  
 }
 \usage{
 \method{plot}{surface}(x, main = NULL, type = "C", zlab = NULL, xlab = NULL,
@@ -37,7 +37,7 @@ information e.g. a contour plot, perspective plot.
 }
 \arguments{
 \item{x}{
-A surface object. At the minimum a list with components x,y and z 
+A surface object. At a minimum, a list with components x,y and z 
 in the same form as the input list for the standard contour, persp
 or image functions. This can also be an object from predictSurface. 
 }
@@ -49,31 +49,32 @@ Title for plot.
 type="p" for a perspective/drape plot (see drape.plot), 
 type="I" for an image plot with a legend
 strip (see image.plot), type="c" draws a contour plot,  type="C" is the "I" option but with contour lines
-added. type="b" gives both  "p" and "C" as a 2X1 panel }
+added. type="b" gives both "p" and "C" as a 2X1 panel. }
 \item{zlab}{
-z-axes label 
+z-axis label 
 }
 \item{xlab}{
-x-axes label 
+x-axis label 
 }
 \item{ylab}{
-y-axes labels 
+y-axis label 
 }
 \item{levels}{
 Vector of levels to be passed to contour function. 
 }
 \item{graphics.reset}{
 Reset to original graphics parameters after function plotting. 
-Default is to reset if type ="b" but not for the single plot options.  
+Default is to reset if type ="b", but not for the single plot options.  
 }
 \item{zlim}{
 Sets z limits on perspective plot. }
 \item{labcex}{
 Label sizes for axis labeling etc. 
 }
-\item{add.legend}{ If TRUE adds a legend to the draped perspective plot}
+\item{add.legend}{ If TRUE, adds a legend to the draped perspective plot}
 \item{\dots}{
-Other graphical parameters that are passed along to either drape.persp 
+Other graphical parameters that are passed along to either drape.plot
+ 
 or image.plot 
 }
 

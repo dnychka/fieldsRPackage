@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 spind2full <- function(obj) {
-    # create empty matrix and stuff at non zero locations
+    # create empty matrix and stuff at nonzero locations
     temp <- matrix(0, obj$da[1], obj$da[2])
     temp[obj$ind] <- obj$ra
     return(temp)

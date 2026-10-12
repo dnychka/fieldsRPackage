@@ -22,7 +22,7 @@
 "interp.surface" <- function(obj, loc) {
     
     # obj is a surface or image  object like the list for contour, persp or image.
-    # loc a matrix of 2 d locations -- new points to evaluate the surface.
+    # loc a matrix of 2-d locations -- new points to evaluate the surface.
     x <- obj$x
     y <- obj$y
     z <- obj$z
@@ -44,7 +44,7 @@
     lx1[lx1 == nx] <- nx - 1
     ly1[ly1 == ny] <- ny - 1
     # bilinear interpolation finds simple weights based on the
-    # the four corners of the grid box containing the new
+    # four corners of the grid box containing the new
     # points.
     return(z[cbind(lx1, ly1)] * (1 - ex) * (1 - ey) + z[cbind(lx1 + 
         1, ly1)] * ex * (1 - ey) + z[cbind(lx1, ly1 + 1)] * (1 - 

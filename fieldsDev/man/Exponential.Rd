@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -46,7 +46,7 @@ RadialBasis(d,M,dimension, derivative = 0)
 \arguments{
   \item{aRange}{The usual range parameter for a covariance function. We use this name to be distinct from the "range" function and the generic parameter name "theta".}
 
-  \item{d}{ Vector of distances or for \code{Matern.cor.to.range} just a single distance. }
+  \item{d}{ Vector of distances or, for \code{Matern.cor.to.range}, just a single distance. }
 
   \item{range}{ Range parameter. It is preferred that
        the scale can also be specified  through the "aRange"
@@ -56,10 +56,10 @@ RadialBasis(d,M,dimension, derivative = 0)
   \item{theta}{Same as alpha}
 
   \item{phi}{This parameter option is added to be compatible with older
-  versions of fields and refers to the marginal variance of the process.
-  e.g. \code{phi* exp( -d/aRange)} is the exponential covariance for points
-  separated by distance and range aRange. Throughout fields this parameter
-  is equivalent to sigma and it is recommended that sigma be used. If one is
+  versions of fields and refers to the marginal variance of the process,
+  e.g., \code{phi* exp( -d/aRange)} is the exponential covariance for points
+  separated by distance d and range aRange. Throughout fields, this parameter
+  is equivalent to sigma, and it is recommended that sigma be used. If one is
   simulating random fields, see the help on \code{\link{sim.rf}} for
   more details. }
 
@@ -68,12 +68,12 @@ of derivatives in the process. Default is 1/2 corresponding to an exponential
 covariance.}
 
   \item{nu}{ Same as smoothness}
-  \item{M}{Interpreted as a spline M is the order of the derivatives in the
+  \item{M}{Interpreted as a spline, M is the order of the derivatives in the
     penalty.}
   \item{dimension}{Dimension of function}
    \item{cor.target}{Correlation used to match the range parameter. Default is .5.}
    \item{guess}{An optional starting guess for solution. This should not be needed.}
-   \item{derivative}{If greater than zero finds the first derivative of this function.}
+   \item{derivative}{If greater than zero, finds the first derivative of this function.}
    \item{\dots}{Additional arguments to pass to the bisection search function.}
 }
 
@@ -124,7 +124,7 @@ For Matern.cor.to.range: the value of the range parameter.
 }
 \references{ Stein, M.L. (1999) Statistical Interpolation of Spatial Data: Some Theory for Kriging. Springer, New York.}
 \author{Doug Nychka}
-\seealso{stationary.cov, stationary.image.cov, Wendland,stationary.taper.cov
+\seealso{stationary.cov, stationary.image.cov, Wendland, stationary.taper.cov,
   rad.cov}
 
 \examples{

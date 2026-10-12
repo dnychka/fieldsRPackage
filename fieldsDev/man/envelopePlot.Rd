@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 This function shades the region vertically between two functions, specified as pairs of x and y vectors,
 and draws the functions in a darker shade. More formally, it shades all points (x,y) such that f1(x) < y
 < f2(x) or f2(x) < y < f1(x). When both functions have the same group of x values, 
-the x values only need to be set once but y2 needs to be passed in by name. 
+the x values only need to be set once, but y2 needs to be passed in by name. 
 If the two functions intersect, the vertical space between the functions will be shaded on both sides, as
 implied in the definition above.
 }

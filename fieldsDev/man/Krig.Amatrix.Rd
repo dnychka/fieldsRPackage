@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -29,11 +29,11 @@
 }
 \description{
 For a fixed value of the smoothing parameter or the covariance
-function some nonparametric curve estimates are linear functions of
+function, some nonparametric curve estimates are linear functions of
 the observed data. This is an intermediate  level function that
 computes the linear weights to be applied to the observations to
-estimate the curve at a particular point. For example the predicted
-values can be represented as Ay where A is an N X N matrix of
+estimate the curve at a particular point. For example, the predicted
+values can be represented as AY where A is an N X N matrix of
 coefficients and Y is the vector of observed dependent variables. For
 linear smoothers the matrix A may depend on the smoothing parameter (or covariance function) and the independent variables (X) but NOT on Y.
 }
@@ -47,22 +47,22 @@ method.
 Currently this is supported only for Krig (and Tps) functions.
 
 \item{object}{
-A Krig object produced by the Krig ( or Tps) function.
+A Krig object produced by the Krig (or Tps) function.
 }
 \item{x0}{
-Locations for prediction default is the observation locations.
+Locations for prediction; the default is the observation locations.
 }
 \item{lambda}{
 Value of the smoothing parameter.
 }
 \item{eval.correlation.model}{This applies to a correlation model
 where the observations have been standardized -- e.g.
-  y standardized  = (yraw - mean) / (standard deviation). If TRUE the
+  y standardized  = (yraw - mean) / (standard deviation). If TRUE, the
 prediction in the correlation scale is transformed by the standard
 deviation and mean to give a  prediction in the raw scale.
-If FALSE predictions are left in the correlation  scale.}
+If FALSE, predictions are left in the correlation  scale.}
 
-\item{\dots}{ Other arguments that can used by predict.Krig.}
+\item{\dots}{ Other arguments that can be used by predict.Krig.}
 
 }
 \value{
@@ -72,15 +72,15 @@ and the number of columns is equal to the length of the Y vector.
 \details{
 The main use of this function is in finding prediction standard errors.
 
-For the Krig (and Tps) functions the A matrix is constructed based on the
+For the Krig (and Tps) functions, the A matrix is constructed based on the
 representation of the estimate as a generalized ridge regression.  The
 matrix expressions are explained in the references from the FIELDS manual.
-For linear regression the matrix that gives predicted values is often
+For linear regression, the matrix that gives predicted values is often
 referred to as the "hat" matrix and is useful for regression diagnostics.
-For smoothing problems the effective number of parameters in the fit is
+For smoothing problems, the effective number of parameters in the fit is
 usually taken to be the trace of the A matrix. Note that while the A
 matrix is usually constructed to predict the estimated curve at the data
-points Amatrix.Krig does not have such restrictions. This
+points, Amatrix.Krig does not have such restrictions. This
 is possible
 because any value of the estimated curve will be a linear function of Y.
 

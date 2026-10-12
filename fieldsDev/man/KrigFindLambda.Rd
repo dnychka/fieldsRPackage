@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ smoothing parameters for splines and Kriging.}
 find various estimates of the smoothing parameter lambda. These are
 several different flavors of cross-validation, a moment matching
 strategy and the profile likelihood.  This function can also be used
-independently with different data sets (the y's) if the covariates ( the
+independently with different data sets (the y's) if the covariates (the
 x's) are the same and thus reduce the computation.
 }
 \usage{
@@ -54,13 +54,13 @@ equally spaced on effective degree of freedom scale. }
   \item{nstep.cv}{ Number of grid points in coarse search. }
   \item{rmse}{ Target root mean squared error to match with
                   the estimate of tau**2 }
-  \item{verbose}{ If true prints intermediate results.  }
+  \item{verbose}{ If TRUE, prints intermediate results.  }
   \item{tol}{ Tolerance in declaring convergence of golden section search or bisection search. }
   \item{offset}{ Additional degrees of freedom to be added into the GCV denominator.
 }
   \item{y}{A new data vector to be used in place of the one associated with the
 Krig object (obj) }
-  \item{give.warnings}{ If FALSE will suppress warnings about grid search being out of
+  \item{give.warnings}{ If FALSE, will suppress warnings about grid search being out of
 range for various estimates based on GCV and REML.}
 
 \item{trmin}{Minimum value of lambda for grid search specified in terms
@@ -71,8 +71,8 @@ of effective degrees of freedom.}
 \details{
 
  This function finds several estimates of the smoothing parameter using
-first a coarse grid search followed by a refinement using a minimization (
-in the case of GCV or maximum likelihood) or bisection in the case of
+first a coarse grid search followed by a refinement using a minimization (in
+the case of GCV or maximum likelihood) or bisection in the case of
 matching the rmse. Details of the estimators can be found in the help file
 for the Krig function.
 
@@ -80,7 +80,7 @@ The Krig object passed to this function has some matrix decompositions that
 facilitate rapid computation of the GCV and ML functions and do not depend
 on the independent variable. This makes it possible to compute the Krig
 object once and to reuse the decompositions for multiple data sets. (But
-keep in mind if the x values change then the object must be recalculated.)
+keep in mind that if the x values change, then the object must be recalculated.)
 The example below shows how this can be used for a simulation study on the
 variability for estimating the smoothing parameter.
 
@@ -89,16 +89,16 @@ variability for estimating the smoothing parameter.
 \value{A list giving a summary of estimates and diagnostic details with the
 following components:
   \item{gcv.grid }{ A matrix describing results of the
-coarse search rows are values of lambda and the columns are
+coarse search; rows are values of lambda and the columns are
 lambda= value of smoothing parameter,
 trA=effective degrees of freedom,
 GCV=Usual GCV criterion,
 GCV.one=GCV criterion leave-one-out,
 GCV.model= GCV based on average response in the case of replicates,
-tauHat= Implied estimate of tau ,
+tauHat= Implied estimate of tau,
 -Log Profile= negative log of profile likelihood for the lambda.
 }
-  \item{lambda.est}{Summary table of all estimates
+  \item{lambda.est}{Summary table of all estimates.
 Rows index different types of estimates:
 GCV, GCV.model, GCV.one, RMSE, pure error, -Log Profile
 and the columns are the estimated values  for lambda, trA, GCV, tauHat.

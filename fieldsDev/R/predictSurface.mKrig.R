@@ -51,7 +51,7 @@
              (nearest neighbor rapid prediction)")
       }
     
-# grid.list is old syntax for fields gridList preferred 
+# grid.list is old syntax for fields; gridList preferred 
   if (!is.null(grid.list)){ gridList<-  grid.list}
   
   # Try to grab grid from setupObject 
@@ -61,7 +61,7 @@
   
   # create a default grid if it is not passed  
     if (is.null(gridList)) {
-    # default is 80X80 grid on first  variables in 1D
+    # default is 80X80 grid on first variable in 1D
     # first two in 2D or greater for > 2D 
     # rest are set to median value of the x's
         gridList <- fields.x.to.grid(object$x, nx = nx, ny = ny, 

@@ -26,7 +26,7 @@
     # in d dimensions
     # usually called with p = 2m-d
     #  Because this is
-    #  a generalized covariance the marginal variance is not really
+    #  a generalized covariance, the marginal variance is not really
     #  defined.
     #  Thus, marginal is a dummy argument to be consistent with
     #  other covariance functions

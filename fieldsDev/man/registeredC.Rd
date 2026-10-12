@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -36,13 +36,13 @@
 C and FORTRAN functions.
 }
 \description{
-These are objects of class \code{CallRoutine} or \code{FortranRoutine} and also \code{\link{NativeSymbolInfo}}
+These are objects of class \code{CallRoutine} or \code{FortranRoutine} and also \code{\link{NativeSymbolInfo}}.
 They provide information for compiled functions called with \code{.Call},
 or \code{.Fortran}.
-Ordinarily one would not need to consult these and they are used to make
-the search among dynamically loaded libraries ( in particular the fields library) have less ambiguity and
+Ordinarily, one would not need to consult these, and they are used to make
+the search among dynamically loaded libraries (in particular the fields library) have less ambiguity and
 also be faster. These are created when the package/library is loaded
-and have their definitions from the compilation of  \code{init.c} in the
+and have their definitions from the compilation of \code{init.c} in the
 package source (src) directory.
 }
 %ExponentialUpperC.Rd	compactToMatC.Rd	multebC.Rd
@@ -74,7 +74,7 @@ package source (src) directory.
   }
 \details{
  \describe{
-\item{addToDiagC}{ adds diagonal elements to a matrix. See \code{mKrig}.}
+\item{addToDiagC}{ Adds diagonal elements to a matrix. See \code{mKrig}.}
 
 \item{ExponentialUpperC}{Fills in upper triangle of a matrix with the exponential covariance function. See \code{ExponentialUpper}}
 
@@ -103,9 +103,9 @@ documentation while other routines have not.
 
 }
 \references{
-For background on registering C, C++ and Fortran functions see 5.4 of
+For background on registering C, C++ and Fortran functions, see Section 5.4 of
 Writing R Extensions. For this package refer to the C code in
-\code{ src/intit.c} as an example. 
+\code{src/init.c} as an example. 
 }
 \examples{
 print(addToDiagC)

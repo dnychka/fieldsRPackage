@@ -49,7 +49,7 @@ sim.spatialProcess<- function(object, xp,  M = 1,
    # 
     x<- as.matrix(rbind( object$x, xp))
     rep.x.info <- fields.duplicated.matrix(x)
-    # find uniuqe locations. 
+    # find unique locations. 
     ind<- !duplicated(rep.x.info)
     xUnique <- as.matrix(x[ind, ])
     if (verbose) {
@@ -89,7 +89,7 @@ sim.spatialProcess<- function(object, xp,  M = 1,
     # the following code line is similar to chol(Sigma)-> Scol
     # but adds possible additional arguments controlling the Cholesky
     # from the mKrig object.
-    # x has has been winnowed down to unique rows so that 
+    # x has been winnowed down to unique rows so that 
     # Sigma has full rank. 
     #
     Schol <- do.call("chol", c(list(x = Sigma), object$chol.args))

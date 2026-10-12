@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -32,8 +32,8 @@ representation
 of the conditional distribution of [Y|X] in terms of boxplots.
 }
 \usage{
-bplot.xy(x, y, N = 10, breaks = NULL,
-                 plot = TRUE, axes = TRUE, ...)
+bplot.xy(x, y, N = 10, breaks = NULL, plot = TRUE, add = FALSE,
+                 axes = TRUE, ...)
 }
 \arguments{
 \item{x}{
@@ -46,15 +46,16 @@ Vector to use for constructing boxplot statistics.
 Number of bins on x. Default is 10.
 }
 \item{breaks}{
-Break points defining bin boundaries. These can be unequally spaced. If NULL then 
+Break points defining bin boundaries. These can be unequally spaced. If NULL,
 they are found by \code{pretty(x, N, eps.correct = 1)}.
 }
 
 \item{plot}{
-If FALSE just returns a list with the statistics used for plotting the
+If FALSE, just returns a list with the statistics used for plotting the
 box plots, bin centers, etc. --  More stuff than you can imagine!
 }
-\item{axes}{The usual plotting argument -- If TRUE then axes are plotted.}
+\item{add}{ Just add this to an existing plot.}
+\item{axes}{The usual plotting argument -- if TRUE, axes are plotted.}
 \item{\dots }{
 Any other optional arguments passed to the standard \code{boxplot} function. 
 }

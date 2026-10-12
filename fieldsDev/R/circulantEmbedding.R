@@ -31,7 +31,7 @@
     out<-  Re(
                fft(sqrt(obj$wght) * Z, inverse = TRUE)
              )/sqrt(prodM)
-    # this R arcania 
+    # this is R arcana 
     # handles general fields with more than 2 dimensions
     out<- array( out[makeMultiIndex(m)], m)
   

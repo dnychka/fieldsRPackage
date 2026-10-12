@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
 \description{
 This data set used to be named  \code{ozone} but was 
 changed to avoid conflict with other packages.
-The \code{ChicagoO3} data is a list of 
-components, x and y.  x 
+The \code{ChicagoO3} data is a list with
+components x and y. The x
 component is longitude and latitude position of each of the 20 
 Chicago monitoring stations; y is the average 
 daily ozone values over the time period 6/3/87-8/30/87.
@@ -53,7 +53,7 @@ locations. }
  }
 }
 \source{
-AIRS, the EPA air quality data base. 
+AIRS, the EPA air quality database. 
 }
 \seealso{
 Tps, Krig  

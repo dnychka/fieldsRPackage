@@ -22,7 +22,7 @@
 "setup.image.smooth" <- function(nrow = 64, ncol = 64, 
     dx = 1, dy = 1, kernel.function = double.exp, aRange = 1, 
     xwidth = nrow * dx, ywidth = ncol * dx, lambda = NULL, theta=NULL,  ...) {
-# theta is depreciated    
+# theta is deprecated    
     if( !is.null(theta)){
         aRange<- theta
     }

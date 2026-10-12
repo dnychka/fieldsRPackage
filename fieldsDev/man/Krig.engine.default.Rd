@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -55,17 +55,17 @@ Krig.make.Wi ( out, verbose=FALSE)
 }
 \arguments{
 
- \item{out}{ A complete or partial Krig object. If partial it must have
+ \item{out}{ A complete or partial Krig object. If partial, it must have
 all the information accumulated to this calling point within the Krig
 function.  }
 
 \item{obj}{Same as \code{out}. }
 
-\item{verbose}{If TRUE prints out intermediate results for
+\item{verbose}{If TRUE, prints out intermediate results for
 debugging.}
 
 \item{lambda}{Value of smoothing parameter "hard wired" into decompositions.
-Default is NA, i.e.  use the value in \code{out\$lambda}. }
+Default is NA, i.e., use the value in \code{out\$lambda}. }
 
 
 \item{y}{New y vector for recomputing coefficients. OR for \%d*\% a
@@ -78,7 +78,7 @@ the values have already been collapsed into replicate group means.}
 
 \item{x}{raw x matrix of spatial locations
 OR
-In the case of \%d*\%, y is either a matrix or a vector. As a vector, y, is
+In the case of \%d*\%, y is either a matrix or a vector. As a vector, y is
 interpreted to be the elements of a diagonal matrix.
 }
 
@@ -97,18 +97,18 @@ ENGINES:
 
 The engines are the
 code modules that handle the basic linear algebra needed to
-computed the estimated curve or surface coefficients.
+compute the estimated curve or surface coefficients.
 All the engines work on the data that has been reduced to unique
 locations and possibly replicate group means with the weights
 adjusted accordingly. All information needed for the decomposition is
-components in the Krig object passed to these functions.
+contained in the Krig object passed to these functions.
 
  \code{Krig.engine.default} finds the decompositions for a Universal
-Kriging estimator  by simultaneously diagonalizing the linear system
+Kriging estimator  by simultaneously diagonalizing the linear
 system for the coefficients of the estimator. The main advantage of this
 form is that it is fairly stable numerically, even with ill-conditioned
-covariance matrices with lambda > 0. (i.e.  provided there is a "nugget"
-or measurement error. Also the eigendecomposition allows for
+covariance matrices with lambda > 0. (i.e., provided there is a "nugget"
+or measurement error). Also, the eigendecomposition allows for
 rapid evaluation of the likelihood, GCV and coefficients for new data
 vectors under different values of the smoothing parameter, lambda.
 
@@ -117,7 +117,7 @@ vectors under different values of the smoothing parameter, lambda.
  This code has been omitted from versions  >=  12.0. See 11.6 to recover this functionality.
 
 \strong{Finds the decompositions in the case that the
-covariance is evaluated at arbitrary locations possibly different than
+covariance is evaluated at arbitrary locations possibly different from
 the data locations (called knots). The intent of these decompositions is
 to facilitate the evaluation at different values for lambda.  }
 
@@ -135,15 +135,15 @@ OTHER FUNCTIONS:
 estimated curve. These coefficients are used by the predict functions for
 evaluations. Krig.coef can be used outside of the call to Krig to
 recompute the fit with different Y values and possibly with different
-lambda values. If new y values are not passed to this function then the yM
+lambda values. If new y values are not passed to this function, then the yM
 vector in the Krig object is used. The internal function
 \code{Krig.ynew} sorts out the logic of what to do and use based on the
 passed arguments.
 
 \code{Krig.make.u} Computes the "u" vector, a transformation of the collapsed
 observations that allows for rapid evaluation of the GCV function and
-prediction. This only makes sense when the decomposition is WBW or DR, i.e.
-an eigen decomposition. If the decompostion is the Cholesky based then this
+prediction. This only makes sense when the decomposition is WBW or DR, i.e.,
+an eigendecomposition. If the decomposition is Cholesky based, then this
 function returns NA for the u component in the list.
 
 \code{Krig.check.xY} Checks for and removes missing values (NAs).
@@ -159,15 +159,15 @@ and the knots according to the transformation.
  \code{Krig.make.W} and \code{Krig.make.Wi} These functions create an
 off-diagonal weight matrix and its symmetric square root or the inverse
 of the weight matrix based on the information passed to Krig.  If
-\code{out$nondiag} is TRUE W is constructed based on a call to the
+\code{out$nondiag} is TRUE, W is constructed based on a call to the
 passed
 function wght.function along with additional arguments.  If this flag
-is FALSE then W is just \code{diag(out$weightsM)} and the square root
+is FALSE, then W is just \code{diag(out$weightsM)} and the square root
 and inverse are computed directly.
 
 \code{\%d*\%} Is a simple way to implement efficient diagonal
 multiplications.  x\%d*\%y is interpreted to mean diag(x)\%*\% y
-if x is a vector. If x is a matrix then this becomes the same as the
+if x is a vector. If x is a matrix, then this becomes the same as the
 usual matrix multiplication.
 }
 
@@ -216,7 +216,7 @@ T matrix. }
 Using knot locations
 \describe{
 \item{qr.Treg}{QR decomposition of regression matrix modified by the
-estimate of the nonparametric ( or spatial) component.}
+estimate of the nonparametric (or spatial) component.}
 \item{lambda.fixed}{Value of lambda used in the decompositions}
 }
 
@@ -232,7 +232,7 @@ OTHER FUNCTIONS:
 or radial basis functions.}
 \item{d}{The "d" regression type coefficients that are from the fixed part of the model
 or the linear null space.}
-\item{u}{When the default decomposition is used the data vector transformed by the orthogonal matrices. This facilitates evaluating the GCV function
+\item{u}{When the default decomposition is used, the data vector transformed by the orthogonal matrices. This facilitates evaluating the GCV function
 at different values of the smoothing parameter.}
 }
 \code{Krig.make.W}

@@ -46,8 +46,8 @@ profileMLE<- function (obj, parName, parGrid=NULL, gridN=15,
     cov.params.startTmp<-cov.params.start
   }
   
-# just evaluate other parameters at MLEs and don't optimze. 
-# E.g. just use  MLE lambda hat for all choice in in parGrid. 
+# just evaluate other parameters at MLEs and don't optimize. 
+# E.g. just use  MLE lambda hat for all choices in parGrid. 
 # if( fast){
 #    cov.params.startTmp<-NULL
 #    

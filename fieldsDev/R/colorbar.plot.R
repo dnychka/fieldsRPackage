@@ -45,13 +45,13 @@
         dy <- strip.length * pin[1] * (ucord[4] - ucord[3])/(pin[2])
     }
     #
-    # dx and dy should have the correct ratio given different different scales
+    # dx and dy should have the correct ratio given different scales
     # and also different aspects to the plot window
     #
     n <- ncol(strip)
     m <- nrow(strip)
     # create grids in x and y for strip(s) based on the users
-    # coordinates of the plot and th positioning argument (adj)
+    # coordinates of the plot and the positioning argument (adj)
     if (horizontal) {
         xs <- seq(0, dx, , m + 1) + x - adj.x * dx
         ys <- seq(0, dy, , n + 1) + y - adj.y * dy

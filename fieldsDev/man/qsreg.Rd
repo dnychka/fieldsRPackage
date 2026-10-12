@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -24,12 +24,12 @@
 \name{qsreg}
 \alias{qsreg}
 \title{
-  Quantile or Robust spline regression  
+  Quantile or robust spline regression  
 }
 \description{
 Uses a penalized likelihood approach to estimate the conditional  
 quantile function for regression data. This method is only implemented  
-for univariate data. For the pairs (X,Y) the  
+for univariate data. For the pairs (X,Y), the  
 conditional quantile, f(x), is  P( Y<f(x)| X=x) = alpha. This estimate  
 is useful for determining the envelope of a scatterplot or assessing  
 departures from a constant variance with respect to the independent  
@@ -72,15 +72,15 @@ Scale factor for rounding out the absolute value function at zero to a
 quadratic. Default is a small scale to produce something more like
 quantiles. Scales on the order of the residuals will result in a robust
 regression fit using the Huber weight function. The default is 1e-5 of the 
-variance of the Y's. The larger this value the better behaved the problem 
+variance of the Y's. The larger this value, the better behaved the problem 
 is numerically and requires fewer iterations for convergence at each new 
 value of lambda. 
 }
 \item{alpha}{
-Quantile to be estimated. Default is find the median. 
+Quantile to be estimated. Default is to find the median. 
 }
 \item{wt}{
-Weight vector default is constant values. Passing nonconstant weights is a 
+Weight vector; default is constant values. Passing nonconstant weights is a 
 pretty strange thing to do.  
 }
 \item{nstep.cv}{
@@ -106,9 +106,9 @@ for specifying the range of lambda in the GCV grid search.
 
 \item{trmin trmax }{
 Define the minimum and maximum values for the CV grid search in terms of 
-the effective number of parameters. (see hmin, hmax) 
+the effective number of parameters. (see hmin, hmax).
 Object of class qsreg with many arguments similar to a sreg object.  
-One difference is that cv.grid has five columns the last being  
+One difference is that cv.grid has five columns, the last being  
 the number of iterations for convergence at each value of lambda.  
 }
 }
@@ -117,15 +117,15 @@ This is an experimental function to find the smoothing parameter for a
 quantile or robust spline using a more appropriate criterion than mean squared  
 error prediction.  
 The quantile spline is found by an iterative algorithm using weighted  
-least squares cubic splines. At convergence the estimate will also be a  
-weighted natural  cubic spline but the weights will depend on the 
+least squares cubic splines. At convergence, the estimate will also be a  
+weighted natural cubic spline, but the weights will depend on the 
 estimate. 
-Alternatively at convergence the estimate will be a least squares spline applied to the
-empirical pseudo data. The user is referred to the paper by Oh and Nychka ( 2002) for the
+Alternatively, at convergence, the estimate will be a least squares spline applied to the
+empirical pseudo data. The user is referred to the paper by Oh and Nychka (2002) for the
 details and properties of the robust cross-validation using empirical pseudo data.
-Of course these weights are crafted so that the resulting spline is an
+Of course, these weights are crafted so that the resulting spline is an
 estimate of the alpha quantile instead of the mean. CV as a function of
-lambda can be strange so it should be plotted.
+lambda can be strange, so it should be plotted.
   
 }
 \seealso{

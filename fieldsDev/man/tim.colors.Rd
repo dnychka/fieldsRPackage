@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -49,11 +49,11 @@
 
 \title{Some useful color tables for images and tools to handle them. }
 \description{
-Several color scales useful for image plots: a pleasing rainbow style
+Several color scales useful for image plots: a pleasing rainbow-style
 color table patterned after that used in Matlab by Tim Hoar and also
 some simple color interpolation schemes between two or more
 colors. There is also a function that converts between colors and a
-real valued vector.
+real-valued vector.
 }
 \usage{
 tim.colors(n = 64, alpha=1.0)
@@ -79,7 +79,7 @@ fieldsPlotColors( col,...)
 \arguments{
 \item{alpha}{The transparency of the color -- 1.0 is opaque and 0 is
              transparent.  This is useful for overlays of color and
-             still being able to view the graphics that is covered. }
+             still being able to view the graphics that are covered. }
 
 \item{n}{ Number of color levels. The setting \code{n}=64 is the
 original definition.}
@@ -103,10 +103,10 @@ that the x values are equally spaced from 0 to 1.}
 \item{zlim}{Range to use for color scale. Default is the
 \code{range(z)} inflated by 1- eps and 1+eps.}
 
-\item{transparent.color}{Color value to use for NA's or values outside
+\item{transparent.color}{Color value to use for NAs or values outside
 \code{zlim}}
 
-\item{eps}{A small inflation of the range to avoid the  boundary values of
+\item{eps}{A small inflation of the range to avoid the boundary values of
 \code{z} being coded as NAs.}
 
 \item{NC}{The number of colors to return from calling the function passed in the
@@ -121,44 +121,44 @@ The color in R can be represented as three vectors in RGB coordinates
 and these coordinates are interpolated separately using a cubic spline
 to give color values that are intermediate to the specified colors.
 
- Ask Tim Hoar about \code{tim.colors}! As a Matlab black belt
-this was his favorite scale  at NCAR in that system.  The viridis package has a similar version (turbo) that is a grey scale friendly alternative. 
+ Ask Tim Hoar about \code{tim.colors}! As a Matlab black belt,
+this was his favorite scale at NCAR in that system.  The viridis package has a similar version (turbo) that is a greyscale-friendly alternative. 
 
 \code{two.colors} is
-really about three different colors. For other colors try
+really about three different colors. For other colors, try
 \code{fields.color.picker} to view possible choices.
 \code{start="darkgreen", end="azure4"} are the options used to get a
 nice color scale for rendering aerial photos of ski trails.  (See
 \url{https://github.com/dnychka/MJProject}.)
 
 \code{larry.colors}
-is a 13 color palette used by Larry McDaniel (retired software engineer from NCAR) and is particularly
+is a 13-color palette used by Larry McDaniel (retired software engineer from NCAR) and is particularly
 useful for visualizing fields of climate variables.
 
 \code{snow.colors} is the scale used by Will Klieber's team for
 visualizing snow cover from remotely sensed data products. See the
-commented code for the script as to how this was formed from an original raw 256 level scale. Note that the first color in this table is grey and is
-designed to represent the minimum value of the range ( e.g. 0).
-If the image is in  percent snow cover then \code{zlim=c(0,100)}
+commented code for the script as to how this was formed from an original raw 256-level scale. Note that the first color in this table is grey and is
+designed to represent the minimum value of the range (e.g., 0).
+If the image is in percent snow cover, then \code{zlim=c(0,100)}
 would make sense as a range to fit grey pixels to zero and white to 100 percent.
 
 See \code{data(Mines.colors)} to define the data sets that are 
 web colors for Colorado School of Mines. Note that since these are defined 
-as text strings do _not_ quote them when using them in the R graphics functions 
+as text strings, do _not_ quote them when using them in the R graphics functions 
 -- they are already character data.
-E.g. \code{plot(x,y, col=blasterBlue)}
+E.g., \code{plot(x,y, col=blasterBlue)}
 
-\code{designer.color} is the master function for the other scales. 
+\code{designer.colors} is the master function for the other scales. 
  It can be useful if one wants to customize the color
-table to match quantiles of a distribution.  e.g. if the median of the
-data is at .3 with respect to the range then set \code{x} equal to
+table to match quantiles of a distribution. E.g., if the median of the
+data is at .3 with respect to the range, then set \code{x} equal to
 c(0,.3,1) and specify two colors to provide a transition that matches
-the median value. In fields language this function interpolates
+the median value. In fields language, this function interpolates
 between a set of colors at locations x. While you can be creative
-about these colors just using another color scale as the basis is
-easy. For example
+about these colors, just using another color scale as the basis is
+easy. For example,
 
-\code{designer.color( 256, rainbow(4), x= c( 0,.2,.8,1.0))}
+\code{designer.colors( 256, rainbow(4), x= c( 0,.2,.8,1.0))}
 
 leaves the choice of the colors to Dr. R after a thunderstorm.
 See also \code{colorBrewer} to choose sequences of colors that form a good palette. 
@@ -175,7 +175,7 @@ across several vectors by specifying a common \code{zlim} range.
 A vector giving the colors in a hexadecimal format; two extra hex
 digits are added for the alpha channel.
 
-Or in the case of \code{Mines.colors}
+Or, in the case of \code{Mines.colors}
 a set of character strings loaded as separate objects with the color name. Use \code{ls()} to list them out.
 }
 \seealso{ topo.colors, terrain.colors, image.plot, imagePlot,  quilt.plot,
@@ -212,7 +212,8 @@ plot( loc, col=colorMap, pch=16, cex=2)
 #  add a color scale
  image.plot(legend.only=TRUE, zlim=range( Z), col=tim.colors(10))
 
-# using tranparency without alpha the image plot would cover points
+# using transparency without alpha, the image
+# plot would cover points
 
 obj<- list( x= 1:8, y=1:10, z= outer( 1:8, 1:10, "+") )
 plot( 1:10,1:10)

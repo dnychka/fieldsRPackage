@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -35,7 +35,7 @@ locations.
 \code{PRISMelevation} and \code{RMelevation} are gridded elevations for the 
 continental US and Rocky Mountain region at 4km resolution. 
 Note that the gridded elevations from the PRISM data product are
-different than the exact station elevations. (See example below.)
+different from the exact station elevations. (See example below.)
 }
 
 \format{
@@ -52,7 +52,7 @@ Station elevation in meters.
 }
 \item{y}{
 Monthly total precipitation in millimeters
-for August, 1997
+for August 1997
 }
 }
 
@@ -76,9 +76,9 @@ Average  elevation for grid cell in meters
 These elevations and the companion grid formed the basis for the
 103-Year High-Resolution Precipitation Climate Data Set for the
 Conterminous United States
-( see \url{https://prism.oregonstate.edu/documents/PRISM_downloads_FTP.pdf}
+(see \url{https://prism.oregonstate.edu/documents/PRISM_downloads_FTP.pdf}
 and also archived at the National
-Climate Data Center. This work is authored by Chris Daly
+Climate Data Center). This work is authored by Chris Daly
 \url{https://prism.oregonstate.edu} and his PRISM group but has some
 contribution from the Geophysical Statistics Project at NCAR
 and is an interpolation of the observational data to a 4km grid that

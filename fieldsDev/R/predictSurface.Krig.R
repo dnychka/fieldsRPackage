@@ -56,7 +56,7 @@
 # if XMatGrid is NULL just returns that back 
     XMat<- unrollXMatGrid( grid.list, XMatGrid) 
     xg <- make.surface.grid(grid.list)
-# NOTE: the predict function called will need to do some internal  the checks
+# NOTE: the predict function called will need to do some internal checks
 # whether the evaluation of a large number of grid points (xg)  makes sense.
   if( verbose){
     print( dim( xg))

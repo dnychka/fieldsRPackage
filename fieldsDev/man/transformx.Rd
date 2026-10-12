@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -38,21 +38,21 @@ transformx (x, scale.type = "unit.sd", x.center, x.scale)
 Matrix with columns to be transformed.
 }
 \item{scale.type}{
-Type of transformation the default is "unit.sd": subtract the mean and 
+Type of transformation; the default is "unit.sd": subtract the mean and 
 divide by the standard deviation. 
-Other  choices are "unscaled" (do nothing),  "range" (transform to 
-[0,1]),"user" (subtract a supplied location and divide by a scale).
+Other choices are "unscaled" (do nothing), "range" (transform to
+[0,1]), "user" (subtract a supplied location and divide by a scale).
 }
 \item{x.center}{
 A vector of centering values to subtract from each column. 
 }
 \item{x.scale}{
-A vector of scaling values to subtract from each column.
+A vector of scaling values to divide into each column.
 }
 }
 \value{
 A matrix whose columns have been transformed.
-This matrix also has the attributes: scale.type, x.center and y.center 
+This matrix also has the attributes: scale.type, x.center and x.scale 
 with the transformation information. 
 }
 \details{
@@ -60,7 +60,7 @@ After deciding what the centering and scaling values should be for each
 column of x, this function just calls the standard utility scale. 
 This function was created partly to attach the transformation information 
 as attributes to the transformed matrix. It is used in Krig, cover.design, 
-krig.image etc. to transform the independent variables.   
+krig.image, etc. to transform the independent variables.   
 }
 \seealso{
 scale

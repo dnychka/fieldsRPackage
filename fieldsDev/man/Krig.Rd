@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -73,20 +73,20 @@ resid.Krig(object,...)
 
 
 \item{chol.args}{
-Arguments to be passed to the cholesky decomposition in Krig.engine.fixed.
+Arguments to be passed to the Cholesky decomposition in Krig.engine.fixed.
 The default if NULL, assigned at the top level of this function, is
 list( pivot=FALSE). This argument is useful when working with
 the sparse matrix package. }
 
 
 \item{cov.args}{
-A list with the arguments to call the covariance function. (in addition to the locations)
+A list with the arguments to call the covariance function (in addition to the locations).
 }
 \item{cov.function}{
 Covariance function for data in the form of an R function (see
 Exp.simple.cov as an example).
 Default assumes that correlation is an exponential function of distance.
-See also \code{stationary.cov} for more general choice of covariance
+See also \code{stationary.cov} for more general choices of covariance
 shapes. \code{exponential.cov} will be faster if only the exponential
 covariance form is needed.
 }
@@ -97,21 +97,21 @@ usual GCV function.
 }
 \item{df}{
 The effective number of parameters for the fitted surface. Conversely,
-N- df, where N is the total number of observations is the degrees of
+N - df, where N is the total number of observations, is the degrees of
 freedom associated with the residuals.
 This is an alternative to specifying lambda and much more interpretable.
 NOTE: GCV argument defaults to TRUE if this argument is used.
 }
 
-\item{GCV}{ If TRUE matrix decompositions are done to allow estimating
+\item{GCV}{ If TRUE, matrix decompositions are done to allow estimating
 lambda by GCV or REML and specifying smoothness by the effective degrees of
-freedom. So the GCV switch does more than just supply a GCV estimate. Also if
-lambda or df are passed the estimate will be evaluated at those values,
+freedom. So the GCV switch does more than just supply a GCV estimate. Also, if
+lambda or df are passed, the estimate will be evaluated at those values,
 not at the GCV/REML estimates of lambda.
-If FALSE Kriging  estimate is found under a fixed lambda model. }
+If FALSE, the Kriging estimate is found under a fixed lambda model. }
 
-\item{give.warnings}{ If TRUE warnings are given in gcv grid search limits.
-If FALSE warnings are not given. Best to leave this TRUE!
+\item{give.warnings}{ If TRUE, warnings are given about GCV grid search limits.
+If FALSE, warnings are not given. Best to leave this TRUE!
 This argument is set to FALSE if warn is less than zero in the
 top level, R  options function. See options()$warn}
 
@@ -119,7 +119,7 @@ top level, R  options function. See options()$warn}
 \item{lambda}{
 Smoothing parameter that is the ratio of the error variance (tau**2)
 to the scale parameter of the
-covariance function (sigma). If omitted this is estimated by GCV ( see
+covariance function (sigma). If omitted, this is estimated by GCV ( see
 method below).
 }
 
@@ -139,7 +139,7 @@ differences are explained below.
 
 
 \item{mean.obj}{
-Object to predict the mean of the spatial process. This used in when
+Object to predict the mean of the spatial process. This is used when
 fitting a correlation model with varying spatial means and varying
 marginal variances. (See details.)
 }
@@ -150,13 +150,13 @@ marginal variances. (See details.)
 A polynomial function of degree (m-1) will be
 included in the model as the drift (or spatial trend) component.
 The "m" notation is from thin-plate splines where m is the
-derivative in the penalty function. With m=2 as the default a linear
+derivative in the penalty function. With m=2 as the default, a linear
 model in the locations  will be fit as a fixed part of the model.
 }
 
-\item{na.rm}{If TRUE NAs will be removed from the \code{y} vector and the
+\item{na.rm}{If TRUE, NAs will be removed from the \code{y} vector and the
 corresponding rows of \code{x} -- with a warning.
-If FALSE Krig will just stop with a message. Once NAs are removed all
+If FALSE, Krig will just stop with a message. Once NAs are removed, all
 subsequent analysis in fields does not use those data. }
 
 \item{nstep.cv}{ Number of grid points for the coarse grid search to
@@ -169,7 +169,7 @@ described below.  }
 \item{null.args}{ Extra arguments for the null space function
 \code{null.function}.  If \code{fields.mkpoly} is passed as
 \code{null.function} then this is set to a list with the value of
-\code{m}. So the default is use a polynomial of degree m-1 for the
+\code{m}. So the default is to use a polynomial of degree m-1 for the
 null space (fixed part) of the model.  }
 
 \item{null.function}{
@@ -189,9 +189,9 @@ Scale factor for covariance.
 \item{scale.type}{
 This is a character string among: "range", "unit.sd", "user", "unscaled".
 The independent variables and knots are scaled to the specified scale.type.
-By default no scaling is done. This usually makes sense for spatial locations.
+By default, no scaling is done. This usually makes sense for spatial locations.
 Scale type of "range" scales the data to the interval (0,1) by forming
-(x-min(x))/range(x) for each x. Scale type of "unit.sd"
+(x-min(x))/range(x) for each x. Scale type of "unit.sd" scales each variable to have mean 0 and standard deviation 1.
 Scale type of "user" allows specification of an x.center and x.scale by the
 user. The default for "user" is mean 0 and standard deviation 1. Scale
 type of "unscaled" does not scale the data.
@@ -203,24 +203,24 @@ Object to predict the marginal standard deviation of the spatial process.
 
 \item{tau2}{
 Variance of the errors, often called the nugget variance. If weights are
-specified then the error variance is tau2 divided by weights.
+specified, then the error variance is tau2 divided by weights.
 Note that lambda is defined as the ratio  tau2/sigma.
 }
 
 \item{verbose}{
-If true will print out all kinds of intermediate stuff. Default is false,
-of course as this is used mainly for debugging.
+If TRUE, will print out all kinds of intermediate stuff. Default is FALSE,
+of course, as this is used mainly for debugging.
 }
 
 \item{weights}{
 Weights are proportional to the reciprocal variance of the measurement
-error. The default is equal weighting i.e. vector of unit weights.
+error. The default is equal weighting, i.e., a vector of unit weights.
 }
 
 \item{wght.function}{
-An R function that creates a weights matrix to the observations.
-This is only needed if the weight matrix has off diagonal elements.
-The default is NULL indicating that the weight matrix is a diagonal, based
+An R function that creates a weights matrix for the observations.
+This is only needed if the weight matrix has off-diagonal elements.
+The default is NULL, indicating that the weight matrix is a diagonal, based
 on the weights argument. (See details)
 }
 
@@ -231,7 +231,7 @@ Optional arguments to be passed to the weight function  (wght.function)
 used to create the observation weight matrix.}
 
 \item{x}{
-Matrix of independent variables. These could the locations for spatial
+Matrix of independent variables. These could be the locations for spatial
 data or the independent variables in a regression.
 }
 
@@ -250,7 +250,7 @@ response in a regression.
 }
 \item{XMat}{
 A vector or matrix of covariates to be included in the fixed part of the
-model. If NULL (default) no additional covariates are included.}
+model. If NULL (default), no additional covariates are included.}
 
 \item{Z}{ This is the old argument for the fixed part of the model and is deprecated.
 It has been changed to
@@ -258,7 +258,7 @@ XMat above.}
 
 \item{\dots}{
  Optional arguments that appear are assumed to be additional arguments
-to the covariance function. Or are included in methods functions (resid,
+to the covariance function, or are included in method functions (resid,
 fitted, coef) as a
 required argument.}
 
@@ -372,7 +372,8 @@ Estimated standard deviation of the measurement error (nugget effect).
 Estimated variance of the measurement error (tauHat**2).
 }
 \item{sigma}{
-Scale factor for covariance.  COV(h(x),h(x\code{)) = sigma*cov.function(x,x})
+Scale factor for covariance.  \code{COV(h(x),h(x)) = sigma*cov.function(x,x)}
+
 If the covariance is actually a
 correlation function then sigma is also the "sill".
 }
@@ -388,7 +389,9 @@ measurement error and the scale factor for covariance used in the fit.
 
 This function produces an object of class Krig. With this object it is
 easy to subsequently predict with this fitted surface, find standard
-errors, alter the y data ( but not x), etc.
+errors, alter the y data (but not x), etc. It is the original version of 
+Kriging implemented in fields and we recommend using the more current function
+\code{\link{spatialProcess}} instead. 
 
 The Kriging model is: Y.k= f(x.k) = P(x.k) + XMat(x.k) + e.k
 
@@ -397,24 +400,24 @@ at location x.k, P is a low order polynomial, XMat is a mean zero, Gaussian
 field with covariance function K and e is assumed to be independent
 normal errors. The estimated surface is the best linear unbiased
 estimate (BLUE) of f(x)= P(x) + XMat(x) given the observed data. For this
-estimate K, is taken to be sigma*cov.function and the errors have variance
-tau**2. In more conventional geostatistical terms sigma is the "sill" if
+estimate, K is taken to be sigma*cov.function and the errors have variance
+tau**2. In more conventional geostatistical terms, sigma is the "sill" if
 the covariance function is actually a correlation function and tau**2
 is the nugget variance or measurement error variance (the two are confounded
-in this model.)  If the weights are given then the variance of e.k is
+in this model). If the weights are given, then the variance of e.k is
 tau**2/ weights.k . In the case that the weights are specified as a
-matrix, W, using the wght.function option then the assumed covariance
+matrix, W, using the wght.function option, then the assumed covariance
 matrix for the errors is tau**2 Wi, where Wi is the inverse of W. It
 is straightforward to show that the estimate of f only depends on tau
 and sigma through the ratio lambda = tau**2/ sigma. This parameter, termed
 the smoothing parameter, plays a central role in the statistical
 computations within \code{Krig}. See also the help for thin plate
-splines, (\code{Tps}) to get another perspective on the smoothing
+splines (\code{Tps}) to get another perspective on the smoothing
 parameter.
 
 This function also supports a modest extension of the Generalized
 Kriging model to include other covariates as fixed regression type
-components. In matrix form Y = XMatb + F + E where XMat is a matrix of
+components. In matrix form, Y = XMat b + F + E where XMat is a matrix of
 covariates and b a fixed parameter vector, F the vector of function values at
 the observations and E a vector of errors. The \code{XMat} argument in
 the function is the way to specify this additional component.
@@ -422,9 +425,9 @@ the function is the way to specify this additional component.
 If the parameters sigma and tau2 are omitted in the call, then they are
 estimated in the following way. If lambda is given, then tau2 is
 estimated from the residual sum of squares divided by the degrees of
-freedom associated with the residuals.  Rho is found as the difference
+freedom associated with the residuals.  Sigma squared, the process variance, is found as the difference
 between the sums of squares of the predicted values having subtracted off
-the polynomial part and tau2. These estimates are the MLE's under Gaussian
+the polynomial part and tau2. These estimates are the MLEs under Gaussian
 assumptions on the process and errors.
  If lambda is also omitted, it is estimated
 from the data using a variety of approaches and then the values for tau
@@ -434,7 +437,7 @@ A useful extension of a stationary correlation to a nonstationary
 covariance is what we term a correlation model.
 If mean and marginal standard deviation objects are included in the call, then the observed data is standardized based on these functions.  The
 spatial process is then estimated with respect to the standardized scale.
-However for predictions and standard errors the mean and standard
+However, for predictions and standard errors the mean and standard
 deviation surfaces are used to produce results in the original scale of
 the observations.
 
@@ -443,13 +446,13 @@ observations are present or if one uses a reduced set of knots.  Here are the
 choices based on the method argument:
 
 GCV: leave-one-out GCV. But if
-there are replicates it is leave one group out. (Wendy and Doug prefer
+there are replicates, it is leave-one-group-out. (Wendy and Doug prefer
 this one.)
 
 GCV.one: Really leave-one-out GCV even if there are replicate
 points.  This is what the old tps function used in FUNFITS.
 
-rmse: Match the estimate of tau**2 to an external value ( called rmse)
+rmse: Match the estimate of tau**2 to an external value (called rmse).
 
 pure error: Match the estimate of tau**2 to the estimate based on
 replicated data (pure error estimate in ANOVA language).
@@ -465,8 +468,8 @@ found from this criterion. Restricted means that the likelihood is formed from a
 column space of P(x).
 
 
-WARNING: The covariance functions often have a nonlinear parameter(s) that
-often control the strength of the correlations as a function of separation,
+WARNING: The covariance functions often have nonlinear parameter(s) that
+control the strength of the correlations as a function of separation,
 usually referred to as the range parameter. This parameter must be
 specified in the call to Krig and will not be estimated.
 

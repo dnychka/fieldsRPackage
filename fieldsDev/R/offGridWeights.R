@@ -32,7 +32,7 @@ offGridWeights<-function(s, gridList, NNSize=2,
   #  This is a wrapper function to distinguish between the 
   # 1D and 2D cases. The 1D is useful to follow the algorithm 
   # details but typically not needed in practice. The 2D is 
-  # the workhorse for fast approximation simulation of a stationary
+  # the workhorse for fast approximate simulation of a stationary
   # spatial process on a regular grid combined with irregular 
   # observations
   # 

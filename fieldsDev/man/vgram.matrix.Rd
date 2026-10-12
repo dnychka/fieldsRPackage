@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -39,8 +39,8 @@ vgram.matrix(dat, R = NULL, dx = NULL, dy = NULL)
 }
 \arguments{
 \item{dat}{
-Either a matrix spacing of rows and columns are assumed to have the same 
-distance or a list in image format with components x, y and z. 
+Either a matrix, where the spacing of rows and columns is assumed to be the same
+distance, or a list in image format with components x, y and z. 
 }
 \item{R}{
 Maximum radius for finding variogram differences assuming that the grid
@@ -50,8 +50,8 @@ radius of \code{5*max( c(dx, dy) )}.
 
 \item{dx}{
 The spacing of grid points on the X axis. This is used to calculate the 
-correct distance between grid points. If dx is not equal to dy then the 
-collapse argument must be FALSE. If an image object is passed and dx and dy are not specified they will be calculated from the x and y components of the image
+correct distance between grid points. If dx is not equal to dy, then the 
+collapse argument must be FALSE. If an image object is passed and dx and dy are not specified, they will be calculated from the x and y components of the image
 list.
 }
 \item{dy}{ The spacing of grid points on the Y axis.
@@ -70,22 +70,22 @@ and vgram, the variogram values. This is the traditional variogram
 ignoring direction.  
 
 d.full, a vector of distances for all possible shifts up to distance R,
- ind, a two column matrix giving the x and y increment used to compute
+ ind, a two-column matrix giving the x and y increment used to compute
 the shifts,  and vgram.full, the variogram at each of these 
 separations. Also computed is vgram.robust, Cressie's version of a robust 
 variogram statistic.
 
-Also returned is the component N the number of differences found for each
+Also returned is the component N, the number of differences found for each
 separation case.
 
 }
 
 \details{
 For the "full" case 
-the statistics can summarize  departures from 
+the statistics can summarize departures from 
 isotropy by separating the variogram differences according to 
 orientation. For small R this runs efficiently because the differences are 
-found by sub-setting the image matrix.  
+found by subsetting the image matrix.  
 
 For example, suppose that a row of the ind matrix is 
 (2,3). The variogram value associated with this row is the mean of  

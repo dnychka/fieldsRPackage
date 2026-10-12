@@ -48,7 +48,7 @@
     
     # Convert grid.list to the full set of locations
     xg <- make.surface.grid(grid.list)
-    # NOTE: the predict function called will need to do some internal  the checks
+    # NOTE: the predict function called will need to do some internal checks
     # whether the evaluation of a large number of grid points (xg)  makes sense.
     if( verbose){
       print( dim( xg))
@@ -56,7 +56,7 @@
     }
 #    
 # Next call is fragile as it assumes the predictSE method includes
-# a  XMat argument  (even if it will often just be NULL )
+# an XMat argument  (even if it will often just be NULL )
       out0<- predictSE(object, xg, XMat=XMat, ...)
 # coerce back into image format      
       out <-  as.surface( xg, out0)

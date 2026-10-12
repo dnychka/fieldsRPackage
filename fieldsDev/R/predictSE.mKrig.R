@@ -68,7 +68,7 @@ predictSE.mKrig<- function(object, xnew = NULL,
   # to be done separately for each column of k0
   hold <- mKrig.coef(object, y = k0, collapseFixedEffect=FALSE)
   #print( hold$beta)
-  # temp0 are marginal variances -- trival in the stationary case!
+  # temp0 are marginal variances -- trivial in the stationary case!
   temp0<- sigma2 * do.call(call.name,
                             c(object$args, 
                               list(x1 = xnew, marginal = TRUE))) 

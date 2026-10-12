@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -28,7 +28,7 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 Maximizes likelihood for the process marginal variance (sigma) and
- nugget standard deviation (tau) parameters (e.g. lambda) over
+ nugget standard deviation (tau) parameters (e.g., lambda) over
  many covariance models or covariance parameter values.
 }
 \description{
@@ -69,7 +69,7 @@ mKrigJointTemp.fn(parameters, mKrig.args, cov.args, parTransform,
 }
 %- maybe also 'usage' for other objects documented here.
 \arguments{
- \item{capture.env}{For the ML objective function the frame to save the results of the evaluation. This should be the environment of the function calling optim.}
+ \item{capture.env}{For the ML objective function, the frame to save the results of the evaluation. This should be the environment of the function calling optim.}
  
 \item{CIlevel}{ Confidence level.}
 \item{cov.function}{
@@ -78,8 +78,8 @@ The name, a text string, of the covariance function.
 \item{cov.args}{
 The  arguments that would also be included in calls
   to the covariance function to specify the fixed part of 
-  the covariance model. This is the form of a list
-  E.g.\code{cov.args= list( aRange = 3.5)}
+  the covariance model. This is in the form of a list,
+  e.g., \code{cov.args= list( aRange = 3.5)}.
 }
 
 
@@ -88,22 +88,25 @@ The  arguments that would also be included in calls
 A list of initial starts for covariance parameters  to perform likelihood maximization.  The list 
   contains the names of the parameters as well as the values.
   It usually makes sense to optimize over the important lambda  parameter
-  (tau^2/ sigma^2)  in most spatial applications and
-  so if \code{lambda}  is omitted then the component
+  (tau^2/ sigma^2)  in most spatial applications, and
+  so if \code{lambda} is omitted, then the component
   \code{lambda = .5} is added to this list. 
 }
  
-\item{hessian}{If TRUE return the BFGS approximation to the hessian 
+\item{hessian}{If TRUE, return the BFGS approximation to the Hessian 
 matrix at convergence.} 
 
 \item{iseed}{ Sets the random seed in finding the approximate 
 Monte Carlo based GCV function and the effective degrees of freedom. This will not affect random number generation outside these functions. 
 }
 
-\item{mKrig.args}{A list of additional parameters to supply to the \code{mKrig} function. E.g.\code{ mKrig.args= list( m=1) }to set the regression function to be a constant function.
+\item{mKrig.args}{A list of additional parameters to supply to the \code{mKrig}
+function.
+E.g., Use \code{ mKrig.args= list( m=1) } to set the regression function to be
+a constant function.
 
 \code{mKrig} function that are distinct from the covariance model. 
-For example \code{mKrig.args= list( m=1 )} will set the polynomial to be 
+For example, \code{mKrig.args= list( m=1 )} will set the polynomial to be 
 just a constant term (degree = m - 1 = 0).
 Use  \code{mKrig.args= list( m = 0 )} to omit a fixed model and assume the observations have an expectation of zero. 
 }
@@ -133,7 +136,8 @@ Additional arguments that would also be included in calls
 A list or data frame with components being parameters for
   different covariance models. A typical component is "aRange"
   comprising a vector of scale parameters to try. If par.grid
-  is "NULL" then the covariance model is fixed at values that
+  is "NULL", then the covariance
+ model is fixed at values that
   are given in \dots.
 }
 
@@ -144,73 +148,73 @@ A list or data frame with components being parameters for
 
 \item{parTransform}{A function that maps the parameters to a scale
 for optimization or
-effects the inverse map from the transformed scale into the original values. See below for more details. 
+performs the inverse map from the transformed scale into the original values. See below for more details. 
 }
 
 \item{reltol}{Optim BFGS convergence criterion.}
 
-\item{REML}{If TRUE use REML instead of the full log likelihood.}
+\item{REML}{If TRUE, use REML instead of the full log likelihood.}
 
 \item{GCV}{NOT IMPLEMENTED YET!
 A placeholder to implement optimization using an approximate cross-validation criterion. }
  
 
 
-\item{verbose}{If \code{TRUE} print out interesting intermediate results.
+\item{verbose}{If \code{TRUE}, print out interesting intermediate results.
 }
 
 \item{weights}{
-Precision ( 1/variance) of each observation
+Precision (1/variance) of each observation
 }
 
   \item{x}{
 
-Matrix of unique spatial locations (or in print or surface 
-  the returned mKrig object.)
+Matrix of unique spatial locations (or, in print or surface,
+  the returned mKrig object).
 }
 
   \item{y}{
 Vector or matrix of observations at spatial locations, 
   missing values are not allowed! Or in mKrig.coef a new 
-  vector of observations. If y is a matrix the columns are 
+  vector of observations. If y is a matrix, the columns are 
   assumed to be independent observation vectors generated 
   from the same covariance and measurement error model.
 }
 
 \item{XMat}{
-Linear covariates to be included in fixed part of the 
+Linear covariates to be included in the fixed part of the 
   model that are distinct from the default low order 
   polynomial in \code{x}
 }
 
 \item{XMatCommon}{
-Linear covariates to be included in fixed part of the 
+Linear covariates to be included in the fixed part of the 
   model where a common parameter is estimated across all realizations.
-  This option only makes sense for multiple realizations ( y is a matrix).
+  This option only makes sense for multiple realizations (y is a matrix).
 }
 
 }
 \details{
-The observational model follows the same as that described in the
-\code{Krig} function and thus the two primary covariance parameters
+The observational model is the same as that described in the
+\code{Krig} function, and thus the two primary covariance parameters
 for a stationary model are the nugget standard deviation (tau) and
 the marginal variance of the process (sigma). It is useful to
 reparametrize as \code{sigma} and  \code{ lambda = tau^2/sigma}.
 The likelihood can be
 maximized analytically over sigma and the parameters in the fixed part
-of the model, this estimate of sigma can be substituted back into the
+of the model; this estimate of sigma can be substituted back into the
 likelihood to give an expression that is just a function of lambda and
 the remaining covariance parameters. This operation is called concentrating the likelihood by maximizing over a subset of parameters.
 
-For these kinds of computations there has to be some device to identify parameters that are fixed and those that are optimized. For \code{mKrigMLEGrid} and \code{mKrigMLEJoint} the list \code{cov.args} should have the fixed parameters.
-For example this is how to fix a lambda value in the model. The list
+For these kinds of computations, there has to be some device to identify parameters that are fixed and those that are optimized. For \code{mKrigMLEGrid} and \code{mKrigMLEJoint}, the list \code{cov.args} should have the fixed parameters.
+For example, this is how to fix a lambda value in the model. The list
 \code{cov.params.start} should be a list with all parameters to optimize. The values for each component are used as the starting values. This is how the \link{optim} function works.
 
-These functions may compute  the effective degrees of freedom 
-( see \code{ \link{mKrig.trace}} )  using
-the random trace method and so need to generate some random normals. The \code{iseed} argument can be used to set the seed for this with the default being the seed  \code{303}. Note that the random number generation internal to these functions  is coded so that it does not affect the random number stream outside these function calls. 
+These functions may compute the effective degrees of freedom
+(see \code{\link{mKrig.trace}}) using
+the random trace method and so need to generate some random normals. The \code{iseed} argument can be used to set the seed for this with the default being the seed  \code{303}. Note that the random number generation internal to these functions is coded so that it does not affect the random number stream outside these function calls. 
 
-For \code{mKrigMLEJoint} the 
+For \code{mKrigMLEJoint}, the 
  default transformation of the parameters is set up for a log/exp transformation:
 \preformatted{
  parTransform <- function(ptemp, inv = FALSE) {
@@ -260,9 +264,9 @@ Douglas W. Nychka, John Paige
 
 \seealso{
 %% ~~objects to See Also as \code{\link{help}}, ~~~
-\code{\link{mKrig}}
-\code{\link{Krig}}
-\code{\link{stationary.cov}}
+\code{\link{mKrig}},
+\code{\link{Krig}},
+\code{\link{stationary.cov}},
 \code{\link{optim}}
 }
 
@@ -345,7 +349,7 @@ obj<- spatialProcess( ozone2$lon.lat,ozone2$y[16,] )
 ######### boot strap 
   set.seed(123)
   M<- 25
-# create M indepedent copies of the observation vector
+# create M independent copies of the observation vector
   ySynthetic<- simSpatialData( obj, M)
   bootSummary<- NULL
   
@@ -376,7 +380,7 @@ obj<- spatialProcess( ozone2$lon.lat,ozone2$y[16,] )
 }
 \dontrun{
 #perform joint likelihood maximization over lambda, aRange, and smoothness.  
-#note: finding smoothness is not a robust optimiztion 
+#note: finding smoothness is not a robust optimization 
 #      can get a bad answer with poor initial guesses.
 obj2<- mKrigMLEJoint(x,Y, 
                       cov.args=list(Covariance="Matern"), 

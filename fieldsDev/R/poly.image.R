@@ -65,7 +65,7 @@ poly.image <- function(x, y, z, col = tim.colors(64),
     # if midpoint is true z values will be averaged first
     zcol <- drape.color(z, col = col, midpoint = midpoint, zlim = zlim, 
         transparent.color = transparent.color, breaks = breaks)$color.index
-    # blank if not adding to an exising plot
+    # blank if not adding to an existing plot
     if (!add) {
         plot(xlim, ylim, type = "n",asp=asp,  ...)
     }

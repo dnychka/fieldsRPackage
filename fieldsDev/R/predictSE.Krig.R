@@ -90,7 +90,7 @@
                                                  c(object$args, list(x1 = xM, x2 = x))))
     temp2 <- colSums(wght.vec * (Cov.y %*% wght.vec))
     #
-    # find marginal variances -- trival in the stationary case!
+    # find marginal variances -- trivial in the stationary case!
     # Note that for the case of the general covariances
     # as radial basis functions (RBFs) temp0 should be zero.
     # Positivity results from the generalized divided difference

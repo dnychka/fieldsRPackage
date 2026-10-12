@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@ Surface temperature sensitivity from the NCAR Climate model.
 Based on  the NCAR Earth System Model (CESM).
 The local change in surface temperature (C) expected by a 1 degree change in the global average.
 This statistic is referred to as the climate sensitivity and was found by
-OLS regression on a 30 member ensemble of climate runs.
+OLS regression on a 30-member ensemble of climate runs.
 }
 %\usage{data(NorthAmericanRainfall)}
 \format{
@@ -48,26 +48,26 @@ OLS regression on a 30 member ensemble of climate runs.
 \source{
 The CESM Large Ensemble Project, led by Clara Deser and Jennifer Kay,
 is a publicly available set of climate model simulations intended for
-understanding  variability in the Earth's climate system and climate change.
+understanding variability in the Earth's climate system and climate change.
 See \url{https://www.cesm.ucar.edu/community-projects/lens} for background.
 
 All simulations are performed with the nominal 1-degree latitude/longitude version
 of the Community Earth System Model version 1 (CESM1) with CAM5.2 as its atmospheric
-component. Each member is subject to the same radiative forcing scenario
-historical up to 2005 and RCP8.5 thereafter. Here the main component of these scenarios is
+component. Each member is subject to the same radiative forcing scenario:
+historical up to 2005 and RCP8.5 thereafter. Here, the main component of these scenarios is
 the observed or projected greenhouse gas emissions leading to global warming.
 Each climate run begins from a slightly different
 initial atmospheric state, created by randomly perturbing temperatures at the level
-of round-off error. Even this subtle difference due to nonlinear dynamics
+of round-off error. Even this subtle difference, due to nonlinear dynamics,
 leads to climate simulations that can be assumed to be independent realizations.
 
-Here 30 members of the ensemble are summarized to give local sensitivity for the Northern Hemisphere
+Here, 30 members of the ensemble are summarized to give local sensitivity for the Northern Hemisphere
 summer months, June, July, and August (aka JJA).
 This involves a linear regression on the summer mean time series for each model grid box with the
 global summer average and for each ensemble member. The 30 slopes from the regressions for each
 grid box are averaged to get the sensitivity in this data set.
 
-See the fields package github repository for the R script that creates
+See the fields package GitHub repository for the R script that creates
 this data set from the model output.
 
 }

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -26,13 +26,13 @@
 %- Also NEED an '\alias' for EACH other topic documented here.
 \title{
 %%  ~~function to do ... ~~
-Robust and Quantile smoothing using a thin-plate spline
+Robust and quantile smoothing using a thin-plate spline
 }
 \description{
 %%  ~~ A concise (1-5 lines) description of what the function does. ~~
 This function uses the standard thin plate spline function \code{Tps} and an algorithm based on
 pseudo data to compute robust smoothers based on the Huber weight function. By modifying the
-symmetry of the Huber function and changing the scale one can also approximate a quantile
+symmetry of the Huber function and changing the scale, one can also approximate a quantile
 smoother. This function is experimental in that it is not clear how efficient the pseudo-data
 algorithm is at achieving convergence to a solution.
 }
@@ -51,16 +51,16 @@ Locations of observations.
   \item{Y}{
 Observations
 }
-\item{lambda}{Value of the smoothing parameter. If NA found by an approximate cross-validation criterion.}
+\item{lambda}{Value of the smoothing parameter. If NA, it is found by an approximate cross-validation criterion.}
 
   \item{\dots}{
 Any other arguments to pass to the Tps function, which are then passed to the Krig function. \code{ give.warnings =FALSE} can be used to turn off pesky warnings when not important (see example below).
 }
-  \item{C}{Scaling for huber robust weighting function. (See below.) Usually it is better to leave this at 1 and
+  \item{C}{Scaling for Huber robust weighting function. (See below.) Usually it is better to leave this at 1 and
 just modify the scale  \code{psi.scale} according to the size of the residuals. }
   \item{f.start}{
-The initial value for the estimated function. If NULL then the constant function at the
-median of \code{Y} will be used. NOTE: This may not be a very good starting vector and a more robust
+The initial value for the estimated function. If NULL, then the constant function at the
+median of \code{Y} will be used. NOTE: This may not be a very good starting vector, and a more robust
 method would be to use a local robust smoother.
 }
   \item{psi.scale}{
@@ -70,7 +70,7 @@ size of the residuals will cause the estimate to approximate a quantile spline. 
 ordinary least squares spline.
 }
   \item{alpha}{
-The quantile that is estimated by the spline. Default is .5 giving a median. Equivalently this parameter controls the slope of the linear wings in the Huber function  \code{2*alpha} for the positive wing and  \code{2*(1-alpha)}
+The quantile that is estimated by the spline. Default is .5, giving a median. Equivalently, this parameter controls the slope of the linear wings in the Huber function: \code{2*alpha} for the positive wing and  \code{2*(1-alpha)}
 for the negative wing.
 
 }
@@ -78,36 +78,36 @@ for the negative wing.
 Maximum number of iterations of the pseudo data algorithm
 }
   \item{tolerance}{
-Convergence criterion based on the relative change in the predicted values of the function estimate. Specifically if the criterion \code{mean(abs(f.hat.new - f.hat))/mean(abs(f.hat))} is less than  \code{tolerance} the iterations are stopped.
+Convergence criterion based on the relative change in the predicted values of the function estimate. Specifically, if the criterion \code{mean(abs(f.hat.new - f.hat))/mean(abs(f.hat))} is less than \code{tolerance}, the iterations are stopped.
 }
   \item{verbose}{
-If TRUE intermediate results are printed out.
+If TRUE, intermediate results are printed out.
 }
 }
 \details{
-These are experimental functions that use the pseudo-value algorithm to compute a class of robust and quantile problems.  \code{QTps} use the \code{Tps} function as its least squares base smoother while \code{QSreg} uses the efficient \code{sreg} for 1-D cubic smoothing spline models. Currently for the 1-d spline problem we recommend using the (or at least comparing to ) the old \code{qsreg} function. \code{QSreg} was created to produce a more readable version of the 1-d method that follows the thin plate spline format.
+These are experimental functions that use the pseudo-value algorithm to compute a class of robust and quantile problems.  \code{QTps} uses the \code{Tps} function as its least squares base smoother while \code{QSreg} uses the efficient \code{sreg} for 1-D cubic smoothing spline models. Currently, for the 1-d spline problem, we recommend using (or at least comparing to) the old \code{qsreg} function. \code{QSreg} was created to produce a more readable version of the 1-d method that follows the thin plate spline format.
 
 The Thin Plate Spline/ Kriging model through fields is: Y.k= f(x.k) = P(x.k) + XMat(x.k) + e.k
 
  with the goal of estimating the smooth function: f(x)= P(x) + XMat(x)
 
-The extension in this function is that e.k can be heavy tailed or have outliers and one would still like a
-robust estimate of f(x). In the quantile approximation (very small scale parameter) f(x) is an estimate of the
+The extension in this function is that e.k can be heavy-tailed or have outliers, and one would still like a
+robust estimate of f(x). In the quantile approximation (very small scale parameter), f(x) is an estimate of the
 alpha quantile of the conditional distribution of Y given x.
 
 The algorithm is iterative and involves at each step tapering the residuals in a nonlinear way.
-Let psi.wght  be this tapering function then given an initial estimate of f, f.hat the new data for smoothing is
+Let psi.wght be this tapering function; then, given an initial estimate of f, f.hat, the new data for smoothing is
 
-\code{ Y.psuedo<- f.hat + psi.scale* psi.wght( Y - f.hat, psi.scale=psi.scale, alpha=alpha)}
+\code{ Y.pseudo<- f.hat + psi.scale* psi.wght( Y - f.hat, psi.scale=psi.scale, alpha=alpha)}
 A thin plate spline is now estimated for these data and a new prediction for f is found. This new vector is
 used to define new pseudo values. Convergence is achieved when the subsequent estimates of f.hat do not
 change between iterations. The advantage of this algorithm is that at every step a standard "least squares" thin
-plate spline is fit to the pseudo data. Because only the observation vector is changing at each iteration
-Some matrix decompositions need only be found once and the computations at each subsequent iteration are efficient.
+plate spline is fit to the pseudo data. Because only the observation vector is changing at each iteration,
+some matrix decompositions need only be found once and the computations at each subsequent iteration are efficient.
 At convergence there is some asymptotic theory to suggest that the pseudo data can be fit using the least
-squares spline and the standard smoothing techniques are valid. For example one can consider looking at the
+squares spline and the standard smoothing techniques are valid. For example, one can consider looking at the
 cross-validation function for the pseudo-data as a robust version to select a smoothing parameter. This approach
-is different from the weighted least squares algorithm used in the \code{qsreg} function. Also \code{qsreg} is only
+is different from the weighted least squares algorithm used in the \code{qsreg} function. Also, \code{qsreg} is only
 designed to work with 1-d cubic smoothing splines.
 
 The  "sigma" function indicating the departure from a pure quadratic loss function  has the definition
@@ -129,7 +129,7 @@ The derivative of this function "psi" is
      temp
 }
 
-Note that if C is very small and if alpha = .5 then psi will essentially be 1 for r > 0 and -1 for  r < 0.
+Note that if C is very small and if alpha = .5, then psi will essentially be 1 for r > 0 and -1 for  r < 0.
 The key feature here is that outside a certain range the residual is
 truncated to a constant value. This is similar
  to the Winsorizing operation in classical robust statistics.
@@ -178,7 +178,7 @@ y<- ozone2$y[16,]
 # Smoothing fixed at 50 df
     look1<- QTps( x,y, psi.scale= 15, df= 50)
 
-\dontrun{
+
 # Least squares spline (because scale is so large)
     look2<- QTps( x,y, psi.scale= 100, df= 50)
 #
@@ -192,25 +192,29 @@ y<- ozone2$y[16,]
                            give.warnings= FALSE)
 #
     set.panel(2,2)
-    surface( look1)
+    par( mar=c(3,3,1,1))
+    surface( look1,
+    xlab="",ylab="")
     title("robust spline")
     surface( look2)
     title("least squares spline")
-    surface( look.outlier1,  zlim=c(0,250))
+    surface( look.outlier1,  zlim=c(0,250),
+    xlab="",ylab="")
     title("robust spline w/outlier")
-    points( rbind(x[58,]), pch="+")
-    surface( look.outlier2, zlim=c(0,250))
+    points( rbind(x[58,]), pch="+", cex=2,col="white")
+    surface( look.outlier2, zlim=c(0,250), 
+    xlab="",ylab=""
+    )
     title("least squares spline w/outlier")
-    points( rbind(x[58,]), pch="+")
+    points( rbind(x[58,]), pch="+",  cex=2,col="white")
     set.panel()
-}
+    
+\dontrun{
 # some quantiles
 look50 <- QTps( x,y, psi.scale=.5,)
 look75 <- QTps( x,y,f.start= look50$fitted.values, alpha=.75)
 
-
 # a simulated example that finds some different quantiles.
-\dontrun{
 set.seed(123)
 N<- 400
 x<- matrix(runif( N), ncol=1)
@@ -222,7 +226,6 @@ look0 <- QTps( x,y, psi.scale=10, df= 15)
 look50 <- QTps( x,y, df=15)
 look75 <- QTps( x,y,f.start= look50$fitted.values, df=15, alpha=.75)
 }
-
 \dontrun{
 # this example tests the quantile estimate by Monte Carlo
 # by creating many replicate points to increase the sample size.

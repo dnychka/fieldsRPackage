@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -62,13 +62,13 @@ points for possible swapping. The default is to use nearest neighbors
 only (nn=TRUE). 
 }
 \item{num.nn}{
-Number of nearest-neighbors to search over. The default number is 100.
-If nn=F then this argument will be ignored.
+Number of nearest neighbors to search over. The default number is 100.
+If nn=F, then this argument will be ignored.
 }
 \item{fixed}{
 A matrix or vector specifying points to be forced into the 
 experimental design. If fixed is a matrix, it gives coordinates of the 
-fixed points in the design. In this case fixed must be a subset of 
+fixed points in the design. In this case, fixed must be a subset of 
 R. If fixed is a vector, then fixed gives the row numbers from the 
 candidate matrix R that identify the fixed points. The number of 
 points to be generated, nd, is in addition to the number of points
@@ -78,7 +78,7 @@ specified by fixed.
 A character string that tells how to scale the candidate matrix, R, 
 before calculating distances. The default is "unscaled"; no
 transformation is done.
-Another option is "range" in which case
+Another option is "range", in which case
 variables are scaled to a [0,1] range before applying any distance
 functions. Use "unscaled"  when all of the columns of R 
 are commensurate; for example, when R gives x and y in spatial 
@@ -88,7 +88,7 @@ better design. This would be the case, for example, for a typical
 process optimization. Other choices for scale.type are 
 "unit.sd", which scales 
 all columns of R to have 0 mean and unit standard deviation, and 
-"user", which allows a user specified scaling (see R.center and R.scale
+"user", which allows a user-specified scaling (see R.center and R.scale
 arguments). 
 }
 \item{R.center}{
@@ -115,7 +115,7 @@ classical minimax design.
 \item{start}{
 A matrix or vector giving the initial design from which to start 
 optimization. If start is a matrix, it gives the coordinates of the 
-design points. In this case start must be a subset of the candidate set , R matrix.
+design points. In this case, start must be a subset of the candidate set, R matrix.
 If start is a
 vector, then start gives the row numbers of the initial design based on the rows of the
 candidate matrix. The
@@ -131,20 +131,20 @@ and example below for the correct form.
 \item{return.grid}{
 Logical value that tells whether or not to return the candidate matrix 
 as an attribute of the computed design. The default is return.grid=T. 
-If false this just reduces the returned object size. 
+If FALSE, this just reduces the returned object size. 
 The candidate matrix is used by plot.spatial.design if it is available. 
 }
 \item{return.transform}{
 Logical value that tells whether or not to return the transformation  
 attributes 
-of candidate set. The default is return.transform=T. 
+of the candidate set. The default is return.transform=T. 
 }
 \item{max.loop}{
 Maximum number of outer loops in algorithm. This is the maximum number of 
 passes through the design testing for swaps. 
 }
 \item{verbose}{
-If TRUE prints out debugging information.
+If TRUE, prints out debugging information.
 }
 
 }
@@ -191,7 +191,7 @@ The distance function used in calculating the design criterion.
 Logical value for nearest-neighbor search or not. 
 }
 \item{num.nn}{
-The number of nearest neighbor set. 
+The number of nearest neighbors set. 
 }
 \item{grid}{
 The matrix R is returned if the argument return.grid=T. 
@@ -231,11 +231,11 @@ distance metric. The expected calling sequence for this distance function
 is
 function( X1,X2)\{....\} where X1 and X2 are matrices with coordinates as
 the rows. The returned value of this function should be the pairwise
-distance  matrix. If nrow( X1)=m and nrow( X2)=n then the function should
+distance  matrix. If nrow( X1)=m and nrow( X2)=n, then the function should
 return an m by n matrix of all distances between these two sets of points.
 See the example for Manhattan distance below. 
 
-The candidate set and DIST function can be flexible and the last
+The candidate set and DIST function can be flexible, and the last
 example
 below using sample correlation matrices is an example. 
 
@@ -253,7 +253,7 @@ The algorithm used in
 criterion is an iterative swapping algorithm which will be described 
 briefly. The resulting design is referred to as a "coverage design" 
 from among the class of space-filling designs. If fixed points are
-specified they are simply fixed in the design set and are not allowed to be
+specified, they are simply fixed in the design set and are not allowed to be
 swapped out.
 
 ALGORITHM:
@@ -269,9 +269,9 @@ the vector of row sums as rs.  Using rs, M(D,C) is computed as:
 Note that if point d.i is "swapped" for point c.j, one must 
 only recompute 1 column of the original distance matrix, and 1 row. 
 The row elements not in the ith column will be the same for all j and 
-so only need computing when the first swapping occurs for each d.i . 
+so only need computing when the first swapping occurs for each d.i. 
 Denote the sum of these off-i elements as "newrow(i)".  The index is 
-i here since this is the same for all rows (j=1,...nc). 
+i here, since this is the same for all rows (j=1,...nc). 
 Thus, for each swap, the row sums vector is updated as 
 
   rs(new) = rs(old) - column(i,old) + column(i,new) 
@@ -281,8 +281,8 @@ And the jth element of rs(new) is replaced by:
   rs(new)[j] = column(i,new)[k] + newrow(i) 
 
 Finally, M(D,C) is computed for this swap of the ith design point 
-for the jth candidate point using [2].  The point in C that when 
-swapped produces the minimum value of M(D,C) replaces d.i. 
+for the jth candidate point using [2].  The point in C that, when
+swapped, produces the minimum value of M(D,C) replaces d.i. 
 This is done for all nd points in the design, and is iterated until 
 M(D,C) does not change. 
 When the nearest neighbor option is selected, then the points 
@@ -293,10 +293,10 @@ STABILITY
 
 The algorithm described above is guaranteed to converge.  However, upon
 convergence, the solution is sensitive to the initial configuration of
-points.  Thus, it is recommended that multiple optimizations be done (i.e.
-set nruns greater than 1 ).  Also, the quality of the solution depends on
+points.  Thus, it is recommended that multiple optimizations be done (i.e.,
+set nruns greater than 1).  Also, the quality of the solution depends on
 the density of the points on the region.  At the same time, for large
-regions , optimization can be computationally prohibitive unless the
+regions, optimization can be computationally prohibitive unless the
 nearest neighbor option is employed. 
 
 }
@@ -352,8 +352,9 @@ cd[h[,2],1],
 cd[h[,2],2],
 cd[h[,3],1],
 cd[h[,3],2],length=.1)
-text( cd[h[,2],1],
-cd[h[,2],2], h[,1], cex=1.0 )
+
+#text( cd[h[,2],1],
+#cd[h[,2],2], h[,1], cex=1.0 )
                                
 
 #

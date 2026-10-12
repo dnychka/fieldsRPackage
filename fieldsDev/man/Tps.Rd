@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,8 @@
 \description{
 Fits a thin plate spline surface to irregularly spaced data. The 
 smoothing parameter is chosen  as a default by generalized cross-validation. The assumed 
-model is additive  Y = f(X) +e  where f(X) is a d dimensional surface.
+model is additive  Y = f(X) +e  where f(X) is a d-dimensional surface
+.
 
 }
 \usage{
@@ -56,7 +57,7 @@ Vector of dependent variables.
 \item{m}{
 A polynomial function of degree (m-1) will be  
 included in the model as the drift (or spatial trend) component. 
-Default is the value such that 2m-d is greater than zero where d is the 
+Default is the value such that 2m-d is greater than zero, where d is the 
 dimension of x. 
 }
 
@@ -68,7 +69,7 @@ where d is the dimension of x.
 \item{scale.type}{
 The independent variables and knots are scaled to the specified 
 scale.type. 
-By default the scale type is "range", whereby 
+By default, the scale type is "range", whereby 
 the locations are transformed  
  to the interval (0,1) by forming (x-min(x))/range(x) for each x. 
 Scale type of "user" allows specification of an x.center and
@@ -77,12 +78,12 @@ user. The default for "user" is mean 0 and standard deviation 1. Scale
 type of "unscaled" does not scale the data.  
 }
 \item{aRange}{The tapering range that is passed to the Wendland compactly 
-supported covariance. The covariance (i.e. the radial basis function) is 
+supported covariance. The covariance (i.e., the radial basis function) is 
 zero beyond range aRange. The larger aRange, the closer this model will
 approximate the standard thin plate spline.}
 
-\item{lon.lat}{If TRUE locations are interpreted as longitude and
-latitude and great circle distance is used to find distances among
+\item{lon.lat}{If TRUE, locations are interpreted as longitude and
+latitude, and great circle distance is used to find distances among
 locations. The aRange scale parameter for \code{fast.Tps} (setting the
 compact support of the Wendland function) in this case is in units of
 miles (see example and caution below). }
@@ -92,28 +93,28 @@ miles (see example and caution below). }
      GCV.model, GCV.one, RMSE, pure error and REML. The differences
      are explained in the Krig help file.}
      
- \item{GCV}{If TRUE the decompositions are done to efficiently evaluate
+ \item{GCV}{If TRUE, the decompositions are done to efficiently evaluate
  the estimate, GCV function and likelihood at multiple values
  of lambda. }    
  
-\item{miles}{If TRUE great circle distances are in miles if FALSE
+\item{miles}{If TRUE, great circle distances are in miles; if FALSE,
 distances are in kilometers}
 
 
-\item{find.trA}{If TRUE will estimate the effective degrees of freedom
+\item{find.trA}{If TRUE, will estimate the effective degrees of freedom
 using a simple Monte Carlo method (random trace). This will add to the
 computational burden by approximately \code{NtrA} solutions of the
-linear system but
+linear system, but
 the Cholesky decomposition is reused.}
 
-\item{REML}{If TRUE find the MLE for lambda using restricted maximum likelihood instead of the full version. }
+\item{REML}{If TRUE, find the MLE for lambda using restricted maximum likelihood instead of the full version. }
 
 \item{theta}{ Same as aRange.}
   
-\item{\dots}{For \code{Tps} any argument that is valid for the
+\item{\dots}{For \code{Tps}, any argument that is valid for the
 \code{Krig} function. Some of the main ones are listed below.
 
-For \code{fastTps} any argument that is suitable for the \code{mKrig}
+For \code{fastTps}, any argument that is suitable for the \code{mKrig}
 function; see help on mKrig for these choices. The most common would be
 \code{lambda} fixing the value of this parameter (tau^2/sigma^2), \code{XMat} linear covariates or 
 \code{ mKrig.args= list( m=1)} setting the regression model to be just a constant function.
@@ -122,14 +123,14 @@ Arguments for Tps:
 \describe{
   \item{lambda}{ Smoothing parameter that is the ratio of the error
     variance (tau**2) to the scale parameter of the covariance
-    function. If omitted this is estimated by GCV. }
+    function. If omitted, this is estimated by GCV. }
 
-  \item{XMat}{Linear covariates to be included in fixed part of the model
+  \item{XMat}{Linear covariates to be included in the fixed part of the model
     that are distinct from the default low order polynomial in
     \code{x}}
 
   \item{df}{ The effective number of parameters for the fitted
-    surface. Conversely, N- df, where N is the total number of
+    surface. Conversely, N - df, where N is the total number of
     observations, is the degrees of freedom associated with the
     residuals.  This is an alternative to specifying lambda and much
     more interpretable.}
@@ -139,7 +140,7 @@ Arguments for Tps:
     corresponds to the usual GCV.}
 
   \item{weights}{ Weights are proportional to the reciprocal variance
-    of the measurement error. The default is no weighting i.e. vector
+    of the measurement error. The default is no weighting, i.e., a vector
     of unit weights. }
 
   \item{nstep.cv}{ Number of grid points for minimum GCV search. }
@@ -152,12 +153,12 @@ Arguments for Tps:
 
   \item{sigma}{Scale factor for covariance. }
 
-  \item{tau2}{ Variance of errors or if weights are not equal to 1
+  \item{tau2}{ Variance of errors or, if weights are not equal to 1,
      the variance is tau**2/weight.}
 
  
 
-   \item{verbose}{ If true will print out all kinds of intermediate
+   \item{verbose}{ If TRUE, will print out all kinds of intermediate
       stuff.  }
 
    \item{mean.obj}{ Object to predict the mean of the spatial
@@ -196,31 +197,30 @@ arguments.
 
 \strong{Overview}
 
-This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba. The computational algorithm is based around a QR decomposition followed by an eigen decomposition on a reduced matrix derived from the spline radial basis functions. This ensures a stable computation -- basically bombproof -- but is not the fastest. See the function \link{mKrig} and examples for fitting a thin plate spline using \link{spatialProcess} that uses a different linear algebra approach. This is implemented in the "fast" version, albeit an approximate version, to exploit sparse matrices.
+This is the classic nonparametric curve/surface estimate pioneered in statistics by Grace Wahba. The computational algorithm is based around a QR decomposition followed by an eigendecomposition on a reduced matrix derived from the spline radial basis functions. This ensures a stable computation -- basically bombproof -- but is not the fastest. See the function \link{mKrig} and examples for fitting a thin plate spline using \link{spatialProcess} that uses a different linear algebra approach. This is implemented in the "fast" version, albeit an approximate version, to exploit sparse matrices.
 
-This function also works for just a single dimension and reproduces the well-known cubic smoothing spline for \code{ m ==2}. Finally we note that a thin plate spline is a limiting case of a Gaussian process estimate as the range parameter in the Matern family increases to infinity.
-(Kriging). 
+This function also works for just a single dimension and reproduces the well-known cubic smoothing spline for \code{ m ==2}. Finally, we note that a thin plate spline is a limiting case of a Gaussian process estimate (Kriging) as the range parameter in the Matern family increases to infinity. 
 
-A "fast" version of this function uses a compactly supported Wendland covariance and sparse linear algebra for handling larger datta sets. Although a good approximation to Tps for sufficiently large aRange its actual form is very different from the textbook thin-plate definition. The user will see that \code{fastTps} is largely a wrapper for a call to \code{spatialProcess} with the Wendland covariance function. 
+A "fast" version of this function uses a compactly supported Wendland covariance and sparse linear algebra for handling larger data sets. Although a good approximation to Tps for sufficiently large aRange, its actual form is very different from the textbook thin-plate definition. The user will see that \code{fastTps} is largely a wrapper for a call to \code{spatialProcess} with the Wendland covariance function. 
 
 \strong{Background on the thin plate spline function, Tps}
 A thin plate spline is the result of minimizing the residual sum of 
 squares subject to a constraint that the function have a certain 
 level of smoothness (or roughness penalty). Roughness is 
 quantified by the integral of squared m-th order derivatives. For one 
-dimension and m=2 the roughness penalty is the integrated square of 
-the second derivative of the function. For two dimensions the 
+dimension and m=2, the roughness penalty is the integrated square of 
+the second derivative of the function. For two dimensions, the 
 roughness penalty is the integral of  
 
         (Dxx(f))**2 + 2(Dxy(f))**2 + (Dyy(f))**2
 
 (where Duv denotes the second partial derivative with respect to u 
-and v.) Besides controlling the order of the derivatives, the value of 
+and v). Besides controlling the order of the derivatives, the value of 
 m also determines the base polynomial that is fit to the data. 
 The degree of this polynomial is (m-1). 
 
 The smoothing parameter controls the amount that the data is 
-smoothed. In the usual form this is denoted by lambda, the Lagrange 
+smoothed. In the usual form, this is denoted by lambda, the Lagrange 
 multiplier of the minimization problem. Although this is an awkward 
 scale, lambda = 0 corresponds to no smoothness constraints and the data 
 is interpolated.  lambda=infinity corresponds to just fitting the 
@@ -229,19 +229,19 @@ polynomial base model by ordinary least squares.
 This estimator is implemented by passing the right generalized covariance
 function based on radial basis functions to the more general function
 Krig.  One advantage of this implementation is that once a Tps/Krig object
-is created the estimator can be found rapidly for other data and smoothing
-parameters provided the locations remain unchanged. This makes simulation
+is created, the estimator can be found rapidly for other data and smoothing
+parameters, provided the locations remain unchanged. This makes simulation
 within R efficient (see example below). Tps does not currently support the
 knots argument where one can use a reduced set of basis functions. This is
-mainly to simplify the code and a good alternative using knots would be to use a
+mainly to simplify the code, and a good alternative using knots would be to use a
 valid covariance from the Matern family and a large range parameter. 
 
 \strong{Using a great circle distance function}
  The option to use great circle distance
  to define the radial basis functions (\code{lon.lat=TRUE}) is very useful
- for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains the spherical distortion can be large enough that the radial basis functions no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
+ for small geographic domains where the spherical geometry is well approximated by a plane. However, for large domains, the spherical distortion can be large enough that the radial basis functions no longer define a positive definite system and Tps will report a numerical error. An alternative is to switch to a three
 dimensional thin plate spline with the locations being the direction cosines. This will
-give approximate great circle distances for locations that are close and also the numerical methods will always have positive definite matrices. There are other radial basis functions that are specific to a spherical geometry but these are not implemented in fields.
+give approximate great circle distances for locations that are close, and the numerical methods will always have positive definite matrices. There are other radial basis functions that are specific to a spherical geometry, but these are not implemented in fields.
 
 Here is an example using this idea for \code{RMprecip} and also some 
 examples of building grids and evaluating the Tps results on them:
@@ -272,10 +272,10 @@ prediction and simulation built for the \code{spatialProcess} and
 \code{mKrig} objects.  Some care needs to be exercised in specifying
 the support \code{aRange} -- a Goldilocks problem -- where aRange
 is large enough so that every location has a reasonable number
-(say 10 or more ) of neighboring locations that have non-zero
-covariances but also the number of neighbors is not so large that
+(say 10 or more) of neighboring locations that have non-zero
+covariances, but also the number of neighbors is not so large that
 the sparsity of the covariance matrix is compromised.
-To figure out the neighborhood pattern of the spatial locations one can use the function \code{nearest.dist}, sparse matrix format,  and \code{table} function.
+To figure out the neighborhood pattern of the spatial locations, one can use the function \code{nearest.dist}, the sparse matrix format, and the \code{table} function.
 \preformatted{
 set.seed(222)
 s<- cbind( runif(1e4),runif(1e4))
@@ -286,10 +286,10 @@ stats( table( look$ind[,1]))
 }
 Here one has a summary of the number of nearest neighbors within a
 distance of .03 for these (randomly generated) locations.
-I see a minimum of 7 for at least one location so aRange should be larger than .03. Trial and error with different deltas can lead to a better choice.  
+I see a minimum of 7 for at least one location, so aRange should be larger than .03. Trial and error with different deltas can lead to a better choice.  
 
- Note that unlike Tps the locations are not 
-scaled to unit range and this can cause havoc in smoothing problems with
+ Note that, unlike Tps, the locations are not
+scaled to unit range, and this can cause havoc in smoothing problems with
 variables in very different units. 
 So rescaling the locations \code{ x<- scale(x)} 
 is a good idea for putting the variables on a common scale
@@ -312,14 +312,14 @@ See "Nonparametric Regression and Generalized Linear Models"
 by Green and Silverman. 
 See "Additive Models" by Hastie and Tibshirani. 
 
-See Wahba, Grace. "Spline models for observational data." Society for industrial and applied mathematics, 1990.
+See Wahba, Grace. "Spline models for observational data." Society for Industrial and Applied Mathematics, 1990.
 
 }
 \seealso{
 \code{\link{Krig}},
 \code{\link{mKrig}},
 \code{\link{spatialProcess}},
-\code{\link{Tps.cov}}
+\code{\link{Tps.cov}},
 \code{\link{sim.spatialProcess}},
 \code{\link{summary.Krig}},
 \code{\link{predict.Krig}},
@@ -344,7 +344,7 @@ set.panel(2,2)
 plot(fit) # four diagnostic plots of  fit and residuals. 
 set.panel()
 
-# summary of fit and estiamtes of lambda the smoothing parameter
+# summary of fit and estimates of lambda, the smoothing parameter
 summary(fit)
 
 surface( fit) # Quick image/contour plot of GCV surface.
@@ -364,7 +364,7 @@ surface( fit) # Quick image/contour plot of GCV surface.
 # lambda chosen so that there are 7.5 effective 
 # degrees of freedom in estimate
 # Note that the GCV function is still computed and minimized
-# but the lambda values used correpsonds to 7.5 df.
+# but the lambda values used correspond to 7.5 df.
 
 fit1<- Tps(x, y,df=7.5)
 

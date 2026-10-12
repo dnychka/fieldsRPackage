@@ -46,7 +46,7 @@ predict.fastTps <- function(object, xnew = NULL, grid.list=NULL,
     c.coef <- object$c.coef
     beta <- object$beta
   }
-  # fixed part of the model this a polynomial of degree m-1
+  # fixed part of the model this is a polynomial of degree m-1
   # Tmatrix <- fields.mkpoly(xnew, m=object$m)
   #
   if (derivative == 0){

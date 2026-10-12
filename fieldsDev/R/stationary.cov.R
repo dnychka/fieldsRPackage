@@ -25,7 +25,7 @@
                              theta=NULL, ...) {
   
   # get covariance function arguments from call
-  # theta argument has been deopreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }
@@ -58,7 +58,7 @@
   #
   # following now treats V as a full matrix for scaling and rotation.
   #
-  # try to catch incorrect conbination  of great circle distance and V
+  # try to catch incorrect combination  of great circle distance and V
   if (Distance == "rdist.earth" & !is.null(V)) {
     stop("V not supported with great circle distance")
   }
@@ -142,13 +142,13 @@
       tempW <- do.call(Covariance, c(list(d = bigD*(1/aRange)), 
                                      cov.args, derivative = derivative))
       # loop over dimensions and knock out each partial accumulate these in
-      # in temp
+      # temp
       temp <- matrix(NA, ncol = d, nrow = n1)
       for (kd in 1:d) {
         # Be careful if the distance (tempD) is close to zero.
         # Note that the x1 and x2 are in transformed ( V inverse) scale
         sM <- ifelse(bigD == 0, 0, tempW * outer(x1[, kd], x2[, kd], "-")/(aRange * bigD))
-        # accumlate the new partial
+        # accumulate the new partial
         temp[, kd] <- sM %*% C
       }
       # transform back to original coordinates.

@@ -60,9 +60,9 @@
     }
     # the magic of R ...
     icolor <- cut(c(z), breaks)@.Data
-    # returned values is a vector of character hex strings encoding the colors.
+    # returned value is a vector of character hex strings encoding the colors.
     hold <- ifelse(is.na(icolor), transparent.color, col[icolor])
     # points not assigned a bin from breaks get an NA
-    # NA are converted to transparent color
+    # NAs are converted to transparent color
     list(color.index = matrix(hold, nrow = M, ncol = N), breaks = breaks)
 }

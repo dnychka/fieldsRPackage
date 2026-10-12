@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -40,15 +40,15 @@ Number of rows in the panel of plots
 Number of columns in the panel. 
 }
 \item{relax}{
-If true and the par command is already set for multiple plots,  
+If TRUE and the par command is already set for multiple plots,  
 then the set.panel command is ignored. The default is  
-relax set to false.  
+relax set to FALSE.  
 }
 }
 \details{
 After set.panel is called, the graphics screen is reset to
-put  plots  according to an m x n table. Plotting starts in
-the upper left hand corner and proceeds row by row.  After 
+put plots according to an m x n table. Plotting starts in
+the upper left-hand corner and proceeds row by row.  After 
 m x n plots have been drawn, the next plot will erase the 
 window and start in the 1,1 position again.  This function 
 is just a repackaging for specifying the mfrow argument to 
@@ -59,7 +59,7 @@ the size. For example, plotting 2 plots to a page produces
 a  useful  size  graph  for including in a report. You can 
 print out the graphs at any stage without having  to  fill 
 up the entire window with plots. This function, except for the "relax"
-option is equivalent to the  S sequence: par( mfrow=c(m,n)).
+option, is equivalent to the  S sequence: par( mfrow=c(m,n)).
 }
 \section{Side Effects}{
 The function will echo your choice of m and n to the terminal.  

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -39,9 +39,9 @@ ExponentialUpper(distMat, range = 1, alpha = 1/range, theta = NULL)
 The distance matrix to evaluate the covariance over.
 }
   \item{range}{
-Range parameter default is one. Note that the scale can also
+Range parameter; the default is one. Note that the scale can also
   be specified through the "aRange" scaling argument (used in
-  fields covariance functions)
+  fields covariance functions).
 }
 
 \item{alpha}{

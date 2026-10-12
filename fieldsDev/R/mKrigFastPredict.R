@@ -47,7 +47,7 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
   nx<- length(gridList$x )
   ny<- length(gridList$y )
   # if new observations then find the new fitted surface
-  # note how the fit object faciliates this.
+  # note how the fit object facilitates this.
   if (!is.null(ynew)) {
     coef.hold <- mKrig.coef(object, ynew,
                             collapseFixedEffect=TRUE)
@@ -58,7 +58,7 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
     c.coef <- object$c.coef
     beta <- object$beta
   }
-  # fixed part of the model this a polynomial of degree m-1
+  # fixed part of the model this is a polynomial of degree m-1
   # Tmatrix <- fields.mkpoly(xnew, m=object$m)
   # only do this if nt>0, i.e. there is a fixed part.
   #
@@ -96,14 +96,14 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
     else {
      stop("derivative not implemented with rapid predict algorithm")
     }
-###### end of evaliuating the fixed linear part of the prediction 
+###### end of evaluating the fixed linear part of the prediction 
 ###### note that temp1 here is a vector not an image/matrix. 
    
   }  
   # add nonparametric part. Covariance basis functions
   # times coefficients.
 
-  # enlarge the  evaulation grid if needed so that obs have NNSize grid point points on all margins. 
+  # enlarge the  evaluation grid if needed so that obs have NNSize grid points on all margins. 
   
   if( (min(xObs[,1]) < gridList$x[1]) | (max(xObs[,1]) > gridList$x[nx] ) ) {
     stop( "x obs locations can not be outside the grid ")
@@ -143,7 +143,7 @@ mKrigFastPredict <- function(object, gridList, ynew = NULL,
   ################################################################################
   ################################################################################
   ################################################################################
-    # the bug found 12:07 AM june 26,2025
+    # the bug found 12:07 AM June 26,2025
     # c.coefStar<-  colSums( diag.spam( c(object$c.coef) ) %*% 
     #                           setupObject$offGridObject$B )
    c.coefStar<-  colSums( diag.spam( c(c.coef) ) %*% 

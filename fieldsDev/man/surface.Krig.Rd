@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -53,22 +53,23 @@ A list with as many components as variables describing the surface.
 All components should have a single value except the two that give the 
 grid points for evaluation. If the matrix or data frame has column names,  
 these must appear in the grid list. If grid.list is missing and the
-surface has just two dimensions the grid is based on the ranges of the
+surface has just two dimensions, the grid is based on the ranges of the
 observed data.
  
 }
 \item{extrap}{
-Extrapolation beyond the range of the data. If false only the
-convex hull of the observations is plotted. Default is false. 
+Extrapolation beyond the range of the data. If FALSE, only the
+convex hull of the observations is plotted. Default is FALSE. 
 }
 \item{graphics.reset}{
 Reset to original graphics parameters after function plotting. 
 }
 \item{type}{
 Type of plot as a character. "p" perspective plot (persp). "c" contour
-plot (contour). "b" a two panel figure with perspective and contour
+plot (contour). "b" a two-panel figure with perspective and contour
 plots. "I" image plot with legend strip (image.plot). "C" image plot
-with contours overlaid.  Image with  contour is the default.
+with contours overlaid.  Image with contour is
+ the default.
   
 }
 \item{main}{
@@ -80,7 +81,7 @@ y axis label}
 \item{zlab}{
 z axis label if "p" or "b" type is used.}
 \item{zlim}{
-XMat limits passed to persp}
+z limits passed to persp}
 \item{levels}{
 Contour levels passed to contour. }
 \item{nx}{
@@ -97,17 +98,17 @@ Any other plotting options.
 }
 \details{
 This function is essentially a combination of predictSurface and
-plot.surface. It may not always give a great rendition but is easy to use
+plot.surface. It may not always give a great rendition, but is easy to use
 for checking the fitted surface. The default of extrap=F is designed to
 discourage looking at the estimated surface outside the range of
 the observations.  
 
-NOTE: that any XMat covariates will be dropped and only the spatial part of
+NOTE: any XMat covariates will be dropped and only the spatial part of
 the model will be evaluated. 
 
 }
 \seealso{
-\code{\link{Krig}} 
+\code{\link{Krig}},
 predictSurface, plot.surface, image.plot
 }
 \examples{

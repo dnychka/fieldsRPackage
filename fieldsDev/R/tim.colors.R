@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 "tim.colors" <- function(n = 64, alpha = 1.0) {
-    # tims original 64 color definition ala MATLAB:
+    # Tim's original 64-color definition a la MATLAB:
     # orig <- c("#00008F", "#00009F", "#0000AF", "#0000BF", "#0000CF", 
     #     "#0000DF", "#0000EF", "#0000FF", "#0010FF", "#0020FF", 
     #     "#0030FF", "#0040FF", "#0050FF", "#0060FF", "#0070FF", 

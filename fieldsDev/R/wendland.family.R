@@ -20,7 +20,7 @@
 # or see http://www.r-project.org/Licenses/GPL-2
 ##END HEADER
 Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
-  # theta argument has been deopreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }
@@ -40,7 +40,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
     spam.format = TRUE, derivative = 0,  verbose = FALSE, 
     theta=NULL) {
     #
-    # theta argument has been deopreciated.
+    # theta argument has been deprecated.
     if( !is.null( theta)){
        aRange<- theta
      }
@@ -49,7 +49,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
     if (marginal) {
         return(rep(1, nrow(x1)))
     }
-    #  the rest of the possiblities require some computing
+    #  the rest of the possibilities require some computing
     # setup the two matrices of locations
     #
     if (!is.matrix(x1)) {
@@ -64,7 +64,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
     n1 <- nrow(x1)
     n2 <- nrow(x2)
     # logical to figure out if this is great circle distance or not
-    # great circle needs to handled specially due to how things are scaled.
+    # great circle needs to be handled specially due to how things are scaled.
     great.circle <- Dist.args$method == "greatcircle"
     # derivatives are tricky for great circle and other distances and have not been implemented ...
     if (Dist.args$method != "euclidean" & derivative > 0) {
@@ -98,7 +98,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
         print(delta)
     }
     # once scaling is done taper is applied with default range of 1.0
-    # find polynomial coeffients that define
+    # find polynomial coefficients that define
     # wendland on [0,1]
     #  d dimension and  k is the order
     #  first  find sparse matrix of Euclidean distances
@@ -136,7 +136,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
         else {
             #        otherwise evaluate partial derivatives with respect to x1
             #        big mess of code and an explicit for loop!
-            #         this only is for euclidean distance
+            #         this only is for Euclidean distance
             if (is.matrix(C)) {
                 if (ncol(C) > 1) {
                   stop("C should be a vector")
@@ -148,7 +148,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
             tempW <- Wendland(tempD/aRange, k = k, dimension = d, 
                 derivative = derivative)
             # loop over dimensions and knock out each partial accumulate these in
-            # in temp
+            # temp
             temp <- matrix(NA, ncol = d, nrow = n1)
             # Create rowindices vector
             sMrowindices <- rep(1:n1, diff(sM@rowpointers))
@@ -162,7 +162,7 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
                   (x1[sMrowindices, kd] - x2[sM@colindices, kd])/(aRange * 
                   tempD)))
                 #
-                # accumlate the new partial
+                # accumulate the new partial
                 temp[, kd] <- sM %*% C
             }
             # transform back to original coordinates.
@@ -185,13 +185,13 @@ Wendland2.2 <- function(d, aRange = 1, theta=NULL) {
 # k: Wendland function is 2k times continuously
 # differentiable.
 # The proofs can be found in the work of Wendland(1995).
-#  H. Wendland. Piecewise polynomial , positive definite and compactly supported radial
+#  H. Wendland. Piecewise polynomial, positive definite and compactly supported radial
 #  functions of minimal degree. AICM 4(1995), pp 389-396.
 #########################################
 ## top level function:
 Wendland = function(d, aRange = 1, dimension, k, derivative = 0, 
     phi = NA, theta=NULL) {
-# theta argument has been deopreciated.
+# theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }
@@ -211,7 +211,7 @@ Wendland = function(d, aRange = 1, dimension, k, derivative = 0,
     # scale distances by aRange.
     if( aRange!=1){
          d <- d/aRange}
-    # at this point d the distances shouls be scaled so that
+    # at this point d the distances should be scaled so that
     # covariance is zero beyond 1
     if( (k==2)& (dimension==2) & (derivative==0)){
       ((1 - d)^6 * (35 * d^2 + 18 * d + 3))/3 * (d < 1)}
@@ -223,7 +223,7 @@ Wendland = function(d, aRange = 1, dimension, k, derivative = 0,
 
 ####################
 # [M] = wm(n, k)
-# Compute the matrix coeficient in Wendland(1995)
+# Compute the matrix coefficient in Wendland(1995)
 # Input:
 #\tn: Wendland interpolation matrix is positive definite on R^n
 # \tk: Wendland function is 2k times continuously differentiable
@@ -274,7 +274,7 @@ Wendland.beta = function(n, k) {
 }
 ########################################
 # [phi] = wendland.eval(r, n, k, derivative).
-# Compute the compacted support basis function in Wendland(1995).
+# Compute the compactly supported basis function in Wendland(1995).
 # Input:
 #\tr: a scalar representing the distance between locations. r should be scaled into [0,1] beforehand.
 # \tn: Wendland interpolation matrix is positive definite on R^n. Or, we could say n is the dimension of the locations.
@@ -286,7 +286,7 @@ Wendland.beta = function(n, k) {
 #\tr = 0.5
 #\tphi = wendland.eval(r, 2, 1,derivative = 1 )
 # The proofs can be found in the work of Wendland(1995).
-# H. Wendlamd. Piecewise polynomial , positive definite and compactly supported radial functions of minimal degree. AICM 4(1995), pp 389-396.
+# H. Wendland. Piecewise polynomial, positive definite and compactly supported radial functions of minimal degree. AICM 4(1995), pp 389-396.
 #########################################
 wendland.eval = function(r, n, k, derivative = 0) {
     #
@@ -305,7 +305,7 @@ wendland.eval = function(r, n, k, derivative = 0) {
         }
     }
     else {
-        # evaluate derivative note use of symbolic differtiation.
+        # evaluate derivative note use of symbolic differentiation.
         f.my = expression((1 - r)^(l + 2 * k))
         f.deriv = fields.D(f.my, "r", order = derivative)
         f.eval = eval(f.deriv)

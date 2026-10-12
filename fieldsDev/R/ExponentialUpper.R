@@ -21,7 +21,7 @@
 ##END HEADER
 ExponentialUpper = function(distMat, range = 1, alpha = 1/range,
                             theta=NULL) {
-  # theta argument has been depreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }

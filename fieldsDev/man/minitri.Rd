@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,17 +27,15 @@
   Mini triathlon results
 }
 \description{
-Results from a mini triathlon sponsored by Bud Lite, held in
+Results from a mini triathlon sponsored by Bud Light, held in
 Cary, NC, June 1990. Times are in minutes for the male 30-34 
 group. Man was it hot and humid! (DN)
 
-The events in  order were
+The events, in order, were:
 swim:  (1/2 mile)
 bike:  (15 miles)
 run:   (4 miles)
 
-<s-section 
-name= "DATA DESCRIPTION">
 This is a data frame. Row names are the place within this age group based 
 on total time.  
 }

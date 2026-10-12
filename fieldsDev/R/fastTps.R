@@ -23,7 +23,7 @@
                       lon.lat = FALSE, find.trA=FALSE,
                       REML=FALSE, theta=NULL,
                       ...) {
-  # theta argument has been depreciated.
+  # theta argument has been deprecated.
   if( !is.null( theta)){
     aRange<- theta
   }

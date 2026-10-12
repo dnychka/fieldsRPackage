@@ -28,7 +28,7 @@ wendland.image.cov <- function(ind1, ind2, Y, cov.obj = NULL,
     #
     cov.args<-c( cov.args, list(...))
     #
-    # theta has been deopreciated.
+    # theta has been deprecated.
     if( !is.null(cov.args$theta )){
       cov.args$aRange <- cov.args$theta
     }
@@ -41,7 +41,7 @@ wendland.image.cov <- function(ind1, ind2, Y, cov.obj = NULL,
         n <- length(grid$y)
         #
         # determine size of padding
-        # default is twice domain and will then yeild exact results
+        # default is twice domain and will then yield exact results
         # delta indicates that covariance is zero beyond a distance delta
         # so using a smaller grid than twice domain will still give exact results.
         if(!is.null(delta)){

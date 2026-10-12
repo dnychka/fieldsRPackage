@@ -101,7 +101,7 @@
     temp.sd <- 1
     #
     #
-    # this is not 1 if Krig  object is a corelation model.
+    # this is not 1 if Krig  object is a correlation model.
     if (object$correlation.model) {
         if (!is.na(object$sd.obj[1])) {
             temp.sd <- predict(object$sd.obj, x)

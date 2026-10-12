@@ -109,7 +109,7 @@
   out$null.args <- null.args
   #
   #       set degree of polynomial null space if this is default
-  #       mkpoly is used so often is it helpful to include m argument
+  #       mkpoly is used so often it is helpful to include m argument
   #       by default in Krig call.
   if (out$null.function.name == "Krig.null.function") {
     out$null.args <- list(m = m)
@@ -129,7 +129,7 @@
   #
   # the offset is the effective number of parameters used in the GCV
   # calculations -- unless this is part of an additive model this
-  # is likely Zero
+  # is likely zero
   out$offset <- offset
   #
   # the cost is the multiplier applied to the GCV eff.df
@@ -138,11 +138,11 @@
   # and are related by a monotonic function that unfortunately
   # depends on the locations of the data.
   # lambda can be used directly in the linear algebra, df
-  # must be transformed to lambda numerically using the monotonic trransformation
+  # must be transformed to lambda numerically using the monotonic transformation
   # tau2 is the error variance and sigma the multiplier for the covariance
   # method is how to determine lambda
   # the GCV logical forces the code to do the more elaborate decompositions
-  # that faclitate estimating lambda -- even if a specific lambda value is
+  # that facilitate estimating lambda -- even if a specific lambda value is
   # given.
   out$cost <- cost
   out$lambda <- lambda
@@ -153,7 +153,7 @@
   out$GCV <- GCV
   #
   # correlation model information
-  # set this to FALSE -- has been depreciated.
+  # set this to FALSE -- has been deprecated.
   #
   out$correlation.model <- FALSE
   #
@@ -174,7 +174,7 @@
   # of passing the Krig object (out) to a function and
   # then appending the information from this function to
   # the Krig object (usually also called "out").
-  #In this way the Krig object  is built up
+  # In this way, the Krig object is built up
   # in steps and the process is easier to follow.
   ###############################################################
   # various checks on x and  Y including removal of NAs in Y
@@ -193,7 +193,7 @@
   #  Figure out what to do
   #############################################################
   #
-  # this functions works through the logic of
+  # this function works through the logic of
   # what has been supplied for lambda
   out2 <- Krig.which.lambda(out)
   out[names(out2)] <- out2  
@@ -202,9 +202,9 @@
   #     if a weight function or W has not been passed then this is
   #     diag( out$weightsM) for W
   #     The checks represent a limitation of this model to
-  #     the  WBW type decoposition and no replicate observations.
+  #     the  WBW type decomposition and no replicate observations.
   out$nondiag.W <- (!is.null(wght.function)) | (!is.null(W))
-  # Do not continue if there there is a nondiagonal weight matrix
+  # Do not continue if there is a nondiagonal weight matrix
   # and replicate observations.
   if (out$nondiag.W) {
     if (out$knot.model | out$fixed.model) {
@@ -222,7 +222,7 @@
   #   this is where all the heavy lifting happens.
   #
   #   Note that all the information is passed as a list
-  #   including arguments to the cholesky decomposition
+  #   including arguments to the Cholesky decomposition
   #   used within Krig.engine.fixed
   #
   # The results are saved in the component matrices
@@ -239,7 +239,7 @@
     #  so set this to NA.
     out$eff.df <- NA
   }
-  # alternative are
+  # alternatives are
   # matrix decompositions suitable for
   # evaluation at many lambdas to facilitate GCV/REML estimates  etc.
   #
@@ -252,7 +252,7 @@
   out$np <- out$matrices$np
   out$decomp <- out$matrices$decomp
   #
-  # Now determine a logical vector to indicate coefficients tied to  the
+  # Now determine a logical vector to indicate coefficients tied to
   # the 'spatial drift' i.e. the fixed part of the model
   # that is not due to the XMat covariates.
   # NOTE that the spatial drift coefficients must be the first columns of the
@@ -296,7 +296,7 @@
     }
     # assign the preferred lambda either from GCV/REML/MSE or the user value
     # NOTE: gcv/reml can be done but the estimate is
-    # still evaluted at the passed user values of lambda (or df)
+    # still evaluated at the passed user values of lambda (or df)
     # If df is passed need to calculate the implied lambda value
     if (out$method != "user") {
       out$lambda <- gcv.out$lambda.est[out$method, 1]
@@ -310,7 +310,7 @@
         out$eff.df <- Krig.ftrace(out$lambda, out$matrices$D)
       }
       # add in  values to GCV table using these values
-      # this the 7th row. 
+      # this is the 7th row. 
       lam.user <- out$lambda
       info<- gcv.out$info
       newRow<- c( lam.user,      
@@ -333,7 +333,7 @@
   # information into output object.
   #
   ##########################################
-  # find coeficients at prefered lambda
+  # find coefficients at preferred lambda
   # and evaluate the solution at observations
   ##########################################
   #   pass replicate group means -- no need to recalculate these.
@@ -374,7 +374,7 @@
     # in this case lambda is from opt. or supplied by user
     out$best.model <- c(out$lambda, out$tauHat.MLE^2, out$sigmahat)
   }
-  # Note: values in best.model are used in subsquent functions as the choice
+  # Note: values in best.model are used in subsequent functions as the choice
   # for these parameters!
   # set class
   

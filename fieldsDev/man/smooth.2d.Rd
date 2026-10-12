@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
   Kernel smoother for irregular 2-d data
 }
 \description{
-An approximate Nadaraya Watson kernel smoother is obtained by first
+An approximate Nadaraya-Watson kernel smoother is obtained by first
 discretizing the locations to a grid and then using convolutions to find 
 and to apply the kernel weights. The main advantage of this function
 is a smoother that avoids explicit looping. 
@@ -49,18 +49,18 @@ smoothing the same locations many times. (See also the x argument.)
 }
 \item{weight.obj }{
 An object that 
-has the FFT of the convolution kernel and other information ( i.e. the
+has the FFT of the convolution kernel and other information (i.e., the
 result from calling this with setup=TRUE).   
 }
 \item{setup}{
-If true creates a list that includes the FFT of the 
-convolution kernel. In this case the function will return this
-list. Default is false.  
+If TRUE, creates a list that includes the FFT of the
+convolution kernel. In this case, the function will return this
+list. Default is FALSE.  
 }
 \item{grid}{
 A list with components x and y
 being equally spaced values that define the grid. Default is integers
-1:nrow, 1:ncol. If x is given the ranges will be used to define the grid.
+1:nrow, 1:ncol. If x is given, the ranges will be used to define the grid.
 }
 \item{x}{
 Actual locations 
@@ -68,22 +68,22 @@ of the Y values. Not needed if ind is specified.
 }
 \item{nrow}{
  Number of 
-points in the horizontal (x) axis of the grid. Not needed if grid is 
-specified the default is 64  
+points in the horizontal (x) axis of the grid. Not needed if grid is
+specified; the default is 64.  
 }
 \item{ncol}{
  Number of points in the vertical (y)
-axis of the grid. Not needed if grid list is specified the default is 64 
+axis of the grid. Not needed if grid list is specified; the default is 64. 
 }
 \item{surface}{
-If true (the default) a surface object is returned suitable for use by 
+If TRUE (the default), a surface object is returned suitable for use by 
 image, persp or 
-contour functions. If false then just the nrowXncol matrix of smoothed 
+contour functions. If FALSE, then just the nrowXncol matrix of smoothed 
 values is returned. 
 }
 \item{cov.function}{
 S function describing the kernel function. To be consistent with the other
-spatial function this is in the form of a covariance function. The only
+spatial functions, this is in the form of a covariance function. The only
 assumption is that this be stationary. Default is the (isotropic) Gaussian. 
 }
 \item{Nwidth}{
@@ -96,9 +96,9 @@ say 2L+1 grid points then the padding region needs only be of size L+1.
 See Nwidth.
 }
 \item{\dots}{
-Parameters that are passed to the smoothing kernel. ( e.g. the scale
+Parameters that are passed to the smoothing kernel. (e.g., the scale
 parameter aRange for the
-exponential or Gaussian)
+exponential or Gaussian).
 }
 }
 \value{
@@ -107,26 +107,26 @@ The surface object also has a component 'ind' that gives the subscripts of the i
 matrix where the data is present. 
 }
 \details{
-The irregular locations are first discretized to a regular grid ( using
-as.image)  
-then a 2d- FFT is used to compute a
+The irregular locations are first discretized to a regular grid (using
+as.image),
+then a 2-d FFT is used to compute a
 Nadaraya-Watson type kernel estimator. Here we take advantage of two
-features. The kernel estimator is a convolution and by padding the regular
-grid by zeroes where data is not observed one can sum the kernel over irregular
+features. The kernel estimator is a convolution, and by padding the regular
+grid by zeroes where data is not observed, one can sum the kernel over irregular
 sets of locations.
-A second convolution to find the normalization of the kernel
+A second convolution is used to find the normalization of the kernel
 weights.
 
 The kernel function is specified by a function that should evaluate with
 the kernel for two matrices of locations. Assume that the kernel has the
 form:  K( u-v) for two locations u and v. The function given as the
 argument to cov.function should
-have the call myfun( x1,x2) where x1 and x2 are matrices of 2-d locations
-if nrow(x1)=m and nrow( x2)=n then this function should return a mXn
+have the call myfun( x1,x2) where x1 and x2 are matrices of 2-d locations;
+if nrow(x1)=m and nrow( x2)=n, then this function should return a mXn
 matrix where the (i,j) element is K( x1[i,]- x2[j,]).  Optional arguments
 that are included in the ... arguments are passed to this function when it
 is used. The default kernel is the Gaussian and the argument aRange is the
-bandwidth. It is easy to write other kernels, just use
+bandwidth. It is easy to write other kernels; just use
 Exp.cov.simple as
 a template.
 }

@@ -91,7 +91,7 @@
     # in transformed scale.
     #  i.e.   knots <- scale( object$knots, xc, xs)
     #
-    # figure out if the coefficients for the surface needto be recomputed.
+    # figure out if the coefficients for the surface need to be recomputed.
     find.coef<- (!is.null(y) | !is.null(yM) | !is.na(lambda) | 
         !is.na(df) | !is.na(model[1]))
     if (verbose) {

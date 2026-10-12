@@ -46,7 +46,7 @@
     UseMethod("surface")
 }
 
-"surface.default" <- function(object, col=viridis(256), ...) {
+"surface.default" <- function(object, col=viridisLite::viridis(256), ...) {
     plot.surface(object, col=col, ...)
 }
 

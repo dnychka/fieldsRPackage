@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -25,17 +25,20 @@
 \docType{data}
 \title{Carbon emissions and demographic covariables by country for 1999.}
 \description{
-These data are a small subset of the demographic data compiled by the World Bank. The
-data has been restricted to 1999 and to countries with a population larger than 1 million. Also, only countries reporting all the covariables are included. 
+These data are a small subset of the demographic data compiled by the World
+Bank. The
+data has been restricted to 1999 and to countries with a population larger
+than 10 million. Also, only countries reporting all the covariables are 
+included. 
 }
  \usage{ data(WorldBankCO2)}
 \format{
-  This is a 75X5 matrix with the row names identifying  countries  and
-columns the covariables: 
+  This is a 75X5 matrix with the row names identifying countries and
+the columns being the covariables: 
 \code{ "GDP.cap" "Pop.mid" "Pop.urb" "CO2.cap" "Pop"}
 \itemize{
 \item GDP.cap: Gross domestic product (in US dollars) per capita.
-\item Pop.mid: percentage of the population within the ages of 15 through 65.
+\item Pop.mid: Percentage of the population within the ages of 15 through 65.
 \item Pop.urb: Percentage of the population living in an urban environment
 \item CO2.cap: Equivalent CO2 emissions per capita
 \item Pop: Population
@@ -43,24 +46,25 @@ columns the covariables:
 
 }
 \section{Reference}{ 
-Romero-Lankao, P., J. L. Tribbia and D. Nychka (2008) Development and greenhouse 
-gas emissions deviate from the modernization theory and convergence hypothesis. Cli- 
-mate Research 38, 17-29. 
+Romero-Lankao, P., J. L. Tribbia and D. Nychka (2008) Development and
+greenhouse 
+gas emissions deviate from the modernization theory and convergence hypothesis.
+\emph{Climate Research} 38, 17-29. 
 }
 \examples{
 data(WorldBankCO2)
 plot( WorldBankCO2[,"GDP.cap"], WorldBankCO2[,"CO2.cap"], log="xy")
 }
 \section{Creating dataset}{
-Listed below are scripts to create this data set from spread sheet on the
+Listed below are scripts to create this data set from spreadsheet on the
 World Bank CDs:
 \preformatted{
-## read in comma delimited spread sheet
+## read in comma delimited spreadsheet
   read.csv("climatedemo.csv", stringsAsFactors=FALSE)->hold
 ## convert numbers to matrix of data
   Ddata<- as.matrix(  hold[,5:51] )
   Ddata[Ddata==".."] <- NA
-## still in character form parse as numeric
+## still in character form; parse as numeric
   Ddata<- matrix( as.numeric( Ddata), nrow=1248, ncol=ncol( Ddata),
   dimnames=list( NULL, format( 1960:2006) ))
 ## these are the factors indicating the different variables

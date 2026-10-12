@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -35,20 +35,20 @@ or 1971-2023 (new version, 4800+ locations) and for North America. The old versi
 }
 %\usage{data(NorthAmericanRainfall)}
 \format{
- For both versions  the format is a list with components:
+ For both versions, the format is a list with components:
 "longitude" "latitude"  "precip"    "elevation" "precipSE" "trend" "trendSE" "type" "x.s" "sProjection"
 with elevation in meters, longitude as (-180,180), latitude as (-90, 90) and precipitation in 1/10 mm
-( precip/254  converts to inches of rainfall). Note that the usual convention is to report a total amount of rainfall over the season. Divide by 3 to get the mean.
+(precip/254 converts to inches of rainfall). Note that the usual convention is to report a total amount of rainfall over the season. Divide by 3 to get the mean.
 
 \code{precip} is the intercept for 1980.5 (1997 for new version) when a straight line least squares regression is fit to
 each station's record. SE is the companion standard error from the least squares fit.
 If the station is complete, then \code{precip} and \code{precipSE} will just be the mean and standard deviation adjusted for a linear trend. The estimated trend  \code{trend} and its standard error \code{trendSE} are also included.
 
- Also due to the centering, for complete data the intercept and trend estimate will be uncorrelated. The component \code{type} indicates whether the station has been "adjusted" (see below) or is still in
+ Also, due to the centering, for complete data the intercept and trend estimate will be uncorrelated. The component \code{type} indicates whether the station has been "adjusted" (see below) or is still in
   "unadjusted" form.
 
 \code{x.s} is a useful transformation of locations into stereographic coordinates that reduces the
-inflation of North Canada due to the usual lon/lat coordinates. Specifically it is found by:
+inflation of northern Canada due to the usual lon/lat coordinates. Specifically, it is found by:
 \preformatted{
   library(mapproj)
   xStereo<- mapproject( NorthAmericanRainfall$lon,NorthAmericanRainfall$lat, projection="stereographic")
@@ -63,15 +63,15 @@ inflation of North Canada due to the usual lon/lat coordinates. Specifically it 
 \source{
 
 The monthly data used to construct
-\code{NorthAmericanRainfall} this summary was generously provided by Xuebin Zhang, however,
+\code{NorthAmericanRainfall} was generously provided by Xuebin Zhang; however,
 the original source is freely available as the Global Historical Climate Network Version 2 Precipitation
-quality controlled, curated and served by the US National Center for Environmental Information.
-The adjusted data from this archive has been modified from its raw form to make the record more homogeneous. Heterogeneities can come from a variety of sources such as moving the station a short distance or changes in instruments. See the  National Centers for Environmental Information then Access Data  and then GHCN.
+quality controlled, curated and served by the US National Centers for Environmental Information.
+The adjusted data from this archive has been modified from its raw form to make the record more homogeneous. Heterogeneities can come from a variety of sources such as moving the station a short distance or changes in instruments. See the National Centers for Environmental Information, then Access Data, and then GHCN.
 
 The new version \code{NorthAmericanRainfall2} uses the GHCN "Version 4" data product. There are substantially more stations reported in this data set.
-To reduce the size, stations for this R data set were selected if they had more than 80 percent of the months reported over the period 1971-2023. This subset amounts to  4893 locations. A simple linear regression was fit to each station record and the OLS trend, trend SE, trend line at 1997 is evaluated to get a "mean" rainfall estimate for this location.
+To reduce the size, stations for this R data set were selected if they had more than 80 percent of the months reported over the period 1971-2023. This subset amounts to  4893 locations. A simple linear regression was fit to each station record and the OLS trend, trend SE, and trend line at 1997 are evaluated to get a "mean" rainfall estimate for this location.
 
-See the fields github repository for the source code and source data to create this data set.
+See the fields GitHub repository for the source code and source data to create this data set.
 
 }
 \examples{

@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -33,17 +33,16 @@ solution. Areas outside of the measurements are where the mixture may
 explode! Note that the optimum is close to the boundary. Source of data is 
 from a master's level lab experiment in 
 analytical chemistry from Chuck Boss's course at NCSU. 
-<s-section name= "DATA DESCRIPTION">
-This is a list with the following components
+This is a list with the following components:
 }
 \arguments{
 \item{x}{
-x is a 2 column matrix with the different Fuel and oxygen flow rates for 
+x is a 2 column matrix with the different fuel and oxygen flow rates for 
 the burner. 
 }
 \item{y}{
-y is the response. The intensity of light at a particular 
-wavelength indicative of Lithium ions. 
+y is the response: the intensity of light at a particular
+wavelength indicative of lithium ions. 
 }
 }
 \keyword{datasets}

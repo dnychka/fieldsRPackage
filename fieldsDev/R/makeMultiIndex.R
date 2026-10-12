@@ -36,7 +36,7 @@ makeMultiIndex<- function(M){
 #                          3,2,4
                 
   L<- length( M)
-# qucik return for L =1 and 2  
+# quick return for L =1 and 2  
   if( L ==1){ 
     bigIndex<- cbind(1:M[1] )
   }

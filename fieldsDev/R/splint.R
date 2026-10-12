@@ -68,7 +68,7 @@
         }
         lam <- sreg.df.to.lambda(df, x, wt)
     }
-    # use lambda is it is passed
+    # use lambda if it is passed
     if (!is.null(lambda)) {
         lam <- lambda
     }

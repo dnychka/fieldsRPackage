@@ -23,7 +23,7 @@
     ...) {
     out <- x
     
-###########    plot 1  predicted vs. residua values   
+###########    plot 1  predicted vs. residual values   
     fitted.values <- predict(out)
     if (any(which == 1)) {
         #temp <- summary(out)

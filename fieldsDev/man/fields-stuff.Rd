@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -30,8 +30,8 @@
 
 \title{Fields supporting functions}
 \description{
-Some supporting functions that are internal to fields top level
-methods. Variants of these might be found in the R base but these
+Some supporting functions that are internal to fields top-level
+methods. Variants of these might be found in the R base, but these
 have been written for cleaner code or efficiency.
 }
 \usage{
@@ -78,14 +78,14 @@ appended. Default is just "terms".}
 argument is the number of digits that are considered in the
 comparison.
 The returned value is an array of integers from 1:M where M is the
-number of unique rows and duplicate rows are referenced in the same
+number of unique rows, and duplicate rows are referenced in the same
 order that they appear as the rows of \code{mat}. 
 
 \code{fields.mkpoly}  computes the complete matrix of all monomial
-terms up to degree (m-1). Each row of \code{x} is the components of
+terms up to degree (m-1). Each row of \code{x} contains the components of
 a vector.  (The fields function mkpoly returns the number of these
-terms.) In 2 dimensions with m=3 there are  6 polynomial terms  up to
-quadratic ( 3-1 =2) order and will be returned as the matrix:
+terms.) In 2 dimensions with m=3, there are 6 polynomial terms up to
+quadratic (3-1 = 2) order, and these will be returned as the matrix:
 
 cbind(  1 , x[,1], x[,2], x[,1]**2, x[,1]*x[,2], x[,2]**2  )
 
@@ -111,16 +111,16 @@ object.
 This information is used in finding derivatives of the polynomial and is also used
 to create column names  for the terms that are of higher order than linear.
 
-\code{fields.deriviative.poly} finds the partial derivative matrix of
+\code{fields.derivative.poly} finds the partial derivative matrix of
 a multidimensional polynomial of degree (m-1) at different vector
 values and with coefficients \code{dcoef}. 
 This function has been organized to be a clean utility for
 predicting the derivative of the estimated function from Krig or
 mKrig.
-Within the fields context
+Within the fields context,
 the polynomial itself would be evaluated as 
      fields.mkpoly( x,m)\%*\%dcoef.
-If x has  d columns ( also the dimension of the polynomial) and n rows
+If x has d columns (also the dimension of the polynomial) and n rows,
 the partial derivatives of this polynomial at the locations x can be
 organized in a nXd matrix.  This is the object returned by this
 function.

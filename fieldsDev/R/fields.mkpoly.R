@@ -21,7 +21,7 @@
 ##END HEADER
 "fields.mkpoly" <- function(x, m = 2, tag="term") {
 # m-1 is the degree of the polynomial
-# this is hold over notation from splines 
+# this is holdover notation from splines 
 # where an mth order spline has a m-1 degree polynomial
 # null space. 
     if (m < 0) 

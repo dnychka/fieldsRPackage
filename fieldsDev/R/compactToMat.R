@@ -23,8 +23,8 @@ compactToMat = function(compactMat, diagVal=0, lower.tri=FALSE, upper.tri=TRUE) 
   #compactMat: a symmetric matrix stored as a vector containing elements for the upper triangle
   #portion of the true matrix
   #diagVal: a number to put in the diagonal entries of the output matrix
-  #lower.tri: if TRUE, fills in lower tringular portion of the matrix
-  #upper.tri: if TRUE, fills in upper tringular portion of the matrix
+  #lower.tri: if TRUE, fills in lower triangular portion of the matrix
+  #upper.tri: if TRUE, fills in upper triangular portion of the matrix
   
   if( is(compactMat,"dist") ) {
     n <- attr(compactMat, "Size")

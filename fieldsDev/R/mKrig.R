@@ -27,7 +27,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
                   iseed = NA, na.rm=FALSE, 
                   collapseFixedEffect = TRUE, 
                   tau=NA, sigma2=NA, verbose=FALSE, simpleKriging=FALSE, 
-                  Z = NULL, ZCommon=NULL, # depreciated arguments 
+                  Z = NULL, ZCommon=NULL, # deprecated arguments 
                   ...) {
   #
   # use of "Z"  for fixed part of model has been switched to XMat 
@@ -111,12 +111,12 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
          have been passed to mKrig")
   }
   ind.drift <- c(rep(TRUE, (nt - nXMat)), rep(FALSE, nXMat)) 
-  # as a place holder for reduced rank Kriging, distinguish between
+  # as a placeholder for reduced rank Kriging, distinguish between
   # observations locations and  the locations to evaluate covariance.
-  # (this is will also allow predict.mKrig to handle a Krig object)
+  # (this will also allow predict.mKrig to handle a Krig object)
   object$knots <- object$x
   # covariance matrix at observation locations
-  # NOTE: if cov.function is a sparse constuct then Mc will be sparse.
+  # NOTE: if cov.function is a sparse construct then Mc will be sparse.
   # see e.g. wendland.cov
   covArgsFull<- c(cov.args=list(cov.args), 
                   list(x1 = object$knots,
@@ -142,7 +142,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   #
   sparse.flag <- !is.matrix(Mc)
   #
-  # set arguments that are passed to cholesky
+  # set arguments that are passed to Cholesky
   #
   if (is.null(chol.args)) {
     chol.args <- list(pivot = sparse.flag)
@@ -157,7 +157,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   }
   nzero <- ifelse(sparse.flag, length(Mc@entries), np^2)
   # add diagonal matrix that is the observation error Variance
-  # NOTE: diag must be a overloaded function to handle sparse format.
+  # NOTE: diag must be an overloaded function to handle sparse format.
   if (lambda != 0) {
     if(! sparse.flag)
         invisible(.Call("addToDiagC", Mc, as.double(lambda/object$weights), nrow(Mc), PACKAGE="fields")
@@ -169,7 +169,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   # At this point Mc is proportional to the covariance matrix of the
   # observation vector, y.
   #
-  # cholesky decoposition of Mc
+  # Cholesky decomposition of Mc
   # do.call used to supply other arguments to the function
   # especially for sparse applications.
   # If chol.args is NULL then this is the same as
@@ -185,7 +185,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   # of all of these at once. In this case beta and c.coef are matrices
   #
   if( !is.null(Tmatrix) | !is.null(XMatCommon) ){
-    # Efficent way to multply inverse of Mc times the Tmatrix  
+    # Efficient way to multiply inverse of Mc times the Tmatrix  
     TStar<- forwardsolve(Mc, x = Tmatrix, k=ncol(Mc), transpose = TRUE, upper.tri = TRUE)
     qr.VT <- qr(TStar)
     # GLS covariance matrix for fixed part.
@@ -263,7 +263,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
      }
      testY<- c( qr.resid(qr.VT,  YStar) )
      ##########################################
-     # ifelse block on collapseFixedEffects
+     # ifelse block on collapseFixedEffect
      ##########################################
      if (!collapseFixedEffect) {
      
@@ -285,8 +285,8 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
        nXMatC<- ncol(XMatCommon)
        betaCommon<- allPar[1: nBeta]
        gamma<- allPar[(1: nXMatC)+ nBeta]
-       # repeat beta for all realizations to have consitent format with 
-       # collapseFixedEffects =FALSE
+       # repeat beta for all realizations to have consistent format with 
+       # collapseFixedEffect =FALSE
        beta <- matrix(betaCommon, ncol = M, 
                       nrow = nBeta)
        # correct Omega matrices
@@ -310,16 +310,16 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
     OmegaXMatCommon<- NULL
   }
   # and now find c.
-  #  the coefficents for the spatial part.
-  # if there is also a linear fixed part  resid are the residuals from the 
+  #  the coefficients for the spatial part.
+  # if there is also a linear fixed part, resid are the residuals from the 
   # GLS regression.
   
   c.coef <- as.matrix(forwardsolve(Mc, transpose = TRUE,
                                    resid, upper.tri = TRUE))
-  # save intermediate result this is   t(y- T beta)( M^{-1}) ( y- T beta)
+  # save intermediate result; this is   t(y- T beta)( M^{-1}) ( y- T beta)
   quad.form <- c(colSums(as.matrix(c.coef^2)))
   
-  # compute full likelihood if 2 out three covariance parameters are given
+  # compute full likelihood if 2 out of 3 covariance parameters are given
   if(fixedParameters){
     lnLike<- lnProfileLike <- (-quad.form/(2*sigma2) - log(2 * pi) * (np/2) - (np/2) * 
                                   log(sigma2) - (1/2) * lnDetCov )
@@ -346,17 +346,17 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
   sigma2.MLE <- (quad.form/np)
   #sigma2hat <- c(colSums(as.matrix(c.coef * object$y)))/np
   tau.MLE <- sqrt(lambda * sigma2.MLE)
-  # the  log profile likehood with  sigma2.MLE  and  dhat substituted
+  # the  log profile likelihood with  sigma2.MLE  and  dhat substituted
   # leaving a profile for just lambda.
   # NOTE if y is a matrix then this is a vector of log profile
   # likelihood values.
   lnProfileLike <- (-np/2 - log(2 * pi) * (np/2) - (np/2) * 
                       log(sigma2.MLE) - (1/2) * lnDetCov)
-  # see section 4.2 handbook of spatial statistics (XMatimmerman Chapter)
+  # see section 4.2 handbook of spatial statistics (Zimmerman chapter)
   # for this amazing shortcut to get the REML version 
   lnProfileREML <-  lnProfileLike + (1/2) * lnDetOmega
   # following FULL means combine the estimates across all replicate fields 
-  # mean for MLE is justified as it is assumed locations and weights the same across 
+  # mean for MLE is justified as it is assumed locations and weights are the same across 
   # replicates. 
   sigma2.MLE.FULL <- mean(sigma2.MLE)
   tau.MLE.FULL <- sqrt(lambda * sigma2.MLE.FULL)
@@ -491,7 +491,7 @@ mKrig <- function(x, y, weights=rep(1, nrow(x)), XMat = NULL, XMatCommon=NULL,
     print( object$summary)
   }
   ########################
-  ### add in some depreciated components so that LatticeKrig 8.4
+  ### add in some deprecated components so that LatticeKrig 8.4
   ### passes its tests.
   ########################
   

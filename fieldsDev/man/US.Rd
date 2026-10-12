@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -27,7 +27,7 @@
   Plot of the US with state boundaries 
 }
 \description{
-Plots quickly, medium resolution outlines of the US with the states and 
+Quickly plots medium-resolution outlines of the US with the states and 
 bodies of water. A simple wrapper for the map function from the maps package. 
 }
 \usage{
@@ -41,7 +41,7 @@ from the maps package.
 }
 \details{
 The older version of this function (fields < 6.7.2) used the FIELDS dataset US.dat for the
-  coordinates. Currently this has been switched to use the maps package.
+  coordinates. Currently, this has been switched to use the maps package.
 }
 \seealso{
 world

@@ -34,7 +34,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  XMat = NULL,
                                hessian = FALSE, 
                                 iseed  =  303,
                                verbose = FALSE) {
-  # overwrite basic data to remove NAs this has be done in case distance 
+  # overwrite basic data to remove NAs; this has to be done in case distance 
   # matrices are precomputed (see below)
   if( na.rm){
     obj<- mKrigCheckXY(x, y, weights, XMat, XMatCommon, na.rm)
@@ -71,7 +71,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  XMat = NULL,
 # these are all the arguments needed to call mKrig except  cov.args
 # if lambda is  then it has been added to mKrig.args 
 # if lambda.start then it is part of the parameter names and will 
-# added in the cov.args list 
+# be added in the cov.args list 
   mKrig.args <- c(list(x = x, y = y, weights = weights, XMat = XMat, XMatCommon = XMatCommon ),
                    mKrig.args,
                   list(cov.function=cov.function) 
@@ -107,7 +107,7 @@ mKrigMLEJoint<- function(x, y, weights = rep(1, nrow(x)),  XMat = NULL,
     #########################################################
     ###  actually do something 
     #set default optim.args if necessary
-    # abstol is anticipating this is a log likelihood so differencs of 1e-4 are not appreciable
+    # abstol is anticipating this is a log likelihood so differences of 1e-4 are not appreciable
     # 
     # setup control parameters for optim ....
     if( length(cov.params.start)==0){
@@ -268,7 +268,7 @@ else{
   }
   #  the summary vector from the mKrig object has everything we need ...
   hold <- do.call("mKrig", c(mKrig.argsTemp,cov.args.temp) )$summary
-  # add this evalution to an object (i.e. here a matrix) in the calling frame
+  # add this evaluation to an object (i.e. here a matrix) in the calling frame
   temp.eval <- get("capture.evaluations", envir=capture.env)
   assign("capture.evaluations", 
          rbind(temp.eval,

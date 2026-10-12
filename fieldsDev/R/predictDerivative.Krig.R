@@ -61,13 +61,13 @@
     temp1 <- fields.derivative.poly(x, m = object$m, object$d)
     # add in spatial piece
     # The covariance function is
-    # evaluated by using it name, do.call function and any
+    # evaluated by using its name, the do.call function and any
     # additional arguments.  Note use of derivative and 'C' arguments
     # to do multiplication of partials of covariance times the C
-    # vector. If C is a matrix of coefficients a error is produced.
+    # vector. If C is a matrix of coefficients an error is produced.
     temp2 <- do.call(object$cov.function.name, c(object$args, 
         list(x1 = x, x2 = object$knots, derivative = 1, C = temp.c)))
-    # returned value is the matrix of partials of polynomial plus  partials of spatial # part aso add in chain rule scale factor  because
+    # returned value is the matrix of partials of polynomial plus  partials of spatial # part also add in chain rule scale factor  because
     # functional form for the surface uses the coordinates xscaled =  (x- xc)/xs
     return(t(t(temp1 + temp2)/xs))
 }

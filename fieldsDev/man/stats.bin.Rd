@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -42,21 +42,21 @@ Values to use to decide bin membership
 A vector of data
 }
 \item{N}{
-Number of bins. If breaks is missing there are N bins equally spaced
+Number of bins. If breaks is missing, there are N bins equally spaced
 on the range of x.
 }
 \item{breaks}{
-The bin boundaries. If there are N+1 of these there will be N bins. 
+The bin boundaries. If there are N+1 of these, there will be N bins. 
 The bin widths can be unequal.
 }
-\item{prettyBins}{If FALSE creates exactly N-1 bins. If TRUE the number of bins is determined by N and the pretty function.}
+\item{prettyBins}{If FALSE, creates exactly N-1 bins. If TRUE, the number of bins is determined by N and the pretty function.}
 }
 \value{
 A list with several components. stats is a matrix with columns indexing
 the bins and
 rows being summary statistics found by the stats function. These are:
- number of obs, mean, sd, min, quartiles, max and number of NA's. 
-(If there is no data for a given bin, NA's are filled in. )
+ number of obs, mean, sd, min, quartiles, max and number of NAs.
+(If there are no data for a given bin, NAs are filled in.)
 breaks are the breaks passed to the function and centers are the bin
 centers. 
 }

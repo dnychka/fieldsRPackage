@@ -58,7 +58,7 @@ color.scale <- function(z, col = tim.colors, NC=256,
                     length.out= NC + 1)
     # the magic of R ...
     icolor <- cut(c(z), breaks)@.Data
-    # returned values is a vector of character hex strings encoding the colors.
+    # returned value is a vector of character hex strings encoding the colors.
      colorMap<- ifelse(is.na(icolor),
                          transparent.color, col[icolor])
 # add zlim and col table as attributes so one can add

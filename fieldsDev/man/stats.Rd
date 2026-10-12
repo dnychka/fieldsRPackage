@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -52,8 +52,8 @@ index the separate data sets.
 Stats breaks x up into separate data sets and then calls describe 
 to calculate the statistics. 
 Statistics are found by columns for matrices, by components for a list and
-by the relevant groups when a  numeric vector and a by  vector are given.
-The default set of statistics are the number of 
+by the relevant groups when a numeric vector and a by vector are given.
+The default set of statistics is the number of 
 (nonmissing) observations, mean, standard deviation, minimum, lower quartile, 
 median, upper quartile, maximum, and number of missing observations.  If any 
 data set is nonnumeric, missing values are returned for the statistics. 

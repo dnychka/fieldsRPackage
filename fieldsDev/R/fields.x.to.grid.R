@@ -31,7 +31,7 @@
   }
   else{
     grid.list <- as.list(1:M)
-    # add columns names
+    # add column names
     names(grid.list) <- dimnames(x)[[2]]
     #     cruise through x dimensions and find medians.
     for (k in 1:M) {

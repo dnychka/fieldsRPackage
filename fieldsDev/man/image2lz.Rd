@@ -1,9 +1,9 @@
 %#
 %# fields  is a package for analysis of spatial data written for
 %# the R software environment.
-%# Copyright (C) 2024 Colorado School of Mines
+%# Copyright (C) 2026 Colorado School of Mines
 %# 1500 Illinois St., Golden, CO 80401
-%# Contact: Douglas Nychka,  douglasnychka@gmail.edu,
+%# Contact: Douglas Nychka,  douglasnychka@gmail.com,
 %#
 %# This program is free software; you can redistribute it and/or modify
 %# it under the terms of the GNU General Public License as published by
@@ -31,7 +31,7 @@
 \alias{which.max.matrix}
 \alias{which.max.image}
  \title{Some simple functions for subsetting images} 
-\description{These function help in subsetting images or reducing its
+\description{These functions help in subsetting images or reducing their
 size by averaging adjacent cells.}
 \usage{
 
@@ -51,14 +51,14 @@ in.poly.grid( grid.list,xp, convex.hull=FALSE, inflation=1e-07)
 grid and z a matrix of image values.}
 
  \item{loc}{A 2 column matrix of locations within the image region
-that define the subset. If not specified then the image is plotted and
+that define the subset. If not specified, then the image is plotted and
 the rectangle can be specified interactively.}
 \item{Q}{Number of pixels to average.}
  \item{xd}{ A 2 column matrix of locations that are the points to check 
 for being inside a polygon.}
  \item{xp}{ A 2 column matrix of locations that are vertices of a 
 polygon. The last point is assumed to be connected to the first.}
- \item{convex.hull}{If TRUE then the convex hull of \code{xp} is used 
+ \item{convex.hull}{If TRUE, then the convex hull of \code{xp} is used 
 instead of the polygon.}
 \item{grid.list}{A list with components x and y specifying the 2-d grid values.
 (See help( grid.list) for more details.)}
@@ -73,7 +73,7 @@ is only relevant when loc is NULL and the locator function is called via
 
 
 }
-\details{ If \code{loc} has more than 2 rows then the largest rectangle 
+\details{ If \code{loc} has more than 2 rows, then the largest rectangle 
 containing the locations is used. 
 
 \describe{
@@ -81,11 +81,11 @@ containing the locations is used.
 \item{crop.image}{Creates a subset of the image \code{obj} by
 using the largest rectangle in the locations \code{loc}. This is useful
 if one needs to extract an image that is no bigger in extent than some
-data location.  If locations are omitted the parent image is plotted
-and the locations from two mouse clicks on the image. Returned value is 
+data location.  If locations are omitted, the parent image is plotted
+and the locations are taken from two mouse clicks on the image. Returned value is 
 an image with appropriate \code{x,y} and \code{z} components.}
 
-\item{get.rectangle}{Given an image plots and waits for two mouse 
+\item{get.rectangle}{Given an image, plots it and waits for two mouse 
 clicks that are returned.}
 
 \item{which.max.image}{Returns a list with components \code{x, y, z}
@@ -93,13 +93,13 @@ clicks that are returned.}
 location of the maximum and value of the maximum in the image based
 on the grid values and also on the indices of the image matrix.}
 
-\item{average.image, half.image}{Takes passed image and averages the 
+\item{average.image, half.image}{Takes the passed image and averages the 
 pixel values and adjusts the grid to create an image that has a smaller 
-number of elements. If \code{Q=2} in \code{average.image} it has the 
+number of elements. If \code{Q=2} in \code{average.image}, it has the 
 same effect as \code{half.image} but might be slower -- if the original 
-image is mXn then half image will be an image (m/2)X(n/2). This begs the 
-question what happens when m or n is odd or when (m/Q) or (n/Q) are not 
-integers. In either case the largest rows or columns are dropped. (For 
+image is mXn then half image will be an image (m/2)X(n/2). This raises the
+question of what happens when m or n is odd or when (m/Q) or (n/Q) are not 
+integers. In either case, the largest rows or columns are dropped. (For 
 large \code{Q} the function might be modified to drop about half the 
 pixels at both edges.)  }
 
@@ -108,9 +108,9 @@ inside a polygon or outside. Return value is a logical vector with TRUE
 being inside or on boundary of polygon. The test expands the polygon 
 slightly in size (on the order of single precision zero) to include 
 points that are at the vertices. \code{in.poly} does not really depend 
-on an image format however the grid version \code{in.poly.grid} is more 
-efficient for considering the locations on a regular grid
-See also \code{in.land.grid} that is hard coded to work with the
+on an image format; however, the grid version \code{in.poly.grid} is more 
+efficient for considering the locations on a regular grid.
+See also \code{in.land.grid} that is hard-coded to work with the
 fields world map.}
 
 }

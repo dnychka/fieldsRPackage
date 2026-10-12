@@ -21,7 +21,7 @@
 ##END HEADER
 simSpatialData<- function(object,  M = 1, 
     verbose = FALSE) {
-    # object is assummed to have the spatial model according to the
+    # object is assumed to have the spatial model according to the
     # components in a spatialProcess or mKrig object
     # important variance parameters estimated from the data  
         tau <- (object$summary["tau"])
@@ -58,7 +58,7 @@ simSpatialData<- function(object,  M = 1,
     # the following code line is similar to chol(Sigma)-> Scol
     # but adds possible additional arguments controlling the Cholesky
     # from the mKrig object.
-    # x has has been winnowed down to unique rows so that 
+    # x has been winnowed down to unique rows so that 
     # Sigma has full rank. 
     #
       Schol <- do.call("chol", c(list(x = Sigma), object$chol.args))

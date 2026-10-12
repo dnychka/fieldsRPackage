@@ -27,7 +27,7 @@
     N <- out$N
     D <- out$matrices$D
     # Yet another monster function called by Krig
-    #    but there just many simple steps ...
+    #    but there are just many simple steps ...
     #
     # if a y data vector is not supplied then
     # use the one in the Krig object
@@ -65,7 +65,7 @@
         nl)
     Dl <- rep(NA, nd)
     #
-    # this is small little list used to pass information to the
+    # this is a small list used to pass information to the
     # objective functions
     info <- list(matrices = list(D = D, u = u), N = N, nt = nt, 
         cost = cost, pure.ss = pure.ss, tauHat.pure.error = tauHat.pure.error, 
@@ -90,7 +90,7 @@
     gcv.grid <- as.data.frame(gcv.grid)
     names(gcv.grid) <- c("lambda", "trA", "GCV", "GCV.one", "GCV.model", 
         "tauHat", "-lnLike Prof")
-    # find minima over grid ifelse used to avoid 0 length vector from which.min
+    # find minima over grid; ifelse used to avoid 0 length vector from which.min
     IMIN<- rep( NA, 6)
     IMIN[1]<- which.min(    gcv.grid$GCV ) 
     IMIN[2]<- ifelse( is.na(tauHat.pure.error), NA,
@@ -122,7 +122,7 @@
     warningTable<- cbind( warning, indRefine, warningTable ) 
     names( warningTable)<- c("Warning","Refine","indexMIN", "leftEndpoint", "rightEndpoint",
                              "lambda","effdf")                                    
-    # now optimze the search producing refined optima
+    # now optimize the search producing refined optima
     if (verbose) 
         print(gcv.grid)
     # setup output matrix for refined values
@@ -143,10 +143,10 @@
     #     each location and each location is omitted 
     #  3- True leave-one-out even with replicated observations
     #  4- Match estimate of tau to external value supplied (RMSE)
-    #  5- Match estimate of tau from the estimate based the 
+    #  5- Match estimate of tau from the estimate based on the 
     #     pure error sum of squares obtained by the observations
     #     replicated at the same locations
-    #  6- Maxmize the restricted maxmimum likelihood (REML)
+    #  6- Maximize the restricted maximum likelihood (REML)
     #   standard GCV w/o replicates  
     if( verbose){
     	print( warningTable)
